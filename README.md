@@ -8,7 +8,7 @@
     Docker (Desktop or CE)
 
 ## Architecture
-    ![Application architecture diagram](docs/img/architecture.jpg)
+   ![Application architecture diagram](docs/img/architecture.jpg)
 
 ## Ferramentas / Tecnologias
 ### Web
