@@ -1,0 +1,33 @@
+services:
+  sql.server:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+
+  catalog.api:
+    image: eShop/catalog.api:${TAG:-dev}
+    build:
+      context: .
+      dockerfile: src/Services/Catalog/Catalog.API/Dockerfile
+    depends_on:
+      - sql.server
+
+  basket.api:
+    image: eShop/basket.api:${TAG:-dev}
+    build:
+      context: .
+      dockerfile: src/Services/Basket/Basket.API/Dockerfile
+    depends_on:
+      - sql.server
+
+  ordering.api:
+    image: eShop/ordering.api:${TAG:-dev}
+    build:
+      context: .
+      dockerfile: src/Services/Ordering/Ordering.API/Dockerfile
+    depends_on:
+      - sql.server
+
+  gateway.api:
+    image: eShop/gateway.api:${TAG:-dev}
+    build:
+      context: .
+      dockerfile: src/Gateway/eShop.Gateway/Dockerfile

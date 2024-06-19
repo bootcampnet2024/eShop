@@ -1,0 +1,35 @@
+services:
+  sql.server:
+    environment:
+      - SA_PASSWORD=Password123!
+      - ACCEPT_EULA=Y
+    ports:
+      - "5433:1433"
+
+  catalog.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5560:80"
+
+  basket.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5561:80"
+
+  ordering.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5562:80"
+
+  gateway.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5551:80"
