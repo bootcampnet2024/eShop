@@ -1,0 +1,20 @@
+.display-card{
+    box-sizing: border-box;
+    background-color: #D9D9D9;
+    height: 25em;
+    width: 40em;
+    border-radius: 10px;
+    padding: 3em;
+    margin: 10em 0 0 5em;
+}
+
+.category-title{
+    color: white;
+    font-weight: 500;
+    font-size: 50px;
+}
+
+.category-description{
+    font-size: 30px;
+    max-width: 10em;
+}
