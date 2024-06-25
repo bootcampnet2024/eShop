@@ -1,6 +1,9 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+//builder.AddServicesDefault();
+//builder.AddApplicationServices();
+builder.Services.AddProblemDetails();
 
 builder.Services.AddControllers();
 builder.Services.AddHealthChecks();
@@ -18,7 +21,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
-
 app.MapControllers();
 app.MapHealthChecks("/health");
 
