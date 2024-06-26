@@ -11,6 +11,9 @@ header{
 .logo{
     font-size: 3em;
     font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
 }
 
 .slogan{
@@ -30,4 +33,7 @@ button{
     color: white;
     font-size: 2em;
     font-weight: 700;
+    cursor: pointer;
+    align-items: center;
+    display: flex;
 }

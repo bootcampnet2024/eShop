@@ -1,19 +1,15 @@
 import { Component } from '@angular/core';
+import { HeaderComponent } from '../../shared/header/header.component';
 
 @Component({
-  selector: 'app-product-display',
+  selector: 'app-cart-page',
   standalone: true,
-  imports: [],
-  templateUrl: './product-display.component.html',
-  styleUrl: './product-display.component.css',
+  imports: [HeaderComponent],
+  templateUrl: './cart-page.component.html',
+  styleUrl: './cart-page.component.css'
 })
-export class ProductDisplayComponent {
+export class CartPageComponent {
   products: any = [
-    {
-      name: 'test',
-      description: 'this is only a test',
-      price: 99,
-    },
     {
       name: 'test',
       description: 'this is only a test',
