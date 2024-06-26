@@ -13,18 +13,18 @@
   flex-direction: column;
   border-radius: 8px;
   background-color: white;
-  padding-bottom: .5em;
+  padding-bottom: 0.5em;
 }
 
 .image-placeholder {
   width: 100%;
   height: 70%;
   margin: auto;
-  padding: .5em;
+  padding: 0.5em;
 }
 
-.image-placeholder:hover{
-  transition: .5s;
+.image-placeholder:hover {
+  transition: 0.5s;
   filter: blur(2px);
   transform: scale(1.06);
 }
@@ -83,5 +83,5 @@
   margin-left: 1em;
   color: #ffffff;
   font-weight: bold;
-  font-size: .8rem;
+  font-size: 0.8rem;
 }

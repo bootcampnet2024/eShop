@@ -27,7 +27,7 @@ header{
     justify-content: space-between;
 }
 
-button{
+button, a{
     background: none;
     border: none;
     color: white;
