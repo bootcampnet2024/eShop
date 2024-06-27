@@ -1,49 +1,7 @@
-html {
-    font-size: 16px;
-}
-
-body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
-}
-
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #005691;
-    color: white;
-    padding: 10px 20px;
-    height: 60px;
-}
-
-.header-container .logo {
-    width: 100px;
-    height: 100px;
-}
-
-.header-container p {
-    margin: 0;
-}
-
-.header-icons .icon {
-    margin-left: 10px;
-    font-size: 1.25rem ;
-}
-
-.footer { 
-
-    /* FIX:
-    O footer por algum motivo não fica no lugar certo, precisamos verificar isso depois...*/
-    display: grid;
-    gap: 19em;
-}
-
 .main-container {
     display: flex;
     padding: 2em 5em 0 4em;
+    min-height: 75%;
 }
 
 .product-list {
@@ -52,6 +10,8 @@ body {
 }
 
 .product-item {
+    width: 75em;
+    height: 5em;
     display: flex;
     align-items: center;
     background-color: #eee;
@@ -61,9 +21,11 @@ body {
 }
 
 .product-image {
-    width: 60px;
-    height: 60px;
-    margin-right: 10px;
+    mix-blend-mode: multiply;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    margin-right: 0.75em;
 }
 
 .product-details {
@@ -79,6 +41,8 @@ body {
 
 .product-quantity {
     display: flex;
+    position: absolute;
+    left: 65em;
     align-items: center;
 }
 
@@ -117,18 +81,24 @@ body {
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
+    max-height: 20em;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.coupon, .cep, .summary {
+.coupon,
+.cep,
+.summary {
     margin-bottom: 20px;
 }
 
-.coupon p, .cep p, .summary p {
+.coupon p,
+.cep p,
+.summary p {
     margin: 0 0 10px 0;
 }
 
-.coupon input, .cep input {
+.coupon input,
+.cep input {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;

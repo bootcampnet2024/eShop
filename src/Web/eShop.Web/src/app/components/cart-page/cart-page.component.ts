@@ -9,6 +9,7 @@ import { FooterComponent } from '../../shared/footer/footer.component';
   templateUrl: './cart-page.component.html',
   styleUrl: './cart-page.component.css'
 })
+
 export class CartPageComponent {
   products: any = [
     {
@@ -30,4 +31,5 @@ export class CartPageComponent {
       price: 9.99,
     }
   ];
+  orderTotal = this.products.reduce((total: number, product: any) => total + product.price, 0);
 }
