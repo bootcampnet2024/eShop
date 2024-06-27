@@ -3,4 +3,51 @@ section{
   height: 10em;
   background-color: #005B96;
   /* margin-top: 5em; */
+  color: white;
+}
+
+.footer{
+  display: grid;
+  justify-content: center;
+}
+
+.footer-top{
+  display: grid;
+  grid-template-columns: repeat(4, 10rem);
+  gap: 10rem;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.footer-bottom{
+  display: grid;
+  grid-template-columns: repeat(2, 20rem);
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.info-1{
+  display: flex;
+  gap: 1em;
+}
+
+.info-2 p{
+  align-items: flex-end;
+}
+
+.social-media fa-icon{
+  color: white;
+}
+
+.payment-methods-card{
+  width: 2rem;
+  height: 1.5rem;
+  border-radius: 0.5rem;
+  background: linear-gradient(rgb(255, 255, 255) 0%, rgb(224, 224, 224) 100%);
+  place-content: center;
+}
+
+.payment-methods-icons{
+  display: grid;
+  grid-template-columns: repeat(4, 3rem);
 }

@@ -26,7 +26,7 @@
 .image-placeholder:hover {
   transition: 0.5s;
   filter: blur(2px);
-  transform: scale(1.06);
+  /* transform: scale(1.05); */
 }
 
 .product-about {
@@ -73,15 +73,4 @@
   align-items: center;
 }
 
-.buy-product {
-  background: none;
-  border: none;
-  background-color: #0aba46;
-  width: 100px;
-  height: 34px;
-  border-radius: 3px;
-  margin-left: 1em;
-  color: #ffffff;
-  font-weight: bold;
-  font-size: 0.8rem;
-}
+
