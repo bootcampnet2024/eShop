@@ -1,40 +1,44 @@
 <app-header></app-header>
-<div class="main-container">
-  <div class="product-list">
-    @for (product of products; track product.name){
-    <div class="product-item">
-      <img src="assets/product1.jpg" alt="Product Image" class="product-image" />
-      <div class="product-details">
-        <p>Product Name</p>
-        <div class="product-quantity">
-          <button>-</button>
-          <span>0</span>
-          <button>+</button>
+
+<div class="footer"> <!-- FIX: Corrigir posição do footer, o CSS desse componente também fala sobre isso. -->
+  <div class="main-container">
+    <div class="product-list">
+      @for (product of products; track product.name){
+      <div class="product-item">
+        <img src="{{ product.image }}" alt="Product Image" class="product-image" />
+        <div class="product-details">
+          <p>Product Name</p>
+          <div class="product-quantity">
+            <button>-</button>
+            <span>0</span>
+            <button>+</button>
+          </div>
+        </div>
+        <div class="product-price">
+          <p>R$0,00</p>
+          <button class="delete-button">🗑️</button>
         </div>
       </div>
-      <div class="product-price">
-        <p>R$0,00</p>
-        <button class="delete-button">🗑️</button>
+      }
+    </div>
+    <div class="order-summary">
+      <div class="coupon">
+        <p>Cupom</p>
+        <input type="text" />
+      </div>
+      <div class="cep">
+        <p>CEP</p>
+        <input type="text" />
+      </div>
+      <div class="summary">
+        <p>RESUMO DO PEDIDO</p>
+        <div class="summary-details">
+          <p>Subtotal</p>
+          <p>Total</p>
+        </div>
+        <button class="buy-button">Buy</button>
       </div>
     </div>
-    }
   </div>
-  <div class="order-summary">
-    <div class="coupon">
-      <p>Cupom</p>
-      <input type="text" />
-    </div>
-    <div class="cep">
-      <p>CEP</p>
-      <input type="text" />
-    </div>
-    <div class="summary">
-      <p>RESUMO DO PEDIDO</p>
-      <div class="summary-details">
-        <p>Subtotal</p>
-        <p>Total</p>
-      </div>
-      <button class="buy-button">Buy</button>
-    </div>
-  </div>
+  <app-footer></app-footer>
 </div>

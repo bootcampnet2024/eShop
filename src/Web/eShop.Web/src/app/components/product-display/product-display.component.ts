@@ -10,24 +10,28 @@ import { Component } from '@angular/core';
 export class ProductDisplayComponent {
   products: any = [
     {
-      name: 'test',
-      description: 'this is only a test',
-      price: 99,
+      image: 'assets/products/allure.png',
+      name: 'Alure',
+      description: 'This contains a very beatiful product',
+      price: 129.99,
     },
     {
-      name: 'test',
-      description: 'this is only a test',
-      price: 99,
+      image: 'assets/products/xbox-series-controller.jpg',
+      name: 'Xbox Series X Controller',
+      description: 'This controller supports Windows and Xbox',
+      price: 399.99,
     },
     {
-      name: 'test',
-      description: 'this is only a test',
-      price: 99,
+      image: 'assets/products/produto-veja-limpeza.png',
+      name: 'Veja',
+      description: 'Clean fast',
+      price: 9.99,
     },
     {
-      name: 'test',
-      description: 'this is only a test',
-      price: 99,
+      image: 'assets/products/echo-dot.jpg',
+      name: 'Amazon Echo Dot',
+      description: 'Your best assistant',
+      price: 199.99,
     },
   ];
 }

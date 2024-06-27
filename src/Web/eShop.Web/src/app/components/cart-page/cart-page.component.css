@@ -33,9 +33,17 @@ body {
     font-size: 1.25rem ;
 }
 
+.footer { 
+
+    /* FIX:
+    O footer por algum motivo não fica no lugar certo, precisamos verificar isso depois...*/
+    display: grid;
+    gap: 19em;
+}
+
 .main-container {
     display: flex;
-    padding: 20px;
+    padding: 2em 5em 0 4em;
 }
 
 .product-list {

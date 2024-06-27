@@ -2,16 +2,14 @@
   @for (product of products; track product.name) {
   <div class="product-card">
     <div class="image-placeholder">
-      <img src="assets/forMan.png" alt="" class="product-image" />
+      <img src="{{ product.image }}" alt="" class="product-image" />
     </div>
     <div class="product-info">
       <div class="product-about">
         <p class="product-name">{{ product.name }}</p>
         <p class="product-description">{{ product.description }}</p>
       </div>
-      <div class="buy-price">
-        <p class="product-price">R${{ product.price }}</p>
-      </div>
+      <p class="product-price">R${{ product.price }}</p>
     </div>
   </div>
   }
