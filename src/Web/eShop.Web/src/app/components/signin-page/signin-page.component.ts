@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signin-page',
@@ -9,4 +10,9 @@ import { Component } from '@angular/core';
 })
 export class SigninPageComponent {
 
+  constructor(private router: Router) {}
+  
+  goToLoginPage() {
+    this.router.navigate(['/login']);
+  }
 }
