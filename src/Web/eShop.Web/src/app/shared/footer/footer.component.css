@@ -2,7 +2,6 @@ footer {
   width: 100%;
   height: 12.5em;
   background-color: #005B96;
-  /* margin-top: 5em; */
   padding: 2em 0 0 2em;
   color: white;
 }
@@ -12,14 +11,12 @@ p {
 }
 
 .footer {
-
   display: grid;
   justify-content: center;
   gap: 1em;
 }
 
 .footer-top {
-
   display: grid;
   grid-template-columns: repeat(4, 10rem);
   gap: 17.5em;
@@ -59,7 +56,7 @@ p {
 
 .social-media {
   display: grid;
-  grid-template-columns: repeat(3, 2rem);
+  grid-template-columns: repeat(4, 2rem);
 }
 
 .social-media fa-icon {

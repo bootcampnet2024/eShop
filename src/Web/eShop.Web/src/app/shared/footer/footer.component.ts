@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faSquareFacebook, faTwitterSquare, faYoutubeSquare } from '@fortawesome/free-brands-svg-icons';
+import { faFacebookSquare, faSquareXTwitter, faYoutubeSquare, faInstagramSquare } from '@fortawesome/free-brands-svg-icons';
 
 
 @Component({
@@ -10,8 +10,10 @@ import { faSquareFacebook, faTwitterSquare, faYoutubeSquare } from '@fortawesome
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css'
 })
+
 export class FooterComponent {
-  faSquareFacebook = faSquareFacebook;
-  faTwitterSquare = faTwitterSquare;
+  faFacebookSquare = faFacebookSquare;
+  faTwitterSquare = faSquareXTwitter;
   faYoutubeSquare = faYoutubeSquare;
+  faInstagramSquare = faInstagramSquare;
 }
