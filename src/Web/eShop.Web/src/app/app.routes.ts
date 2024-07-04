@@ -4,11 +4,13 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { SigninPageComponent } from './components/signin-page/signin-page.component';
 import { CartPageComponent } from './components/cart-page/cart-page.component';
+import { ProductPageComponent } from './components/product-page/product-page.component';
 
 
 export const routes: Routes = [
     {path: '', component: LandingPageComponent},
     {path: 'login', component: LoginPageComponent},
     {path: 'signin', component: SigninPageComponent},
-    {path: 'cart', component: CartPageComponent}
+    {path: 'cart', component: CartPageComponent},
+    {path: 'product', component: ProductPageComponent}
 ];

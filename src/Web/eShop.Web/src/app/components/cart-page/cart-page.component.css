@@ -10,7 +10,7 @@
 }
 
 .product-item {
-    width: 75em;
+    width: 60em;
     height: 5em;
     display: flex;
     align-items: center;
@@ -41,8 +41,6 @@
 
 .product-quantity {
     display: flex;
-    position: absolute;
-    left: 65em;
     align-items: center;
 }
 

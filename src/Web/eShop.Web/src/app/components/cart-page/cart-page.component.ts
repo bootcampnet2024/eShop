@@ -28,7 +28,7 @@ export class CartPageComponent {
       image: 'assets/products/produto-veja-limpeza.png',
       name: 'Veja',
       description: 'Clean fast',
-      price: 9.99,
+      price: 229.99,
     }
   ];
   orderTotal = this.products.reduce((total: number, product: any) => total + product.price, 0);
