@@ -1,0 +1,76 @@
+<app-header></app-header>
+<div class="payment-page">
+  <div class="payment-box">
+    <div class="payment-method">
+      <div class="card">
+        <div class="credit-debit">
+          <div class="method">
+            <input type="radio" id="creditCard" name="method">
+            <label for="creditCard"><fa-icon class="creditCard" [icon]="faSolidCreditCard"></fa-icon> Credit Card</label>
+          </div>
+          <div class="method">
+            <input type="radio" id="debitCard" name="method">
+            <label for="debitCard"><fa-icon class="debitCard" [icon]="faSolidCreditCard"></fa-icon> Debit Card</label>
+          </div>
+        </div>
+        <form class="credit-card-info">
+          <div class="input-label">
+            <label for="cardNumber">Card Number</label>
+            <input class="inputText" id="cardNumber" type="text">
+          </div>
+          <div class="input-label">
+            <label for="cardOwner">Card Owner</label>
+            <input class="inputText" id="cardOwner" type="text">
+          </div>
+          <div class="expiration-cvv">
+            <div class="input-label">
+              <label for="expirationDate">Expiration Date</label>
+              <div class="expiration-date" id="expirationDate">
+                <select class="inputText" name="month" id="month">
+                  <option value="01">01</option>
+                  <option value="02">02</option>
+                  <option value="03">03</option>
+                  <option value="04">04</option>
+                  <option value="05">05</option>
+                  <option value="06">06</option>
+                  <option value="07">07</option>
+                  <option value="08">08</option>
+                  <option value="09">09</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                </select>
+                <select class="inputText" name="year" id="year">
+                  <option value="01">2024</option>
+                  <option value="02">2025</option>
+                  <option value="03">2026</option>
+                  <option value="04">2027</option>
+                  <option value="05">2028</option>
+                  <option value="06">2029</option>
+                  <option value="07">2030</option>
+                  <option value="08">2031</option>
+                  <option value="09">2032</option>
+                  <option value="10">2033</option>
+                  <option value="11">2034</option>
+                  <option value="12">2035</option>
+                </select>
+              </div>
+            </div>
+            <div class="input-label">
+              <label for="cvv">CVV</label>
+              <input class="inputText" id="cvv" type="text">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="method">
+        <input type="radio" id="pix" name="method">
+        <label for="pix"><fa-icon class="pix" [icon]="faPix"></fa-icon> Pix</label>
+        <span>O código Pix gerado para o pagamento é válido por 30 minutos após a finalização do pedido.</span>
+      </div>
+    </div>
+    <div class="confirm">
+      <button class="complete-order">Complete Order</button>
+    </div>
+  </div>
+</div>

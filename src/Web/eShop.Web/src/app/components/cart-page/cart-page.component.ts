@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart-page',
@@ -11,6 +12,9 @@ import { FooterComponent } from '../../shared/footer/footer.component';
 })
 
 export class CartPageComponent {
+
+  constructor(private router: Router) {}
+
   products: any = [
     {
       image: 'assets/products/allure.png',
@@ -32,4 +36,8 @@ export class CartPageComponent {
     }
   ];
   orderTotal = this.products.reduce((total: number, product: any) => total + product.price, 0);
+
+  goToPaymentPage() {
+    this.router.navigate(['payment']);
+  }
 }
