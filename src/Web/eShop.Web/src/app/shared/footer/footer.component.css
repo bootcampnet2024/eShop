@@ -1,8 +1,7 @@
 footer {
   width: 100%;
-  height: 12.5em;
   background-color: #005B96;
-  padding: 2em 0 0 2em;
+  padding: 2em;
   color: white;
 }
 
@@ -11,40 +10,37 @@ p {
 }
 
 .footer {
-  display: grid;
-  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 1em;
 }
 
 .footer-top {
   display: grid;
-  grid-template-columns: repeat(4, 10rem);
-  gap: 17.5em;
-  justify-content: space-between;
-  align-items: flex-start;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  max-width: 1200px;
+  gap: 2em;
+  padding-bottom: 1em;
 }
 
-.footer-bottom {
-  display: grid;
-  grid-template-columns: repeat(2, 20rem);
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.info-1 {
+.section {
   display: flex;
-  gap: 1em;
+  flex-direction: column;
+  gap: 0.5em;
 }
 
-.info-2 p {
-  display: flex;
-  justify-content: flex-end;
+#social-payment {
+  align-items: end;
 }
 
 .navigate,
 .help,
 .about-us {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
 }
 
 .navigate a,
@@ -55,14 +51,22 @@ p {
 }
 
 .social-media {
-  display: grid;
-  grid-template-columns: repeat(4, 2rem);
+  display: flex;
+  gap: 1em;
 }
 
 .social-media fa-icon {
   color: white;
   font-size: 1.5rem;
-  place-content: center;
+}
+
+.payment-methods {
+  margin-top: 1em;
+}
+
+.payment-methods-icons {
+  display: flex;
+  gap: 1em;
 }
 
 .payment-methods-card {
@@ -70,10 +74,18 @@ p {
   height: 1.5rem;
   border-radius: 0.25rem;
   background: linear-gradient(rgb(255, 255, 255) 0%, rgb(224, 224, 224) 100%);
-  place-content: center;
 }
 
-.payment-methods-icons {
-  display: grid;
-  grid-template-columns: repeat(4, 2rem);
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  padding-top: 1em;
+  border-top: 1px solid white;
+}
+
+.info-1,
+.info-2 {
+  display: flex;
 }
