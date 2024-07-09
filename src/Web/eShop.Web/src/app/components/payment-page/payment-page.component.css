@@ -1,11 +1,61 @@
+.order-summary {
+  flex: 1;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  max-height: 20em;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.coupon,
+.cep,
+.summary {
+  margin-bottom: 20px;
+}
+
+.coupon p,
+.cep p,
+.summary p {
+  margin: 0 0 10px 0;
+}
+
+.coupon input,
+.cep input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.buy-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
 .payment-page{
-  padding: 2em 20em 5em 20em;
+  padding: 2em 5em 0 4em;
+  min-height: 75%;
 }
 
 .payment-box{
+  width: 60em;
   border: 1px solid rgb(216, 216, 216);
   border-radius: 20px;
   height: fit-content;
+  padding-right: 1em;
+  padding: 10px;
+  flex: 3;
+  margin-right: 20px;
+}
+
+.payment-body {
+  display: flex;
 }
 
 .payment-method{
