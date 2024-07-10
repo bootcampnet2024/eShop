@@ -1,0 +1,40 @@
+<app-header></app-header>
+
+<div class="main-container">
+  <div class="product-list">
+    @for (product of products; track product.name){
+    <div class="product-item">
+      <img src="{{ product.image }}" alt="Product Image" class="product-image" />
+      <div class="product-details">
+        <p>{{ product.name }}</p>
+        <input type=number class="product-quantity" min=1 [max]="product.availableQuantity" value=1
+          (input)="changeProductQuantity(product, $event)">
+      </div>
+      <div class="product-price">
+        <p>R$ {{ (product.price * product.quantity).toFixed(2) }}</p>
+        <button class="delete-button" (click)="removeFromCart(product)">🗑️</button>
+      </div>
+    </div>
+    }
+  </div>
+  <div class="order-summary">
+    <div class="coupon">
+      <p>Coupon</p>
+      <input type="text" />
+    </div>
+    <div class="cep">
+      <p>Postal Code</p>
+      <input type="text" />
+    </div>
+    <div class="summary">
+      <p><strong>Order Summary</strong></p>
+      <div class="summary-details">
+        <p>Subtotal:</p>
+        <p>Total: R$ {{ orderTotal.toFixed(2) }}</p>
+      </div>
+      <button class="buy-button" (click)="goToPaymentPage()">Checkout</button>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

@@ -1,0 +1,140 @@
+.order-summary {
+  flex: 1;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  max-height: 20em;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.coupon,
+.cep,
+.summary {
+  margin-bottom: 20px;
+}
+
+.coupon p,
+.cep p,
+.summary p {
+  margin: 0 0 10px 0;
+}
+
+.coupon input,
+.cep input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.buy-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+.payment-page{
+  padding: 2em 5em 0 4em;
+  min-height: 75%;
+}
+
+.payment-box{
+  width: 60em;
+  border: 1px solid rgb(216, 216, 216);
+  border-radius: 20px;
+  height: fit-content;
+  padding-right: 1em;
+  padding: 10px;
+  flex: 3;
+  margin-right: 20px;
+}
+
+.payment-body {
+  display: flex;
+}
+
+.payment-method{
+  display: flex;
+  gap: 5vh;
+  flex-direction: column;
+  padding: 4em 4em 2em 4em;
+}
+
+.card{
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+
+.credit-debit{
+  display: flex;
+  gap: 1em;
+}
+
+.inputText{
+  border: 1px solid rgb(202, 202, 202);
+  border-radius: 4px;
+  padding: 10px;
+}
+
+fa-icon{
+  font-size: 30px;
+}
+
+.method, label{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+span{
+  font-size: 13px;
+}
+
+.confirm{
+  border-radius: 0 0 10px 10px;
+  background-color: rgb(214, 214, 214);
+  padding: 2vh 0 2vh 8vh;
+}
+
+.complete-order{
+  border: none;
+  border-radius: 6px;
+  background-color: #0ABA46;;
+  color: white;
+  padding: .5em 1em .5em 1em;
+  font-weight: 500;
+}
+
+.input-label{
+  display: flex;
+  flex-direction: column;
+}
+
+.expiration-cvv{
+  display: flex;
+  gap: 1em;
+}
+
+.credit-card-info{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.pix{
+  color: #00bdae;
+}
+
+.creditCard{
+  color: rgb(12, 12, 178);
+}
+
+.debitCard{
+  color: rgb(192, 10, 10);
+}

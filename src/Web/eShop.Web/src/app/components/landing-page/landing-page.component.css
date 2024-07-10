@@ -1,0 +1,6 @@
+main{
+  display: flex;
+  flex-direction: column;
+  padding: 3em 5em 5em 5em;
+  gap: 3em;
+}

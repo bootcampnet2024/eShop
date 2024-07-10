@@ -1,0 +1,31 @@
+<app-header></app-header>
+<div class="product-container">
+  <div class="product-image">
+    <img class="image" src="assets/products/xbox-series-controller.jpg" alt="">
+  </div>
+  <div class="product-info">
+    <div class="product-name">
+      <h2>Xbox Series X Controller</h2>
+      <p class="brand-name">Microsoft</p>
+    </div>
+    <p>
+      Experimente o design modernizado do Xbox Wireless Controller, com superfícies esculpidas e geometria refinada para maior conforto durante o jogo
+      Fique no alvo com o grip texturizado e um direcional híbrido
+      Capture e compartilhe conteúdo perfeitamente com um botão Compartilhar dedicado
+      Conecte-se, jogue e alterne rapidamente entre dispositivos, incluindo Xbox Series X|S, Xbox One, PC com Windows 10, telefones e tablets compatíveis. Compatível com dispositivos selecionados e versões de sistema operacional. Algumas funcionalidades não são suportadas no Android via Bluetooth</p>
+    <h2>R$200,00</h2>
+    <div class="product-options">
+      @for (option of options; track option.name){
+        <div class="option">
+          <p>{{option.name}}</p>
+        </div>
+      }
+    </div>
+    <button class="buy-button" (click)="goToCart()">Buy Product</button>
+    <button class="add-cart-button">Add to Cart</button>
+  </div>
+</div>
+<div class="similar-products">
+  <app-product-display></app-product-display>
+</div>
+<app-footer></app-footer>
