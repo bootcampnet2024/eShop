@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Product } from './../../models/product.model';
+import { ProductService } from './../../services/product-list/product.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-product-display',
@@ -7,31 +9,18 @@ import { Component } from '@angular/core';
   templateUrl: './product-display.component.html',
   styleUrl: './product-display.component.css',
 })
-export class ProductDisplayComponent {
-  products: any = [
-    {
-      image: 'assets/products/allure.png',
-      name: 'Alure',
-      description: 'This contains a very beatiful product',
-      price: 129.99,
-    },
-    {
-      image: 'assets/products/xbox-series-controller.jpg',
-      name: 'Xbox Series X Controller',
-      description: 'This controller supports Windows and Xbox',
-      price: 399.99,
-    },
-    {
-      image: 'assets/products/produto-veja-limpeza.png',
-      name: 'Veja',
-      description: 'Clean fast',
-      price: 9.99,
-    },
-    {
-      image: 'assets/products/echo-dot.jpg',
-      name: 'Amazon Echo Dot',
-      description: 'Your best assistant',
-      price: 199.99,
-    },
-  ];
+export class ProductDisplayComponent implements OnInit {
+
+  products? : Product[]
+
+  constructor(private productService: ProductService) { }
+
+  ngOnInit(): void {
+    this.productService.getCatalogItems()
+      .subscribe({
+        next : (response) => {
+          this.products = response
+        }
+      })
+  }
 }
