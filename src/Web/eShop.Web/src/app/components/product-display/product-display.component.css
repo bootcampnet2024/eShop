@@ -62,6 +62,7 @@
 }
 
 .product-name {
+  pointer-events: all;
   font-size: 1.3em;
   font-weight: 500;
 }

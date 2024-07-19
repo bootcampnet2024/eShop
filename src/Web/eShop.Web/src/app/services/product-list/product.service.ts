@@ -7,11 +7,15 @@ import { Product } from '../../models/product.model';
   providedIn: 'root'
 })
 export class ProductService {
-  private url: string = "https://localhost:5200/catalog";
+  private url: string = "http://localhost:5200/catalog";
 
   constructor(private http: HttpClient) { }
 
   getCatalogItems(): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.url}/items`)
+  }
+
+  getCalalogItem(id: string) : Observable<Product> {
+    return this.http.get<Product>(`${this.url}/items/${id}`)
   }
 }

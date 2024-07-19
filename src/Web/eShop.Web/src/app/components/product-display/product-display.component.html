@@ -3,11 +3,11 @@
   @for (product of products; track product.id) {
   <div class="product-card">
     <div class="image-placeholder">
-      <a href="/product"><img src="#" alt="" class="product-image" /></a>
+      <a><img src="#" alt="" (click)="viewProduct(product.id)" class="product-image" /></a>
     </div>
     <div class="product-info">
       <div class="product-about">
-        <p class="product-name">{{ product.name }}</p>
+        <a (click)="viewProduct(product.id)" class="product-name">{{ product.name }}</a>
         <p class="product-description">{{ product.description }}</p>
       </div>
       <p class="product-price">R${{ product.price }}</p>
