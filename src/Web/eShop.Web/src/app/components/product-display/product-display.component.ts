@@ -25,7 +25,7 @@ export class ProductDisplayComponent implements OnInit {
       })
   }
 
-  viewProduct(productId: string): void {
-    this.router.navigate(['/product', { id: JSON.stringify(productId) }]);
+  viewProduct(product: Product): void {
+    this.router.navigate(['/product', { id: product.id, name: product.name.trim().replace(" ", "-") }]);
   }
 }

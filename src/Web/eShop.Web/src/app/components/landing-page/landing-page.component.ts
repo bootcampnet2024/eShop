@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { StaticCarouselComponent } from '../static-carousel/static-carousel.component';
 import { ProductDisplayComponent } from '../product-display/product-display.component';
 import { FooterComponent } from "../../shared/footer/footer.component";
 import { CategoryDisplayComponent } from '../category-display/category-display.component';
+import { ViewportScroller } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-landing-page',
@@ -12,6 +14,14 @@ import { CategoryDisplayComponent } from '../category-display/category-display.c
     styleUrl: './landing-page.component.css',
     imports: [HeaderComponent, StaticCarouselComponent, ProductDisplayComponent, FooterComponent, CategoryDisplayComponent]
 })
-export class LandingPageComponent {
 
+export class LandingPageComponent implements OnInit {
+
+    constructor(private route: ActivatedRoute, private viewportScroller: ViewportScroller) { }
+
+    ngOnInit(): void {
+        this.route.paramMap.subscribe(params => {
+            this.viewportScroller.scrollToPosition([0,0])
+        })
+    }
 }

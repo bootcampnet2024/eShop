@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductDisplayComponent } from '../product-display/product-display.component';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product-list/product.service';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-product-page',
@@ -18,7 +19,7 @@ export class ProductPageComponent implements OnInit {
   private productId?: string;
   public product?: Product;
 
-  constructor(private router: Router, private productService: ProductService, private route: ActivatedRoute){}
+  constructor(private router: Router, private productService: ProductService, private route: ActivatedRoute, private viewportScroller: ViewportScroller){}
 
   getProduct(id: string): void {
     this.productService.getCalalogItem(id).subscribe({
@@ -27,14 +28,16 @@ export class ProductPageComponent implements OnInit {
       },
       error: () => {
         console.log(`Could not get the product with the id: ${this.productId}`);
+        //this.router.navigate(['']);
       }
     })
   }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.productId = JSON.parse(params.get('id') || '{}') as string;
+      this.productId = params.get('id') || '' as string;
       this.getProduct(this.productId);
+      this.viewportScroller.scrollToPosition([0, 0]);
     });
   }
 
