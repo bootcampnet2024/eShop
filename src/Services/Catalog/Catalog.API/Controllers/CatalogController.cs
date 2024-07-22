@@ -1,5 +1,7 @@
 ﻿using Catalog.API.Application.Extensions;
 using Catalog.API.Application.Result;
+using Catalog.API.Controllers.Core;
+using Catalog.API.Controllers.Filters;
 using Catalog.API.Services;
 using Microsoft.AspNetCore.Mvc;
 namespace Catalog.API.Controllers;
@@ -10,7 +12,6 @@ namespace Catalog.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-
 public class CatalogController(ILogger<CatalogController> logger, ICatalogService service) : ControllerBase
 {
     private readonly ILogger<CatalogController> _logger = logger;
@@ -18,8 +19,14 @@ public class CatalogController(ILogger<CatalogController> logger, ICatalogServic
 
     [HttpGet]
     [Route("items")]
-    public IEnumerable<CatalogItemsResult> GetAll()
+    public PaginatedItems<CatalogItemsResult> GetAll([FromQuery] CatalogItemsFilter filter)
     {
-        return _service.GetAll().ToCatalogItemsResult(); 
+        filter ??= new CatalogItemsFilter() { PageIndex = 0, PageSize = 10, ShowOnlyHighlighted = true };
+
+        var dataFilter = new CatalogItemFilter { ShowOnlyHighlighted = filter.ShowOnlyHighlighted, PageIndex = filter.PageIndex, PageSize = filter.PageSize };
+        
+        var data = _service.GetAll(dataFilter);
+
+        return new PaginatedItems<CatalogItemsResult>() { Count = data.TotalItems, Items = data.Items.ToCatalogItemsResult(), PageIndex = filter.PageIndex, PageSize = filter.PageSize };
     }
 }
