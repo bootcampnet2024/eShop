@@ -3,69 +3,144 @@ using Catalog.API.Services;
 using Catalog.API.Services.Models;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Catalog.UnitTests.Services
+namespace Catalog.UnitTests.Services;
+
+[TestClass()]
+public class CatalogServiceTests
 {
-    [TestClass()]
-    public class CatalogServiceTests
+    [TestMethod]
+    public void GetAllCategories_ShouldReturnAllCatalogCategories()
     {
-        [TestMethod]
-        public void GetAll_ShouldReturnAllCatalogItems()
+        // Arrange
+        var catalogCategories = new List<CatalogCategory>
         {
-            // Arrange
-            var catalogItems = new List<CatalogItem>
-            {
-                new CatalogItem { Id = Guid.NewGuid(), Name = "Item 1", Description = "Description 1", Price = 10.99m, Brand = new CatalogBrand { Id = 1, Name = "Brand 1" } },
-                new CatalogItem { Id = Guid.NewGuid(), Name = "Item 2", Description = "Description 2", Price = 20.99m, Brand = new CatalogBrand { Id = 2, Name = "Brand 2" } },
-                new CatalogItem { Id = Guid.NewGuid(), Name = "Item 3", Description = "Description 3", Price = 30.99m, Brand = new CatalogBrand { Id = 3, Name = "Brand 3" } }
-            };
+            new() { Id = 1, Name = "Category 1" },
+            new() { Id = 2, Name = "Category 2" },
+            new() { Id = 3, Name = "Category 3" }
+        };
 
-            var mockContext = GetMock<CatalogItem, ApplicationDataContext>(catalogItems, x => x.CatalogItems);
+        var mockContext = new Mock<ApplicationDataContext>();
+        mockContext.Setup(c => c.CatalogCategories).Returns(CreateMockDbSet(catalogCategories).Object);
 
-            // .GetMock<Employee, DataContext>(lstUser, x => x.M_Employee);
-            var catalogService = new CatalogService(mockContext);
+        var catalogService = new CatalogService(mockContext.Object);
 
-            // Act
-            var result = catalogService.GetAll();
+        // Act
+        var result = catalogService.GetAllCategories();
 
-            // Assert
-            Assert.AreEqual(catalogItems.Count, result.Count());
-            Assert.AreEqual(catalogItems[0].Id, result.First().Id);
-            Assert.AreEqual(catalogItems[0].Name, result.First().Name);
-            Assert.AreEqual(catalogItems[0].Description, result.First().Description);
-            Assert.AreEqual(catalogItems[0].Brand.Name, result.First().Brand);
-            Assert.AreEqual(catalogItems[0].Price, result.First().Price);
-        }
+        Assert.AreEqual(catalogCategories.Count, result.Count());
+        Assert.AreEqual(catalogCategories[0].Id, result.First().Id);
+        Assert.AreEqual(catalogCategories[0].Name, result.First().Name);
+    }
 
-
-        private static TContext GetMock<TData, TContext>(List<TData> lstData, Expression<Func<TContext, DbSet<TData>>> dbSetSelectionExpression) where TData : class where TContext : DbContext
+    [TestMethod]
+    public void GetAll_ShouldReturnAllCatalogItemsIfCategoryIsNotSpecifiedOrDoesNotExist()
+    {
+        // Arrange
+        var catalogCategories = new List<CatalogCategory>
         {
-            IQueryable<TData> lstDataQueryable = lstData.AsQueryable();
-            Mock<DbSet<TData>> dbSetMock = new Mock<DbSet<TData>>();
-            Mock<TContext> dbContext = new Mock<TContext>();
+            new() { Id = 1, Name = "Category 1" },
+            new() { Id = 2, Name = "Category 2" },
+            new() { Id = 3, Name = "Category 3" }
+        };
 
-            dbSetMock.As<IQueryable<TData>>().Setup(s => s.Provider).Returns(lstDataQueryable.Provider);
-            dbSetMock.As<IQueryable<TData>>().Setup(s => s.Expression).Returns(lstDataQueryable.Expression);
-            dbSetMock.As<IQueryable<TData>>().Setup(s => s.ElementType).Returns(lstDataQueryable.ElementType);
-            dbSetMock.As<IQueryable<TData>>().Setup(s => s.GetEnumerator()).Returns(() => lstDataQueryable.GetEnumerator());
-            dbSetMock.Setup(x => x.Add(It.IsAny<TData>())).Callback<TData>(lstData.Add);
-            dbSetMock.Setup(x => x.AddRange(It.IsAny<IEnumerable<TData>>())).Callback<IEnumerable<TData>>(lstData.AddRange);
-            dbSetMock.Setup(x => x.Remove(It.IsAny<TData>())).Callback<TData>(t => lstData.Remove(t));
-            dbSetMock.Setup(x => x.RemoveRange(It.IsAny<IEnumerable<TData>>())).Callback<IEnumerable<TData>>(ts =>
-            {
-                foreach (var t in ts) { lstData.Remove(t); }
-            });
+        var catalogBrands = new List<CatalogBrand>
+        {
+            new() { Id = 1, Name = "Brand 1" },
+            new() { Id = 2, Name = "Brand 2" },
+            new() { Id = 3, Name = "Brand 3" }
+        };
 
+        var catalogItems = new List<CatalogItem>
+        {
+            new() { Id = Guid.NewGuid(), Name = "Item 1", Description = "Description 1", Price = 10.99m, IsHighlighted = true, Category = catalogCategories[0], Brand = catalogBrands[0] },
+            new() { Id = Guid.NewGuid(), Name = "Item 2", Description = "Description 2", Price = 20.99m, IsHighlighted = true, Category = catalogCategories[1], Brand = catalogBrands[1] },
+            new() { Id = Guid.NewGuid(), Name = "Item 3", Description = "Description 3", Price = 30.99m, IsHighlighted = true, Category = catalogCategories[2], Brand = catalogBrands[2] }
+        };
 
-            dbContext.Setup(dbSetSelectionExpression).Returns(dbSetMock.Object);
+        var mockContext = new Mock<ApplicationDataContext>();
+        mockContext.Setup(c => c.CatalogCategories).Returns(CreateMockDbSet(catalogCategories).Object);
+        mockContext.Setup(c => c.CatalogBrands).Returns(CreateMockDbSet(catalogBrands).Object);
+        mockContext.Setup(c => c.CatalogItems).Returns(CreateMockDbSet(catalogItems).Object);
 
-            return dbContext.Object;
-        }
+        var catalogService = new CatalogService(mockContext.Object);
+
+        // Act
+        var result = catalogService.GetAll(It.IsAny<CatalogItemFilter>());
+
+        // Assert
+        Assert.AreEqual(catalogItems.Count, result.TotalItems);
+        Assert.AreEqual(catalogItems[0].Id, result.Items.First().Id);
+        Assert.AreEqual(catalogItems[0].Name, result.Items.First().Name);
+        Assert.AreEqual(catalogItems[0].Description, result.Items.First().Description);
+        Assert.AreEqual(catalogItems[0].Category.Name, result.Items.First().Category);
+        Assert.AreEqual(catalogItems[0].Brand.Name, result.Items.First().Brand);
+        Assert.AreEqual(catalogItems[0].Price, result.Items.First().Price);
+    }
+
+    [TestMethod]
+    public void GetAll_ShouldReturnOnlyItemsWithACertainCategoryIdIfProvided()
+    {
+        // Arrange
+        var catalogCategories = new List<CatalogCategory>
+        {
+            new() { Id = 1, Name = "Category 1" },
+        };
+
+        var catalogBrands = new List<CatalogBrand>
+        {
+            new() { Id = 1, Name = "Brand 1" },
+            new() { Id = 2, Name = "Brand 2" },
+            new() { Id = 3, Name = "Brand 3" }
+        };
+
+        var catalogItems = new List<CatalogItem>
+        {
+            new() { Id = Guid.NewGuid(), Name = "Item 1", Description = "Description 1", Price = 10.99m, IsHighlighted = true, Category = catalogCategories[0], Brand = catalogBrands[0] },
+            new() { Id = Guid.NewGuid(), Name = "Item 2", Description = "Description 2", Price = 20.99m, IsHighlighted = true, Category = catalogCategories[0], Brand = catalogBrands[1] },
+            new() { Id = Guid.NewGuid(), Name = "Item 3", Description = "Description 3", Price = 30.99m, IsHighlighted = true, Category = catalogCategories[0], Brand = catalogBrands[2] }
+        };
+
+        var mockContext = new Mock<ApplicationDataContext>();
+        mockContext.Setup(c => c.CatalogCategories).Returns(CreateMockDbSet(catalogCategories).Object);
+        mockContext.Setup(c => c.CatalogBrands).Returns(CreateMockDbSet(catalogBrands).Object);
+        mockContext.Setup(c => c.CatalogItems).Returns(CreateMockDbSet(catalogItems).Object);
+
+        var catalogService = new CatalogService(mockContext.Object);
+
+        // Act
+        var result = catalogService.GetAll(new CatalogItemFilter { CategoryId = 1 });
+
+        // Assert
+        Assert.AreEqual(catalogItems.Count, result.TotalItems);
+        Assert.AreEqual(catalogItems[0].Id, result.Items.First().Id);
+        Assert.AreEqual(catalogItems[0].Name, result.Items.First().Name);
+        Assert.AreEqual(catalogItems[0].Description, result.Items.First().Description);
+        Assert.AreEqual(catalogItems[0].Category.Name, result.Items.First().Category);
+        Assert.AreEqual(catalogItems[0].Brand.Name, result.Items.First().Brand);
+        Assert.AreEqual(catalogItems[0].Price, result.Items.First().Price);
+    }
+
+    private static Mock<DbSet<T>> CreateMockDbSet<T>(List<T> lstData) where T : class
+    {
+        IQueryable<T> dataQueryable = lstData.AsQueryable();
+        var dbSetMock = new Mock<DbSet<T>>();
+
+        dbSetMock.As<IQueryable<T>>().Setup(m => m.Provider).Returns(dataQueryable.Provider);
+        dbSetMock.As<IQueryable<T>>().Setup(m => m.Expression).Returns(dataQueryable.Expression);
+        dbSetMock.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(dataQueryable.ElementType);
+        dbSetMock.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => dataQueryable.GetEnumerator());
+
+        dbSetMock.Setup(x => x.AsQueryable()).Returns(dbSetMock.Object);
+        dbSetMock.Setup(x => x.Add(It.IsAny<T>())).Callback<T>(lstData.Add);
+        dbSetMock.Setup(x => x.AddRange(It.IsAny<IEnumerable<T>>())).Callback<IEnumerable<T>>(lstData.AddRange);
+        dbSetMock.Setup(x => x.Remove(It.IsAny<T>())).Callback<T>(t => lstData.Remove(t));
+        dbSetMock.Setup(x => x.RemoveRange(It.IsAny<IEnumerable<T>>())).Callback<IEnumerable<T>>(ts =>
+        {
+            foreach (var t in ts) lstData.Remove(t);
+        });
+
+        return dbSetMock;
     }
 }
+
