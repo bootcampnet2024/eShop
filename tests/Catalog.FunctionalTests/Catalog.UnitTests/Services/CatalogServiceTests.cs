@@ -21,9 +21,9 @@ namespace Catalog.UnitTests.Services
             // Arrange
             var catalogItems = new List<CatalogItem>
             {
-                new CatalogItem { Id = Guid.NewGuid(), Name = "Item 1", Description = "Description 1", Price = 10.99m, Brand = new CatalogBrand { Id = 1, Name = "Brand 1" } },
-                new CatalogItem { Id = Guid.NewGuid(), Name = "Item 2", Description = "Description 2", Price = 20.99m, Brand = new CatalogBrand { Id = 2, Name = "Brand 2" } },
-                new CatalogItem { Id = Guid.NewGuid(), Name = "Item 3", Description = "Description 3", Price = 30.99m, Brand = new CatalogBrand { Id = 3, Name = "Brand 3" } }
+                new CatalogItem { Id = Guid.NewGuid(), Name = "Item 1", Description = "Description 1", Price = 10.99m, IsHighlighted = true, Brand = new CatalogBrand { Id = 1, Name = "Brand 1" } },
+                new CatalogItem { Id = Guid.NewGuid(), Name = "Item 2", Description = "Description 2", Price = 20.99m, IsHighlighted = true, Brand = new CatalogBrand { Id = 2, Name = "Brand 2" } },
+                new CatalogItem { Id = Guid.NewGuid(), Name = "Item 3", Description = "Description 3", Price = 30.99m, IsHighlighted = true, Brand = new CatalogBrand { Id = 3, Name = "Brand 3" } }
             };
 
             var mockContext = GetMock<CatalogItem, ApplicationDataContext>(catalogItems, x => x.CatalogItems);
@@ -32,15 +32,15 @@ namespace Catalog.UnitTests.Services
             var catalogService = new CatalogService(mockContext);
 
             // Act
-            var result = catalogService.GetAll();
+            var result = catalogService.GetAll(It.IsAny<CatalogItemFilter>());
 
             // Assert
-            Assert.AreEqual(catalogItems.Count, result.Count());
-            Assert.AreEqual(catalogItems[0].Id, result.First().Id);
-            Assert.AreEqual(catalogItems[0].Name, result.First().Name);
-            Assert.AreEqual(catalogItems[0].Description, result.First().Description);
-            Assert.AreEqual(catalogItems[0].Brand.Name, result.First().Brand);
-            Assert.AreEqual(catalogItems[0].Price, result.First().Price);
+            Assert.AreEqual(catalogItems.Count, result.TotalItems);
+            Assert.AreEqual(catalogItems[0].Id, result.Items.First().Id);
+            Assert.AreEqual(catalogItems[0].Name, result.Items.First().Name);
+            Assert.AreEqual(catalogItems[0].Description, result.Items.First().Description);
+            Assert.AreEqual(catalogItems[0].Brand.Name, result.Items.First().Brand);
+            Assert.AreEqual(catalogItems[0].Price, result.Items.First().Price);
         }
 
 
@@ -54,9 +54,11 @@ namespace Catalog.UnitTests.Services
             dbSetMock.As<IQueryable<TData>>().Setup(s => s.Expression).Returns(lstDataQueryable.Expression);
             dbSetMock.As<IQueryable<TData>>().Setup(s => s.ElementType).Returns(lstDataQueryable.ElementType);
             dbSetMock.As<IQueryable<TData>>().Setup(s => s.GetEnumerator()).Returns(() => lstDataQueryable.GetEnumerator());
+
             dbSetMock.Setup(x => x.Add(It.IsAny<TData>())).Callback<TData>(lstData.Add);
             dbSetMock.Setup(x => x.AddRange(It.IsAny<IEnumerable<TData>>())).Callback<IEnumerable<TData>>(lstData.AddRange);
             dbSetMock.Setup(x => x.Remove(It.IsAny<TData>())).Callback<TData>(t => lstData.Remove(t));
+
             dbSetMock.Setup(x => x.RemoveRange(It.IsAny<IEnumerable<TData>>())).Callback<IEnumerable<TData>>(ts =>
             {
                 foreach (var t in ts) { lstData.Remove(t); }
@@ -69,3 +71,4 @@ namespace Catalog.UnitTests.Services
         }
     }
 }
+
