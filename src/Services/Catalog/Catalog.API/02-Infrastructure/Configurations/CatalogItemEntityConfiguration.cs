@@ -25,6 +25,9 @@ namespace Catalog.API._02_Infrastructure.Configurations
                 .IsRequired()
                 .HasColumnType("decimal(9,2)");
 
+            builder.Property(e => e.IsHighlighted)
+                .IsRequired();
+
             builder.HasOne(p => p.Brand)
                 .WithMany()
                 .HasForeignKey("BrandId")

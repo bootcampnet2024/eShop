@@ -10,6 +10,7 @@ using Catalog.API.Services.DTOs;
 using Catalog.API.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Catalog.API.Controllers.Core;
 
 namespace Catalog.API.Controllers.Tests
 {
@@ -30,15 +31,17 @@ namespace Catalog.API.Controllers.Tests
                 new() { Id = Guid.NewGuid(), Name = "Item 2", Description = "Description 2", Brand = "Brand 2", Price = 20.99m }
             };
 
-            service.Setup(s => s.GetAll()).Returns(catalogItems);
+            var resultCatalogItems = new CatalogItemDataResult() {  TotalItems = 2, Items = catalogItems };
+
+            service.Setup(s => s.GetAll(It.IsAny<CatalogItemFilter>())).Returns(resultCatalogItems);
 
             // Act
-            var result = controller.GetAll();
+            var result = controller.GetAll(null);
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(IEnumerable<CatalogItemsResult>));
-            Assert.IsTrue(result.Count() == 2);
+            Assert.IsInstanceOfType(result, typeof(PaginatedItems<CatalogItemsResult>));
+            Assert.IsTrue(result.Count == 2);
         }
     }
 }
