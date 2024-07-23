@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProductDisplayComponent } from '../home/product-display/product-display.component';
+import { DisplayHighlightedProductComponent } from '../home/display-highlighted-product/display-highlighted-product.component';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product-list/product.service';
 import { ViewportScroller } from '@angular/common';
@@ -10,7 +10,7 @@ import { ViewportScroller } from '@angular/common';
 @Component({
   selector: 'app-product-page',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, ProductDisplayComponent],
+  imports: [HeaderComponent, FooterComponent, DisplayHighlightedProductComponent],
   templateUrl: './product-page.component.html',
   styleUrl: './product-page.component.css'
 })
