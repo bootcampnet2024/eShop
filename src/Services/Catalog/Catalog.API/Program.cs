@@ -22,6 +22,15 @@ internal class Program
         });
 
         builder.Services.AddScoped<ICatalogService, CatalogService>();
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(builder =>
+            {
+                builder.WithOrigins("http://localhost:4200")
+                       .AllowAnyHeader()
+                       .AllowAnyMethod();
+            });
+        });
 
         var app = builder.Build();
 
@@ -33,7 +42,7 @@ internal class Program
         }
 
         app.UseAuthorization();
-
+        app.UseCors();
         app.MapControllers();
 
         app.Run();
