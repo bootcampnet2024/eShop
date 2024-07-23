@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProductDisplayComponent } from '../product-display/product-display.component';
+import { ProductDisplayComponent } from '../home/product-display/product-display.component';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product-list/product.service';
 import { ViewportScroller } from '@angular/common';
