@@ -1,16 +1,15 @@
-<p class="category-name">Highlights</p>
-<section id="product-container" >
+<section class="flex justify-between overflow-hidden">
   @for (product of products; track product.id) {
-  <div class="product-card">
+  <div class="border-2 border-black rounded-lg p">
     <div class="image-placeholder">
-      <a><img src="assets/products/xbox-series-controller.jpg" alt="" (click)="viewProduct(product)" class="product-image" /></a>
+      <a><img src="assets/products/xbox-series-controller.jpg" alt="" (click)="viewProduct(product)" class="mix-blend-multiply" /></a>
     </div>
     <div class="product-info">
       <div class="product-about">
         <a (click)="viewProduct(product)" class="product-name">{{ product.name }}</a>
         <p class="product-brand">{{ product.brand }}</p>
       </div>
-      <p class="product-price">R${{ product.price }}</p>
+      <p class="product-price">R${{ product.price.toFixed(2)}}</p>
     </div>
   </div>
   }

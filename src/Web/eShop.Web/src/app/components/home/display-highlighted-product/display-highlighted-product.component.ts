@@ -14,17 +14,27 @@ export class DisplayHighlightedProductComponent implements OnInit {
 
   @Input() category?: string
 
-  products? : Product[]
+  products?: Product[]
 
   constructor(private router: Router, private productService: ProductService) { }
 
   ngOnInit(): void {
     this.productService.getCatalogItems(true, 0, 10)
       .subscribe({
-        next : (response) => {
+        next: (response) => {
           this.products = response.items
         }
-      })
+      }
+      ),
+      this.products = [{
+        "id": "teste",
+        "name": "teste",
+        "description": "teste",
+        "price": 1924.00,
+        "brand": "teste",
+        "category": "teste"
+      }
+      ]
   }
 
   viewProduct(product: Product): void {
