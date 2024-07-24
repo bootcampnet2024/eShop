@@ -33,6 +33,30 @@ export class DisplayHighlightedProductComponent implements OnInit {
         "price": 1924.00,
         "brand": "teste",
         "category": "teste"
+      }, 
+      {
+        "id": "teste",
+        "name": "teste",
+        "description": "teste",
+        "price": 1924.00,
+        "brand": "teste",
+        "category": "teste"
+      },
+      {
+        "id": "teste",
+        "name": "teste",
+        "description": "teste",
+        "price": 1924.00,
+        "brand": "teste",
+        "category": "teste"
+      },
+      {
+        "id": "teste",
+        "name": "teste",
+        "description": "teste",
+        "price": 1924.00,
+        "brand": "teste",
+        "category": "teste"
       }
       ]
   }
