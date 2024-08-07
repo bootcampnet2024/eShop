@@ -52,12 +52,12 @@ public class CatalogControllerTests
             new() { Id = Guid.NewGuid(), Name = "Item 2", Description = "Description 2", Category = "Category 2", Brand = "Brand 2", Price = 20.99m }
         };
 
-        var resultCatalogItems = new CatalogItemDataResult() { TotalItems = 2, CategoryName = null, Items = catalogItems };
+        var resultCatalogItems = new CatalogItemDataResult() { TotalItems = 2, Items = catalogItems };
 
-        service.Setup(s => s.GetAllItems(It.IsAny<CatalogItemFilter>())).Returns(resultCatalogItems);
+        service.Setup(s => s.GetAll(It.IsAny<CatalogItemFilter>())).Returns(resultCatalogItems);
 
         // Act
-        var result = controller.GetAllItems(It.IsAny<CatalogItemsFilter>());
+        var result = controller.GetAll(It.IsAny<CatalogItemsFilter>());
 
         // Assert
         Assert.IsNotNull(result);

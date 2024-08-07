@@ -34,46 +34,7 @@ public class CatalogServiceTests
     }
 
     [TestMethod]
-    public void GetCategoryById_ShouldReturnExistingCategoryIfExists()
-    {
-        // Arrange
-        var catalogCategories = new List<CatalogCategory>
-        {
-            new() { Id = 1, Name = "Category 1" },
-        };
-
-        var mockContext = new Mock<ApplicationDataContext>();
-        mockContext.Setup(c => c.CatalogCategories).Returns(CreateMockDbSet(catalogCategories).Object);
-
-        var catalogService = new CatalogService(mockContext.Object);
-
-        // Act
-        var result = catalogService.GetCategoryById(catalogCategories[0].Id);
-
-        Assert.IsNotNull(result);
-        Assert.AreEqual(catalogCategories[0].Id, result.Id);
-        Assert.AreEqual(catalogCategories[0].Name, result.Name);
-    }
-
-    [TestMethod]
-    public void GetCategoryById_ShouldReturnNullIfCategoryDoesNotExists()
-    {
-        // Arrange
-        var catalogCategories = new List<CatalogCategory>();
-
-        var mockContext = new Mock<ApplicationDataContext>();
-        mockContext.Setup(c => c.CatalogCategories).Returns(CreateMockDbSet(catalogCategories).Object);
-
-        var catalogService = new CatalogService(mockContext.Object);
-
-        // Act
-        var result = catalogService.GetCategoryById(1);
-
-        Assert.IsNull(result);
-    }
-
-    [TestMethod]
-    public void GetAllItems_ShouldReturnAllCatalogItemsIfCategoryIsNotSpecifiedOrDoesNotExists()
+    public void GetAll_ShouldReturnAllCatalogItemsIfCategoryIsNotSpecifiedOrDoesNotExists()
     {
         // Arrange
         var catalogCategories = new List<CatalogCategory>
@@ -105,7 +66,7 @@ public class CatalogServiceTests
         var catalogService = new CatalogService(mockContext.Object);
 
         // Act
-        var result = catalogService.GetAllItems(It.IsAny<CatalogItemFilter>());
+        var result = catalogService.GetAll(It.IsAny<CatalogItemFilter>());
 
         // Assert
         Assert.AreEqual(catalogItems.Count, result.TotalItems);
@@ -118,7 +79,7 @@ public class CatalogServiceTests
     }
 
     [TestMethod]
-    public void GetAllItems_ShouldReturnSelectCatalogItemsIfCategoryExists()
+    public void GetAll_IfCategoryIdIsProvidedShouldReturnOnlyItemsWithThatCategory()
     {
         // Arrange
         var catalogCategories = new List<CatalogCategory>
@@ -148,7 +109,7 @@ public class CatalogServiceTests
         var catalogService = new CatalogService(mockContext.Object);
 
         // Act
-        var result = catalogService.GetAllItems(new CatalogItemFilter { CategoryId = 1 });
+        var result = catalogService.GetAll(new CatalogItemFilter { CategoryId = 1 });
 
         // Assert
         Assert.AreEqual(catalogItems.Count, result.TotalItems);

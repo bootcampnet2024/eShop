@@ -28,20 +28,8 @@ public class CatalogController(ILogger<CatalogController> logger, ICatalogServic
     }
 
     [HttpGet]
-    [Route("categories/{id:int}")]
-    public CatalogCategoryResult GetCategory(int id)
-    {
-        var category = _service.GetCategoryById(id);
-
-        if (category is null)
-            return null;
-
-        return category.ToCatalogCategoryResult();
-    }
-
-    [HttpGet]
     [Route("items")]
-    public PaginatedItems<CatalogItemsResult> GetAllItems([FromQuery] CatalogItemsFilter filter = null)
+    public PaginatedItems<CatalogItemsResult> GetAll([FromQuery] CatalogItemsFilter filter = null)
     {
         filter ??= new CatalogItemsFilter();
 
@@ -56,16 +44,14 @@ public class CatalogController(ILogger<CatalogController> logger, ICatalogServic
             CategoryId = filter.CategoryId
         };
 
-        var data = _service.GetAllItems(dataFilter);
+        var data = _service.GetAll(dataFilter);
 
         return new PaginatedItems<CatalogItemsResult>()
         {
-            ShowOnlyHighlighted = filter.ShowOnlyHighlighted,
             Count = data.TotalItems,
             Items = data.Items.ToCatalogItemsResult(),
             PageIndex = filter.PageIndex,
             PageSize = data.Items.Count(),
-            Category = data.CategoryName
         };
     }
 }

@@ -8,8 +8,7 @@ namespace Catalog.API.Services;
 public interface ICatalogService
 {
     IEnumerable<CatalogCategoryDTO> GetAllCategories();
-    CatalogCategoryDTO GetCategoryById(int id);
-    CatalogItemDataResult GetAllItems(CatalogItemFilter filter);
+    CatalogItemDataResult GetAll(CatalogItemFilter filter);
 }
 
 public class CatalogService(ApplicationDataContext context) : ICatalogService
@@ -21,17 +20,7 @@ public class CatalogService(ApplicationDataContext context) : ICatalogService
         return _context.CatalogCategories.Select(c => new CatalogCategoryDTO { Id = c.Id, Name = c.Name });
     }
 
-    public CatalogCategoryDTO GetCategoryById(int id)
-    {
-        var category = _context.CatalogCategories.FirstOrDefault(c => c.Id == id);
-
-        if (category is null)
-            return null;
-
-        return new CatalogCategoryDTO { Id = category.Id, Name = category.Name };
-    }
-
-    public CatalogItemDataResult GetAllItems(CatalogItemFilter filter)
+    public CatalogItemDataResult GetAll(CatalogItemFilter filter)
     {
         filter ??= new CatalogItemFilter();
 
@@ -43,14 +32,13 @@ public class CatalogService(ApplicationDataContext context) : ICatalogService
 
         var query = _context.CatalogItems.AsQueryable();
 
-        if (filter.ShowOnlyHighlighted) // Aqui o comportamento foi mudado,
-                                        // antes só mostrava produtos com destaque ou sem, eles não mostravam-se juntos.
-            query = query.Where(w => w.IsHighlighted);
+        // Aqui o comportamento foi mudado,
+        // antes só mostravam-se produtos com destaque ou sem, eles não mostravam-se juntos.
+        query = query.Where(w => (!filter.ShowOnlyHighlighted || w.IsHighlighted));
 
-        var category = GetCategoryById(filter.CategoryId);
+        var category = _context.CatalogCategories.FirstOrDefault(c => c.Id == filter.CategoryId);
 
-        if (category is not null)
-            query = query.Where(w => w.Category.Id == category.Id);
+        query = query.Where(w => (category == null || w.Category.Id == category.Id));
 
         var totalItems = query.Count();
 
@@ -72,7 +60,7 @@ public class CatalogService(ApplicationDataContext context) : ICatalogService
             })
             .ToList();
 
-        return new CatalogItemDataResult() { TotalItems = totalItems, CategoryName = category?.Name, Items = data };
+        return new CatalogItemDataResult() { TotalItems = totalItems, Items = data };
     }
 }
 
@@ -87,7 +75,6 @@ public class CatalogItemFilter
 public class CatalogItemDataResult
 {
     public int TotalItems { get; set; }
-    public string CategoryName { get; set; }
     public IEnumerable<CatalogItemDTO> Items { get; set; }
 }
 
