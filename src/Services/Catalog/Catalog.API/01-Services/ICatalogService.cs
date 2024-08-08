@@ -32,20 +32,16 @@ public class CatalogService(ApplicationDataContext context) : ICatalogService
 
         var query = _context.CatalogItems.AsQueryable();
 
-        // Aqui o comportamento foi mudado,
-        // antes só mostravam-se produtos com destaque ou sem, eles não mostravam-se juntos.
         query = query.Where(w => (!filter.ShowOnlyHighlighted || w.IsHighlighted));
 
-        var category = _context.CatalogCategories.FirstOrDefault(c => c.Id == filter.CategoryId);
+        var category = _context.CatalogCategories.Find(filter.CategoryId);
 
         query = query.Where(w => (category == null || w.Category.Id == category.Id));
 
         var totalItems = query.Count();
 
         var data = query
-            .OrderByDescending(o => o.IsHighlighted) /* Como esse método será o padrão para pesquisar produtos,
-                                                      * talvez seja uma boa ideia organiza-los baseado no destaque.
-                                                      * Com certeza será ignorado caso ShowOnlyHighlighted for verdadeiro. */
+            .OrderByDescending(o => o.IsHighlighted)
             .Skip(filter.PageIndex * filter.PageSize)
             .Take(filter.PageSize)
             .AsNoTracking()

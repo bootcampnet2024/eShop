@@ -34,7 +34,7 @@ public class CatalogServiceTests
     }
 
     [TestMethod]
-    public void GetAll_ShouldReturnAllCatalogItemsIfCategoryIsNotSpecifiedOrDoesNotExists()
+    public void GetAll_ShouldReturnAllCatalogItemsIfCategoryIsNotSpecifiedOrDoesNotExist()
     {
         // Arrange
         var catalogCategories = new List<CatalogCategory>
@@ -79,7 +79,7 @@ public class CatalogServiceTests
     }
 
     [TestMethod]
-    public void GetAll_IfCategoryIdIsProvidedShouldReturnOnlyItemsWithThatCategory()
+    public void GetAll_ShouldReturnOnlyItemsWithACertainCategoryIdIfProvided()
     {
         // Arrange
         var catalogCategories = new List<CatalogCategory>
