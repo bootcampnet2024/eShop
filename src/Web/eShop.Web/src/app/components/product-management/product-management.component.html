@@ -1,0 +1,35 @@
+<div class="container">
+  <h1 class="mt-3">Product List</h1>
+  <div class="d-flex justify-content-end mt-3">
+    <button mat-flat-button color="accent" >Add Product</button>
+  </div>
+  @if (products){
+  <table>
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Category</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (product of products; track product.id){
+      <tr>
+        <td><img class="productImage" src="{{ product.imageUrl }}" /></td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.quantity }}</td>
+        <td>{{ product.category }}</td>
+        <td>
+          <button mat-flat-button color="primary">Edit</button>
+          <button mat-flat-button color="warn">Delete</button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  }
+</div>

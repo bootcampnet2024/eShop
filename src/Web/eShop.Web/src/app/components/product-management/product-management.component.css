@@ -1,0 +1,100 @@
+.container {
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.d-flex {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* .btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+} */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  text-align: center;
+}
+
+thead th {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+}
+
+tbody td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.productImage {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* button {
+  padding: 5px 10px;
+  margin-right: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:first-of-type {
+  background-color: #ffc107;
+  color: white;
+}
+
+button:first-of-type:hover {
+  background-color: #e0a800;
+}
+
+button:last-of-type {
+  background-color: #dc3545;
+  color: white;
+}
+
+button:last-of-type:hover {
+  background-color: #c82333;
+} */
+
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  .productImage {
+    width: 40px;
+    height: 40px;
+  }
+}
