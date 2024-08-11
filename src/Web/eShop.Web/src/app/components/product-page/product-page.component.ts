@@ -28,7 +28,6 @@ export class ProductPageComponent implements OnInit {
       },
       error: () => {
         console.log(`Could not get the product with the id: ${this.productId}`);
-        //this.router.navigate(['']);
       }
     })
   }
