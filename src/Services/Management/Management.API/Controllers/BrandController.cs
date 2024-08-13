@@ -2,6 +2,7 @@
 using Management.API.Operations.Commands.BrandCommands;
 using Management.API.Operations.Commands.ProductCommands;
 using Management.API.Operations.Queries.BrandQueries;
+using Management.API.Operations.Queries.CategoryQueries;
 using Management.API.Operations.Queries.ProductQueries;
 using Management.Domain.Repositories;
 using MediatR;
@@ -31,6 +32,14 @@ namespace Management.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             var query = new GetAllBrandsQuery();
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var query = new GetBrandsByIdQuery(id);
             var result = await _mediator.Send(query);
             return Ok(result);
         }

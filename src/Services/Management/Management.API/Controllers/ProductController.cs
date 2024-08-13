@@ -43,6 +43,14 @@ namespace Management.API.Controllers
             return NotFound();
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var query = new GetProductsByIdQuery(id);
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
         [HttpGet("name/{name}")]
         public async Task<IActionResult> SearchByName(string name)
         {

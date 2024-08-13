@@ -4,6 +4,7 @@ using Management.API.Operations.Commands.CategoryCommands;
 using Management.API.Operations.Commands.ProductCommands;
 using Management.API.Operations.Queries.BrandQueries;
 using Management.API.Operations.Queries.CategoryQueries;
+using Management.API.Operations.Queries.ProductQueries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,6 +32,14 @@ namespace Management.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             var query = new GetAllCategoriesQuery();
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var query = new GetCategoriesByIdQuery(id);
             var result = await _mediator.Send(query);
             return Ok(result);
         }
