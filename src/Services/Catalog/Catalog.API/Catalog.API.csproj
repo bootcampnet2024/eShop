@@ -25,4 +25,8 @@
     <Folder Include="02-Infrastructure\Migrations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Profile\Profile.API.csproj" />
+  </ItemGroup>
+
 </Project>
