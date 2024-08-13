@@ -1,6 +1,7 @@
 ﻿using Management.API.Models.Requests;
 using Management.API.Operations.Commands.BrandCommands;
 using Management.API.Operations.Commands.CategoryCommands;
+using Management.API.Operations.Commands.ProductCommands;
 using Management.API.Operations.Queries.BrandQueries;
 using Management.API.Operations.Queries.CategoryQueries;
 using MediatR;
@@ -21,9 +22,9 @@ namespace Management.API.Controllers
 
             var result = await _mediator.Send(command);
 
-            if (result) return Ok("Brand created successfully");
+            if (result) return Ok("Category created successfully");
 
-            return BadRequest("Failed to create brand");
+            return BadRequest("Failed to create category");
         }
 
         [HttpGet]
@@ -32,6 +33,18 @@ namespace Management.API.Controllers
             var query = new GetAllCategoriesQuery();
             var result = await _mediator.Send(query);
             return Ok(result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(int id, UpdateCategoryRequest request)
+        {
+            var command = new UpdateCategoryCommand(id, request);
+
+            var result = await _mediator.Send(command);
+
+            if (result) return Ok("Category updated successfully");
+
+            return BadRequest("Failed to update Category");
         }
     }
 }

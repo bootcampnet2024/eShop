@@ -34,5 +34,17 @@ namespace Management.API.Controllers
             var result = await _mediator.Send(query);
             return Ok(result);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(int id, UpdateBrandRequest request)
+        {
+            var command = new UpdateBrandCommand(id, request);
+
+            var result = await _mediator.Send(command);
+
+            if (result) return Ok("Brand updated successfully");
+
+            return BadRequest("Failed to update brand");
+        }
     }
 }

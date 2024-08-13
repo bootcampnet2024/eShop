@@ -1,6 +1,7 @@
 ﻿using Management.API.Models.Requests;
 using Management.API.Operations.Commands.ProductCommands;
 using Management.API.Operations.Queries.ProductQueries;
+using Management.Domain.Models;
 using Management.Domain.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -48,6 +49,18 @@ namespace Management.API.Controllers
             var query = new GetProductsByNameQuery(name);
             var result = await _mediator.Send(query);
             return Ok(result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(Guid id, UpdateProductRequest request)
+        {
+            var command = new UpdateProductCommand(id, request);
+
+            var result = await _mediator.Send(command);
+
+            if (result) return Ok("Product updated successfully");
+
+            return BadRequest("Failed to update product");
         }
     }
 }

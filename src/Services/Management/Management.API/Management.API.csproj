@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Results\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Management.Domain\Management.Domain.csproj" />
     <ProjectReference Include="..\Management.Infrastructure\Management.Infrastructure.csproj" />
   </ItemGroup>

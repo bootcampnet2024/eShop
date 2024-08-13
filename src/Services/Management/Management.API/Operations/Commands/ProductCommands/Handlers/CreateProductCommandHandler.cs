@@ -4,7 +4,8 @@ using MediatR;
 
 namespace Management.API.Operations.Commands.ProductCommands.Handlers
 {
-    public class CreateProductCommandHandler(IProductRepository repository, IBrandRepository brandRepository, ICategoryRepository categoryRepository) : IRequestHandler<CreateProductCommand, bool>
+    public class CreateProductCommandHandler(IProductRepository repository, IBrandRepository brandRepository, 
+        ICategoryRepository categoryRepository) : IRequestHandler<CreateProductCommand, bool>
     {
         private readonly IProductRepository _productRepository = repository;
         private readonly IBrandRepository _productBrandRepository = brandRepository;
