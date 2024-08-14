@@ -1,14 +1,13 @@
 import { Brand } from "./brand.model";
 import { Category } from "./category.model";
 
-export interface Product {
-  id: string;
+export interface ProductDTO {
   name: string,
   description: string,
   price: number,
   quantity: number,
-  brand: Brand,
-  category: Category,
+  brandId: number,
+  categoryId: number,
   imageUrl: string,
   isActive: boolean
 }

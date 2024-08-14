@@ -1,0 +1,42 @@
+form{
+  margin: 2em;
+  gap: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-inputs{
+  gap: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.small-inputs-field{
+  gap: 1em;
+  display: flex;
+
+}
+
+.small-inputs{
+  width: 25%;
+}
+
+.name{
+  width: 100%;
+}
+
+.image-selector{
+  display: flex;
+  gap: 1em;
+}
+
+.image-url-input{
+  width: 88%;
+}
+
+.image-preview{
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+}

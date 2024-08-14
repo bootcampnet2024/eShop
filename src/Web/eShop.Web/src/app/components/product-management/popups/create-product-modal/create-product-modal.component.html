@@ -1,0 +1,60 @@
+<form [formGroup]="productForm">
+  <h1 mat-dialog-title>Product</h1>
+  <div mat-dialog-content class="form-inputs">
+    <mat-form-field class="name">
+      <mat-label>Product Name</mat-label>
+      <input color="primary" matInput formControlName="name"/>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea
+        color="primary"
+        #description
+        maxlength="300"
+        matInput
+        formControlName="description"
+      ></textarea>
+      <mat-hint align="end">{{ description.value.length }} / 300</mat-hint>
+    </mat-form-field>
+    <div class="small-inputs-field">
+      <mat-form-field class="small-inputs">
+        <mat-label>Quantity</mat-label>
+        <input color="primary" matInput formControlName="quantity"/>
+      </mat-form-field>
+      <mat-form-field class="small-inputs">
+        <mat-label>Price</mat-label>
+        <input color="primary" matInput formControlName="price"/>
+      </mat-form-field>
+      <mat-form-field class="small-inputs">
+        <mat-label>Brand</mat-label>
+        <mat-select formControlName="brandId">
+          @for ( brand of brands; track brand.id ) {
+          <mat-option [value]="brand.id">{{ brand.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="small-inputs">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="categoryId">
+          @for ( category of categories; track category.id ) {
+          <mat-option [value]="category.id">{{ category.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-checkbox color="primary" formControlName="isActive">Is Active</mat-checkbox>
+    </div>
+    <div class="image-selector">
+      <mat-form-field class="image-url-input">
+        <mat-label>Image URL</mat-label>
+        <input color="primary" matInput formControlName="imageUrl"/>
+      </mat-form-field>
+      <img class="image-preview" src="" />
+    </div>
+  </div>
+  <div class="actions">
+    <button mat-flat-button color="primary" (click)="addProduct()">Add</button>
+    <button mat-button color="warn" (click)="close()">Cancel</button>
+  </div>
+</form>
