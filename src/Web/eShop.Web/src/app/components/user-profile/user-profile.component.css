@@ -1,0 +1,92 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 16px;
+  padding: 16px;
+}
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  height: 100%;
+}
+
+.sidebar-list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
+  flex-grow: 1;
+  justify-content: flex-start;
+}
+
+.sidebar-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: auto;
+  padding: 16px;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+  background: #fff; /* Ajuste a cor de fundo conforme necessário */
+}
+
+.sidebar-item:hover {
+  background: #f1f1f1; /* Ajuste o efeito hover conforme necessário */
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.sidebar-icon {
+  font-size: 24px;
+  margin-right: 8px;
+}
+
+.sidebar-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-card-title {
+  font-size: 1.2em;
+  margin: 0;
+}
+
+.mat-card-content {
+  font-size: 1em;
+  margin-top: 8px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100%;
+}
+
+.form-field {
+  width: 100%;
+  margin-top: 16px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.mat-card a:hover {
+  text-decoration: underline;
+}
+
+button[type="submit"] {
+  width: 33%;
+  padding: 16px;
+  font-size: 1.2em;
+  align-self: flex-start;
+}

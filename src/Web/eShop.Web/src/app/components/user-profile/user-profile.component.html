@@ -1,0 +1,93 @@
+<app-header></app-header>
+
+<div class="container">
+  <div class="sidebar-container">
+    <mat-list class="sidebar-list">
+      <mat-card class="sidebar-item">
+        <a [routerLink]="['/purchase-history']" class="sidebar-link">
+          <mat-icon class="sidebar-icon">history</mat-icon>
+          <div class="sidebar-text">
+            <mat-card-title>History</mat-card-title>
+            <!-- <mat-card-content>See your recent purchases</mat-card-content> -->
+          </div>
+        </a>
+      </mat-card>
+
+      <mat-card class="sidebar-item">
+        <a [routerLink]="['/security']" class="sidebar-link">
+          <mat-icon class="sidebar-icon">security</mat-icon>
+          <div class="sidebar-text">
+            <mat-card-title>Security</mat-card-title>
+            <!-- <mat-card-content>Password recovery and authentication settings</mat-card-content> -->
+          </div>
+        </a>
+      </mat-card>
+
+      <mat-card class="sidebar-item">
+        <a [routerLink]="['/addresses']" class="sidebar-link">
+          <mat-icon class="sidebar-icon">location_on</mat-icon>
+          <div class="sidebar-text">
+            <mat-card-title>Address</mat-card-title>
+            <!-- <mat-card-content>Manage the addresses associated with your account.</mat-card-content> -->
+          </div>
+        </a>
+      </mat-card>
+
+      <mat-card class="sidebar-item">
+        <a [routerLink]="['/cards']" class="sidebar-link">
+          <mat-icon class="sidebar-icon">credit_card</mat-icon>
+          <div class="sidebar-text">
+            <mat-card-title>Cards</mat-card-title>
+            <!-- <mat-card-content>Saved cards in your account.</mat-card-content> -->
+          </div>
+        </a>
+      </mat-card>
+    </mat-list>
+  </div>
+
+  <div class="content">
+    <h2 class="mb-4">Update User Information</h2>
+
+    <form
+      [formGroup]="perfilForm"
+      (ngSubmit)="onSubmit()"
+      class="form-container"
+    >
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Full Name</mat-label>
+        <input matInput formControlName="nome" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Mobile Phone</mat-label>
+        <input matInput formControlName="telefone" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Date of Birth</mat-label>
+        <input matInput formControlName="dataNascimento" type="date" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>CPF</mat-label>
+        <input matInput formControlName="cpf" />
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="perfilForm.invalid"
+      >
+        Save
+      </button>
+    </form>
+  </div>
+</div>
+
+<app-footer></app-footer>
