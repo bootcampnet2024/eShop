@@ -1,7 +1,8 @@
 export interface UserProfile {
-  nome: string;
-  telefone: string;
+  id: string;
+  name: string;
+  number: string;
   email: string;
-  dataNascimento: string;
+  dateOfBirth: Date;
   cpf: string;
 }

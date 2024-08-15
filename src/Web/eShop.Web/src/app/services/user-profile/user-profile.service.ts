@@ -8,15 +8,15 @@ import { UserProfile } from '../../models/user-profile.model';
 })
 export class UserProfileService {
 
-  private url: string = "http://localhost:5200/user";
+  private url: string = "https://localhost:7231/api/Users";
 
   constructor(private http: HttpClient) { }
 
-  GetUserProfile() : Observable<UserProfile> {
-    return this.http.get<UserProfile>(`${this.url}/profile`)
+  GetUserById(id: string): Observable<UserProfile> {
+    return this.http.get<UserProfile>(`${this.url}/${id}`);
   }
 
-  UpdateUserProfile(userProfile: UserProfile) : Observable<UserProfile> {
-    return this.http.put<UserProfile>(`${this.url}/profile`, userProfile)
+  UpdateUserProfile(id: string, userProfile: UserProfile): Observable<UserProfile> {
+    return this.http.put<UserProfile>(`${this.url}/${id}`, userProfile);
   }
 }

@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShop.Library", "src\Buildi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Profile", "Profile", "{2556D27C-6D60-4FF4-8B38-7571EEBE1257}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Profile.API", "..\..\..\Documents\api api\profile\Profile.API\Profile.API\Profile.API.csproj", "{6F166DA2-C9C3-463C-A009-DE10C280A8B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Profile.API", "src\Services\profile\Profile.API\Profile.API.csproj", "{6F166DA2-C9C3-463C-A009-DE10C280A8B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -5,10 +5,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Configurar o DbContext
 builder.Services.AddDbContext<ApplicationDataContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase"))); 
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
 
 // Registrar repositórios
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+// Configurar CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder => builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -24,6 +34,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAll");
+
 app.UseAuthorization();
 app.MapControllers();
 

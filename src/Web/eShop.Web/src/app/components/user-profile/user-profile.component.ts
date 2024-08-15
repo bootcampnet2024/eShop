@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { UserProfile } from '../../models/user-profile.model';
+import { UserProfileService } from '../../services/user-profile/user-profile.service';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { RouterModule } from '@angular/router';
@@ -34,47 +35,67 @@ import { MatIconModule } from '@angular/material/icon';
 export class UserProfileComponent implements OnInit {
   perfilForm: FormGroup;
   userProfile: UserProfile = {
-    nome: '',
-    telefone: '',
+    id: '1',
+    name: '',
+    number: '',
     email: '',
-    dataNascimento: '',
+    dateOfBirth: new Date(), // Inicialize como um objeto Date
     cpf: ''
   };
   isLoading = true;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private userProfileService: UserProfileService) {
     this.perfilForm = this.fb.group({
-      nome: ['', Validators.required],
-      telefone: ['', Validators.required],
+      name: ['', Validators.required],
+      number: ['', Validators.required],
       email: [{ value: '', disabled: true }],
-      dataNascimento: [''],
+      dateOfBirth: [''],
       cpf: [{ value: '', disabled: true }]
     });
   }
 
   ngOnInit() {
-    this.carregarDadosUsuario().then(() => {
+    this.loadUserData('3fa85f64-5717-4562-b3fc-2c963f66afa6').then(() => {
       this.isLoading = false;
     });
   }
 
-  async carregarDadosUsuario(): Promise<void> {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    this.userProfile = {
-      nome: 'Nome Completo',
-      telefone: '(11) 98765-4321',
-      email: 'usuario@exemplo.com',
-      dataNascimento: '2000-01-01',
-      cpf: '12345678901'
-    };
-    this.perfilForm.patchValue(this.userProfile);
+  async loadUserData(userId: string): Promise<void> {
+    try {
+      const profile = await this.userProfileService.GetUserById(userId).toPromise();
+      if (profile) {
+        this.userProfile = profile;
+        this.perfilForm.patchValue({
+          ...this.userProfile,
+          dateOfBirth: profile.dateOfBirth ? new Date(profile.dateOfBirth).toISOString().split('T')[0] : ''
+        });
+      } else {
+        console.error('User profile is undefined');
+      }
+    } catch (error) {
+      console.error('Error loading user data:', error);
+    }
   }
 
   onSubmit(): void {
     if (this.perfilForm.valid) {
-      this.userProfile = { ...this.userProfile, ...this.perfilForm.value };
-      console.log('Updated Data:', this.userProfile);
+      if (this.userProfile) {
+        const updatedProfile: UserProfile = {
+          ...this.userProfile,
+          ...this.perfilForm.value,
+          dateOfBirth: this.perfilForm.value.dateOfBirth ? new Date(this.perfilForm.value.dateOfBirth).toISOString() : ''
+        };
+        this.userProfileService.UpdateUserProfile(this.userProfile.id, updatedProfile).subscribe(
+          response => {
+            console.log('Profile updated successfully:', response);
+          },
+          error => {
+            console.error('Error updating profile:', error);
+          }
+        );
+      } else {
+        console.error('User profile is undefined');
+      }
     }
   }
 }
