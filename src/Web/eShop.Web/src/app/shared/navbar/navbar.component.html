@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="subnav">
+  <button class="subnavbtn">Categories <i class="fa fa-caret-down"></i></button>
+  <div class="subnav-content">
+    @for (category of categories; track $index)
+    {
+      <a (click)="goToCategoryPage(category.id)">{{category.name}}</a>
+    }
+<!--
+    <a href="">Categ1</a>
+    <a href="">Categ2</a>
+    <a href="">Categ3</a>
+-->
+  </div>
+</div>

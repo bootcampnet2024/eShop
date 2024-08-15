@@ -6,13 +6,14 @@ import { FooterComponent } from "../../../shared/footer/footer.component";
 import { CategoryDisplayComponent } from '../category-display/category-display.component';
 import { ViewportScroller } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 
 @Component({
     selector: 'app-landing-page',
     standalone: true,
     templateUrl: './landing-page.component.html',
     styleUrl: './landing-page.component.css',
-    imports: [HeaderComponent, StaticCarouselComponent, DisplayHighlightedProductComponent, FooterComponent, CategoryDisplayComponent]
+    imports: [HeaderComponent, StaticCarouselComponent, DisplayHighlightedProductComponent, FooterComponent, CategoryDisplayComponent, NavbarComponent]
 })
 
 export class LandingPageComponent implements OnInit {

@@ -1,0 +1,19 @@
+<app-header></app-header>
+<app-navbar></app-navbar>
+
+<div class="product-container">
+@for (product of products; track $index)
+{
+  <div class="product-item">
+    <img src="assets/products/xbox-series-controller.jpg" height="200px" alt="Product Image" class="product-image" />
+    <div class="product-details">
+      <p>{{ product.name }}</p>
+    </div>
+    <div class="product-price">
+      <p>R$ {{product.price}}</p>
+    </div>
+  </div>
+
+}
+</div>
+<app-footer></app-footer>

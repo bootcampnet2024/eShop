@@ -19,7 +19,7 @@ export class DisplayHighlightedProductComponent implements OnInit {
   constructor(private router: Router, private productService: ProductService) { }
 
   ngOnInit(): void {
-    this.productService.getCatalogItems(true, 0, 10)
+    this.productService.getCatalogItems(true, 0, 10, 0)
       .subscribe({
         next : (response) => {
           this.products = response.items
