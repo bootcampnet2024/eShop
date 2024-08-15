@@ -68,7 +68,8 @@
   font-weight: 500;
 }
 
-.product-brand {
+.product-brand,
+.product-category {
   font-size: 0.9em;
   font-weight: 400;
 }
@@ -79,5 +80,3 @@
   display: flex;
   align-items: center;
 }
-
-

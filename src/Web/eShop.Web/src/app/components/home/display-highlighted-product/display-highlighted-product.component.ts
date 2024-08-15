@@ -28,6 +28,6 @@ export class DisplayHighlightedProductComponent implements OnInit {
   }
 
   viewProduct(product: Product): void {
-    this.router.navigate(['/product', { id: product.id, name: product.name.trim().replace(" ", "-") }]);
+    this.router.navigate(['/product', { id: product.id, name: product.name.trim().replaceAll(" ", "-") }]);
   }
 }

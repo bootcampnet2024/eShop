@@ -2,18 +2,21 @@
 <app-navbar></app-navbar>
 
 <div class="product-container">
-@for (product of products; track $index)
+@for (product of products; track product.id)
 {
-  <div class="product-item">
-    <img src="assets/products/xbox-series-controller.jpg" height="200px" alt="Product Image" class="product-image" />
-    <div class="product-details">
-      <p>{{ product.name }}</p>
+  <div class="product-card">
+    <div class="image-placeholder">
+      <a><img src="assets/products/xbox-series-controller.jpg" alt="" (click)="viewProduct(product)" class="product-image" /></a>
     </div>
-    <div class="product-price">
-      <p>R$ {{product.price}}</p>
+    <div class="product-info">
+      <div class="product-about">
+        <a (click)="viewProduct(product)" class="product-name">{{ product.name }}</a>
+        <p class="product-category">{{ product.category }}</p>
+        <p class="product-brand">{{ product.brand }}</p>
+      </div>
+      <p class="product-price">R${{ product.price }}</p>
     </div>
   </div>
-
 }
 </div>
 <app-footer></app-footer>
