@@ -30,6 +30,10 @@ export class ProductManagementService {
     return this.http.get<Product>(`${this.url}/product/${id}`)
   }
 
+  getProductsByName(name: string) : Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.url}/product/name/${name}`)
+  }
+
   addProduct(product: ProductDTO) : Observable<string> {
     return this.http.post<string>(`${this.url}/product`, product, {responseType: 'text' as 'json'});
   }

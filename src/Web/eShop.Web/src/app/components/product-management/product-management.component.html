@@ -10,9 +10,9 @@
             ></path>
           </g>
         </svg>
-        <input class="input" type="search" placeholder="Search" />
+        <input class="searchInput" #searchInput (keypress)="searchProduct($event)" type="search" placeholder="Search"/>
       </div>
-      <mat-icon fontIcon="filter_alt" class="filter"></mat-icon>
+      <!-- <mat-icon fontIcon="filter_alt" class="filter"></mat-icon> -->
     </div>
     <button mat-flat-button color="primary" (click)="OpenCreateProductModal()">
       Add Product

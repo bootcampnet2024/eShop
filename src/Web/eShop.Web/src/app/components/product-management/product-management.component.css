@@ -88,7 +88,7 @@ tbody td:last-child {
   max-width: 190px;
 }
 
-.input {
+.searchInput {
   width: 100%;
   height: 40px;
   line-height: 28px;
@@ -102,11 +102,11 @@ tbody td:last-child {
   transition: 0.3s ease;
 }
 
-.input::placeholder {
+.searchInput::placeholder {
   color: #9e9ea7;
 }
 
-.input:focus,
+.searchInput:focus,
 input:hover {
   outline: none;
   border-color: #007bff;

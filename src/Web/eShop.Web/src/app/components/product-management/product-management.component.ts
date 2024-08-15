@@ -1,7 +1,7 @@
 import { Brand } from './../../models/brand.model';
 import { ProductManagementService } from './../../services/product-management/product-management.service';
 import { Product } from './../../models/product.model';
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -33,9 +33,37 @@ export class ProductManagementComponent implements OnInit {
     this.getProducts();
   }
 
+  @ViewChild('searchInput', { static: true }) searchInputElementRef!: ElementRef;
+  searchInputElement!: HTMLInputElement;
+
   ngOnInit(): void {
     this.getProducts();
   }
+
+  isEmpty = (text: string): boolean => {
+    return text === null || text.match(/^ *$/) !== null;
+  };
+
+  searchProduct = (event: KeyboardEvent): void => {
+    const element = event.currentTarget as HTMLInputElement
+    const value = element.value
+
+    if (event.key !== 'Enter') return;
+
+    if (this.isEmpty(value)) {
+      this.productService.getProducts()
+        .subscribe({
+          next: (response) => {
+            this.products = response
+          }
+        });
+      return;
+    }
+    this.productService.getProductsByName(value)
+      .subscribe((response) => {
+        this.products = response
+      })
+  };
 
   products?: Product[];
 
