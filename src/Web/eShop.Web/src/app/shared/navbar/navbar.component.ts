@@ -1,6 +1,6 @@
 import { Category } from './../../models/category.model';
 import { Router } from '@angular/router';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../../services/category-filter/category.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -13,9 +13,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-    categories? : Category[]
+    public categories: Category[] = [];
 
-    constructor(private router: Router, private route: ActivatedRoute, private categoryService : CategoryService ) {}
+    constructor(private router: Router, private categoryService : CategoryService ) {}
 
     ngOnInit(): void {
       this.categoryService.getCatalogCategories()

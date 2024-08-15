@@ -18,10 +18,11 @@ import { ViewportScroller } from '@angular/common';
 })
 export class CategoryPageComponent implements OnInit{
 
-    products? : Product[]
+    public products: Product[] = [];
     categoryId?: number
+    Category: any;
 
-    constructor(private router: Router, private route: ActivatedRoute, private productService : ProductService, private viewportScroller: ViewportScroller){}
+    constructor(private route: ActivatedRoute, private productService : ProductService, private viewportScroller: ViewportScroller){}
 
     loadItems(): void
     {
