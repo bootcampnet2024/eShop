@@ -1,9 +1,10 @@
 <form [formGroup]="productForm">
-  <h1 mat-dialog-title>Product</h1>
+  <h1 mat-dialog-title>New Product</h1>
   <div mat-dialog-content class="form-inputs">
     <mat-form-field class="name">
       <mat-label>Product Name</mat-label>
-      <input color="primary" matInput formControlName="name"/>
+      <input color="primary" #name maxlength="50" matInput formControlName="name" />
+      <mat-hint align="end">{{ name.value.length }} / 50</mat-hint>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Description</mat-label>
@@ -19,11 +20,11 @@
     <div class="small-inputs-field">
       <mat-form-field class="small-inputs">
         <mat-label>Quantity</mat-label>
-        <input color="primary" matInput formControlName="quantity"/>
+        <input color="primary" matInput formControlName="quantity" />
       </mat-form-field>
       <mat-form-field class="small-inputs">
         <mat-label>Price</mat-label>
-        <input color="primary" matInput formControlName="price"/>
+        <input color="primary" matInput formControlName="price" />
       </mat-form-field>
       <mat-form-field class="small-inputs">
         <mat-label>Brand</mat-label>
@@ -42,19 +43,18 @@
         </mat-select>
       </mat-form-field>
     </div>
+    <mat-form-field class="image-url-input">
+      <mat-label>Image URL</mat-label>
+      <input color="primary" matInput formControlName="imageURL" />
+    </mat-form-field>
     <div>
-      <mat-checkbox color="primary" formControlName="isActive">Is Active</mat-checkbox>
-    </div>
-    <div class="image-selector">
-      <mat-form-field class="image-url-input">
-        <mat-label>Image URL</mat-label>
-        <input color="primary" matInput formControlName="imageUrl"/>
-      </mat-form-field>
-      <img class="image-preview" src="" />
+      <mat-checkbox color="primary" formControlName="isActive"
+        >Is Active</mat-checkbox
+      >
     </div>
   </div>
   <div class="actions">
-    <button mat-flat-button color="primary" (click)="addProduct()">Add</button>
+    <button mat-flat-button color="primary" [disabled]="!productForm.valid" (click)="addProduct()">Add</button>
     <button mat-button color="warn" (click)="close()">Cancel</button>
   </div>
 </form>

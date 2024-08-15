@@ -26,7 +26,19 @@ export class ProductManagementService {
     return this.http.get<Product[]>(`${this.url}/product`);
   }
 
-  addProduct(product: ProductDTO) : Observable<Product> {
-    return this.http.post<Product>(`${this.url}/product`, product);
+  getProductById(id: string) : Observable<Product> {
+    return this.http.get<Product>(`${this.url}/product/${id}`)
+  }
+
+  addProduct(product: ProductDTO) : Observable<string> {
+    return this.http.post<string>(`${this.url}/product`, product, {responseType: 'text' as 'json'});
+  }
+
+  updateProduct(id: string, product: ProductDTO) : Observable<string> {
+    return this.http.put<string>(`${this.url}/product/${id}`,product, {responseType: 'text' as 'json'})
+  }
+
+  disableProduct(id: string) : Observable<Product> {
+    return this.http.delete<Product>(`${this.url}/product/${id}`)
   }
 }

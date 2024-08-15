@@ -23,13 +23,13 @@ import { ProductDTO } from '../../../../models/productDTO.model';
 })
 export class CreateProductModalComponent implements OnInit{
   productForm = new FormGroup({
-    name: new FormControl('', Validators.required),
+    name: new FormControl('', [Validators.required, Validators.maxLength(300)]),
     description: new FormControl(''),
     price: new FormControl(0, [Validators.required, Validators.min(0)]),
     quantity: new FormControl(0, [Validators.required, Validators.min(0)]),
     categoryId: new FormControl(0, Validators.required),
     brandId: new FormControl(0, Validators.required),
-    imageUrl: new FormControl(''),
+    imageURL: new FormControl(''),
     isActive: new FormControl(false)
   });
 
@@ -48,7 +48,7 @@ export class CreateProductModalComponent implements OnInit{
 
   convertToProduct(): ProductDTO {
     let product: ProductDTO = {
-      imageUrl: this.productForm.get('imageUrl')?.value ?? "",
+      imageURL: this.productForm.get('imageURL')?.value ?? "",
       name: this.productForm.get('name')?.value ?? "",
       description: this.productForm.get('description')?.value ?? "",
       price: this.productForm.get('price')?.value ?? 0,
@@ -63,14 +63,13 @@ export class CreateProductModalComponent implements OnInit{
   addProduct() : void {
     let product = this.convertToProduct();
 
-    this.productService.addProduct(product)
-    .subscribe({
+    this.productService.addProduct(product).subscribe({
       next: (response) => {
         console.log("Product added sucessfully!");
+        this.close();
       },
-      error: (response) => {
-        const errorMessage = JSON.stringify(response.error) || response.message || 'Unknown Error.';
-        alert(`${errorMessage}`)
+      error: (error) => {
+        alert(JSON.stringify(error, null, 2));
         console.log(`You provided values that will not be accepted by the API!`);
         console.log(product);
       }

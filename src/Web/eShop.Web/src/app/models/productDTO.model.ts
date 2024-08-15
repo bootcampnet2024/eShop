@@ -8,6 +8,6 @@ export interface ProductDTO {
   quantity: number,
   brandId: number,
   categoryId: number,
-  imageUrl: string,
+  imageURL: string,
   isActive: boolean
 }

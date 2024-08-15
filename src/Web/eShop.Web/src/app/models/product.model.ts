@@ -9,6 +9,6 @@ export interface Product {
   quantity: number,
   brand: Brand,
   category: Category,
-  imageUrl: string,
+  imageURL: string,
   isActive: boolean
 }

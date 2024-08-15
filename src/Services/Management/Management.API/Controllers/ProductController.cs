@@ -59,7 +59,7 @@ namespace Management.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, UpdateProductRequest request)
         {
             var command = new UpdateProductCommand(id, request);

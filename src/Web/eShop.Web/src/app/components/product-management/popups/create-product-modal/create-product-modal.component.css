@@ -25,18 +25,12 @@ form{
   width: 100%;
 }
 
-.image-selector{
+.actions{
   display: flex;
-  gap: 1em;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.image-url-input{
-  width: 88%;
-}
-
-.image-preview{
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 5px;
+.actions button{
+  width: 45%;
 }
