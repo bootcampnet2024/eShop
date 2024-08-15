@@ -1,115 +1,183 @@
-body {
-    font-family: "Roboto", sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
+.body{
+  background: linear-gradient(265deg, white 55%, #005B96 40%);;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+form {
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+height: auto;
+}
+
+h1 {
+width: 90%;
+font-size: 23px ;
+margin-left: 20px;
+margin-bottom: 8px;
+}
+
+mat-card {
+  max-width: 400px;
+  height: auto;
+  margin-left: 50px;
+}
+
+mat-form-field {
+  width: 90%;
 }
 
 
-.container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(265deg, white 55%, #005B96 40%);
+#reg-btn{
+  width: 40%;
+  padding: 10px;
+  background-color: #0ABA46;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  display: block;
+  align-items: center;
+  justify-content: center;
 }
 
-.signin-section {
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 30px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 320px;
-    height: 570px;
-    margin-left: -55%;
-
+#reg-btn:hover{
+  transform: scale(1.05);
 }
 
-.signin-box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
+.password-mismatch-warning {
+color: red;
+font-size: 14px;
+margin-top: -7px;
 }
 
-.signin {
-    text-align: justify;
-    font-size: 25px;
-    color: #333;
+mat-card.sign-in-form {
+background-color: #ffffff;
+color: black; 
+padding: 20px;
+border-radius: 20px;
 }
 
-.input-group {
-    margin-top: 30px;
-    margin-bottom: 20px;
+.sign-in-form {
+  background-color: #d41d1d; 
+  padding: 10px; 
+  border-radius: 8px;  
 }
 
-.input-group input {
-    width: 100%;
-    padding: 10px;
-    font-size: 15px;
-    border: none ;
-    border-radius: 5px;
+input.mat-input-element{
+  border: none;
+  background: none;
+  outline: none;
 }
 
-.signin-btn {
-    margin: 25px;
-    width: 70%;
-    padding: 10px;
-    background-color: #0ABA46;
-    color: #fff;
-    border: none;
-    border-radius: 17px;
-    font-size: 20px;
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out;
+input{
+color: black;
 }
 
-.signin-btn:hover{
-    transform: scale(1.05);
+.mat-form-field-appearance-outline .mat-form-field-underline {
+  display: none;
 }
 
-.google-login {
-    margin: 30px;
-    text-align: center;
+input#mat-input-0{
+color: black;
 }
 
-.google-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 15px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 10px;
-    transition: transform 0.2s ease-in-out;
+input#mat-input-1{
+color: black;
 }
 
-.google-btn:hover{
-    transform: scale(1.05);
+input#mat-input-2{
+color: black;
 }
 
-.google-btn img {
-    width: 20px;
-    margin-right: 10px;
+input#mat-input-3{
+color: black;
 }
 
-.terms {
-    display: block;
-    text-align: center;
-    margin-top: 20px;
-    color: #005a99;
-    text-decoration: none;
-    font-size: 14px;
+input#mat-input-4{
+color: black;
 }
 
-.terms:hover {
-    text-decoration: underline;
+input#mat-input-5{
+color: black;
 }
+
+input#mat-input-6{
+color: black;
+}
+
+.solo-group{
+width: 40px;
+}
+
+.flex-container {
+width: 90%;
+display: flex;
+gap: 20px; 
+}
+
+.flex-grow {
+flex: 1; 
+}
+.flex-grow2 {
+flex: 0.5; 
+}
+
+
+@media only screen and (min-width: 1920px)  {
+mat-card {
+  max-width: 3000px;
+  margin-left: 100px;
+}
+}
+@media only screen and (max-width: 1200px)  {
+.body{
+  background: linear-gradient(265deg, white 50%, #005B96 0%);
+}
+}
+@media only screen and (max-width: 900px)  {
+.body{
+  background: linear-gradient(265deg, white 35%, #005B96 0%);
+}
+}
+
+@media only screen and (max-width: 740px)  {
+.body{
+  background: linear-gradient(265deg, white 25%, #005B96 0%);
+}
+}
+
+@media only screen and (max-width: 630px)  {
+.body{
+  background: linear-gradient(265deg, white 18%, #005B96 0%);
+}
+}
+@media only screen and (max-width: 590px)  {
+.body{
+  background: none;
+}
+}
+@media only screen and (max-width: 450px)  {
+mat-card {
+  max-width: 350px;
+  margin-left: 0;
+}
+}
+@media only screen and (max-width: 350px)  {
+mat-card {
+  max-width: 320px;
+
+}
+}
+
+
+
+
