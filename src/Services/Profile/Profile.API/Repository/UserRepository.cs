@@ -30,9 +30,19 @@ public class UserRepository : IUserRepository
 
     public async Task<User> UpdateUserAsync(User user)
     {
-        _context.Users.Update(user);
-        await _context.SaveChangesAsync();
-        return user;
+        var userExist = _context.Users.Find(user.Id);
+
+        if (userExist != null)
+        {
+            // Proteger o e-mail e CPF de alterações
+            user.Email = userExist.Email;
+            user.CPF = userExist.CPF;
+
+            _context.Entry(userExist).CurrentValues.SetValues(user);
+
+            await _context.SaveChangesAsync();
+        }
+        return userExist;
     }
 
     public async Task<bool> DeleteUserAsync(Guid id)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Profile.API.Infrastructure.Configuration;
 using Profile.API.Models;
 
 namespace Profile.API.Infrastructure
@@ -15,6 +16,7 @@ namespace Profile.API.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
     }
 }
