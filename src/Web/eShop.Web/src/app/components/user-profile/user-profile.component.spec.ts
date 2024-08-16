@@ -59,11 +59,11 @@ describe('UserProfileComponent', () => {
     it('should load user data on init', async () => {
       // Arrange
       const mockUserProfile: UserProfile = {
-        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6', // Use a GUID here
+        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
         name: 'John Doe',
         number: '123456789',
         email: 'john.doe@example.com',
-        dateOfBirth: new Date('1990-01-01'), // Use a Date object here
+        dateOfBirth: new Date('1990-01-01'),
         cpf: '12345678900'
       };
 
@@ -78,20 +78,17 @@ describe('UserProfileComponent', () => {
         name: 'John Doe',
         number: '123456789',
         email: 'john.doe@example.com',
-        dateOfBirth: '1990-01-01', // Form control value should be a string
+        dateOfBirth: '1990-01-01',
         cpf: '12345678900'
       });
     });
 
     it('should handle error while loading user data', async () => {
-      // Arrange
       spyOn(userProfileService, 'GetUserById').and.returnValue(throwError(() => new Error('Error')));
 
-      // Act
       await component.ngOnInit();
 
-      // Assert
-      expect(component.isLoading).toBeFalse(); // isLoading should be false even on error
+      expect(component.isLoading).toBeFalse();
     });
   });
 
@@ -99,11 +96,11 @@ describe('UserProfileComponent', () => {
     it('should update user profile when form is valid', () => {
       // Arrange
       const mockUserProfile: UserProfile = {
-        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6', // Use a GUID here
+        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
         name: 'John Doe',
         number: '123456789',
         email: 'john.doe@example.com',
-        dateOfBirth: new Date('1990-01-01'), // Use a Date object here
+        dateOfBirth: new Date('1990-01-01'),
         cpf: '12345678900'
       };
 
@@ -112,7 +109,7 @@ describe('UserProfileComponent', () => {
         name: 'John Updated',
         number: '987654321',
         email: 'john.doe@example.com',
-        dateOfBirth: '1990-01-01', // Use a string in the form
+        dateOfBirth: '1990-01-01',
         cpf: '12345678900'
       });
 
@@ -120,7 +117,7 @@ describe('UserProfileComponent', () => {
         ...mockUserProfile,
         name: 'John Updated',
         number: '987654321',
-        dateOfBirth: new Date('1990-01-01') // Ensure this is a Date object
+        dateOfBirth: new Date('1990-01-01')
       };
 
       spyOn(userProfileService, 'UpdateUserProfile').and.returnValue(of(updatedProfile));

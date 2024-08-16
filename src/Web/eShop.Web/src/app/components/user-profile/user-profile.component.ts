@@ -39,7 +39,6 @@ export class UserProfileComponent implements OnInit {
     name: '',
     number: '',
     email: '',
-    dateOfBirth: new Date(), // Inicialize como um objeto Date
     cpf: ''
   };
   isLoading = true;
@@ -49,7 +48,6 @@ export class UserProfileComponent implements OnInit {
       name: ['', Validators.required],
       number: ['', Validators.required],
       email: [{ value: '', disabled: true }],
-      dateOfBirth: [''],
       cpf: [{ value: '', disabled: true }]
     });
   }
@@ -66,8 +64,7 @@ export class UserProfileComponent implements OnInit {
       if (profile) {
         this.userProfile = profile;
         this.perfilForm.patchValue({
-          ...this.userProfile,
-          dateOfBirth: profile.dateOfBirth ? new Date(profile.dateOfBirth).toISOString().split('T')[0] : ''
+          ...this.userProfile
         });
       } else {
         console.error('User profile is undefined');
@@ -82,8 +79,7 @@ export class UserProfileComponent implements OnInit {
       if (this.userProfile) {
         const updatedProfile: UserProfile = {
           ...this.userProfile,
-          ...this.perfilForm.value,
-          dateOfBirth: this.perfilForm.value.dateOfBirth ? new Date(this.perfilForm.value.dateOfBirth).toISOString() : ''
+          ...this.perfilForm.value
         };
         this.userProfileService.UpdateUserProfile(this.userProfile.id, updatedProfile).subscribe(
           response => {

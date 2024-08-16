@@ -29,11 +29,11 @@
   padding: 16px;
   box-sizing: border-box;
   margin-bottom: 16px;
-  background: #fff; /* Ajuste a cor de fundo conforme necessário */
+  background: #fff;
 }
 
 .sidebar-item:hover {
-  background: #f1f1f1; /* Ajuste o efeito hover conforme necessário */
+  background: #f1f1f1;
 }
 
 .sidebar-link {
