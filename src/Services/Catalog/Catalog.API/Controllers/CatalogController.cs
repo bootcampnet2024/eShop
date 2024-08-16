@@ -54,4 +54,17 @@ public class CatalogController(ILogger<CatalogController> logger, ICatalogServic
             PageSize = data.Items.Count(),
         };
     }
+
+    [HttpGet]
+    [Route("search")]
+    public async Task<ActionResult> SearchProduct(string keyword)
+    {
+        if (string.IsNullOrWhiteSpace(keyword))
+        {
+            return BadRequest("Keyword cannot be null or empty.");
+        }
+        var product = await _service.SearchProduct(keyword.ToLower());
+        if (product == null) NotFound("Product not found.");
+        return Ok(product);
+    }
 }

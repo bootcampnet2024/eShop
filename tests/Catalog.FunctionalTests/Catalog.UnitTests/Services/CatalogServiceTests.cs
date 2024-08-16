@@ -121,6 +121,40 @@ public class CatalogServiceTests
         Assert.AreEqual(catalogItems[0].Price, result.Items.First().Price);
     }
 
+    [TestMethod]
+    public async Task SearchProduct_KeywordIsWhitespace_ReturnsEmptyList()
+    {
+        // Arrange
+        var catalogItems = new List<CatalogItem>();
+        var mockContext = new Mock<ApplicationDataContext>();
+        mockContext.Setup(c => c.CatalogItems).Returns(CreateMockDbSet(catalogItems).Object);
+        var catalogService = new CatalogService(mockContext.Object);
+
+        // Act
+        var result = await catalogService.SearchProduct(" ");
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(0, result.Count());
+    }
+
+    [TestMethod]
+    public async Task SearchProduct_KeywordIsEmpty_ReturnsEmptyList()
+    {
+        // Arrange
+        var catalogItems = new List<CatalogItem>();
+        var mockContext = new Mock<ApplicationDataContext>();
+        mockContext.Setup(c => c.CatalogItems).Returns(CreateMockDbSet(catalogItems).Object);
+        var catalogService = new CatalogService(mockContext.Object);
+
+        // Act
+        var result = await catalogService.SearchProduct(string.Empty);
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(0, result.Count());
+    }
+
     private static Mock<DbSet<T>> CreateMockDbSet<T>(List<T> lstData) where T : class
     {
         IQueryable<T> dataQueryable = lstData.AsQueryable();

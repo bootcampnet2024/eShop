@@ -6,7 +6,7 @@ import { SigninPageComponent } from './components/authentication/signin-page/sig
 import { CartPageComponent } from './components/cart-page/cart-page.component';
 import { ProductPageComponent } from './components/product-page/product-page.component';
 import { PaymentPageComponent } from './components/payment-page/payment-page.component';
-
+import { SearchResultComponent } from './components/search-result/search-result.component';
 
 export const routes: Routes = [
     {path: '', component: LandingPageComponent},
@@ -14,5 +14,6 @@ export const routes: Routes = [
     {path: 'signin', component: SigninPageComponent},
     {path: 'cart', component: CartPageComponent},
     {path: 'product', component: ProductPageComponent},
-    {path: 'payment', component: PaymentPageComponent}
+    {path: 'payment', component: PaymentPageComponent},
+    {path: 'search', component: SearchResultComponent}
 ];

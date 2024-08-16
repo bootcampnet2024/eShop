@@ -1,0 +1,28 @@
+<app-header></app-header>
+<section class="section-products">
+  <div class="container">
+    <div class="header">
+      <h2>Searched Products</h2>
+      <div *ngIf="products.length === 0">No products found.</div>
+    </div>
+    <div class="products-grid">
+      <div class="product-card" *ngFor="let product of products">
+        <div class="product-tumb">
+          <img src="#" alt="" />
+        </div>
+        <div class="product-details">
+          <h4>
+            <a href="">{{ product.name }}</a>
+          </h4>
+          <p>{{ product.description }}</p>
+          <div class="product-bottom-details">
+            <div class="product-price">$ {{ product.price }}</div>
+            <div class="product-links">
+              <a [routerLink]="['/cart']"><i class="fa fa-shopping-cart"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

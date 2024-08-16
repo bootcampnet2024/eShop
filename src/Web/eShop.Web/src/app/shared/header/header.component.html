@@ -2,14 +2,19 @@
   <a class="logo" href="">eShop</a>
   <p class="slogan">Quality wherever you go, whenever you go.</p>
   <div class="header-buttons">
-    <button class="search">
-      <mat-icon fontIcon="search" inline="true"></mat-icon>
+    <div class="input-style">
+      <div class="search-input-button">
+        <input [(ngModel)]="searchKeyword" (keydown.enter)="search()" class="search-input" [type]="'text'" name="password" id="password" placeholder="Search for products" required/>
+      </div>
+    </div>
+    <button class="search-btn"(click)="search()">
+      <mat-icon fontIcon="search" ></mat-icon>
     </button>
     <a [routerLink]="['/cart']" class="cart-page">
-      <mat-icon fontIcon="shopping_cart" inline="true"></mat-icon>
+      <mat-icon fontIcon="shopping_cart"></mat-icon>
     </a>
     <a [routerLink]="['/login']" class="profile-page">
-      <mat-icon fontIcon="account_circle" inline="true"></mat-icon>
+      <mat-icon fontIcon="account_circle" ></mat-icon>
     </a>
   </div>
 </header>
