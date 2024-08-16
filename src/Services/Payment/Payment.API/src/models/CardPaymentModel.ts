@@ -1,4 +1,4 @@
-export interface CardPayment {
+export interface CardPaymentModel {
   cardNumber?: string;
   cardExpiration?: string;
   cardCVV?: string;
