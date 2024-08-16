@@ -1,14 +1,14 @@
 import { Address } from './Address';
-import { CardPaymentModel } from './CardPaymentModel';
+import { CardPayment } from './CardPayment';
 import { Item } from './Item';
 
-export interface ClientData {
+export interface PaymentData {
   name: string;
   email: string;
   cpf: string;
   phoneNumber: string;
   address: Address;
   paymentMethod: string;
-  cardData?: CardPaymentModel; 
+  cardData?: CardPayment; 
   items: Array<Item>;
 }
