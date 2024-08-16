@@ -31,9 +31,3 @@ services:
     build:
       context: .
       dockerfile: src/Gateway/eShop.Gateway/Dockerfile
-
-  payment.api:
-    image: eShop/payment.api:${TAG:-dev}
-    build:
-      context: ./src/Services/Payment/Payment.API
-      dockerfile: Dockerfile
