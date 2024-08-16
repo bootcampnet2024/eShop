@@ -31,3 +31,17 @@ services:
     build:
       context: .
       dockerfile: src/Gateway/eShop.Gateway/Dockerfile
+  
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1.1
+    command:
+      - "start-dev"
+      - "--http-port=8070"
+    environment:
+      - "KEYCLOAK_IMPORT= /opt/jboss/keycloak/imports/realm-export.json"
+      - "KEYCLOAK_ADMIN=admin"
+      - "KEYCLOAK_ADMIN_PASSWORD=admin"
+    volumes:
+      - ./imports/realm-export.json:/opt/jboss/keycloak/imports/realm-export.json
+    ports:
+      - 8070:8070
