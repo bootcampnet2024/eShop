@@ -1,51 +1,17 @@
-<section class="px-7 py-5 relative">
-  <span class="absolute top-14 left-0 text-black text-opacity-30 rotate-180 sm:top-20 sm:left-2"
-    ><svg
-      width="24"
-      height="24"
-      xmlns="http://www.w3.org/2000/svg"
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-    >
-      <path
-        d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z" fill="currentColor"
-      /></svg
-  ></span>
-  <div class="flex gap-3 overflow-hidden md:pl-2 lg:pl-4 xl:pl-9">
-    @for (product of products; track product.id) {
-    <div class="w-32 h-auto flex-shrink-0 sm:w-56 xl:w-80">
-      <div class="bg-zinc-300 p-3">
-        <a>
-          <img
-            src="assets/products/xbox-series-controller.jpg"
-            alt=""
-            (click)="viewProduct(product)"
-            class="mix-blend-multiply"
-          />
-        </a>
-      </div>
-      <div class="flex flex-col items-center">
-        <a (click)="viewProduct(product)" class="uppercase">{{
-          product.name
-        }}</a>
-        <p class="text-xs text-black text-opacity-50">
-          by <span class="capitalize">{{ product.brand }}</span>
-        </p>
-        <p class="font-bold">R${{ product.price.toFixed(2) }}</p>
-      </div>
+<p class="category-name">Highlights</p>
+<section id="product-container" >
+  @for (product of products; track product.id) {
+  <div class="product-card">
+    <div class="image-placeholder">
+      <a><img src="assets/products/xbox-series-controller.jpg" alt="" (click)="viewProduct(product)" class="product-image" /></a>
     </div>
-    }
+    <div class="product-info">
+      <div class="product-about">
+        <a (click)="viewProduct(product)" class="product-name">{{ product.name }}</a>
+        <p class="product-brand">{{ product.brand }}</p>
+      </div>
+      <p class="product-price">R${{ product.price }}</p>
+    </div>
   </div>
-  <span class="absolute top-14 right-0 text-black text-opacity-30 sm:top-20 sm:right-2"
-    ><svg
-      width="24"
-      height="24"
-      xmlns="http://www.w3.org/2000/svg"
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-    >
-      <path
-        d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z" fill="currentColor"
-      /></svg
-  ></span>
+  }
 </section>
