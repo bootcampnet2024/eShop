@@ -20,11 +20,12 @@ interface AuthResponse {
 })
 export class AuthService {
 
-  private authUrl = 'http://localhost:8070/realms/eshop/protocol/openid-connect/token';
-  private adminUrl = 'http://localhost:8070/realms/master/protocol/openid-connect/token';
+  private adminUrl = 'http://localhost:8070/realms/eshop/protocol/openid-connect/token';
   private registerUrl = 'http://localhost:8070/admin/realms/eshop/users';
-  private authclientId = 'account-auth';
-  private authclientSecret = 'oN1lfQACbBfmp1p6f0fCZ3SXH5zyeFWG';
+  private adminclientId = 'admin';
+  private adminclientSecret = 'VCHGIuJyeqfkUpePvoo1Kv1x1296W7MC';
+  private userclientId = 'account-user';
+  private userclientSecret = '0VWXqqU6JN9VMWIVdLFenHWLBl698D68';
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -53,12 +54,12 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<AuthResponse> {
-    return this.getToken(this.authclientId, 'password', username, password, this.authclientSecret, this.authUrl);
+    return this.getToken(this.userclientId, 'password', username, password, this.userclientSecret, this.adminUrl);
 
   }
 
-  signin(username: string, password: string, email: string): Observable<any> {
-    return this.getToken('admin-eshop', 'password', 'admin', 'admin','', this.adminUrl)
+  signin(username: string, password: string, email: string, address: string, cep: string, cpf: string): Observable<any> {
+    return this.getToken(this.adminclientId, 'password', 'admin', 'admin',this.adminclientSecret, this.adminUrl)
     .pipe(
       switchMap((response: AuthResponse) => {
         const token = response.access_token;
@@ -68,6 +69,11 @@ export class AuthService {
           enabled: true,
           emailVerified: true,
           email: email,
+          atributes: {
+            cep: cep,
+            cpf: cpf,
+            address: address,
+          },
           credentials: [{
             type: 'password',
             value: password,

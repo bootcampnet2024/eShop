@@ -12,22 +12,12 @@ import { FormsModule } from '@angular/forms';
 })
 export class SigninPageComponent {
 
-  name: string = '';
-  email: string = '';
-  password: string = '';
-  cpassword: string = '';
+  
 
   constructor(private authService: AuthService, private router: Router) {}
 
   signin() {
-    this.authService.signin(this.name, this.password, this.email).subscribe(
-      () => {
-        this.router.navigate(['/login']);
-      },
-      (error) => {
-        console.error('Erro to register', error);
-      }
-    );
+
   }
 
 }
