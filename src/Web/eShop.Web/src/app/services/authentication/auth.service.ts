@@ -20,26 +20,18 @@ interface AuthResponse {
 })
 export class AuthService {
 
-  private adminUrl = 'http://localhost:8070/realms/eshop/protocol/openid-connect/token';
+  private adminUrl = 'http://localhost:8070/realms/master/protocol/openid-connect/token';
   private registerUrl = 'http://localhost:8070/admin/realms/eshop/users';
-  private adminclientId = 'admin';
-  private adminclientSecret = 'VCHGIuJyeqfkUpePvoo1Kv1x1296W7MC';
   private userclientId = 'account-user';
-  private userclientSecret = '0VWXqqU6JN9VMWIVdLFenHWLBl698D68';
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  private getToken(client_id : string, grant_type: string, username : string, password : string, client_secret : string, url : string) : Observable<AuthResponse> {
+  private getToken(client_id : string, grant_type: string, username : string, password : string, url : string) : Observable<AuthResponse> {
     const body = new URLSearchParams();
     body.set('client_id', client_id);
     body.set('grant_type', grant_type);
     body.set('username', username);
     body.set('password',password);
-    body.set('client_secret', client_secret);
-
-    if (client_secret) {
-      body.set('client_secret', client_secret);
-    }
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -54,12 +46,12 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<AuthResponse> {
-    return this.getToken(this.userclientId, 'password', username, password, this.userclientSecret, this.adminUrl);
+    return this.getToken(this.userclientId, 'password', username, password, this.adminUrl);
 
   }
 
   signin(username: string, password: string, email: string, address: string, cep: string, cpf: string): Observable<any> {
-    return this.getToken(this.adminclientId, 'password', 'admin', 'admin',this.adminclientSecret, this.adminUrl)
+    return this.getToken('admin-cli', 'password', 'admin', 'admin', this.adminUrl)
     .pipe(
       switchMap((response: AuthResponse) => {
         const token = response.access_token;
