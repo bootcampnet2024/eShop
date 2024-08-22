@@ -36,12 +36,12 @@ services:
     image: quay.io/keycloak/keycloak:25.0.2
     command:
       - "start-dev"
-      - "--http-port=8070"
       - "--import-realm"
+      - "--http-port=8070"
     environment:
-      - "KEYCLOAK_IMPORT= /opt/keycloak/data/import/realm-export.json"
-      - "KEYCLOAK_ADMIN=admin"
-      - "KEYCLOAK_ADMIN_PASSWORD=admin"
+      - KEYCLOAK_IMPORT=/opt/keycloak/data/import/realm-export.json
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
     volumes:
       - ./imports/realm-export.json:/opt/keycloak/import/realm-export.json
     ports:
