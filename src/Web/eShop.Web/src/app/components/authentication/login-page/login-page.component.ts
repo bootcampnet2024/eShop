@@ -20,13 +20,13 @@ export class LoginPageComponent {
   login() {
     this.authService.login(this.username, this.password).subscribe(
       () => {
-        this.router.navigate(['/user']);
+        this.router.navigate(['/']);
       },
       (error) => {
         console.error('Erro to login', error);
       }
     );
-  } 
+  }
 
 
 }

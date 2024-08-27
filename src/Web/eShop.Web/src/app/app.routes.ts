@@ -6,11 +6,10 @@ import { SigninPageComponent } from './components/authentication/signin-page/sig
 import { CartPageComponent } from './components/cart-page/cart-page.component';
 import { ProductPageComponent } from './components/product-page/product-page.component';
 import { PaymentPageComponent } from './components/payment-page/payment-page.component';
-import { UserPageComponent } from './components/user-page/user-page.component';
 import { AuthGuard } from './guard/auth.guard';
 
 export const routes: Routes = [
-    {path: 'user', component: UserPageComponent, canActivate: [AuthGuard]},
+    {path: 'user', component: LandingPageComponent, canActivate: [AuthGuard]},
     {path: '', component: LandingPageComponent},
     {path: 'login', component: LoginPageComponent},
     {path: 'signin', component: SigninPageComponent},
