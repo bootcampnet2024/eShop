@@ -23,7 +23,7 @@ export class LoginPageComponent {
         this.router.navigate(['/']);
       },
       (error) => {
-        console.error('Erro to login', error);
+        console.error('Error to login', error);
       }
     );
   }

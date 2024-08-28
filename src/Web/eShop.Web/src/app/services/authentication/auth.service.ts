@@ -20,8 +20,7 @@ interface AuthResponse {
 })
 export class AuthService {
 
-  private adminUrl = 'http://localhost:8070/realms/master/protocol/openid-connect/token';
-  private loginUrl = 'http://localhost:8070/realms/eshop/protocol/openid-connect/token';
+  private adminUrl = 'http://localhost:8070/realms/eshop/protocol/openid-connect/token';
   private registerUrl = 'http://localhost:8070/admin/realms/eshop/users';
   private userclientId = 'account-user';
 
@@ -47,7 +46,7 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<AuthResponse> {
-    return this.getToken(this.userclientId, 'password', username, password, this.loginUrl);
+    return this.getToken(this.userclientId, 'password', username, password, this.adminUrl);
 
   }
 
@@ -62,7 +61,7 @@ export class AuthService {
           enabled: true,
           emailVerified: true,
           email: email,
-          atributes: {
+          attributes: {
             cep: cep,
             cpf: cpf,
             address: address,

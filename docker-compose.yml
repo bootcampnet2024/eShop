@@ -42,7 +42,6 @@ services:
       - KEYCLOAK_IMPORT=/opt/keycloak/data/import/realm-export.json
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
-
     volumes:
       - ./imports/realm-export.json:/opt/keycloak/data/import/realm-export.json
     ports:
