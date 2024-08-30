@@ -1,9 +1,7 @@
 ﻿using Basket.API._01_Services.DTOs;
 using Basket.API._02_Infrastructure.Data;
 using Basket.API._01_Services.Models;
-using System.Linq;
-using System.Collections.Generic;
-using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace Basket.API._01_Services
 {
@@ -16,11 +14,12 @@ namespace Basket.API._01_Services
             _context = context;
         }
 
-        public void AddToCart(CartItemDTO item, string userId)
+        public void Add(CartItemDTO item, string userId)
         {
             var cartItem = _context.CartItems
+                .AsNoTracking()  
                 .FirstOrDefault(ci => ci.ProductId == item.ProductId && ci.UserId == userId);
-            
+
             if (cartItem == null)
             {
                 _context.CartItems.Add(new CartItem
@@ -36,21 +35,22 @@ namespace Basket.API._01_Services
             }
             else
             {
+                _context.CartItems.Attach(cartItem);
                 cartItem.Quantity += item.Quantity;
                 cartItem.Name = item.Name;
                 cartItem.Description = item.Description;
                 cartItem.Price = item.Price;
                 cartItem.Image = item.Image;
             }
-            
+
             _context.SaveChanges();
         }
 
-        public void UpdateCartItem(CartItemDTO item, string userId) 
+        public void UpdateItem(CartItemDTO item, string userId)
         {
             var cartItem = _context.CartItems
                 .FirstOrDefault(ci => ci.ProductId == item.ProductId && ci.UserId == userId);
-            
+
             if (cartItem != null)
             {
                 cartItem.Quantity = item.Quantity;
@@ -62,11 +62,11 @@ namespace Basket.API._01_Services
             }
         }
 
-        public void RemoveFromCart(int productId, string userId)
+        public void Remove(int productId, string userId)
         {
             var cartItem = _context.CartItems
                 .FirstOrDefault(ci => ci.ProductId == productId && ci.UserId == userId);
-            
+
             if (cartItem != null)
             {
                 _context.CartItems.Remove(cartItem);
@@ -74,9 +74,10 @@ namespace Basket.API._01_Services
             }
         }
 
-        public List<CartItemDTO> GetCartItems(string userId)
+        public List<CartItemDTO> GetItems(string userId)
         {
             return _context.CartItems
+                .AsNoTracking()  
                 .Where(ci => ci.UserId == userId)
                 .Select(ci => new CartItemDTO
                 {

@@ -19,11 +19,11 @@ namespace Basket.API.Controllers
         }
 
         [HttpPost("add/{userId}")]
-        public IActionResult AddToCart(string userId, [FromBody] CartItemDTO item)
+        public IActionResult Add(string userId, [FromBody] CartItemDTO item)
         {
             try
             {
-                _basketService.AddToCart(item, userId);
+                _basketService.Add(item, userId);
                 return Ok();
             }
             catch (Exception ex)
@@ -34,11 +34,11 @@ namespace Basket.API.Controllers
         }
 
         [HttpGet("items/{userId}")]
-        public IActionResult GetCartItems(string userId)
+        public IActionResult GetItems(string userId)
         {
             try
             {
-                var items = _basketService.GetCartItems(userId);
+                var items = _basketService.GetItems(userId);
                 return Ok(items);
             }
             catch (Exception ex)
@@ -49,11 +49,11 @@ namespace Basket.API.Controllers
         }
 
         [HttpPut("update")]
-        public IActionResult UpdateCartItem(string userId, [FromBody] CartItemDTO item)
+        public IActionResult UpdateItem(string userId, [FromBody] CartItemDTO item)
         {
             try
             {
-                _basketService.UpdateCartItem(item, userId);
+                _basketService.UpdateItem(item, userId);
                 return Ok();
             }
             catch (Exception ex)
@@ -64,11 +64,11 @@ namespace Basket.API.Controllers
         }
 
         [HttpDelete("remove/{userId}/{productId}")]
-        public IActionResult RemoveFromCart(string userId, int productId)
+        public IActionResult Remove(string userId, int productId)
         {
             try
             {
-                _basketService.RemoveFromCart(productId, userId);
+                _basketService.Remove(productId, userId);
                 return Ok();
             }
             catch (Exception ex)
