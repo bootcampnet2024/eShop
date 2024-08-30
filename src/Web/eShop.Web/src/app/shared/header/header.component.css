@@ -1,39 +1,75 @@
 header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 5em 0 5em;
-    background-color: #005B96;
-    color: white;
-    height: 4em;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  padding: 0 5em 0 5em;
+  background-color: #005B96;
+  color: white;
+  height: 4em;
 }
 
 .logo{
-    font-size: 3em;
-    font-weight: 700;
-    cursor: pointer;
-    text-decoration: none;
-    color: white;
+  font-size: 3em;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
 }
 
 .slogan{
-    font-size: 1.2em;
-    font-weight: 600;
+  font-size: 1.2em;
+  font-weight: 600;
 }
 
 .header-buttons{
-    width: 6em;
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: auto;
+  gap: 10px;
 }
 
 button, a{
-    background: none;
-    border: none;
-    color: white;
-    font-size: 2em;
-    font-weight: 700;
-    cursor: pointer;
-    align-items: center;
-    display: flex;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2em;
+  font-weight: 600;
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+}
+
+input {
+background-color: #ffffff;
+width: 30em;
+border: none;
+border-radius: .3em;
+height: 2em;
+font-size:1em;
+padding-left: .5em;
+}
+
+.search-input-button
+{
+display: flex;
+align-items: center;
+justify-content: center;
+position:static;
+left: 15%;
+}
+
+.input-style {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+}
+
+.hide-show{
+display: flex;
+align-items: center;
+width: 100% !important;
+position: relative;
 }

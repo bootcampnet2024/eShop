@@ -9,6 +9,7 @@ public interface ICatalogService
 {
     IEnumerable<CatalogCategoryDTO> GetAllCategories();
     CatalogItemDataResult GetAll(CatalogItemFilter filter);
+    Task<IEnumerable<CatalogItemDTO>> SearchProduct(string query);
 }
 
 public class CatalogService(ApplicationDataContext context) : ICatalogService
@@ -57,6 +58,27 @@ public class CatalogService(ApplicationDataContext context) : ICatalogService
             .ToList();
 
         return new CatalogItemDataResult() { TotalItems = totalItems, Items = data };
+    }
+
+    public async Task<IEnumerable<CatalogItemDTO>> SearchProduct(string keyword)
+    {
+        if (string.IsNullOrWhiteSpace(keyword))
+        {
+            return Enumerable.Empty<CatalogItemDTO>();
+        }
+
+        return await _context.CatalogItems
+            .Where(x => x.Name.Contains(keyword))
+            .Select(x => new CatalogItemDTO
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                Category = x.Category.Name,
+                Brand = x.Brand.Name,
+                Price = x.Price
+            })
+            .ToListAsync();
     }
 }
 

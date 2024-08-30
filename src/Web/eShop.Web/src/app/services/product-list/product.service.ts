@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Product } from '../../models/product.model';
@@ -18,5 +18,10 @@ export class ProductService {
 
   getCalalogItem(id: string) : Observable<Product> {
     return this.http.get<Product>(`${this.url}/items/${id}`)
+  }
+
+  searchProducts(keyword: string) : Observable<Product[]> {
+    let params = new HttpParams().set('keyword', keyword);
+    return this.http.get<Product[]>(`${this.url}/search`, { params })
   }
 }
