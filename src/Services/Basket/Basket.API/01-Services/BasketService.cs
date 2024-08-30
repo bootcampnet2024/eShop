@@ -3,7 +3,10 @@ using Basket.API._02_Infrastructure.Data;
 using Basket.API._01_Services.Models;
 using Microsoft.EntityFrameworkCore;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3d08911f09ad6b1074ea952367ef6a39524fc25a
 namespace Basket.API._01_Services
 {
     public class BasketService : IBasketService
@@ -36,8 +39,12 @@ namespace Basket.API._01_Services
             }
             else
             {
+<<<<<<< HEAD
 
 
+=======
+                _context.CartItems.Attach(cartItem);
+>>>>>>> 3d08911f09ad6b1074ea952367ef6a39524fc25a
                 cartItem.Quantity += item.Quantity;
                 cartItem.Name = item.Name;
                 cartItem.Description = item.Description;
@@ -80,7 +87,10 @@ namespace Basket.API._01_Services
         {
             return _context.CartItems
                 .AsNoTracking()  
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3d08911f09ad6b1074ea952367ef6a39524fc25a
                 .Where(ci => ci.UserId == userId)
                 .Select(ci => new CartItemDTO
                 {
