@@ -1,3 +1,4 @@
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -23,6 +24,7 @@ export class AuthService {
   private adminUrl = 'http://localhost:8070/realms/eshop/protocol/openid-connect/token';
   private registerUrl = 'http://localhost:8070/admin/realms/eshop/users';
   private userclientId = 'account-user';
+  private managerclientId = 'account-manager';
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -46,7 +48,26 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<AuthResponse> {
-    return this.getToken(this.userclientId, 'password', username, password, this.adminUrl);
+    const client_id = username.includes('manager') ? this.managerclientId : this.userclientId;
+
+    return this.getToken(client_id, 'password', username, password, this.adminUrl)
+    .pipe(
+      tap((response: AuthResponse) => {
+        const helper = new JwtHelperService();
+        const decodedToken = helper.decodeToken(response.access_token);
+        const roles = decodedToken.realm_access.roles;
+
+        if (roles.includes('user-manager')) {
+          this.router.navigate(['/']);
+        } else if (roles.includes('product-manager')) {
+          this.router.navigate(['/']);
+        } else if (roles.includes('user')) {
+          this.router.navigate(['/']);
+        } else if (roles.includes('admin')) {
+          this.router.navigate(['/']);
+        }
+      })
+    );
 
   }
 
