@@ -47,5 +47,10 @@ services:
     ports:
       - 8070:8070
 
+  payment.api:
+    image: eShop/payment.api:${TAG:-dev}
+    build:
+      context: ./src/Services/Payment/Payment.API
+      dockerfile: Dockerfile
 
  
