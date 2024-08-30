@@ -40,3 +40,10 @@ services:
       - NODE_URLS=http://+:80
     ports:
       - "3000:3000"
+
+  catalog.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5563:80"
