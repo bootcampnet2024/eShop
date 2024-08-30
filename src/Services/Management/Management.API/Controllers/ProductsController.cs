@@ -10,7 +10,7 @@ namespace Management.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ProductController(IMediator mediator, IProductRepository repository) : ControllerBase
+    public class ProductsController(IMediator mediator) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
 
@@ -21,9 +21,9 @@ namespace Management.API.Controllers
 
             var result = await _mediator.Send(command);
 
-            if (result) return Ok("Product created successfully");
+            if (result) return Ok("Product created.");
 
-            return BadRequest("Failed to create product");
+            return BadRequest("Failed to create product.");
         }
 
         [HttpGet]

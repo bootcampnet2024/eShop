@@ -12,7 +12,7 @@ namespace Management.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CategoryController(IMediator mediator) : ControllerBase
+    public class CategoriesController(IMediator mediator) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
 
