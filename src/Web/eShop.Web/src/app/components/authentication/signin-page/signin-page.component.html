@@ -1,21 +1,21 @@
 <div class="body">
   <mat-card class="sign-in-form">
     <h1>Register User</h1>
-      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-      
+      <form [formGroup]="registrationForm" (ngSubmit)="signin()">
+
         <mat-form-field appearance="outline">
           <mat-label>Name</mat-label>
           <input matInput formControlName="name" required>
         </mat-form-field>
-  
+
         <mat-form-field appearance="outline">
           <mat-label>CPF</mat-label>
           <input matInput type="cpf" formControlName="cpf"  class="input-group" required>
-          <mat-error *ngIf="registrationForm.get('cpf')?.hasError('invalidCpf')">  
+          <mat-error *ngIf="registrationForm.get('cpf')?.hasError('invalidCpf')">
             CPF inválido
           </mat-error>
         </mat-form-field>
-    
+
         <mat-form-field appearance="outline">
           <mat-label>E-mail</mat-label>
           <input matInput type="email" formControlName="email" class="input-group" required>
@@ -32,13 +32,13 @@
         <div class="flex-container">
           <mat-form-field appearance="outline" class="flex-grow">
             <mat-label>Address</mat-label>
-            <input matInput type="adress" formControlName="adress" required>
+            <input matInput type="address" formControlName="address" required>
           </mat-form-field>
-         
+
             <mat-form-field appearance="outline" class="flex-grow2">
               <mat-label >Number</mat-label>
               <input matInput type="numCasa" formControlName="numCasa" class="num" required>
-            </mat-form-field>           
+            </mat-form-field>
         </div>
 <!-- -------------------------------------------------    -->
         <mat-form-field appearance="outline">
@@ -48,7 +48,7 @@
             The password must be at least 8 characters long.
           </mat-error>
         </mat-form-field>
-    
+
         <mat-form-field appearance="outline">
           <mat-label>Confirm Password</mat-label>
           <input matInput type="password" formControlName="confirmPassword" class="input-group" required>
@@ -56,10 +56,11 @@
           <div *ngIf="registrationForm.errors?.['mismatch']" class="password-mismatch-warning">
             <p>Passwords do not match.</p>
           </div>
-        </mat-form-field>   
+        </mat-form-field>
 
         <button id="reg-btn" mat-raised-button color="primary" type="submit">Register</button>
       </form>
     </mat-card>
 </div>
+
 

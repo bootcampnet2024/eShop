@@ -3,21 +3,21 @@
     <div class="login-box">
       <div class="login">
         Log in
-        <form>
+        <form (ngSubmit)="login()">
           <div class="input-group">
-            <input type="email" id="email" name="email" placeholder="Email address" required />
+            <input id="username" [(ngModel)]="username"  name="username" placeholder="Email address or Username" required />
           </div>
           <div class="input-group">
-            <input type="password" id="password" name="password" placeholder="Password" required />
+            <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="Password" required />
           </div>
-          <button (click)="goToLandingPage()" type="submit" class="login-btn">Log in</button>
+          <button type="submit" class="login-btn">Log in</button>
           <button type="button" class="google-btn">
             <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo" />
             Continue with Google
           </button>
-          <a href="signin" class="terms">Dont have an account? Sign Up.</a>
+          <a href="signin" class="terms">Don't have an account? Sign Up.</a>
         </form>
-      </div>
+      </div> 
     </div>
   </div>
 </div>
