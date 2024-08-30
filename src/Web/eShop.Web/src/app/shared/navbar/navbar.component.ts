@@ -2,7 +2,6 @@ import { Category } from './../../models/category.model';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../../services/category-filter/category.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -18,7 +17,7 @@ export class NavbarComponent implements OnInit {
     constructor(private router: Router, private categoryService : CategoryService ) {}
 
     ngOnInit(): void {
-      this.categoryService.getCatalogCategories()
+      this.categoryService.getAll()
         .subscribe({
           next : (response) => {
             this.categories = response

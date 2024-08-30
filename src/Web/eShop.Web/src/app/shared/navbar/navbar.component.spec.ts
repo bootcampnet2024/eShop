@@ -55,7 +55,7 @@ describe('NavbarComponent', () => {
           name: 'Category 1',
         },
       ];
-      spyOn(categoryService, 'getCatalogCategories').and.returnValue(
+      spyOn(categoryService, 'getAll').and.returnValue(
         of(categories)
       );
 
