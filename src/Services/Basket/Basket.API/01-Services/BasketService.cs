@@ -37,7 +37,6 @@ namespace Basket.API._01_Services
             else
             {
 
-
                 cartItem.Quantity += item.Quantity;
                 cartItem.Name = item.Name;
                 cartItem.Description = item.Description;
@@ -80,7 +79,6 @@ namespace Basket.API._01_Services
         {
             return _context.CartItems
                 .AsNoTracking()  
-
                 .Where(ci => ci.UserId == userId)
                 .Select(ci => new CartItemDTO
                 {
