@@ -33,3 +33,10 @@ services:
       - ASPNETCORE_URLS=http://+:80
     ports:
       - "5551:80"
+
+  payment.api:
+    environment:
+      - NODE_ENV=Production
+      - NODE_URLS=http://+:80
+    ports:
+      - "3000:3000"
