@@ -55,16 +55,22 @@ export class AuthService {
       tap((response: AuthResponse) => {
         const helper = new JwtHelperService();
         const decodedToken = helper.decodeToken(response.access_token);
-        const roles = decodedToken.realm_access.roles;
+
+        const roles = decodedToken?.realm_access?.roles;
+
+        if (!roles || roles.length === 0) {
+          console.error('No roles found in token');
+          return;
+        }
 
         if (roles.includes('user-manager')) {
-          this.router.navigate(['/']);
+          this.router.navigate(['/user-management']);
         } else if (roles.includes('product-manager')) {
-          this.router.navigate(['/']);
+          this.router.navigate(['/product-management']);
         } else if (roles.includes('user')) {
-          this.router.navigate(['/']);
+          this.router.navigate(['/user']);
         } else if (roles.includes('admin')) {
-          this.router.navigate(['/']);
+          this.router.navigate(['/admin']);
         }
       })
     );
