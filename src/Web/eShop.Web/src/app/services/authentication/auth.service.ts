@@ -25,6 +25,7 @@ export class AuthService {
   private registerUrl = 'http://localhost:8070/admin/realms/eshop/users';
   private userclientId = 'account-user';
   private managerclientId = 'account-manager';
+  private adminclientId = 'admin-cli';
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -48,8 +49,15 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<AuthResponse> {
-    const client_id = username.includes('manager') ? this.managerclientId : this.userclientId;
+    let client_id: string;
 
+    if (username.includes('manager')) {
+      client_id = this.managerclientId;
+    } else if (username.includes('admin')) {
+      client_id = this.adminclientId;
+    } else {
+      client_id = this.userclientId;
+    }
     return this.getToken(client_id, 'password', username, password, this.adminUrl)
     .pipe(
       tap((response: AuthResponse) => {
@@ -78,7 +86,7 @@ export class AuthService {
   }
 
   signin(username: string, password: string, email: string, address: string, cep: string, cpf: string): Observable<any> {
-    return this.getToken('admin-cli', 'password', 'admin', 'admin', this.adminUrl)
+    return this.getToken(this.adminclientId, 'password', 'admin', 'admin', this.adminUrl)
     .pipe(
       switchMap((response: AuthResponse) => {
         const token = response.access_token;
