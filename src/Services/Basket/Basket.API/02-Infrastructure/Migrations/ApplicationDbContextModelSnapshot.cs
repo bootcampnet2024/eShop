@@ -25,10 +25,10 @@ namespace Basket.API.Migrations
             modelBuilder.Entity("Basket.API._01_Services.Models.CartItem", b =>
                 {
                     b.Property<int>("ProductId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -48,7 +48,11 @@ namespace Basket.API.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductId", "UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProductId");
 
                     b.ToTable("CartItems");
                 });

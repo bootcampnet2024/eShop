@@ -18,7 +18,7 @@ namespace Basket.API.Controllers
             _logger = logger;
         }
 
-        [HttpPost("add/{userId}")]
+        [HttpPost("{userId}")]
         public IActionResult Add(string userId, [FromBody] CartItemDTO item)
         {
             try
@@ -33,7 +33,7 @@ namespace Basket.API.Controllers
             }
         }
 
-        [HttpGet("items/{userId}")]
+        [HttpGet("{userId}")]
         public IActionResult GetItems(string userId)
         {
             try
@@ -48,12 +48,12 @@ namespace Basket.API.Controllers
             }
         }
 
-        [HttpPut("update")]
-        public IActionResult UpdateItem(string userId, [FromBody] CartItemDTO item)
+        [HttpPut("{userId}")]
+        public IActionResult Update(string userId, [FromBody] CartItemDTO item)
         {
             try
             {
-                _basketService.UpdateItem(item, userId);
+                _basketService.Update(item, userId);
                 return Ok();
             }
             catch (Exception ex)
@@ -63,7 +63,7 @@ namespace Basket.API.Controllers
             }
         }
 
-        [HttpDelete("remove/{userId}/{productId}")]
+        [HttpDelete("{userId}/{productId}")]
         public IActionResult Remove(string userId, int productId)
         {
             try

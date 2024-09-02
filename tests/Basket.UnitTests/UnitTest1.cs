@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 
-namespace Basket.UnitTests.Controllers
+namespace Basket.UnitTests
 {
     [TestClass]
     public class BasketControllerTests
@@ -28,10 +28,10 @@ namespace Basket.UnitTests.Controllers
             var userId = "user123";
             var item = new CartItemDTO { ProductId = 1, Quantity = 2 };
 
-            var result = _controller.AddToCart(userId, item);
+            var result = _controller.Add(userId, item);
 
             Assert.IsInstanceOfType(result, typeof(OkResult));
-            _mockBasketService.Verify(s => s.AddToCart(It.Is<CartItemDTO>(i => i.ProductId == 1 && i.Quantity == 2), userId), Times.Once);
+            _mockBasketService.Verify(s => s.Add(It.Is<CartItemDTO>(i => i.ProductId == 1 && i.Quantity == 2), userId), Times.Once);
         }
 
         [TestMethod]
@@ -44,9 +44,9 @@ namespace Basket.UnitTests.Controllers
                 new() { ProductId = 2, Quantity = 3 }
             };
 
-            _mockBasketService.Setup(s => s.GetCartItems(userId)).Returns(items);
+            _mockBasketService.Setup(s => s.GetItems(userId)).Returns(items);
 
-            var result = _controller.GetCartItems(userId) as OkObjectResult;
+            var result = _controller.GetItems(userId) as OkObjectResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(200, result.StatusCode);
@@ -60,10 +60,10 @@ namespace Basket.UnitTests.Controllers
             var userId = "user123";
             var item = new CartItemDTO { ProductId = 1, Quantity = 5 };
 
-            var result = _controller.UpdateCartItem(userId, item);
+            var result = _controller.Update(userId, item);
 
             Assert.IsInstanceOfType(result, typeof(OkResult));
-            _mockBasketService.Verify(s => s.UpdateCartItem(It.Is<CartItemDTO>(i => i.ProductId == 1 && i.Quantity == 5), userId), Times.Once);
+            _mockBasketService.Verify(s => s.Update(It.Is<CartItemDTO>(i => i.ProductId == 1 && i.Quantity == 5), userId), Times.Once);
         }
 
         [TestMethod]
@@ -72,10 +72,10 @@ namespace Basket.UnitTests.Controllers
             var userId = "user123";
             var productId = 1;
 
-            var result = _controller.RemoveFromCart(userId, productId);
+            var result = _controller.Remove(userId, productId);
 
             Assert.IsInstanceOfType(result, typeof(OkResult));
-            _mockBasketService.Verify(s => s.RemoveFromCart(productId, userId), Times.Once);
+            _mockBasketService.Verify(s => s.Remove(productId, userId), Times.Once);
         }
 
         [TestMethod]
@@ -83,9 +83,9 @@ namespace Basket.UnitTests.Controllers
         {
             var userId = "user123";
             var item = new CartItemDTO { ProductId = 1, Quantity = 2 };
-            _mockBasketService.Setup(s => s.AddToCart(It.IsAny<CartItemDTO>(), It.IsAny<string>())).Throws(new Exception("Error adding to cart"));
+            _mockBasketService.Setup(s => s.Add(It.IsAny<CartItemDTO>(), It.IsAny<string>())).Throws(new Exception("Error adding to cart"));
 
-            var result = _controller.AddToCart(userId, item) as ObjectResult;
+            var result = _controller.Add(userId, item) as ObjectResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(500, result.StatusCode);
@@ -96,9 +96,9 @@ namespace Basket.UnitTests.Controllers
         public void GetCartItems_ExceptionThrown_ReturnsInternalServerError()
         {
             var userId = "user123";
-            _mockBasketService.Setup(s => s.GetCartItems(It.IsAny<string>())).Throws(new Exception("Error getting cart items"));
+            _mockBasketService.Setup(s => s.GetItems(It.IsAny<string>())).Throws(new Exception("Error getting cart items"));
 
-            var result = _controller.GetCartItems(userId) as ObjectResult;
+            var result = _controller.GetItems(userId) as ObjectResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(500, result.StatusCode);
@@ -110,9 +110,9 @@ namespace Basket.UnitTests.Controllers
         {
             var userId = "user123";
             var item = new CartItemDTO { ProductId = 1, Quantity = 5 };
-            _mockBasketService.Setup(s => s.UpdateCartItem(It.IsAny<CartItemDTO>(), It.IsAny<string>())).Throws(new Exception("Error updating cart item"));
+            _mockBasketService.Setup(s => s.Update(It.IsAny<CartItemDTO>(), It.IsAny<string>())).Throws(new Exception("Error updating cart item"));
 
-            var result = _controller.UpdateCartItem(userId, item) as ObjectResult;
+            var result = _controller.Update(userId, item) as ObjectResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(500, result.StatusCode);
@@ -124,9 +124,9 @@ namespace Basket.UnitTests.Controllers
         {
             var userId = "user123";
             var productId = 1;
-            _mockBasketService.Setup(s => s.RemoveFromCart(It.IsAny<int>(), It.IsAny<string>())).Throws(new Exception("Error removing from cart"));
+            _mockBasketService.Setup(s => s.Remove(It.IsAny<int>(), It.IsAny<string>())).Throws(new Exception("Error removing from cart"));
 
-            var result = _controller.RemoveFromCart(userId, productId) as ObjectResult;
+            var result = _controller.Remove(userId, productId) as ObjectResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(500, result.StatusCode);

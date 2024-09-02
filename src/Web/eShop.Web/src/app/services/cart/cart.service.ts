@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CartItemModel } from '../../models/cartItem.model';
 
@@ -11,17 +11,16 @@ export class CartService {
 
   constructor(private http: HttpClient) {}
 
-  getCartItems(userId: string): Observable<CartItemModel[]> {
-    return this.http.get<CartItemModel[]>(`${this.apiUrl}/items/${userId}`);
+  getItems(userId: string): Observable<CartItemModel[]> {
+    return this.http.get<CartItemModel[]>(`${this.apiUrl}/${userId}`);
   }
 
-  updateCartItem(userId: string, item: CartItemModel): Observable<void> {
-    const url = `${this.apiUrl}/update`;
-    const params = new HttpParams().set('userId', userId);
-    return this.http.put<void>(url, item, { params });
+  update(userId: string, item: CartItemModel): Observable<void> {
+    const url = `${this.apiUrl}/${userId}`;
+    return this.http.put<void>(url, item);
   }
 
-  removeFromCart(userId: string, productId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/remove/${userId}/${productId}`);
+  remove(userId: string, productId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${userId}/${productId}`);
   }
 }

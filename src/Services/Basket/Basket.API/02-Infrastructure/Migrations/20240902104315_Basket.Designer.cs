@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Basket.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240830183248_basket")]
-    partial class basket
+    [Migration("20240902104315_Basket")]
+    partial class Basket
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

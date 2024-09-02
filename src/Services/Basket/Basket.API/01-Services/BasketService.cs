@@ -16,36 +16,22 @@ namespace Basket.API._01_Services
 
         public void Add(CartItemDTO item, string userId)
         {
-            var cartItem = _context.CartItems
-                .FirstOrDefault(ci => ci.ProductId == item.ProductId && ci.UserId == userId);
-
-            if (cartItem == null)
+            _context.CartItems.Add(new CartItem
             {
-                _context.CartItems.Add(new CartItem
-                {
-                    ProductId = item.ProductId,
-                    UserId = userId,
-                    Name = item.Name,
-                    Description = item.Description,
-                    Price = item.Price,
-                    Quantity = item.Quantity,
-                    Image = item.Image
-                });
-            }
-            else
-            {
-                cartItem.Quantity += item.Quantity;
-                cartItem.Name = item.Name;
-                cartItem.Description = item.Description;
-                cartItem.Price = item.Price;
-                cartItem.Image = item.Image;
-                _context.CartItems.Update(cartItem);
-            }
+                ProductId = item.ProductId,
+                UserId = userId,
+                Name = item.Name,
+                Description = item.Description,
+                Price = item.Price,
+                Quantity = item.Quantity,
+                Image = item.Image
+            });
 
             _context.SaveChanges();
         }
 
-        public void UpdateItem(CartItemDTO item, string userId)
+
+        public void Update(CartItemDTO item, string userId)
         {
             var cartItem = _context.CartItems
                 .FirstOrDefault(ci => ci.ProductId == item.ProductId && ci.UserId == userId);

@@ -16,7 +16,7 @@ import { FooterComponent } from '../../shared/footer/footer.component';
 export class CartPageComponent implements OnInit {
   products: CartItemModel[] = [];
   orderTotal: number = 0;
-  userId: string = '3834ab69-3330-4e2b-b4e6-413e7c3ca703'; 
+  userId: string = '3834ab69-3330-4e2b-b4e6-413e7c3ca703';
 
   constructor(
     private router: Router,
@@ -28,7 +28,7 @@ export class CartPageComponent implements OnInit {
   }
 
   loadCartItems(): void {
-    this.cartService.getCartItems(this.userId).subscribe(items => {
+    this.cartService.getItems(this.userId).subscribe(items => {
       this.products = items;
       this.updateOrderTotal();
     });
@@ -41,25 +41,29 @@ export class CartPageComponent implements OnInit {
   changeProductQuantity(product: CartItemModel, change: number): void {
     const newQuantity = product.quantity + change;
 
+    console.log('Tentando alterar quantidade:', product, 'Nova quantidade:', newQuantity);
+
     if (newQuantity >= 1 && (product.availableQuantity == null || newQuantity <= product.availableQuantity)) {
       product.quantity = newQuantity;
 
-      this.cartService.updateCartItem(this.userId, product).subscribe(
+      this.cartService.update(this.userId, product).subscribe(
         () => {
+          console.log('Quantidade atualizada com sucesso no backend');
           this.updateOrderTotal();
         },
         error => {
-          console.error('Error updating cart item', error);
-          product.quantity -= change;
+          console.error('Erro ao atualizar o item do carrinho', error);
+          product.quantity -= change; // Reverte a quantidade em caso de erro
         }
       );
     } else {
-      console.warn('Invalid quantity:', newQuantity);
+      console.warn('Quantidade inválida:', newQuantity);
     }
   }
 
+
   removeFromCart(product: CartItemModel): void {
-    this.cartService.removeFromCart(this.userId, product.productId).subscribe(() => {
+    this.cartService.remove(this.userId, product.productId).subscribe(() => {
       this.products = this.products.filter(p => p.productId !== product.productId);
       this.updateOrderTotal();
     });
