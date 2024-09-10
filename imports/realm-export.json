@@ -719,6 +719,7 @@
   "webAuthnPolicyPasswordlessExtraOrigins": [],
   "scopeMappings": [
     {
+<<<<<<< HEAD
       "client": "account-user",
       "roles": [
         "user"
@@ -735,8 +736,14 @@
     },
     {
       "clientScope": "offline_access",
+=======
+      "clientScope": "roles",
+>>>>>>> 2b04952 (auth service e user management atualizadas)
       "roles": [
-        "offline_access"
+        "user-manager",
+        "admin",
+        "product-manager",
+        "user"
       ]
     },
     {
@@ -764,6 +771,8 @@
       "name": "${client_account}",
       "rootUrl": "${authBaseUrl}",
       "baseUrl": "/realms/eshop/account/",
+<<<<<<< HEAD
+=======
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
@@ -833,6 +842,115 @@
         }
       ],
       "defaultClientScopes": [],
+      "optionalClientScopes": []
+    },
+    {
+      "id": "6babfe04-f4c7-4aa2-bdf4-3429b9b97a70",
+      "clientId": "account-manager",
+      "name": "manager",
+      "description": "",
+      "rootUrl": "http://localhost:4200",
+      "adminUrl": "http://localhost:4200",
+      "baseUrl": "http://localhost:4200",
+>>>>>>> 2b04952 (auth service e user management atualizadas)
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "redirectUris": [
+        "/realms/eshop/account/*"
+      ],
+      "webOrigins": [],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "publicClient": true,
+      "frontchannelLogout": false,
+      "protocol": "openid-connect",
+      "attributes": {
+        "post.logout.redirect.uris": "+"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": false,
+      "nodeReRegistrationTimeout": 0,
+      "defaultClientScopes": [],
+      "optionalClientScopes": []
+    },
+    {
+      "id": "1f1f8d6a-700a-4727-aa7b-8a33c290d320",
+      "clientId": "account-console",
+      "name": "${client_account-console}",
+      "rootUrl": "${authBaseUrl}",
+      "baseUrl": "/realms/eshop/account/",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "redirectUris": [
+        "/realms/eshop/account/*"
+      ],
+      "webOrigins": [],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "publicClient": true,
+      "frontchannelLogout": false,
+      "protocol": "openid-connect",
+      "attributes": {
+        "post.logout.redirect.uris": "+",
+        "pkce.code.challenge.method": "S256"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": 0,
+      "protocolMappers": [
+        {
+          "id": "1d6cf40c-8270-4e44-82e7-d534e68a499f",
+          "name": "audience resolve",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-resolve-mapper",
+          "consentRequired": false,
+<<<<<<< HEAD
+          "config": {}
+=======
+          "config": {
+            "user.session.note": "client_id",
+            "introspection.token.claim": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "client_id",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "83b6574d-02bb-4a69-b38f-3a6550a90a15",
+          "name": "realm roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "foo",
+            "introspection.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "realm_access.roles",
+            "jsonType.label": "String",
+            "multivalued": "true"
+          }
+>>>>>>> 2b04952 (auth service e user management atualizadas)
+        }
+      ],
+      "defaultClientScopes": [
+        "roles"
+      ],
       "optionalClientScopes": []
     },
     {
@@ -1385,6 +1503,7 @@
       ]
     },
     {
+<<<<<<< HEAD
       "id": "aaa1cdef-91ad-43cb-8449-05cf0aba1f66",
       "name": "offline_access",
       "description": "OpenID Connect built-in scope: offline_access",
@@ -1395,6 +1514,8 @@
       }
     },
     {
+=======
+>>>>>>> 2b04952 (auth service e user management atualizadas)
       "id": "bad802d8-b819-42bb-9841-f0b5a5c61600",
       "name": "email",
       "description": "OpenID Connect built-in scope: email",
@@ -1660,9 +1781,13 @@
     "address",
     "user"
   ],
+<<<<<<< HEAD
   "defaultOptionalClientScopes": [
     "offline_access"
   ],
+=======
+  "defaultOptionalClientScopes": [],
+>>>>>>> 2b04952 (auth service e user management atualizadas)
   "browserSecurityHeaders": {
     "contentSecurityPolicyReportOnly": "",
     "xContentTypeOptions": "nosniff",
@@ -1711,11 +1836,20 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
+<<<<<<< HEAD
             "saml-user-attribute-mapper",
             "oidc-address-mapper",
             "saml-role-list-mapper",
             "oidc-usermodel-attribute-mapper",
             "saml-user-property-mapper",
+=======
+            "oidc-full-name-mapper",
+            "saml-user-attribute-mapper",
+            "oidc-address-mapper",
+            "saml-user-property-mapper",
+            "saml-role-list-mapper",
+            "oidc-usermodel-attribute-mapper",
+>>>>>>> 2b04952 (auth service e user management atualizadas)
             "oidc-sha256-pairwise-sub-mapper",
             "oidc-full-name-mapper",
             "oidc-usermodel-property-mapper"
@@ -1763,13 +1897,24 @@
         "config": {
           "allowed-protocol-mapper-types": [
             "saml-role-list-mapper",
+<<<<<<< HEAD
+=======
+            "oidc-address-mapper",
+            "oidc-sha256-pairwise-sub-mapper",
+>>>>>>> 2b04952 (auth service e user management atualizadas)
             "saml-user-property-mapper",
+            "oidc-usermodel-attribute-mapper",
+            "saml-user-attribute-mapper",
             "oidc-usermodel-property-mapper",
+<<<<<<< HEAD
             "oidc-full-name-mapper",
             "oidc-sha256-pairwise-sub-mapper",
             "oidc-address-mapper",
             "oidc-usermodel-attribute-mapper",
             "saml-user-attribute-mapper"
+=======
+            "oidc-full-name-mapper"
+>>>>>>> 2b04952 (auth service e user management atualizadas)
           ]
         }
       },
