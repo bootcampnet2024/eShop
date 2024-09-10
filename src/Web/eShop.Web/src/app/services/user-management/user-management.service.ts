@@ -27,9 +27,5 @@ export class UserManagementService {
   }
 
   delete(userId: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${userId}`);
+    return this.http.delete(`${this.baseUrl}/${userId}`);}
   }
-}
-
-
-
