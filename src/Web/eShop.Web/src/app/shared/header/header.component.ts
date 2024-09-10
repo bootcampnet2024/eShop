@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { AuthService } from '../../services/authentication/auth.service';
+import { AuthService } from '../../core/auth.service';
 import { MatMenuModule } from '@angular/material/menu';
 
 @Component({

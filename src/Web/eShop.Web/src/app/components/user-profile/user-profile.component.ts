@@ -10,7 +10,7 @@ import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { AuthService } from '../../services/authentication/auth.service';
+import { AuthService } from '../../core/auth.service';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
