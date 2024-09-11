@@ -31,7 +31,7 @@ services:
     build:
       context: .
       dockerfile: src/Gateway/eShop.Gateway/Dockerfile
-  
+
   keycloak:
     image: quay.io/keycloak/keycloak:25.0.4
     command:
@@ -53,4 +53,10 @@ services:
       context: ./src/Services/Payment/Payment.API
       dockerfile: Dockerfile
 
- 
+  web:
+    image: eShop/web:${TAG:-dev}
+    build:
+      context: src/Web/eShop.Web
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
