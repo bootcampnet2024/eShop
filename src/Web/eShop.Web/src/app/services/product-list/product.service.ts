@@ -12,8 +12,8 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getCatalogItems(highlighted: boolean, pageIndex: number, pageSize: number): Observable<ProductRequest> {
-    return this.http.get<ProductRequest>(`${this.url}/items?ShowOnlyHighlighted=${highlighted}&PageSize=${pageSize}&PageIndex=${pageIndex}`)
+  getCatalogItems(highlighted: boolean, pageIndex: number, pageSize: number, categoryId: number): Observable<ProductRequest> {
+    return this.http.get<ProductRequest>(`${this.url}/items?ShowOnlyHighlighted=${highlighted}&PageSize=${pageSize}&PageIndex=${pageIndex}&CategoryId=${categoryId}`)
   }
 
   getCalalogItem(id: string) : Observable<Product> {

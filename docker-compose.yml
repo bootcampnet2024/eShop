@@ -1,6 +1,8 @@
 services:
   sql.server:
     image: mcr.microsoft.com/mssql/server:2022-latest
+    volumes:
+      - sql.server.data:/var/opt/mssql
 
   catalog.api:
     image: eShop/catalog.api:${TAG:-dev}
@@ -54,3 +56,7 @@ services:
       dockerfile: Dockerfile
 
  
+
+
+volumes:
+  sql.server.data:
