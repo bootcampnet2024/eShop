@@ -6,11 +6,12 @@ import { DisplayHighlightedProductComponent } from '../home/display-highlighted-
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product-list/product.service';
 import { ViewportScroller } from '@angular/common';
+import { NavbarComponent } from "../../shared/navbar/navbar.component";
 
 @Component({
   selector: 'app-product-page',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, DisplayHighlightedProductComponent],
+  imports: [HeaderComponent, FooterComponent, DisplayHighlightedProductComponent, NavbarComponent],
   templateUrl: './product-page.component.html',
   styleUrl: './product-page.component.css'
 })

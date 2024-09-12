@@ -16,9 +16,7 @@
 		<PackageReference Include="MSTest.TestFramework" Version="3.0.4" />
 		<PackageReference Include="coverlet.collector" Version="6.0.0" />
 	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\..\src\Services\Basket\Basket.API\Basket.API.csproj" />
-	</ItemGroup>
 
+			<ProjectReference Include="..\..\src\Services\Basket\Basket.API\Basket.API.csproj" />
 
 </Project>

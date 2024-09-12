@@ -1,71 +1,79 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { CartItemModel } from '../../models/cartItem.model';
+import { CartService } from '../../services/cart/cart.service';
+import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart-page',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent],
+  imports: [CommonModule, HeaderComponent, FooterComponent],
   templateUrl: './cart-page.component.html',
-  styleUrl: './cart-page.component.css'
+  styleUrls: ['./cart-page.component.css']
 })
-
 export class CartPageComponent implements OnInit {
+  products: CartItemModel[] = [];
+  orderTotal: number = 0;
+  userId: string = '3834ab69-3330-4e2b-b4e6-413e7c3ca703';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private cartService: CartService
+  ) {}
 
-  products: any = [
-    {
-      image: 'assets/products/allure.png',
-      name: 'Alure',
-      description: 'This contains a very beatiful product',
-      price: 129.99,
-      quantity: 1,
-      availableQuantity: 7,
-    },
-    {
-      image: 'assets/products/xbox-series-controller.jpg',
-      name: 'Xbox Series X Controller',
-      description: 'This controller supports Windows and Xbox',
-      price: 399.99,
-      quantity: 1,
-      availableQuantity: 6,
-    },
-    {
-      image: 'assets/products/produto-veja-limpeza.png',
-      name: 'Veja',
-      description: 'Clean fast',
-      price: 229.99,
-      quantity: 1,
-      availableQuantity: 5,
+  ngOnInit(): void {
+    this.loadCartItems();
+  }
+
+  loadCartItems(): void {
+    this.cartService.getItems(this.userId).subscribe(items => {
+      this.products = items;
+      this.updateOrderTotal();
+    });
+  }
+
+  updateOrderTotal(): void {
+    this.orderTotal = this.products.reduce((total, product) => total + (product.price * product.quantity), 0);
+  }
+
+  changeProductQuantity(product: CartItemModel, change: number): void {
+    const newQuantity = product.quantity + change;
+
+    console.log('Tentando alterar quantidade:', product, 'Nova quantidade:', newQuantity);
+
+    if (newQuantity >= 1 && (product.availableQuantity == null || newQuantity <= product.availableQuantity)) {
+      product.quantity = newQuantity;
+
+      this.cartService.update(this.userId, product).subscribe(
+        () => {
+          console.log('Quantidade atualizada com sucesso no backend');
+          this.updateOrderTotal();
+        },
+        error => {
+          console.error('Erro ao atualizar o item do carrinho', error);
+          product.quantity -= change; // Reverte a quantidade em caso de erro
+        }
+      );
+    } else {
+      console.warn('Quantidade inválida:', newQuantity);
     }
-  ];
-  orderTotal = this.products.reduce((total: number, product: any) => total + product.price, 0);
+  }
 
-  goToPaymentPage() {
+
+  removeFromCart(product: CartItemModel): void {
+    this.cartService.remove(this.userId, product.productId).subscribe(() => {
+      this.products = this.products.filter(p => p.productId !== product.productId);
+      this.updateOrderTotal();
+    });
+  }
+
+  goToPaymentPage(): void {
     this.router.navigate(['payment']);
   }
 
-  updateOrderTotal() : void {
-    this.orderTotal = this.products.reduce((total: number, product: any) => total + (product.price * product.quantity), 0);
-  }
-
-  ngOnInit(): void {
-    this.products = this.products.filter((p: { availableQuantity: number; }) => p.availableQuantity > 0);
-    this.updateOrderTotal()
-  }
-
-  changeProductQuantity(product: any, event: Event) : void {
-    var value = (event.target as HTMLInputElement).value;
-
-    product.quantity = value
-
-    this.updateOrderTotal()
-  }
-
-  removeFromCart(product: any) : void {
-    this.products = this.products.filter((p: { name: any; }) => p.name !== product.name);
-    this.updateOrderTotal()
+  trackByProductId(index: number, item: CartItemModel): number {
+    return item.productId;
   }
 }

@@ -2,20 +2,30 @@
 
 <div class="main-container">
   <div class="product-list">
-    @for (product of products; track product.name){
-    <div class="product-item">
-      <img src="{{ product.image }}" alt="Product Image" class="product-image" />
+    <div *ngFor="let product of products; trackBy: trackByProductId" class="product-item">
+      <img [src]="product.image" alt="Product Image" class="product-image" />
       <div class="product-details">
-        <p>{{ product.name }}</p>
-        <input type=number class="product-quantity" min=1 [max]="product.availableQuantity" value=1
-          (input)="changeProductQuantity(product, $event)">
+        <p class="product-name">{{ product.name }}</p>
+        <p class="product-description">{{ product.description }}</p>
+        <div class="quantity-controls">
+          <button class="quantity-button"
+                  (click)="changeProductQuantity(product, -1)"
+                  [disabled]="product.quantity <= 1">
+            -
+          </button>
+          <span class="quantity-display">{{ product.quantity }}</span>
+          <button class="quantity-button"
+                  (click)="changeProductQuantity(product, 1)"
+                  [disabled]="product.quantity >= product.availableQuantity">
+            +
+          </button>
+        </div>
       </div>
       <div class="product-price">
         <p>R$ {{ (product.price * product.quantity).toFixed(2) }}</p>
         <button class="delete-button" (click)="removeFromCart(product)">🗑️</button>
       </div>
     </div>
-    }
   </div>
   <div class="order-summary">
     <div class="coupon">

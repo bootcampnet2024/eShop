@@ -1,4 +1,5 @@
 <app-header></app-header>
+<app-navbar></app-navbar>
 <div class="product-container">
   <div class="product-image">
     <img class="image" src="assets/products/xbox-series-controller.jpg" alt="">
@@ -6,6 +7,7 @@
   <div class="product-info">
     <div class="product-name">
       <h2>{{ product?.name }}</h2>
+      <p class="category-name">{{ product?.category }}</p>
       <p class="brand-name">{{ product?.brand }}</p>
     </div>
     <p>{{ product?.description }}</p>

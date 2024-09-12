@@ -1,4 +1,4 @@
-#product-container {
+.product-container {
   display: flex;
   width: 100%;
   justify-content: center;
@@ -14,13 +14,6 @@
   border-radius: 8px;
   background-color: white;
   padding-bottom: 0.5em;
-}
-
-.category-name {
-  display: flex;
-  font-weight: 600;
-  font-size: 1.7em;
-  margin-bottom: 1em;
 }
 
 .image-placeholder {
@@ -68,8 +61,7 @@
   font-weight: 500;
 }
 
-.product-brand,
-.product-category {
+.product-brand {
   font-size: 0.9em;
   font-weight: 400;
 }
