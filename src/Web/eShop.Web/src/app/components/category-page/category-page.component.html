@@ -1,6 +1,9 @@
-<p class="category-name">Highlights</p>
-<section id="product-container" >
-  @for (product of products; track product.id) {
+<app-header></app-header>
+<app-navbar></app-navbar>
+
+<div class="product-container">
+@for (product of products; track product.id)
+{
   <div class="product-card">
     <div class="image-placeholder">
       <a><img src="assets/products/xbox-series-controller.jpg" alt="" (click)="viewProduct(product)" class="product-image" /></a>
@@ -14,5 +17,6 @@
       <p class="product-price">R${{ product.price }}</p>
     </div>
   </div>
-  }
-</section>
+}
+</div>
+<app-footer></app-footer>

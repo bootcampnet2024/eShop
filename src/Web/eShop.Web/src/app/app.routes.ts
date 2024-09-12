@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { HeaderComponent } from './shared/header/header.component';
 import { LandingPageComponent } from './components/home/landing-page/landing-page.component';
 import { LoginPageComponent } from './components/authentication/login-page/login-page.component';
 import { SigninPageComponent } from './components/authentication/signin-page/signin-page.component';
@@ -8,6 +7,8 @@ import { ProductPageComponent } from './components/product-page/product-page.com
 import { PaymentPageComponent } from './components/payment-page/payment-page.component';
 import { SearchResultComponent } from './components/search-result/search-result.component';
 import { AuthGuard } from './guard/auth.guard';
+import { CategoryPageComponent } from './components/category-page/category-page.component';
+
 
 export const routes: Routes = [
     {path: 'user', component: LandingPageComponent, canActivate: [AuthGuard]},
@@ -17,5 +18,6 @@ export const routes: Routes = [
     {path: 'cart', component: CartPageComponent},
     {path: 'product', component: ProductPageComponent},
     {path: 'payment', component: PaymentPageComponent},
-    {path: 'search', component: SearchResultComponent}
+    {path: 'search', component: SearchResultComponent},
+    {path: 'category', component: CategoryPageComponent}
 ];

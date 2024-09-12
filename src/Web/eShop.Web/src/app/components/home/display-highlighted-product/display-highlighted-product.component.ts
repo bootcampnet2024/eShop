@@ -19,7 +19,7 @@ export class DisplayHighlightedProductComponent implements OnInit {
   constructor(private router: Router, private productService: ProductService) { }
 
   ngOnInit(): void {
-    this.productService.getCatalogItems(true, 0, 10)
+    this.productService.getCatalogItems(true, 0, 10, 0)
       .subscribe({
         next : (response) => {
           this.products = response.items
@@ -28,6 +28,6 @@ export class DisplayHighlightedProductComponent implements OnInit {
   }
 
   viewProduct(product: Product): void {
-    this.router.navigate(['/product', { id: product.id, name: product.name.trim().replace(" ", "-") }]);
+    this.router.navigate(['/product', { id: product.id, name: product.name.trim().replaceAll(" ", "-") }]);
   }
 }
