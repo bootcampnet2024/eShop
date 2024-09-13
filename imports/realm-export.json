@@ -720,6 +720,9 @@
   "scopeMappings": [
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 56a85fc (atualização pedida nos comentários)
       "client": "account-user",
       "roles": [
         "user"
@@ -736,6 +739,7 @@
     },
     {
       "clientScope": "offline_access",
+<<<<<<< HEAD
 =======
       "clientScope": "roles",
 >>>>>>> 2b04952 (auth service e user management atualizadas)
@@ -744,6 +748,10 @@
         "admin",
         "product-manager",
         "user"
+=======
+      "roles": [
+        "offline_access"
+>>>>>>> 56a85fc (atualização pedida nos comentários)
       ]
     },
     {
@@ -845,6 +853,7 @@
       "optionalClientScopes": []
     },
     {
+<<<<<<< HEAD
       "id": "6babfe04-f4c7-4aa2-bdf4-3429b9b97a70",
       "clientId": "account-manager",
       "name": "manager",
@@ -954,6 +963,8 @@
       "optionalClientScopes": []
     },
     {
+=======
+>>>>>>> 56a85fc (atualização pedida nos comentários)
       "id": "9d66c322-d933-482a-84cd-f2947ca56223",
       "clientId": "account-user",
       "name": "user",
@@ -1504,6 +1515,9 @@
     },
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 56a85fc (atualização pedida nos comentários)
       "id": "aaa1cdef-91ad-43cb-8449-05cf0aba1f66",
       "name": "offline_access",
       "description": "OpenID Connect built-in scope: offline_access",
@@ -1514,8 +1528,11 @@
       }
     },
     {
+<<<<<<< HEAD
 =======
 >>>>>>> 2b04952 (auth service e user management atualizadas)
+=======
+>>>>>>> 56a85fc (atualização pedida nos comentários)
       "id": "bad802d8-b819-42bb-9841-f0b5a5c61600",
       "name": "email",
       "description": "OpenID Connect built-in scope: email",
@@ -1782,12 +1799,18 @@
     "user"
   ],
 <<<<<<< HEAD
+<<<<<<< HEAD
   "defaultOptionalClientScopes": [
     "offline_access"
   ],
 =======
   "defaultOptionalClientScopes": [],
 >>>>>>> 2b04952 (auth service e user management atualizadas)
+=======
+  "defaultOptionalClientScopes": [
+    "offline_access"
+  ],
+>>>>>>> 56a85fc (atualização pedida nos comentários)
   "browserSecurityHeaders": {
     "contentSecurityPolicyReportOnly": "",
     "xContentTypeOptions": "nosniff",
@@ -1837,6 +1860,7 @@
         "config": {
           "allowed-protocol-mapper-types": [
 <<<<<<< HEAD
+<<<<<<< HEAD
             "saml-user-attribute-mapper",
             "oidc-address-mapper",
             "saml-role-list-mapper",
@@ -1844,12 +1868,17 @@
             "saml-user-property-mapper",
 =======
             "oidc-full-name-mapper",
+=======
+>>>>>>> 56a85fc (atualização pedida nos comentários)
             "saml-user-attribute-mapper",
             "oidc-address-mapper",
-            "saml-user-property-mapper",
             "saml-role-list-mapper",
             "oidc-usermodel-attribute-mapper",
+<<<<<<< HEAD
 >>>>>>> 2b04952 (auth service e user management atualizadas)
+=======
+            "saml-user-property-mapper",
+>>>>>>> 56a85fc (atualização pedida nos comentários)
             "oidc-sha256-pairwise-sub-mapper",
             "oidc-full-name-mapper",
             "oidc-usermodel-property-mapper"
@@ -1898,23 +1927,30 @@
           "allowed-protocol-mapper-types": [
             "saml-role-list-mapper",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
             "oidc-address-mapper",
             "oidc-sha256-pairwise-sub-mapper",
 >>>>>>> 2b04952 (auth service e user management atualizadas)
+=======
+>>>>>>> 56a85fc (atualização pedida nos comentários)
             "saml-user-property-mapper",
-            "oidc-usermodel-attribute-mapper",
-            "saml-user-attribute-mapper",
             "oidc-usermodel-property-mapper",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 56a85fc (atualização pedida nos comentários)
             "oidc-full-name-mapper",
             "oidc-sha256-pairwise-sub-mapper",
             "oidc-address-mapper",
             "oidc-usermodel-attribute-mapper",
             "saml-user-attribute-mapper"
+<<<<<<< HEAD
 =======
             "oidc-full-name-mapper"
 >>>>>>> 2b04952 (auth service e user management atualizadas)
+=======
+>>>>>>> 56a85fc (atualização pedida nos comentários)
           ]
         }
       },

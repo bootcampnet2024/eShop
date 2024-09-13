@@ -11,7 +11,6 @@ import { CategoryPageComponent } from './components/category-page/category-page.
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 
-
 export const routes: Routes = [
     {path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard]},
     {path: '', component: LandingPageComponent},
