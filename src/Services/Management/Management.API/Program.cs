@@ -1,6 +1,5 @@
 using Management.Domain.Repositories;
 using Management.Infrastructure.Data;
-using Management.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

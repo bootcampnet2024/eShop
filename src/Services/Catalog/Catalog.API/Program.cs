@@ -1,6 +1,9 @@
 using Catalog.API._02_Infrastructure.Data;
 using Catalog.API.Services;
+using Catalog.API.Services.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 internal class Program
 {
@@ -12,6 +15,7 @@ internal class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
         builder.Services.AddDbContext<ApplicationDataContext>(options =>
         {
@@ -19,6 +23,9 @@ internal class Program
         });
 
         builder.Services.AddScoped<ICatalogService, CatalogService>();
+        builder.Services.AddScoped<ICatalogBrandService, CatalogBrandService>();
+        builder.Services.AddScoped<ICatalogItemService, CatalogItemService>();
+        builder.Services.AddScoped<ICatalogCategoryService, CatalogCategoryService>();
         builder.Services.AddCors(options =>
         {
             options.AddDefaultPolicy(builder =>

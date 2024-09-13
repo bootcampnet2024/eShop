@@ -1,11 +1,7 @@
-﻿using Management.Domain.Models;
+﻿using Catalog.API._02_Infrastructure.Configurations;
+using Management.Domain.Models;
 using Management.Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Management.Infrastructure.Data
 {
@@ -20,8 +16,8 @@ namespace Management.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new ProductEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new BrandEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new CategoryEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new CatalogBrandEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new CatalogCategoryEntityConfiguration());
             base.OnModelCreating(modelBuilder);
         }
     }
