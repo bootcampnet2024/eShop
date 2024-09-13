@@ -1,0 +1,50 @@
+name: Build and Test in .NET and Angular
+
+on:
+  pull_request:
+    branches: ["main"]
+    types: [opened, reopened, review_requested]
+
+jobs:
+  dotnet:
+    name: .NET Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+
+  angular-web:
+    name: Angular Build (Web)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+          cache-dependency-path: src/Web/eShop.Web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: src/Web/eShop.Web
+
+      - name: Test
+        run: npm run test:ci
+        working-directory: src/Web/eShop.Web
+
+      - name: Build
+        run: npm run build
+        working-directory: src/Web/eShop.Web
