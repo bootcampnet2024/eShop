@@ -3,7 +3,7 @@ name: Build and Test in .NET and Angular
 on:
   pull_request:
     branches: ["main"]
-    types: [opened, reopened, review_requested]
+    types: [review_requested, reopened, synchronize]
 
 jobs:
   dotnet:
