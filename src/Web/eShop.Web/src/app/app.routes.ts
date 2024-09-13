@@ -7,7 +7,7 @@ import { CartPageComponent } from './components/cart-page/cart-page.component';
 import { ProductPageComponent } from './components/product-page/product-page.component';
 import { PaymentPageComponent } from './components/payment-page/payment-page.component';
 import { SearchResultComponent } from './components/search-result/search-result.component';
-import { AuthGuard } from './guard/auth.guard';
+import { AuthGuard } from './core/auth/guard/auth.guard';
 
 export const routes: Routes = [
     {path: 'user', component: LandingPageComponent, canActivate: [AuthGuard]},

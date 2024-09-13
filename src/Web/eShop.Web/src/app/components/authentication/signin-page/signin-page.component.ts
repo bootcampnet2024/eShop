@@ -9,7 +9,7 @@ import { NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { cpfValidator } from '../signin-page/validators'
 import { Router } from '@angular/router';
-import { AuthService } from '../../../services/authentication/auth.service';
+import { AuthService } from '../../../core/auth/auth.service';
 
 
 @Component({

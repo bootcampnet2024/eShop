@@ -23,11 +23,10 @@ export class AuthService {
 
   private adminUrl = 'http://localhost:8070/realms/eshop/protocol/openid-connect/token';
   private registerUrl = 'http://localhost:8070/admin/realms/eshop/users';
-  private userclientId = 'account-user';
-  private managerclientId = 'account-manager';
+  private loginclientId = 'account-user';
   private adminclientId = 'admin-cli';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private jtwHelper : JwtHelperService) {}
 
   getToken(client_id : string, grant_type: string, username : string, password : string, url : string) : Observable<AuthResponse> {
     const body = new URLSearchParams();
@@ -48,41 +47,8 @@ export class AuthService {
     );
   }
 
-  login(username: string, password: string): Observable<AuthResponse> {
-    let client_id: string;
-
-    if (username.includes('manager')) {
-      client_id = this.managerclientId;
-    } else if (username.includes('admin')) {
-      client_id = this.adminclientId;
-    } else {
-      client_id = this.userclientId;
-    }
-    return this.getToken(client_id, 'password', username, password, this.adminUrl)
-    .pipe(
-      tap((response: AuthResponse) => {
-        const helper = new JwtHelperService();
-        const decodedToken = helper.decodeToken(response.access_token);
-
-        const roles = decodedToken?.realm_access?.roles;
-
-        if (!roles || roles.length === 0) {
-          console.error('No roles found in token');
-          return;
-        }
-
-        if (roles.includes('user-manager')) {
-          this.router.navigate(['/user-management']);
-        } else if (roles.includes('product-manager')) {
-          this.router.navigate(['/product-management']);
-        } else if (roles.includes('user')) {
-          this.router.navigate(['/user']);
-        } else if (roles.includes('admin')) {
-          this.router.navigate(['/admin']);
-        }
-      })
-    );
-
+  login(username: string, password: string): Observable<AuthResponse>{
+    return this.getToken(this.loginclientId, 'password', username, password, this.adminUrl);
   }
 
   signin(username: string, password: string, email: string, address: string, cep: string, cpf: string): Observable<any> {
@@ -136,5 +102,9 @@ export class AuthService {
 
   getAccessToken(): string | null {
     return localStorage.getItem('access_token');
+  }
+
+  private isTokenExpired(token: string): boolean {
+    return this.jtwHelper.isTokenExpired(token);
   }
 }
