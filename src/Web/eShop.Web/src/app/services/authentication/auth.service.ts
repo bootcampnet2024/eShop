@@ -22,6 +22,8 @@ export class AuthService {
 
   private adminUrl = 'http://localhost:8070/realms/eshop/protocol/openid-connect/token';
   private registerUrl = 'http://localhost:8070/admin/realms/eshop/users';
+  private userInfoUrl = 'http://localhost:8070/realms/eshop/protocol/openid-connect/userinfo';
+  private updateProfileUrl = 'http://localhost:8070/admin/realms/eshop/users/{userId}';
   private userclientId = 'account-user';
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -32,6 +34,7 @@ export class AuthService {
     body.set('grant_type', grant_type);
     body.set('username', username);
     body.set('password',password);
+    body.set('scope', 'openid');
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -81,6 +84,31 @@ export class AuthService {
         return this.http.post(this.registerUrl, body, { headers });
       }));
 
+  }
+
+  getUserProfile(): Observable<any> {
+    const token = this.getAccessToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get(this.userInfoUrl, { headers });
+  }
+
+  updateProfile(userId: string, userProfileData: any): Observable<any> {
+    return this.getToken('admin-cli', 'password', 'admin', 'admin', this.adminUrl)
+      .pipe(
+        switchMap((response: AuthResponse) => {
+          const adminToken = response.access_token;
+
+          const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken}`
+          });
+
+          return this.http.put<any>(this.updateProfileUrl.replace('{userId}', userId), userProfileData, { headers });
+        })
+      );
   }
 
   private storeTokens(tokens: AuthResponse): void {

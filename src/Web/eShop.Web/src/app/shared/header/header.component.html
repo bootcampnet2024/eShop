@@ -13,8 +13,20 @@
     <a [routerLink]="['/cart']" class="cart-page">
       <mat-icon fontIcon="shopping_cart"></mat-icon>
     </a>
-    <a [routerLink]="['/login']" class="profile-page">
-      <mat-icon fontIcon="account_circle" ></mat-icon>
-    </a>
+    @if (isLoggedIn) {
+      <div class="profile-dropdown">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item [routerLink]="['/user-profile']">Profile</button>
+          <button mat-menu-item (click)="logout()">Logout</button>
+        </mat-menu>
+      </div>
+    } @else {
+      <a [routerLink]="['/login']" class="profile-page">
+        <mat-icon>account_circle</mat-icon>
+      </a>
+    }
   </div>
 </header>

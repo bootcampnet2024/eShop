@@ -20,7 +20,7 @@ export class LoginPageComponent {
   login() {
     this.authService.login(this.username, this.password).subscribe(
       () => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/user-profile']);
       },
       (error) => {
         console.error('Error to login', error);
