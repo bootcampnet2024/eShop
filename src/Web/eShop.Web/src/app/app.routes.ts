@@ -8,10 +8,11 @@ import { PaymentPageComponent } from './components/payment-page/payment-page.com
 import { SearchResultComponent } from './components/search-result/search-result.component';
 import { AuthGuard } from './core/auth/guard/auth.guard';
 import { CategoryPageComponent } from './components/category-page/category-page.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 
 export const routes: Routes = [
-    {path: 'user', component: LandingPageComponent, canActivate: [AuthGuard]},
+    {path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard]},
     {path: '', component: LandingPageComponent},
     {path: 'login', component: LoginPageComponent},
     {path: 'signin', component: SigninPageComponent},
