@@ -34,6 +34,7 @@ export class AuthService {
     body.set('grant_type', grant_type);
     body.set('username', username);
     body.set('password',password);
+    body.set('scope', 'openid');
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -83,6 +84,7 @@ export class AuthService {
       }));
 
   }
+
 
   private storeTokens(tokens: AuthResponse): void {
     localStorage.setItem('access_token', tokens.access_token);
