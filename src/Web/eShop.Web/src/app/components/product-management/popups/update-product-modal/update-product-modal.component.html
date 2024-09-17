@@ -46,15 +46,22 @@
       <mat-label>Image URL</mat-label>
       <input color="primary" matInput formControlName="imageURL" />
     </mat-form-field>
-    <div>
-      <mat-checkbox color="primary" formControlName="isActive"
-        >Is Active</mat-checkbox
-      >
+    <div class="checkboxes">
+      <div>
+        <mat-checkbox color="primary" formControlName="isActive"
+          >Is Active</mat-checkbox
+        >
+      </div>
+      <div>
+        <mat-checkbox color="primary" formControlName="isHighlighted"
+          >Is Highlighted</mat-checkbox
+        >
+      </div>
     </div>
   </div>
   <div class="actions">
     <button mat-flat-button color="primary" [disabled]="!productForm.valid" (click)="updateProduct()">
-      Edit
+      Save
     </button>
     <button mat-button color="warn" (click)="close()">Cancel</button>
   </div>

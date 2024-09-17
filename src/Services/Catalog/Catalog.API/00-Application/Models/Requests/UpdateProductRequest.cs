@@ -8,6 +8,7 @@
         public decimal Price { get; set; }
         public string ImageURL { get; set; }
         public bool IsActive { get; set; }
+        public bool IsHighlighted { get; set; }
         public int BrandId { get; set; }
         public int CategoryId { get; set; }
     }

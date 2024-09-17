@@ -24,6 +24,7 @@ namespace Catalog.API._00_Application.Operations.Commands.ProductCommands.Handle
             product.Price = request.Product.Price;
             product.ImageURL = request.Product.ImageURL;
             product.IsActive = request.Product.IsActive;
+            product.IsHighlighted = request.Product.IsHighlighted;
             product.Brand = brand;
             product.Category = category;
 

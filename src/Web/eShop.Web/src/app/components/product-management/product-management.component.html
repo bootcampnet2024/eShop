@@ -29,6 +29,7 @@
         <th>Category</th>
         <th>Brand</th>
         <th>Is Active</th>
+        <th>Is Highlighted</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -43,6 +44,13 @@
         <td>{{ product.brand.name }}</td>
         <td>
           @if ( product.isActive ) {<mat-icon
+            fontIcon="check_box"
+            class="enabled"
+          ></mat-icon
+          >} @else {<mat-icon fontIcon="check_box_outline_blank"></mat-icon>}
+        </td>
+        <td>
+          @if ( product.isHighlighted ) {<mat-icon
             fontIcon="check_box"
             class="enabled"
           ></mat-icon

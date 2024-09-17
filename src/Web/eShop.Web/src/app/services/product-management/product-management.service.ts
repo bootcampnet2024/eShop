@@ -10,39 +10,42 @@ import { ProductDTO } from '../../models/productDTO.model';
   providedIn: 'root'
 })
 export class ProductManagementService {
-  private url: string = "https://localhost:7156";
+  private url: string = "http://localhost:5200";
+  private products: string = "products";
+  private brands: string = "brands";
+  private categories: string = "categories";
 
   constructor(private http: HttpClient) { }
 
   getBrands() : Observable<Brand[]> {
-    return this.http.get<Brand[]>(`${this.url}/brand`);
+    return this.http.get<Brand[]>(`${this.url}/${this.brands}`);
   }
 
   getCategories() : Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.url}/category`);
+    return this.http.get<Category[]>(`${this.url}/${this.categories}`);
   }
 
   getProducts() : Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.url}/product`);
+    return this.http.get<Product[]>(`${this.url}/${this.products}`);
   }
 
   getProductById(id: string) : Observable<Product> {
-    return this.http.get<Product>(`${this.url}/product/${id}`)
+    return this.http.get<Product>(`${this.url}/${this.products}/${id}`)
   }
 
   getProductsByName(name: string) : Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.url}/product/name/${name}`)
+    return this.http.get<Product[]>(`${this.url}/${this.products}/name/${name}`)
   }
 
   addProduct(product: ProductDTO) : Observable<string> {
-    return this.http.post<string>(`${this.url}/product`, product, {responseType: 'text' as 'json'});
+    return this.http.post<string>(`${this.url}/${this.products}`, product, {responseType: 'text' as 'json'});
   }
 
   updateProduct(id: string, product: ProductDTO) : Observable<string> {
-    return this.http.put<string>(`${this.url}/product/${id}`,product, {responseType: 'text' as 'json'})
+    return this.http.put<string>(`${this.url}/${this.products}/${id}`,product, {responseType: 'text' as 'json'})
   }
 
   disableProduct(id: string) : Observable<Product> {
-    return this.http.delete<Product>(`${this.url}/product/${id}`)
+    return this.http.delete<Product>(`${this.url}/${this.products}/${id}`)
   }
 }

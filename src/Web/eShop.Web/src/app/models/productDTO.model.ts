@@ -9,5 +9,6 @@ export interface ProductDTO {
   brandId: number,
   categoryId: number,
   imageURL: string,
-  isActive: boolean
+  isActive: boolean,
+  isHighlighted: boolean
 }

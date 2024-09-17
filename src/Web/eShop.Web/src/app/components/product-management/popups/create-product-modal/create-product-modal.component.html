@@ -3,7 +3,13 @@
   <div mat-dialog-content class="form-inputs">
     <mat-form-field class="name">
       <mat-label>Product Name</mat-label>
-      <input color="primary" #name maxlength="50" matInput formControlName="name" />
+      <input
+        color="primary"
+        #name
+        maxlength="50"
+        matInput
+        formControlName="name"
+      />
       <mat-hint align="end">{{ name.value.length }} / 50</mat-hint>
     </mat-form-field>
     <mat-form-field>
@@ -47,14 +53,23 @@
       <mat-label>Image URL</mat-label>
       <input color="primary" matInput formControlName="imageURL" />
     </mat-form-field>
-    <div>
-      <mat-checkbox color="primary" formControlName="isActive"
-        >Is Active</mat-checkbox
-      >
+    <div class="checkboxes">
+      <div>
+        <mat-checkbox color="primary" formControlName="isActive"
+          >Is Active</mat-checkbox
+        >
+      </div>
     </div>
-  </div>
-  <div class="actions">
-    <button mat-flat-button color="primary" [disabled]="!productForm.valid" (click)="addProduct()">Add</button>
-    <button mat-button color="warn" (click)="close()">Cancel</button>
+    <div class="actions">
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="!productForm.valid"
+        (click)="addProduct()"
+      >
+        Add
+      </button>
+      <button mat-button color="warn" (click)="close()">Cancel</button>
+    </div>
   </div>
 </form>

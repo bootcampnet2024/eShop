@@ -27,10 +27,11 @@ export class CreateProductModalComponent implements OnInit{
     description: new FormControl(''),
     price: new FormControl(0, [Validators.required, Validators.min(0)]),
     quantity: new FormControl(0, [Validators.required, Validators.min(0)]),
-    categoryId: new FormControl(0, Validators.required),
-    brandId: new FormControl(0, Validators.required),
+    categoryId: new FormControl(0, [Validators.required, Validators.min(1)]),
+    brandId: new FormControl(0, [Validators.required, Validators.min(1)]),
     imageURL: new FormControl(''),
-    isActive: new FormControl(false)
+    isActive: new FormControl(true),
+    isHighlighted: new FormControl(false)
   });
 
   brands?: Brand[];
@@ -55,7 +56,8 @@ export class CreateProductModalComponent implements OnInit{
       quantity: this.productForm.get('quantity')?.value ?? 0,
       brandId: this.productForm.get('brandId')?.value ?? 0,
       categoryId: this.productForm.get('categoryId')?.value ?? 0,
-      isActive: this.productForm.get('isActive')?.value ?? false
+      isActive: this.productForm.get('isActive')?.value ?? false,
+      isHighlighted: this.productForm.get('isHighlighted')?.value ?? false
     };
     return product;
   }

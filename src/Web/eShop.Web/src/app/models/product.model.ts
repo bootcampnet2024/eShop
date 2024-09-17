@@ -10,5 +10,6 @@ export interface Product {
   brand: Brand,
   category: Category,
   imageURL: string,
-  isActive: boolean
+  isActive: boolean,
+  isHighlighted: boolean
 }

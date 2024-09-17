@@ -34,3 +34,8 @@ form{
 .actions button{
   width: 45%;
 }
+
+.checkboxes{
+  display: flex;
+  justify-content: space-between
+}

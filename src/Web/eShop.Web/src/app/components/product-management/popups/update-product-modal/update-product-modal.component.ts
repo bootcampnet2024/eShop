@@ -42,7 +42,8 @@ export class UpdateProductModalComponent {
     categoryId: new FormControl(0, Validators.required),
     brandId: new FormControl(0, Validators.required),
     imageURL: new FormControl(''),
-    isActive: new FormControl(false)
+    isActive: new FormControl(false),
+    isHighlighted: new FormControl(false)
   });
 
   convertToProduct(): ProductDTO {
@@ -54,7 +55,8 @@ export class UpdateProductModalComponent {
       quantity: this.productForm.get('quantity')?.value ?? 0,
       brandId: this.productForm.get('brandId')?.value ?? 0,
       categoryId: this.productForm.get('categoryId')?.value ?? 0,
-      isActive: this.productForm.get('isActive')?.value ?? false
+      isActive: this.productForm.get('isActive')?.value ?? false,
+      isHighlighted: this.productForm.get('isHighlighted')?.value ?? false
     };
     return product;
   }

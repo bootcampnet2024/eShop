@@ -35,3 +35,7 @@ form{
   width: 45%;
 }
 
+.checkboxes{
+  display: flex;
+  justify-content: space-between
+}
