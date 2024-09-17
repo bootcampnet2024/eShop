@@ -20,6 +20,7 @@ export class ProductPageComponent implements OnInit {
   private productId?: string;
   public product?: Product;
 
+
   constructor(private router: Router, private productService: ProductService, private route: ActivatedRoute, private viewportScroller: ViewportScroller){}
 
   getProduct(id: string): void {

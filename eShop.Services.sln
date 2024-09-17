@@ -23,21 +23,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering.Infrastructure", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{4AC73117-8741-4806-BE81-6C87CD06FCE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basket.API", "src\Services\Basket\Basket.API\Basket.API.csproj", "{88CB864F-E3D5-40AD-B023-5ECB6D0523F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basket.API", "src\Services\Basket\Basket.API\Basket.API.csproj", "{88CB864F-E3D5-40AD-B023-5ECB6D0523F9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{2E853371-7E0D-4C90-BD0A-65AB4C907931}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eShop.Gateway", "src\Gateway\eShop.Gateway\eShop.Gateway.csproj", "{C0B51C0C-D7FD-4094-8C10-9766DBF486C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShop.Gateway", "src\Gateway\eShop.Gateway\eShop.Gateway.csproj", "{C0B51C0C-D7FD-4094-8C10-9766DBF486C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basket.UnitTests", "tests\Basket.UnitTests\Basket.UnitTests.csproj", "{B1C44456-CFC1-4385-BF40-B24197F35617}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basket.UnitTests", "tests\Basket.UnitTests\Basket.UnitTests.csproj", "{B1C44456-CFC1-4385-BF40-B24197F35617}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordering.UnitTests", "tests\Ordering.UnitTests\Ordering.UnitTests\Ordering.UnitTests.csproj", "{F68CA2D6-26A0-4548-B0C8-C4D18F2F7481}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering.UnitTests", "tests\Ordering.UnitTests\Ordering.UnitTests\Ordering.UnitTests.csproj", "{F68CA2D6-26A0-4548-B0C8-C4D18F2F7481}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.UnitTests", "tests\Catalog.FunctionalTests\Catalog.UnitTests\Catalog.UnitTests.csproj", "{EC5F5C58-E242-497B-99FD-6885E205DC3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.UnitTests", "tests\Catalog.FunctionalTests\Catalog.UnitTests\Catalog.UnitTests.csproj", "{EC5F5C58-E242-497B-99FD-6885E205DC3C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlock", "BuildingBlock", "{E5B1D630-4570-4317-B552-A649DECEC192}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eShop.Library", "src\BuildingBlocks\eShop.Library\eShop.Library.csproj", "{25E6C572-3BB9-4177-83A5-10216C9E4EDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShop.Library", "src\BuildingBlocks\eShop.Library\eShop.Library.csproj", "{25E6C572-3BB9-4177-83A5-10216C9E4EDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

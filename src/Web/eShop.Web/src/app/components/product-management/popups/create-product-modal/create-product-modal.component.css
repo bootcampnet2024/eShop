@@ -1,0 +1,41 @@
+form{
+  margin: 2em;
+  gap: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-inputs{
+  gap: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.small-inputs-field{
+  gap: 1em;
+  display: flex;
+
+}
+
+.small-inputs{
+  width: 25%;
+}
+
+.name{
+  width: 100%;
+}
+
+.actions{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.actions button{
+  width: 45%;
+}
+
+.checkboxes{
+  display: flex;
+  justify-content: space-between
+}

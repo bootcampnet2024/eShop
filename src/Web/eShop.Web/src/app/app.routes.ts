@@ -9,6 +9,7 @@ import { SearchResultComponent } from './components/search-result/search-result.
 import { AuthGuard } from './core/auth/guard/auth.guard';
 import { CategoryPageComponent } from './components/category-page/category-page.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { ProductManagementComponent } from './components/product-management/product-management.component';
 
 
 export const routes: Routes = [
@@ -20,5 +21,6 @@ export const routes: Routes = [
     {path: 'product', component: ProductPageComponent},
     {path: 'payment', component: PaymentPageComponent},
     {path: 'search', component: SearchResultComponent},
-    {path: 'category', component: CategoryPageComponent}
+    {path: 'category', component: CategoryPageComponent},
+    {path: 'product-management', component: ProductManagementComponent}
 ];
