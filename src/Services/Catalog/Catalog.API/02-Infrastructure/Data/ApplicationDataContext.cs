@@ -22,6 +22,8 @@ namespace Catalog.API._02_Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CatalogItemEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new CatalogBrandEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new CatalogCategoryEntityConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

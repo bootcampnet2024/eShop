@@ -61,15 +61,15 @@ margin-top: -7px;
 
 mat-card.sign-in-form {
 background-color: #ffffff;
-color: black; 
+color: black;
 padding: 20px;
 border-radius: 20px;
 }
 
 .sign-in-form {
-  background-color: #d41d1d; 
-  padding: 10px; 
-  border-radius: 8px;  
+  background-color: #d41d1d;
+  padding: 10px;
+  border-radius: 8px;
 }
 
 input.mat-input-element{
@@ -121,14 +121,14 @@ width: 40px;
 .flex-container {
 width: 90%;
 display: flex;
-gap: 20px; 
+gap: 20px;
 }
 
 .flex-grow {
-flex: 1; 
+flex: 1;
 }
 .flex-grow2 {
-flex: 0.5; 
+flex: 0.5;
 }
 
 

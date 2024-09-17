@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Catalog.API._02Infrastructure.Migrations
+namespace Catalog.API.Migrations
 {
     [DbContext(typeof(ApplicationDataContext))]
-    [Migration("20240715193341_InitialDatabase")]
-    partial class InitialDatabase
+    [Migration("20240911175648_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,11 +35,12 @@ namespace Catalog.API._02Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("CatalogBrands");
+                    b.ToTable("Brand", (string)null);
                 });
 
             modelBuilder.Entity("Catalog.API.Services.Models.CatalogCategory", b =>
@@ -52,11 +53,12 @@ namespace Catalog.API._02Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("CatalogCategories");
+                    b.ToTable("Category", (string)null);
                 });
 
             modelBuilder.Entity("Catalog.API.Services.Models.CatalogItem", b =>
@@ -65,16 +67,25 @@ namespace Catalog.API._02Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("BrandId")
+                    b.Property<int?>("BrandId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("ImageURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsHighlighted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -83,6 +94,9 @@ namespace Catalog.API._02Infrastructure.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(9,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -98,15 +112,11 @@ namespace Catalog.API._02Infrastructure.Migrations
                     b.HasOne("Catalog.API.Services.Models.CatalogBrand", "Brand")
                         .WithMany()
                         .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK_Product_CatalogBrand");
 
                     b.HasOne("Catalog.API.Services.Models.CatalogCategory", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK_Product_CatalogCategory");
 
                     b.Navigation("Brand");

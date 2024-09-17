@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Catalog.API._02Infrastructure.Migrations
+namespace Catalog.API.Migrations
 {
     [DbContext(typeof(ApplicationDataContext))]
     partial class ApplicationDataContextModelSnapshot : ModelSnapshot
@@ -31,11 +31,13 @@ namespace Catalog.API._02Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("CatalogBrands");
+                    b.ToTable("Brand", (string)null);
                 });
 
             modelBuilder.Entity("Catalog.API.Services.Models.CatalogCategory", b =>
@@ -47,11 +49,13 @@ namespace Catalog.API._02Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("CatalogCategories");
+                    b.ToTable("Category", (string)null);
                 });
 
             modelBuilder.Entity("Catalog.API.Services.Models.CatalogItem", b =>
@@ -71,6 +75,12 @@ namespace Catalog.API._02Infrastructure.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
+                    b.Property<string>("ImageURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsHighlighted")
                         .HasColumnType("bit");
 
@@ -81,6 +91,9 @@ namespace Catalog.API._02Infrastructure.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(9,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
