@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { UserProfileComponent } from './user-profile.component';
-import { AuthService } from '../../core/auth.service';
 import { of, throwError } from 'rxjs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -10,15 +9,16 @@ import { MatCardModule } from '@angular/material/card';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { UserManagementService } from '../../services/user-management/user-management.service';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
   let fixture: ComponentFixture<UserProfileComponent>;
-  let authService: jasmine.SpyObj<AuthService>;
+  let userService: jasmine.SpyObj<UserManagementService>;
   let formBuilder: FormBuilder;
 
   beforeEach(async () => {
-    const authServiceSpy = jasmine.createSpyObj('AuthService', ['getUserProfile', 'updateProfile']);
+    const userServiceSpy = jasmine.createSpyObj('UserManagementService', ['getProfile', 'edit']);
 
     await TestBed.configureTestingModule({
       imports: [
@@ -33,13 +33,13 @@ describe('UserProfileComponent', () => {
         UserProfileComponent
       ],
       providers: [
-        { provide: AuthService, useValue: authServiceSpy }
+        { provide: UserManagementService, useValue: userServiceSpy },
       ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(UserProfileComponent);
     component = fixture.componentInstance;
-    authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
+    userService = TestBed.inject(UserManagementService) as jasmine.SpyObj<UserManagementService>;
     formBuilder = TestBed.inject(FormBuilder);
     fixture.detectChanges();
   });
@@ -57,13 +57,13 @@ describe('UserProfileComponent', () => {
       cep: '12345-678',
       sub: 'user123'
     };
-    authService.getUserProfile.and.returnValue(of(mockUserData));
+    userService.getProfile.and.returnValue(of(mockUserData));
 
     component.ngOnInit();
 
     fixture.detectChanges();
 
-    expect(authService.getUserProfile).toHaveBeenCalled();
+    expect(userService.getProfile).toHaveBeenCalled();
     expect(component.perfilForm.value).toEqual({
       username: 'testuser',
       number: '1234567890',
@@ -75,13 +75,13 @@ describe('UserProfileComponent', () => {
   });
 
   it('should handle error when loading user data', () => {
-    authService.getUserProfile.and.returnValue(throwError(() => new Error('Error loading user data')));
+    userService.getProfile.and.returnValue(throwError(() => new Error('Error loading user data')));
 
     component.ngOnInit();
 
     fixture.detectChanges();
 
-    expect(authService.getUserProfile).toHaveBeenCalled();
+    expect(userService.getProfile).toHaveBeenCalled();
   });
 
   it('should update user profile', () => {
@@ -95,11 +95,11 @@ describe('UserProfileComponent', () => {
       cep: '87654-321'
     });
 
-    authService.updateProfile.and.returnValue(of({}));
+    userService.edit.and.returnValue(of({}));
 
     component.updateProfile();
 
-    expect(authService.updateProfile).toHaveBeenCalledWith('user123', {
+    expect(userService.edit).toHaveBeenCalledWith('user123', {
       username: 'updateduser',
       email: 'updated@example.com',
       attributes: {
@@ -121,10 +121,10 @@ describe('UserProfileComponent', () => {
       cep: '87654-321'
     });
 
-    authService.updateProfile.and.returnValue(throwError(() => new Error('Error updating profile')));
+    userService.edit.and.returnValue(throwError(() => new Error('Error updating profile')));
 
     component.updateProfile();
 
-    expect(authService.updateProfile).toHaveBeenCalled();
+    expect(userService.edit).toHaveBeenCalled();
   });
 });

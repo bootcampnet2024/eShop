@@ -10,8 +10,9 @@ import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { AuthService } from '../../core/auth.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UserManagementService } from '../../services/user-management/user-management.service';
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'user-profile',
@@ -38,7 +39,7 @@ export class UserProfileComponent implements OnInit {
   userId: string = '';
   token: string = '';
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private userService: UserManagementService, private authService : AuthService) {
     this.perfilForm = this.fb.group({
       username: ['', Validators.required],
       number: ['', Validators.required],
@@ -54,14 +55,14 @@ export class UserProfileComponent implements OnInit {
 
   loadUserData(): void {
     this.isLoading = true;
-    this.authService.getUserProfile().subscribe({
+    this.userService.getProfile().subscribe({
       next: (data) => {
         this.perfilForm.patchValue({
           username: data.preferred_username,
-          number: data.attributes?.phoneNumber || '',
+          address: data.attributes?.address,
           email: data.email,
-          cpf: data.cpf,
-          cep: data.cep || ''
+          cpf: data.attributes?.cpf,
+          cep: data.attributes?.cep
         });
         this.userId = data.sub;
         this.isLoading = false;
@@ -83,12 +84,12 @@ export class UserProfileComponent implements OnInit {
         email: this.perfilForm.get('email')?.value,
         attributes: {
           cpf: this.perfilForm.get('cpf')?.value,
-          phoneNumber: this.perfilForm.get('number')?.value,
+          address: this.perfilForm.get('address')?.value,
           cep: this.perfilForm.get('cep')?.value
         }
       };
 
-      this.authService.updateProfile(this.userId, updatedProfile).subscribe({
+      this.userService.edit(this.userId, updatedProfile).subscribe({
         next: () => {
           console.log('Profile updated successfully');
           this.authService.getAccessToken();
