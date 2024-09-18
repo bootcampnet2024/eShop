@@ -1,3 +1,4 @@
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -22,19 +23,17 @@ export class AuthService {
 
   private adminUrl = 'http://localhost:8070/realms/eshop/protocol/openid-connect/token';
   private registerUrl = 'http://localhost:8070/admin/realms/eshop/users';
-  private userInfoUrl = 'http://localhost:8070/realms/eshop/protocol/openid-connect/userinfo';
-  private updateProfileUrl = 'http://localhost:8070/admin/realms/eshop/users/{userId}';
-  private userclientId = 'account-user';
+  private loginclientId = 'account-user';
+  private adminclientId = 'admin-cli';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private jtwHelper : JwtHelperService) {}
 
-  private getToken(client_id : string, grant_type: string, username : string, password : string, url : string) : Observable<AuthResponse> {
+  getToken(client_id : string, grant_type: string, username : string, password : string, url : string) : Observable<AuthResponse> {
     const body = new URLSearchParams();
     body.set('client_id', client_id);
     body.set('grant_type', grant_type);
     body.set('username', username);
     body.set('password',password);
-    body.set('scope', 'openid');
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -48,13 +47,12 @@ export class AuthService {
     );
   }
 
-  login(username: string, password: string): Observable<AuthResponse> {
-    return this.getToken(this.userclientId, 'password', username, password, this.adminUrl);
-
+  login(username: string, password: string): Observable<AuthResponse>{
+    return this.getToken(this.loginclientId, 'password', username, password, this.adminUrl);
   }
 
   signin(username: string, password: string, email: string, address: string, cep: string, cpf: string): Observable<any> {
-    return this.getToken('admin-cli', 'password', 'admin', 'admin', this.adminUrl)
+    return this.getToken(this.adminclientId, 'password', 'admin', 'admin', this.adminUrl)
     .pipe(
       switchMap((response: AuthResponse) => {
         const token = response.access_token;
@@ -86,30 +84,6 @@ export class AuthService {
 
   }
 
-  getUserProfile(): Observable<any> {
-    const token = this.getAccessToken();
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-
-    return this.http.get(this.userInfoUrl, { headers });
-  }
-
-  updateProfile(userId: string, userProfileData: any): Observable<any> {
-    return this.getToken('admin-cli', 'password', 'admin', 'admin', this.adminUrl)
-      .pipe(
-        switchMap((response: AuthResponse) => {
-          const adminToken = response.access_token;
-
-          const headers = new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${adminToken}`
-          });
-
-          return this.http.put<any>(this.updateProfileUrl.replace('{userId}', userId), userProfileData, { headers });
-        })
-      );
-  }
 
   private storeTokens(tokens: AuthResponse): void {
     localStorage.setItem('access_token', tokens.access_token);
@@ -129,5 +103,9 @@ export class AuthService {
 
   getAccessToken(): string | null {
     return localStorage.getItem('access_token');
+  }
+
+  private isTokenExpired(token: string): boolean {
+    return this.jtwHelper.isTokenExpired(token);
   }
 }

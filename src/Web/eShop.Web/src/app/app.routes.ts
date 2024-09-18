@@ -6,7 +6,7 @@ import { CartPageComponent } from './components/cart-page/cart-page.component';
 import { ProductPageComponent } from './components/product-page/product-page.component';
 import { PaymentPageComponent } from './components/payment-page/payment-page.component';
 import { SearchResultComponent } from './components/search-result/search-result.component';
-import { AuthGuard } from './guard/auth.guard';
+import { AuthGuard } from './core/auth/guard/auth.guard';
 import { CategoryPageComponent } from './components/category-page/category-page.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
