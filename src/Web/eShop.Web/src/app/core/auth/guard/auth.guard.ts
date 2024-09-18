@@ -23,13 +23,13 @@ export class AuthGuard implements CanActivate {
         } else if (roles.includes('product-manager')) {
           this.router.navigate(['/product-management']);
         } else if (roles.includes('user')) {
-          this.router.navigate(['/user']);
+          this.router.navigate(['/user-profile']);
         } else if (roles.includes('admin')) {
           this.router.navigate(['/admin']);
         } else {
           this.router.navigate(['/']);
         }
-        return false;
+        return false
       } else {
         this.router.navigate(['/login']);
         return false;
