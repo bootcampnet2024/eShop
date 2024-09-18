@@ -1,8 +1,8 @@
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { tap, switchMap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { tap, switchMap, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 interface AuthResponse {
@@ -28,10 +28,10 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router, private jtwHelper : JwtHelperService) {}
 
-  getToken(client_id : string, grant_type: string, username : string, password : string, url : string) : Observable<AuthResponse> {
+  private getToken(client_id : string, username : string, password : string) : Observable<AuthResponse> {
     const body = new URLSearchParams();
     body.set('client_id', client_id);
-    body.set('grant_type', grant_type);
+    body.set('grant_type', 'password');
     body.set('username', username);
     body.set('password',password);
 
@@ -39,7 +39,7 @@ export class AuthService {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    return this.http.post<AuthResponse>(url, body.toString(), { headers })
+    return this.http.post<AuthResponse>(this.adminUrl, body.toString(), { headers })
     .pipe(
       tap((response: AuthResponse) => {
         this.storeTokens(response);
@@ -47,12 +47,16 @@ export class AuthService {
     );
   }
 
+  getAdminToken(): Observable<AuthResponse>{
+    return this.getToken(this.adminclientId, 'admin', 'admin');
+  }
+
   login(username: string, password: string): Observable<AuthResponse>{
-    return this.getToken(this.loginclientId, 'password', username, password, this.adminUrl);
+    return this.getToken(this.loginclientId, username, password);
   }
 
   signin(username: string, password: string, email: string, address: string, cep: string, cpf: string): Observable<any> {
-    return this.getToken(this.adminclientId, 'password', 'admin', 'admin', this.adminUrl)
+    return this.getAdminToken()
     .pipe(
       switchMap((response: AuthResponse) => {
         const token = response.access_token;
@@ -101,11 +105,77 @@ export class AuthService {
     return !!this.getAccessToken();
     }
 
-  getAccessToken(): string | null {
-    return localStorage.getItem('access_token');
+  getAccessToken(): string {
+    return localStorage.getItem('access_token') ?? '';
   }
 
   private isTokenExpired(token: string): boolean {
     return this.jtwHelper.isTokenExpired(token);
   }
+
+  private refreshToken(): Observable<AuthResponse> {
+    const accessToken = this.getAccessToken() ?? '';
+
+    if (this.isTokenExpired(accessToken)) {
+      const refreshToken = localStorage.getItem('refresh_token') ?? '';
+      if (!refreshToken) {
+        this.logout();
+      }
+
+      const body = new URLSearchParams();
+      body.set('client_id', this.loginclientId);
+      body.set('grant_type', 'refresh_token');
+      body.set('refresh_token', refreshToken);
+
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+      });
+
+      return this.http.post<AuthResponse>(this.adminUrl, body.toString(), { headers }).pipe(
+        tap((response: AuthResponse) => {
+          this.storeTokens(response);
+        }),
+        catchError((error) => {
+          this.logout();
+          return throwError (error)
+        })
+      );
+    } else {
+      return new Observable<AuthResponse>((observer) => {
+        observer.next({
+          access_token: accessToken,
+          refresh_token: localStorage.getItem('refresh_token')!,
+          expires_in: Number(localStorage.getItem('expires_in')),
+          refresh_expires_in: 0,
+          token_type: localStorage.getItem('token_type')!,
+          'not-before-policy': 0,
+          session_state: '',
+          scope: ''
+        });
+        observer.complete();
+      });
+    }
+  }
+
+  isInRole(): string {
+    if (this.isAuthenticated()) {
+      const token = this.getAccessToken();
+      const decodedToken = this.jtwHelper.decodeToken(token);
+      const roles = decodedToken?.realm_access?.roles ;
+
+      if (roles?.includes('user-manager')) {
+        return '/user-management';
+      } else if (roles.includes('product-manager')) {
+        return '/product-management';
+      } else if (roles.includes('user')) {
+        return '/user-profile';
+      } else if (roles.includes('admin')) {
+        return '/admin'
+      } else return 'no role matched'
+
+    }
+    else return ('not authenticated')
+  }
+
+
 }
