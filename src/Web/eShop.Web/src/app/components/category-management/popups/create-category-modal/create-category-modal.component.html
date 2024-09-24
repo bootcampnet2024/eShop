@@ -1,0 +1,27 @@
+<form [formGroup]="categoryForm">
+  <h1 mat-dialog-title>New Category</h1>
+  <div mat-dialog-content class="form-inputs">
+    <mat-form-field class="name">
+      <mat-label>Category Name</mat-label>
+      <input
+        color="primary"
+        #name
+        maxlength="30"
+        matInput
+        formControlName="name"
+      />
+      <mat-hint align="end">{{ name.value.length }} / 30</mat-hint>
+    </mat-form-field>
+    <div class="actions">
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="!categoryForm.valid"
+        (click)="addCategory()"
+      >
+        Add
+      </button>
+      <button mat-button color="warn" (click)="close()">Cancel</button>
+    </div>
+  </div>
+</form>
