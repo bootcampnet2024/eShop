@@ -1,3 +1,4 @@
+import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { LandingPageComponent } from './components/home/landing-page/landing-page.component';
 import { LoginPageComponent } from './components/authentication/login-page/login-page.component';
@@ -11,6 +12,7 @@ import { CategoryPageComponent } from './components/category-page/category-page.
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { CategoryManagementComponent } from './components/category-management/category-management.component';
+import { BrandManagementComponent } from './components/brand-management/brand-management.component';
 
 
 export const routes: Routes = [
@@ -25,4 +27,5 @@ export const routes: Routes = [
     {path: 'category', component: CategoryPageComponent},
     {path: 'product-management', component: ProductManagementComponent},
     {path: 'category-management', component: CategoryManagementComponent},
+    {path: 'brand-management', component: BrandManagementComponent}
 ];

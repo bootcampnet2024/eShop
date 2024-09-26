@@ -1,0 +1,27 @@
+<form [formGroup]="brandForm">
+  <h1 mat-dialog-title>New Brand</h1>
+  <div mat-dialog-content class="form-inputs">
+    <mat-form-field class="name">
+      <mat-label>Brand Name</mat-label>
+      <input
+        color="primary"
+        #name
+        maxlength="50"
+        matInput
+        formControlName="name"
+      />
+      <mat-hint align="end">{{ name.value.length }} / 30</mat-hint>
+    </mat-form-field>
+    <div class="actions">
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="!brandForm.valid"
+        (click)="addBrand()"
+      >
+        Add
+      </button>
+      <button mat-button color="warn" (click)="close()">Cancel</button>
+    </div>
+  </div>
+</form>
