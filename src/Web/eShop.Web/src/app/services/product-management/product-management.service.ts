@@ -5,6 +5,7 @@ import { Product } from '../../models/product.model';
 import { Brand } from '../../models/brand.model';
 import { Category } from '../../models/category.model';
 import { ProductDTO } from '../../models/productDTO.model';
+import { CategoryDTO } from '../../models/categoryDTO.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,18 @@ export class ProductManagementService {
 
   getCategories() : Observable<Category[]> {
     return this.http.get<Category[]>(`${this.url}/${this.categories}`);
+  }
+
+  getCategoryById(id: number) : Observable<Category> {
+    return this.http.get<Category>(`${this.url}/${this.categories}/${id}`)
+  }
+
+  addCategory(category: CategoryDTO) : Observable<string> {
+    return this.http.post<string>(`${this.url}/${this.categories}`, category, {responseType: 'text' as 'json'});
+  }
+
+  updateCategory(id: number, category: CategoryDTO) : Observable<string> {
+    return this.http.put<string>(`${this.url}/${this.categories}?id=${id}`, category, {responseType: 'text' as 'json'});
   }
 
   getProducts() : Observable<Product[]> {
