@@ -47,11 +47,13 @@
                 <td>Nome da Pessoa</td>
                 <td>Email da Pessoa</td>
                 <td>
-                  <img
+                  <img [routerLink]="['/edit-user-management']"
+                  routerLinkActive="router-link-active"
                     src="../../../../assets/user-manager/edit.png"
                     alt="Edit"
                     style="cursor: pointer"
                   />
+
                 </td>
                 <td>
                   <img
@@ -60,8 +62,6 @@
                   />
                 </td>
               </tr>
-
-
             </tbody>
           </table>
         </div>
