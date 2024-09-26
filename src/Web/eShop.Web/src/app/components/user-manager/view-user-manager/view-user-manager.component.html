@@ -1,0 +1,71 @@
+<div class="content">
+  <div class="container">
+    <div class="conteudo1">
+      <p>Manage</p>
+      <div class="opcoes">
+        <a
+          [routerLink]="['/create-user-management']"
+          routerLinkActive="router-link-active"
+        >
+          <img src="../../../../assets/user-manager/add.png" alt="" />Create new
+          user</a
+        >
+        <br />
+        <a
+          [routerLink]="['/view-user-management']"
+          routerLinkActive="router-link-active"
+        >
+          <img src="../../../../assets/user-manager/file.png" alt="" />View
+          existents users</a
+        >
+        <br />
+        <a
+          [routerLink]="['/edit-user-management']"
+          routerLinkActive="router-link-active"
+        >
+          <img src="../../../../assets/user-manager/edit.png" alt="" />Edit a
+          user</a
+        >
+        <br />
+      </div>
+    </div>
+
+    <div class="quadro">
+      <div class="conteudo2">
+        <div class="tabela">
+          <table class="lista">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Nome da Pessoa</td>
+                <td>Email da Pessoa</td>
+                <td>
+                  <img
+                    src="../../../../assets/user-manager/edit.png"
+                    alt="Edit"
+                    style="cursor: pointer"
+                  />
+                </td>
+                <td>
+                  <img
+                    src="../../../../assets/user-manager/delete.png"
+                    alt="Delete"
+                  />
+                </td>
+              </tr>
+
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
