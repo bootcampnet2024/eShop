@@ -373,3 +373,44 @@ body {
 .table-container__table__check{
   color: #007bff;
 }
+
+.management-form{
+  margin: 2em;
+  gap: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.management-form__inputs{
+  gap: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.management-form__inputs__name{
+  width: 100%;
+}
+
+.management-form__actions{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.management-form__actions button{
+  width: 45%;
+}
+
+.management-form__small-inputs{
+  width: 25%;
+}
+
+.management-form__small-inputs-field{
+  gap: 1em;
+  display: flex;
+}
+
+.management-form__checkboxes{
+  display: flex;
+  justify-content: space-between
+}

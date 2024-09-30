@@ -1,7 +1,7 @@
-<form [formGroup]="productForm">
+<form class="management-form" [formGroup]="productForm">
   <h1 mat-dialog-title>Product</h1>
-  <div mat-dialog-content class="form-inputs">
-    <mat-form-field class="name">
+  <div mat-dialog-content class="management-form__inputs">
+    <mat-form-field class="management-form__inputs__name">
       <mat-label>Product Name</mat-label>
       <input color="primary" matInput formControlName="name" />
     </mat-form-field>
@@ -16,16 +16,16 @@
       ></textarea>
       <mat-hint align="end">{{ description.value.length }} / 300</mat-hint>
     </mat-form-field>
-    <div class="small-inputs-field">
-      <mat-form-field class="small-inputs">
+    <div class="management-form__small-inputs-field">
+      <mat-form-field class="management-form__small-inputs">
         <mat-label>Quantity</mat-label>
         <input color="primary" matInput formControlName="quantity" />
       </mat-form-field>
-      <mat-form-field class="small-inputs">
+      <mat-form-field class="management-form__small-inputs">
         <mat-label>Price</mat-label>
         <input color="primary" matInput formControlName="price" />
       </mat-form-field>
-      <mat-form-field class="small-inputs">
+      <mat-form-field class="management-form__small-inputs">
         <mat-label>Brand</mat-label>
         <mat-select formControlName="brandId">
           @for ( brand of brands; track brand.id ) {
@@ -33,7 +33,7 @@
           }
         </mat-select>
       </mat-form-field>
-      <mat-form-field class="small-inputs">
+      <mat-form-field class="management-form__small-inputs">
         <mat-label>Category</mat-label>
         <mat-select formControlName="categoryId">
           @for ( category of categories; track category.id ) {
@@ -42,11 +42,11 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <mat-form-field class="image-url-input">
+    <mat-form-field>
       <mat-label>Image URL</mat-label>
       <input color="primary" matInput formControlName="imageURL" />
     </mat-form-field>
-    <div class="checkboxes">
+    <div class="management-form__checkboxes">
       <div>
         <mat-checkbox color="primary" formControlName="isActive"
           >Is Active</mat-checkbox
@@ -59,7 +59,7 @@
       </div>
     </div>
   </div>
-  <div class="actions">
+  <div class="management-form__actions">
     <button mat-flat-button color="primary" [disabled]="!productForm.valid" (click)="updateProduct()">
       Save
     </button>

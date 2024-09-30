@@ -1,7 +1,7 @@
-<form [formGroup]="categoryForm">
+<form class="management-form" [formGroup]="categoryForm">
   <h1 mat-dialog-title>New Category</h1>
-  <div mat-dialog-content class="form-inputs">
-    <mat-form-field class="name">
+  <div mat-dialog-content class="management-form__inputs">
+    <mat-form-field class="management-form__inputs__name">
       <mat-label>Category Name</mat-label>
       <input
         color="primary"
@@ -12,7 +12,7 @@
       />
       <mat-hint align="end">{{ name.value.length }} / 30</mat-hint>
     </mat-form-field>
-    <div class="actions">
+    <div class="management-form__actions">
       <button
         mat-flat-button
         color="primary"

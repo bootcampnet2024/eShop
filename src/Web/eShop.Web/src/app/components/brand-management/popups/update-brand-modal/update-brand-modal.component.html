@@ -1,12 +1,12 @@
-<form [formGroup]="brandForm">
+<form class="management-form" [formGroup]="brandForm">
   <h1 mat-dialog-title>Brand</h1>
-  <div mat-dialog-content class="form-inputs">
-    <mat-form-field class="name">
+  <div mat-dialog-content class="management-form__inputs">
+    <mat-form-field class="management-form__inputs__name">
       <mat-label>Brand Name</mat-label>
       <input color="primary" matInput formControlName="name" />
     </mat-form-field>
     </div>
-  <div class="actions">
+  <div class="management-form__actions">
     <button mat-flat-button color="primary" [disabled]="!brandForm.valid" (click)="updateBrand()">
       Save
     </button>
