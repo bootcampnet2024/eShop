@@ -112,6 +112,6 @@ describe('AuthService', () => {
     });
 
     localStorage.setItem('access_token', 'mockAccessToken');
-    expect(authService.isInRole()).toBe('/user-management');
+    expect(authService.getRoles()).toContain('user-manager');
   });
 });

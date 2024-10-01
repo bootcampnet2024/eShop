@@ -19,7 +19,7 @@ export class LoginPageComponent {
   login() {
     this.authService.login(this.username, this.password).subscribe({
       next: () => {
-        const roleBasedRoute = this.authService.isInRole();
+        const roleBasedRoute = this.authService.getRoleUrl();
         this.router.navigate([roleBasedRoute]);
       },
       error: (error) => {

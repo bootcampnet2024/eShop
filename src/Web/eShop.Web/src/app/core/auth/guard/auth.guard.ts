@@ -1,29 +1,43 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanActivateChild, CanLoad, CanMatch, Router } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  CanActivateChild,
+  Router,
+} from '@angular/router';
 import { AuthService } from '../auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate, CanActivateChild, CanMatch {
+export class AuthGuard implements CanActivate, CanActivateChild {
   constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate(): boolean {
-    return this.checkAuth();
+  canActivate(route: ActivatedRouteSnapshot): boolean {
+    return this.checkAuth(route);
   }
 
-  canActivateChild(): boolean {
-    return this.checkAuth();
+  canActivateChild(route: ActivatedRouteSnapshot): boolean {
+    return this.checkAuth(route);
   }
 
-  canMatch(): boolean {
-    return this.checkAuth();
-  }
+  private checkAuth(route: ActivatedRouteSnapshot): boolean {
+    const targetUrl = `/${route.url.join('/')}`;
 
-  private checkAuth() : boolean {
     if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/login']);
       return false;
+    }
+    if (targetUrl.includes('management')) {
+      if (
+        this.authService
+          .getRoles()
+          .find((x) => x.includes('manager') || x.includes('admin')) ===
+        undefined
+      ) {
+        this.router.navigate(['']);
+        return false;
+      }
     }
     return true;
   }

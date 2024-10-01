@@ -176,19 +176,31 @@ export class AuthService {
     }
   }
 
-  isInRole(): string {
+  getRoles(): string[] {
     if (this.isAuthenticated()) {
       const token = this.getAccessToken();
       const decodedToken = this.jtwHelper.decodeToken(token);
       const roles = decodedToken?.realm_access?.roles;
 
+      return roles;
+    }
+    return [];
+  }
+
+  getRoleUrl(): string {
+    if (this.isAuthenticated()) {
+      const roles = this.getRoles();
+
       if (roles.includes('user-manager')) return '/user-management';
-      if (roles.includes('product-manager')) return '/product-management';
       if (roles.includes('user')) return '/user-profile';
       if (roles.includes('admin')) return '/admin';
 
-      return '/signin';
+      const managerType = roles.find(x => x.includes("manager"));
+
+      if (managerType === undefined) return ""
+
+      return managerType.replace("manager", "management")
     }
-    return 'not authenticated';
+    return '';
   }
 }

@@ -28,10 +28,10 @@ export const routes: Routes = [
     {path: 'payment', component: PaymentPageComponent},
     {path: 'search', component: SearchResultComponent},
     {path: 'category', component: CategoryPageComponent},
-    {path: 'product-management', component: ProductManagementComponent},
-    {path: 'category-management', component: CategoryManagementComponent},
     {path: 'create-user-management', component: CreateUserManagerComponent},
     {path: 'edit-user-management', component: EditUserManagerComponent},
     {path: 'view-user-management', component: ViewUserManagerComponent},
-    {path: 'brand-management', component: BrandManagementComponent}
+    {path: 'product-management', component: ProductManagementComponent, canActivate: [AuthGuard]},
+    {path: 'category-management', component: CategoryManagementComponent, canActivate: [AuthGuard]},
+    {path: 'brand-management', component: BrandManagementComponent, canActivate: [AuthGuard]}
 ];
