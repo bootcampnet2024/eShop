@@ -9,6 +9,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
     if (this.authService.isInRole() == 'user-manager') {
       return this.authService.getAdminToken().pipe(
         switchMap(token => {

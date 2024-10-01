@@ -75,7 +75,8 @@ export class AuthService {
             type: 'password',
             value: password,
             temporary: false
-          }]
+          }],
+          groups : ["user"]
         };
 
         const headers = new HttpHeaders({
@@ -171,7 +172,7 @@ export class AuthService {
         return '/user-profile';
       } else if (roles.includes('admin')) {
         return '/admin'
-      } else return 'no role matched'
+      } else return '/signin'
 
     }
     else return ('not authenticated')
