@@ -11,23 +11,20 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule],
 })
 export class LoginPageComponent {
-
   username: string = '';
   password: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
   login() {
-    this.authService.login(this.username, this.password).subscribe(
-      () => {
-        this.router.navigate(['/user-profile']);
+    this.authService.login(this.username, this.password).subscribe({
+      next: () => {
+        const roleBasedRoute = this.authService.isInRole();
+        this.router.navigate([roleBasedRoute]);
       },
-      (error) => {
+      error: (error) => {
         console.error('Error to login', error);
-      }
-    );
+      },
+    });
   }
-
-
 }
-

@@ -20,44 +20,59 @@ interface AuthResponse {
   providedIn: 'root',
 })
 export class AuthService {
-
-  private adminUrl = 'http://localhost:8070/realms/eshop/protocol/openid-connect/token';
+  private adminUrl =
+    'http://localhost:8070/realms/eshop/protocol/openid-connect/token';
   private registerUrl = 'http://localhost:8070/admin/realms/eshop/users';
-  private loginclientId = 'account-user';
-  private adminclientId = 'admin-cli';
+  private loginClientId = 'account-user';
+  private adminClientId = 'admin-cli';
 
-  constructor(private http: HttpClient, private router: Router, private jtwHelper : JwtHelperService) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private jtwHelper: JwtHelperService
+  ) {}
 
-  private getToken(client_id : string, username : string, password : string) : Observable<AuthResponse> {
+  private getToken(
+    client_id: string,
+    username: string,
+    password: string
+  ): Observable<AuthResponse> {
     const body = new URLSearchParams();
     body.set('client_id', client_id);
     body.set('grant_type', 'password');
     body.set('username', username);
-    body.set('password',password);
+    body.set('password', password);
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    return this.http.post<AuthResponse>(this.adminUrl, body.toString(), { headers })
-    .pipe(
-      tap((response: AuthResponse) => {
-        this.storeTokens(response);
-      })
-    );
+    return this.http
+      .post<AuthResponse>(this.adminUrl, body.toString(), { headers })
+      .pipe(
+        tap((response: AuthResponse) => {
+          this.storeTokens(response);
+        })
+      );
   }
 
-  getAdminToken(): Observable<AuthResponse>{
-    return this.getToken(this.adminclientId, 'admin', 'admin');
+  getAdminToken(): Observable<AuthResponse> {
+    return this.getToken(this.adminClientId, 'admin', 'admin');
   }
 
-  login(username: string, password: string): Observable<AuthResponse>{
-    return this.getToken(this.loginclientId, username, password);
+  login(username: string, password: string): Observable<AuthResponse> {
+    return this.getToken(this.loginClientId, username, password);
   }
 
-  signin(username: string, password: string, email: string, address: string, cep: string, cpf: string): Observable<any> {
-    return this.getAdminToken()
-    .pipe(
+  signin(
+    username: string,
+    password: string,
+    email: string,
+    address: string,
+    cep: string,
+    cpf: string
+  ): Observable<any> {
+    return this.getAdminToken().pipe(
       switchMap((response: AuthResponse) => {
         const token = response.access_token;
 
@@ -71,24 +86,25 @@ export class AuthService {
             cpf: cpf,
             address: address,
           },
-          credentials: [{
-            type: 'password',
-            value: password,
-            temporary: false
-          }],
-          groups : ["user"]
+          credentials: [
+            {
+              type: 'password',
+              value: password,
+              temporary: false,
+            },
+          ],
+          groups: ['user'],
         };
 
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         });
 
         return this.http.post(this.registerUrl, body, { headers });
-      }));
-
+      })
+    );
   }
-
 
   private storeTokens(tokens: AuthResponse): void {
     localStorage.setItem('access_token', tokens.access_token);
@@ -104,7 +120,7 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     return !!this.getAccessToken();
-    }
+  }
 
   getAccessToken(): string {
     return localStorage.getItem('access_token') ?? '';
@@ -124,7 +140,7 @@ export class AuthService {
       }
 
       const body = new URLSearchParams();
-      body.set('client_id', this.loginclientId);
+      body.set('client_id', this.loginClientId);
       body.set('grant_type', 'refresh_token');
       body.set('refresh_token', refreshToken);
 
@@ -132,15 +148,17 @@ export class AuthService {
         'Content-Type': 'application/x-www-form-urlencoded',
       });
 
-      return this.http.post<AuthResponse>(this.adminUrl, body.toString(), { headers }).pipe(
-        tap((response: AuthResponse) => {
-          this.storeTokens(response);
-        }),
-        catchError((error) => {
-          this.logout();
-          return throwError (error)
-        })
-      );
+      return this.http
+        .post<AuthResponse>(this.adminUrl, body.toString(), { headers })
+        .pipe(
+          tap((response: AuthResponse) => {
+            this.storeTokens(response);
+          }),
+          catchError((error) => {
+            this.logout();
+            return throwError(() => error);
+          })
+        );
     } else {
       return new Observable<AuthResponse>((observer) => {
         observer.next({
@@ -151,7 +169,7 @@ export class AuthService {
           token_type: localStorage.getItem('token_type')!,
           'not-before-policy': 0,
           session_state: '',
-          scope: ''
+          scope: '',
         });
         observer.complete();
       });
@@ -162,21 +180,15 @@ export class AuthService {
     if (this.isAuthenticated()) {
       const token = this.getAccessToken();
       const decodedToken = this.jtwHelper.decodeToken(token);
-      const roles = decodedToken?.realm_access?.roles ;
+      const roles = decodedToken?.realm_access?.roles;
 
-      if (roles?.includes('user-manager')) {
-        return '/user-management';
-      } else if (roles.includes('product-manager')) {
-        return '/product-management';
-      } else if (roles.includes('user')) {
-        return '/user-profile';
-      } else if (roles.includes('admin')) {
-        return '/admin'
-      } else return '/signin'
+      if (roles.includes('user-manager')) return '/user-management';
+      if (roles.includes('product-manager')) return '/product-management';
+      if (roles.includes('user')) return '/user-profile';
+      if (roles.includes('admin')) return '/admin';
 
+      return '/signin';
     }
-    else return ('not authenticated')
+    return 'not authenticated';
   }
-
-
 }
