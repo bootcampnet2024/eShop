@@ -58,11 +58,11 @@ export class UserProfileComponent implements OnInit {
     this.userService.getProfile().subscribe({
       next: (data) => {
         this.perfilForm.patchValue({
-          username: data.preferred_username,
-          address: data.attributes?.address,
+          username: data.username,
+          address: data.address,
           email: data.email,
-          cpf: data.attributes?.cpf,
-          cep: data.attributes?.cep
+          cpf: data.cpf,
+          cep: data.cep
         });
         this.userId = data.sub;
         this.isLoading = false;

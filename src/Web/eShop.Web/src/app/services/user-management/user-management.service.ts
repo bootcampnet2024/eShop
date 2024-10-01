@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../core/auth/auth.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { throwError } from 'rxjs';
+import { throwError, of } from 'rxjs';
 
 
 
@@ -12,7 +12,7 @@ import { throwError } from 'rxjs';
 })
 export class UserManagementService {
 
-  private baseUrl = 'http://localhost:8070/realms/eshop/users';
+  private baseUrl = 'http://localhost:8070/admin/realms/eshop/users';
 
   constructor(private http: HttpClient, private authService: AuthService, private jwtHelper : JwtHelperService) {}
 
@@ -27,8 +27,15 @@ export class UserManagementService {
     const token = this.authService.getAccessToken();
     if (token){
       const decodedToken = this.jwtHelper.decodeToken(token);
-      const userId = decodedToken?.sub;
-      return this.http.get(`${this.baseUrl}/${userId}`);
+      const body = {
+        username: decodedToken.preferred_username,
+        email: decodedToken.email,
+        cep: decodedToken.cep,
+        cpf: decodedToken.cpf,
+        address: decodedToken.address,
+        };
+
+      return of(body);
 
     }
     else {

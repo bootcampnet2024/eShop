@@ -1545,6 +1545,22 @@
           }
         },
         {
+          "id": "acb0326a-46db-452b-9d76-8f973eb8585b",
+          "name": "email",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "introspection.token.claim": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "email",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "email",
+            "jsonType.label": "String"
+          }
+        },
+        {
           "id": "f4618974-9c39-4e56-a150-6a03375c358b",
           "name": "address",
           "protocol": "openid-connect",
