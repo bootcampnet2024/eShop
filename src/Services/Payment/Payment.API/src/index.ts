@@ -5,7 +5,7 @@ import cors from 'cors';
 import { paymentRouter } from './routes/paymentRoutes';
 import { healthRouter } from './routes/healthRoutes';
 
-const PORT = 3000;
+const PORT = process.env.NODE_PORT ?? 3000;
 
 const app = express();
 
