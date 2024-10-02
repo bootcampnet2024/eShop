@@ -16,7 +16,7 @@ internal class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-
+        builder.Services.AddHealthChecks();
         builder.Services.AddDbContext<ApplicationDataContext>(options =>
         {
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -47,6 +47,7 @@ internal class Program
         app.UseAuthorization();
         app.UseCors();
         app.MapControllers();
+        app.MapHealthChecks("/health");
 
         app.Run();
     }
