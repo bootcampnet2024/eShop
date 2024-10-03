@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PaymentPageComponent } from './payment-page.component';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { appConfig } from '../../app.config';
 
 describe('PaymentPageComponent', () => {
   let component: PaymentPageComponent;
@@ -8,7 +10,11 @@ describe('PaymentPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PaymentPageComponent]
+      imports: [PaymentPageComponent],
+      providers: [
+        provideHttpClientTesting(),
+        ...appConfig.providers
+      ]
     })
     .compileComponents();
 

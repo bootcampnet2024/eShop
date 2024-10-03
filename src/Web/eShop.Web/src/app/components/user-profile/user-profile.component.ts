@@ -42,8 +42,9 @@ export class UserProfileComponent implements OnInit {
   constructor(private fb: FormBuilder, private userService: UserManagementService, private authService : AuthService) {
     this.perfilForm = this.fb.group({
       username: ['', Validators.required],
-      number: ['', Validators.required],
       email: [{ value: '', disabled: true }],
+      address: [{ value: "", disabled: true}],
+      number: [ { value: "", disabled: true }],
       cpf: [{ value: '', disabled: true }],
       cep: ['', Validators.required]
     });
@@ -59,6 +60,7 @@ export class UserProfileComponent implements OnInit {
       next: (data) => {
         this.perfilForm.patchValue({
           username: data.username,
+          number: data.number,
           address: data.address,
           email: data.email,
           cpf: data.cpf,
@@ -83,6 +85,7 @@ export class UserProfileComponent implements OnInit {
         username: this.perfilForm.get('username')?.value,
         email: this.perfilForm.get('email')?.value,
         attributes: {
+          number: this.perfilForm.get('number')?.value,
           cpf: this.perfilForm.get('cpf')?.value,
           address: this.perfilForm.get('address')?.value,
           cep: this.perfilForm.get('cep')?.value

@@ -23,7 +23,7 @@ export class UpdateCategoryModalComponent {
         this.getCategory(this.data.id);
         console.log(this.category)
       } else {
-        console.log("Invalid Id!");
+        this.close()
       }
   }
 
