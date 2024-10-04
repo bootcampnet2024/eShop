@@ -28,17 +28,35 @@ export class AuthGuard implements CanActivate, CanActivateChild {
       this.router.navigate(['/login']);
       return false;
     }
-    if (targetUrl.includes('management')) {
+
+    if (targetUrl.includes('user-management')) {
       if (
         this.authService
           .getRoles()
-          .find((x) => x.includes('manager') || x.includes('admin')) ===
+          .find((x) => x.includes('user-manager') || x.includes('admin')) ===
         undefined
       ) {
         this.router.navigate(['']);
         return false;
       }
     }
+
+    if (
+      targetUrl.includes('product-management') ||
+      targetUrl.includes('brand-management') ||
+      targetUrl.includes('category-management')
+    ) {
+      if (
+        this.authService
+          .getRoles()
+          .find((x) => x.includes('product-manager') || x.includes('admin')) ===
+        undefined
+      ) {
+        this.router.navigate(['']);
+        return false;
+      }
+    }
+    
     return true;
   }
 }

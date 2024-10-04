@@ -28,9 +28,9 @@ export const routes: Routes = [
     {path: 'payment', component: PaymentPageComponent},
     {path: 'search', component: SearchResultComponent},
     {path: 'category', component: CategoryPageComponent},
-    {path: 'create-user-management', component: CreateUserManagerComponent},
-    {path: 'edit-user-management', component: EditUserManagerComponent},
-    {path: 'view-user-management', component: ViewUserManagerComponent},
+    {path: 'create-user-management', component: CreateUserManagerComponent, canActivate: [AuthGuard]},
+    {path: 'edit-user-management', component: EditUserManagerComponent, canActivate: [AuthGuard]},
+    {path: 'view-user-management', component: ViewUserManagerComponent, canActivate: [AuthGuard]},
     {path: 'product-management', component: ProductManagementComponent, canActivate: [AuthGuard]},
     {path: 'category-management', component: CategoryManagementComponent, canActivate: [AuthGuard]},
     {path: 'brand-management', component: BrandManagementComponent, canActivate: [AuthGuard]}

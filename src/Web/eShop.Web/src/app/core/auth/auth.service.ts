@@ -191,7 +191,7 @@ export class AuthService {
     if (this.isAuthenticated()) {
       const roles = this.getRoles();
 
-      if (roles.includes('user-manager')) return '/user-management';
+      if (roles.includes('user-manager')) return '/view-user-management';
       if (roles.includes('user')) return '/user-profile';
       //if (roles.includes('admin')) return '/admin';
 
