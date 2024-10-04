@@ -12,6 +12,9 @@ import { CategoryPageComponent } from './components/category-page/category-page.
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { CategoryManagementComponent } from './components/category-management/category-management.component';
+import { CreateUserManagerComponent } from './components/user-manager/create-user-manager/create-user-manager.component';
+import { ViewUserManagerComponent } from './components/user-manager/view-user-manager/view-user-manager.component';
+import { EditUserManagerComponent } from './components/user-manager/edit-user-manager/edit-user-manager.component';
 import { BrandManagementComponent } from './components/brand-management/brand-management.component';
 
 
@@ -27,5 +30,8 @@ export const routes: Routes = [
     {path: 'category', component: CategoryPageComponent},
     {path: 'product-management', component: ProductManagementComponent},
     {path: 'category-management', component: CategoryManagementComponent},
+    {path: 'create-user-management', component: CreateUserManagerComponent},
+    {path: 'edit-user-management', component: EditUserManagerComponent},
+    {path: 'view-user-management', component: ViewUserManagerComponent},
     {path: 'brand-management', component: BrandManagementComponent}
 ];
