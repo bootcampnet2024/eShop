@@ -10,41 +10,37 @@ services:
     entrypoint: ["/bin/bash", "/usr/config/entrypoint.sh"]
 
   catalog.api:
+    image: bootcamp2024eshop-catalog.api:${TAG:-dev}
     build:
       context: .
       dockerfile: src/Services/Catalog/Catalog.API/Dockerfile
-      tags:
-        - "bootcamp2024eshop-catalog.api:${TAG:-dev}"
     depends_on:
       sql.server:
         condition: service_healthy
 
   basket.api:
+    image: bootcamp2024eshop-basket.api:${TAG:-dev}
     build:
       context: .
       dockerfile: src/Services/Basket/Basket.API/Dockerfile
-      tags:
-        - "bootcamp2024eshop-basket.api:${TAG:-dev}"
     depends_on:
       sql.server:
         condition: service_healthy
 
   ordering.api:
+    image: bootcamp2024eshop-ordering.api:${TAG:-dev}
     build:
       context: .
       dockerfile: src/Services/Ordering/Ordering.API/Dockerfile
-      tags:
-        - "bootcamp2024eshop-ordering.api:${TAG:-dev}"
     depends_on:
       sql.server:
         condition: service_healthy
 
   gateway.api:
+    image: bootcamp2024eshop-gateway.api:${TAG:-dev}
     build:
       context: .
       dockerfile: src/Gateway/eShop.Gateway/Dockerfile
-      tags:
-        - "bootcamp2024eshop-gateway.api:${TAG:-dev}"
 
   keycloak:
     image: quay.io/keycloak/keycloak:25.0.6
@@ -63,18 +59,16 @@ services:
       - 8070:8070
 
   payment.api:
+    image: bootcamp2024eshop-payment.api:${TAG:-dev}
     build:
       context: ./src/Services/Payment/Payment.API
       dockerfile: Dockerfile
-      tags:
-        - "bootcamp202.eshop-payment.api:${TAG:-dev}"
 
   web:
+    image: bootcamp2024eshop-web:${TAG:-dev}
     build:
       context: src/Web/eShop.Web
       dockerfile: Dockerfile
-      tags:
-        - "bootcamp2024eshop-web:${TAG:-dev}"
 
 volumes:
   sql.server.data:

@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Basket.API._01_Services.Models;
+﻿using Basket.API._01_Services.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Basket.API._02_Infrastructure.Data
 {
@@ -14,11 +14,11 @@ namespace Basket.API._02_Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.HasDefaultSchema("basket");
 
             modelBuilder.Entity<UserBasket>()
                 .Property(ub => ub.UserId)
-                .ValueGeneratedNever(); 
+                .ValueGeneratedNever();
 
             modelBuilder.Entity<CartItem>()
                 .Property(c => c.Price)
