@@ -7,11 +7,6 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-if (string.IsNullOrWhiteSpace(connectionString))
-{
-    throw new InvalidOperationException("Connection string is missing");
-}
-
 if (builder.Environment.IsProduction())
 {
     connectionString = builder.Configuration.GetConnectionString("DockerConnection");
