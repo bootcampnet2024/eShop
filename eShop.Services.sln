@@ -20,6 +20,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering.Domain", "src\Services\Ordering\Ordering.Domain\Ordering.Domain.csproj", "{BB0AD06F-2DEB-44A8-9198-9FC9D54DA9C7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering.Infrastructure", "src\Services\Ordering\Ordering.Infrastructure\Ordering.Infrastructure.csproj", "{F936324D-BDF1-47B8-9CDF-E7040A68EA93}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BB0AD06F-2DEB-44A8-9198-9FC9D54DA9C7} = {BB0AD06F-2DEB-44A8-9198-9FC9D54DA9C7}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{4AC73117-8741-4806-BE81-6C87CD06FCE5}"
 EndProject
