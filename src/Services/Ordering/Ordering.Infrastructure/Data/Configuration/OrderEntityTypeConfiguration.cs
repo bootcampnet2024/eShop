@@ -10,12 +10,17 @@ internal class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
     {
         builder.ToTable("Order");
 
+        builder.Ignore(o => o.DomainEvents);
+
         builder.Property(o => o.Id)
-            .ValueGeneratedOnAdd();
+            .UseHiLo("orderseq");
 
         builder.Property(o => o.OrderDate)
             .ValueGeneratedOnAdd()
-            .HasDefaultValue(DateTime.UtcNow);
+            .HasDefaultValueSql("GETUTCDATE()");
+
+        builder.Property(o => o.OrderStatus)
+            .HasConversion<string>();
 
         builder.Property(o => o.Description)
             .IsRequired(false);

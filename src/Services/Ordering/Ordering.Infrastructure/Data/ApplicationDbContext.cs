@@ -15,12 +15,18 @@ public class ApplicationDbContext : DbContext, IUnitOfWork
     public virtual DbSet<Buyer> Buyers { get; set; }
     public virtual DbSet<Order> Orders { get; set; }
     public virtual DbSet<OrderItem> Items { get; set; }
+    public virtual DbSet<CardType> CardTypes { get; set; }
+
+    public async Task SeedAsync()
+    {
+        await AddDefaultCardTypes();
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        modelBuilder.HasDefaultSchema("orders");
 
-        base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -31,5 +37,13 @@ public class ApplicationDbContext : DbContext, IUnitOfWork
     public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
     {
         return await SaveChangesAsync(cancellationToken) > 0;
+    }
+
+    private async Task AddDefaultCardTypes()
+    {
+        if (!CardTypes.Any())
+            CardTypes.AddRange(Enumeration.GetAll<CardType>());
+
+        await SaveChangesAsync();
     }
 }
