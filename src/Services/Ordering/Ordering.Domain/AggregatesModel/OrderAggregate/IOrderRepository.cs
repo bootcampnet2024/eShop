@@ -1,9 +1,4 @@
 ﻿using Ordering.Domain.Kernel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ordering.Domain.AggregatesModel.OrderAggregate
 {
@@ -12,6 +7,8 @@ namespace Ordering.Domain.AggregatesModel.OrderAggregate
         Order Add(Order order);
 
         void Update(Order order);
+
+        Task<IEnumerable<Order>> GetByUserIdAsync(string userId);
 
         Task<Order> GetAsync(int orderId);
     }

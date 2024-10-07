@@ -15,8 +15,10 @@ internal class OrdemItemEntityTypeConfiguration : IEntityTypeConfiguration<Order
             t.HasCheckConstraint("CK_Units_NonNegativeOrZero", "[Units] > 0");
         });
 
+        builder.Ignore(i => i.DomainEvents);
+
         builder.Property(i => i.Id)
-            .ValueGeneratedOnAdd();
+            .UseHiLo("orderitemseq");
 
         builder.Property(i => i.UnitPrice)
                .IsRequired()
@@ -29,5 +31,7 @@ internal class OrdemItemEntityTypeConfiguration : IEntityTypeConfiguration<Order
         builder.Property(i => i.ProductName)
             .IsRequired()
             .HasMaxLength(50);
+
+        builder.Property<int>("OrderId");
     }
 }

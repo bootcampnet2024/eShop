@@ -10,22 +10,37 @@ internal class PaymentMethodsEntityTypeConfiguration : IEntityTypeConfiguration<
     {
         builder.ToTable("PaymentMethod");
 
+        builder.Ignore(b => b.DomainEvents);
+
+        builder.Property(b => b.Id)
+            .UseHiLo("paymentseq");
+
+        builder.Property<int>("BuyerId");
+
         builder.Property(i => i.Id)
             .ValueGeneratedOnAdd();
 
-        builder.Property(p => p.Alias)
+        builder.Property("_alias")
+            .HasColumnName("Alias")
             .IsRequired()
             .HasMaxLength(50);
 
-        builder.Property(p => p.CardNumber)
+        builder.Property("_cardNumber")
+            .HasColumnName("CardNumber")
             .IsRequired()
             .HasMaxLength(25);
 
-        builder.Property(p => p.SecurityNumber)
-            .HasMaxLength(4);
-
-        builder.Property(p => p.CardHolderName)
+        builder.Property("_cardHolderName")
+            .HasColumnName("CardHolderName")
             .IsRequired()
             .HasMaxLength(20);
+
+        builder.Property("_expiration")
+            .HasColumnName("Expiration")
+            .IsRequired();
+
+        builder.HasOne(p => p.CardType)
+            .WithMany()
+            .HasForeignKey("_cardTypeId");
     }
 }

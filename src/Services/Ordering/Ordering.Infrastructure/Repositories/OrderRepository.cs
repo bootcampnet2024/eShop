@@ -11,16 +11,15 @@ public class OrderRepository(ApplicationDbContext dbContext) : IOrderRepository
 
     public IUnitOfWork UnitOfWork => dbContext;
 
-    public Order? Add(Order order)
+    public Order Add(Order order)
     {
         if (order.IsTransient())
-        {
             return _orders.Add(order).Entity;
-        }
-        return null;
+
+        return order;
     }
 
-    public async Task<Order?> GetAsync(int orderId)
+    public async Task<Order> GetAsync(int orderId)
     {
         var order = await _orders.FindAsync(orderId);
 
@@ -33,11 +32,11 @@ public class OrderRepository(ApplicationDbContext dbContext) : IOrderRepository
         return order;
     }
 
-    public async Task<IEnumerable<Order>> GetByBuyerIdAsync(string buyerId)
+    public async Task<IEnumerable<Order>> GetByUserIdAsync(string userId)
     {
         var query = _orders
             .Include(o => o.OrderItems)
-            .Where(o => o.Buyer.IdentityGuid == buyerId)
+            .Where(o => o.Buyer.IdentityGuid == userId)
             .AsSplitQuery();
 
         return await query.ToListAsync();
@@ -45,6 +44,6 @@ public class OrderRepository(ApplicationDbContext dbContext) : IOrderRepository
 
     public void Update(Order order)
     {
-        throw new NotImplementedException();
+        _orders.Entry(order).State = EntityState.Modified;
     }
 }

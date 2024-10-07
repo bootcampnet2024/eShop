@@ -10,8 +10,10 @@ internal class BuyerEntityTypeConfiguration : IEntityTypeConfiguration<Buyer>
     {
         builder.ToTable("Buyer");
 
+        builder.Ignore(b => b.DomainEvents);
+
         builder.Property(i => i.Id)
-            .ValueGeneratedOnAdd();
+            .UseHiLo("buyerseq");
 
         builder.Property(b => b.IdentityGuid)
             .IsRequired();

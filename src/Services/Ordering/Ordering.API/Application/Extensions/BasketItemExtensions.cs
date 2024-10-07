@@ -1,5 +1,5 @@
-﻿using Ordering.API.Application.Models.DTOs;
-using Ordering.API.Application.Models;
+﻿using Ordering.API.Application.Models;
+using Ordering.API.Application.Models.DTOs;
 
 namespace Ordering.API.Application.Extensions;
 
