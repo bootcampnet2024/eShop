@@ -8,7 +8,7 @@ services:
       test:
         [
           "CMD-SHELL",
-          '/opt/mssql-tools18/bin/sqlcmd -C -No -d eShop -U sa -P Password123! -Q "SELECT 1" || exit 1',
+          '/opt/mssql-tools18/bin/sqlcmd -C -No -U sa -P Password123! -Q "SELECT 1" || exit 1',
         ]
       interval: 10s
       retries: 10

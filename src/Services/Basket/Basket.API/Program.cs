@@ -3,69 +3,96 @@ using Basket.API._02_Infrastructure.Data;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using Polly;
 
-var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-if (builder.Environment.IsProduction())
+internal class Program
 {
-    connectionString = builder.Configuration.GetConnectionString("DockerConnection");
-}
-
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddHealthChecks()
-    .AddSqlServer(connectionString);
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll",
-        policyBuilder =>
-        {
-            policyBuilder.AllowAnyOrigin()
-                         .AllowAnyMethod()
-                         .AllowAnyHeader();
-        });
-});
-
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-{
-    options.UseSqlServer(
-        connectionString,
-        x => x.MigrationsHistoryTable("__BasketMigrationsHistory", "basket"));
-});
-
-builder.Services.AddScoped<IBasketService, BasketService>();
-
-
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
-    if (dbContext.Database.GetPendingMigrations().Any())
+    private static async Task Main(string[] args)
     {
-        dbContext.Database.Migrate();
+        var builder = WebApplication.CreateBuilder(args);
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+        builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+        builder.Services.AddHealthChecks()
+            .AddSqlServer(connectionString);
+
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll",
+                policyBuilder =>
+                {
+                    policyBuilder.AllowAnyOrigin()
+                                 .AllowAnyMethod()
+                                 .AllowAnyHeader();
+                });
+        });
+
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        {
+            options.UseSqlServer(
+                connectionString,
+                x => x.MigrationsHistoryTable("__BasketMigrationsHistory", "basket"));
+        });
+
+        builder.Services.AddScoped<IBasketService, BasketService>();
+
+
+        var app = builder.Build();
+
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+            if (dbContext.Database.GetPendingMigrations().Any())
+            {
+                dbContext.Database.Migrate();
+            }
+        }
+
+        app.UseCors("AllowAll");
+
+        app.UseAuthorization();
+
+        app.MapControllers();
+        app.MapHealthChecks("/health", new HealthCheckOptions()
+        {
+            Predicate = _ => true,
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+        });
+
+        await ExecuteMigrationsPeriodically(app);
+
+        app.Run();
+    }
+
+    private static async Task ExecuteMigrationsPeriodically(WebApplication app)
+    {
+        var retryPolicy = Policy
+            .Handle<Exception>()
+            .WaitAndRetryForeverAsync(retryAttempt =>
+            {
+                return TimeSpan.FromMinutes(1);
+            });
+
+        await retryPolicy.ExecuteAsync(async () =>
+        {
+            using var scope = app.Services.CreateScope();
+
+            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+            var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
+            if (pendingMigrations.Any())
+            {
+                await dbContext.Database.MigrateAsync();
+            }
+        });
     }
 }
-
-app.UseCors("AllowAll");
-
-app.UseAuthorization();
-
-app.MapControllers();
-app.MapHealthChecks("/health", new HealthCheckOptions()
-{
-    Predicate = _ => true,
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-});
-
-app.Run();

@@ -5,9 +5,6 @@ services:
     image: mcr.microsoft.com/mssql/server:2022-latest
     volumes:
       - sql.server.data:/var/opt/mssql
-      - ./sqlserver-init.sql:/data/app/init.sql
-      - ./sqlserver-entrypoint.sh:/usr/config/entrypoint.sh
-    entrypoint: ["/bin/bash", "/usr/config/entrypoint.sh"]
 
   catalog.api:
     image: bootcamp2024eshop-catalog.api:${TAG:-dev}

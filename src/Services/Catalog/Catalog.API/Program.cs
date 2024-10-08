@@ -3,19 +3,15 @@ using Catalog.API.Services;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using Polly;
 using System.Reflection;
 
 internal class Program
 {
-    private static void Main(string[] args)
+    private static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-        if (builder.Environment.IsProduction())
-        {
-            connectionString = builder.Configuration.GetConnectionString("DockerConnection");
-        }
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
@@ -54,16 +50,6 @@ internal class Program
             app.UseSwaggerUI();
         }
 
-        using (var scope = app.Services.CreateScope())
-        {
-            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDataContext>();
-
-            if (dbContext.Database.GetPendingMigrations().Any())
-            {
-                dbContext.Database.Migrate();
-            }
-        }
-
         app.UseAuthorization();
         app.UseCors();
         app.MapControllers();
@@ -74,6 +60,31 @@ internal class Program
             ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
         });
 
+        await ExecuteMigrationsPeriodically(app);
+
         app.Run();
+    }
+
+    private static async Task ExecuteMigrationsPeriodically(WebApplication app)
+    {
+        var retryPolicy = Policy
+            .Handle<Exception>()
+            .WaitAndRetryForeverAsync(retryAttempt =>
+            {
+                return TimeSpan.FromMinutes(1);
+            });
+
+        await retryPolicy.ExecuteAsync(async () =>
+        {
+            using var scope = app.Services.CreateScope();
+
+            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDataContext>();
+
+            var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
+            if (pendingMigrations.Any())
+            {
+                await dbContext.Database.MigrateAsync();
+            }
+        });
     }
 }
