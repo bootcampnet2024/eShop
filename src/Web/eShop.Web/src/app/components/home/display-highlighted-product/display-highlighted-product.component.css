@@ -1,4 +1,4 @@
-#product-container {
+.product-container {
   display: flex;
   width: 100%;
   justify-content: center;
@@ -36,7 +36,6 @@
 .image-placeholder:hover {
   transition: 0.5s;
   filter: blur(2px);
-  /* transform: scale(1.05); */
 }
 
 .product-about {
