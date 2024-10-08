@@ -7,7 +7,7 @@ using Polly;
 
 internal class Program
 {
-    private static async Task Main(string[] args)
+    private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -68,7 +68,7 @@ internal class Program
             ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
         });
 
-        await ExecuteMigrationsPeriodically(app);
+        _ = Task.Run(() => ExecuteMigrationsPeriodically(app));
 
         app.Run();
     }
