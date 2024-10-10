@@ -1,21 +1,10 @@
-import { Brand } from './../../models/brand.model';
 import { ProductManagementService } from './../../services/product-management/product-management.service';
 import { Product } from './../../models/product.model';
-import { ChangeDetectorRef, Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle,
-} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { CreateProductModalComponent } from './popups/create-product-modal/create-product-modal.component';
 import { UpdateProductModalComponent } from './popups/update-product-modal/update-product-modal.component';
-import { ProductService } from '../../services/product-list/product.service';
-import { Category } from '../../models/category.model';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({

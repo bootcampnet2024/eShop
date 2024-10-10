@@ -1,48 +1,47 @@
 <app-header></app-header>
-
-<div class="main-container">
-  <div class="product-list">
-    <div *ngFor="let product of products; trackBy: trackByProductId" class="product-item">
-      <img [src]="product.image" alt="Product Image" class="product-image" />
-      <div class="product-details">
-        <p class="product-name">{{ product.name }}</p>
-        <p class="product-description">{{ product.description }}</p>
-        <div class="quantity-controls">
-          <button class="quantity-button"
+<div class="cart-container">
+  <div class="cart-container__product-list">
+    <div *ngFor="let product of products; trackBy: trackByProductId" class="cart-container__product-list__product-item">
+      <img [src]="product.image" alt="Product Image" class="cart-container__product-list__product-item__product-image" />
+      <div class="cart-container__product-list__product-item__product-details">
+        <p class="cart-container__product-list__product-item__product-details__name">{{ product.name }}</p>
+        <p class="cart-container__product-list__product-item__product-details__description">{{ product.description }}</p>
+        <div class="cart-container__product-list__product-item__product-details__quantity-controls">
+          <button class="cart-container__product-list__product-item__product-details__quantity-controls__button"
                   (click)="changeProductQuantity(product, -1)"
                   [disabled]="product.quantity <= 1">
             -
           </button>
-          <span class="quantity-display">{{ product.quantity }}</span>
-          <button class="quantity-button"
+          <span class="cart-container__product-list__product-item__product-details__quantity-controls__display">{{ product.quantity }}</span>
+          <button class="cart-container__product-list__product-item__product-details__quantity-controls__button"
                   (click)="changeProductQuantity(product, 1)"
                   [disabled]="product.quantity >= product.availableQuantity">
             +
           </button>
         </div>
       </div>
-      <div class="product-price">
+      <div class="cart-container__product-list__product-item__price">
         <p>R$ {{ (product.price * product.quantity).toFixed(2) }}</p>
-        <button class="delete-button" (click)="removeFromCart(product)">🗑️</button>
+        <button class="cart-container__product-list__product-item__delete-button" (click)="removeFromCart(product)">🗑️</button>
       </div>
     </div>
   </div>
-  <div class="order-summary">
-    <div class="coupon">
+  <div class="cart-container__order-summary">
+    <div class="cart-container__order-summary__coupon">
       <p>Coupon</p>
       <input type="text" />
     </div>
-    <div class="cep">
+    <div class="cart-container__order-summary__cep">
       <p>Postal Code</p>
       <input type="text" />
     </div>
-    <div class="summary">
+    <div class="cart-container__order-summary__summary">
       <p><strong>Order Summary</strong></p>
-      <div class="summary-details">
+      <div class="cart-container__order-summary__summary__details">
         <p>Subtotal:</p>
         <p>Total: R$ {{ orderTotal.toFixed(2) }}</p>
       </div>
-      <button class="buy-button" (click)="goToPaymentPage()">Checkout</button>
+      <button class="cart-container__order-summary__summary__buy-button" (click)="goToPaymentPage()">Checkout</button>
     </div>
   </div>
 </div>

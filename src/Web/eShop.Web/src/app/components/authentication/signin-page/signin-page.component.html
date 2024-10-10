@@ -1,66 +1,63 @@
-<div class="body">
+<div class="user-registration-page">
   <mat-card class="sign-in-form">
-    <h1>Register User</h1>
-      <form [formGroup]="registrationForm" (ngSubmit)="signin()">
+    <h1 class="sign-in-form__title">Register User</h1>
+    <form [formGroup]="registrationForm" (ngSubmit)="signin()" class="sign-in-form__form">
 
-        <mat-form-field appearance="outline">
-          <mat-label>Name</mat-label>
-          <input matInput formControlName="name" required>
+      <mat-form-field appearance="outline" class="sign-in-form__field">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="sign-in-form__field">
+        <mat-label>CPF</mat-label>
+        <input matInput type="cpf" formControlName="cpf" required>
+        <mat-error *ngIf="registrationForm.get('cpf')?.hasError('invalidCpf')">
+          CPF inválido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="sign-in-form__field">
+        <mat-label>E-mail</mat-label>
+        <input matInput type="email" formControlName="email" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="sign-in-form__field">
+        <mat-label>CEP</mat-label>
+        <input matInput type="cep" formControlName="cep" required (blur)="consultCep()">
+        <mat-error *ngIf="registrationForm.get('cep')?.hasError('invalidCep')">
+          CEP inválido
+        </mat-error>
+      </mat-form-field>
+
+      <div class="sign-in-form__container">
+        <mat-form-field appearance="outline" class="sign-in-form__field sign-in-form__field--grow">
+          <mat-label>Address</mat-label>
+          <input matInput type="address" formControlName="address" required>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>CPF</mat-label>
-          <input matInput type="cpf" formControlName="cpf"  class="input-group" required>
-          <mat-error *ngIf="registrationForm.get('cpf')?.hasError('invalidCpf')">
-            CPF inválido
-          </mat-error>
+        <mat-form-field appearance="outline" class="sign-in-form__field sign-in-form__field--shrink">
+          <mat-label>Number</mat-label>
+          <input matInput type="numCasa" formControlName="numCasa" required>
         </mat-form-field>
+      </div>
 
-        <mat-form-field appearance="outline">
-          <mat-label>E-mail</mat-label>
-          <input matInput type="email" formControlName="email" class="input-group" required>
-        </mat-form-field>
+      <mat-form-field appearance="outline" class="sign-in-form__field">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" required>
+        <mat-error *ngIf="registrationForm.get('password')?.hasError('minlength')">
+          The password must be at least 8 characters long.
+        </mat-error>
+      </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>CEP</mat-label>
-          <input matInput type="cep" formControlName="cep" class="input-group" required (blur)="consultCep()">
-          <mat-error *ngIf="registrationForm.get('cep')?.hasError('invalidCep')">
-            CEP inválido
-          </mat-error>
-        </mat-form-field>
-<!-- ------------------------------------------------- -->
-        <div class="flex-container">
-          <mat-form-field appearance="outline" class="flex-grow">
-            <mat-label>Address</mat-label>
-            <input matInput type="address" formControlName="address" required>
-          </mat-form-field>
-
-            <mat-form-field appearance="outline" class="flex-grow2">
-              <mat-label >Number</mat-label>
-              <input matInput type="numCasa" formControlName="numCasa" class="num" required>
-            </mat-form-field>
+      <mat-form-field appearance="outline" class="sign-in-form__field">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput type="password" formControlName="confirmPassword" required>
+        <div *ngIf="registrationForm.errors?.['mismatch']" class="sign-in-form__password-warning">
+          <p>Passwords do not match.</p>
         </div>
-<!-- -------------------------------------------------    -->
-        <mat-form-field appearance="outline">
-          <mat-label>Password</mat-label>
-          <input matInput type="password" formControlName="password" class="input-group" required>
-          <mat-error *ngIf="registrationForm.get('password')?.hasError('minlength')">
-            The password must be at least 8 characters long.
-          </mat-error>
-        </mat-form-field>
+      </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Confirm Password</mat-label>
-          <input matInput type="password" formControlName="confirmPassword" class="input-group" required>
-
-          <div *ngIf="registrationForm.errors?.['mismatch']" class="password-mismatch-warning">
-            <p>Passwords do not match.</p>
-          </div>
-        </mat-form-field>
-
-        <button id="reg-btn" mat-raised-button color="primary" type="submit">Register</button>
-      </form>
-    </mat-card>
+      <button id="reg-btn" mat-raised-button color="primary" type="submit" class="sign-in-form__submit-btn">Register</button>
+    </form>
+  </mat-card>
 </div>
-
-

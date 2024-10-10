@@ -1,183 +1,52 @@
-.body{
-  background: linear-gradient(265deg, white 55%, #005B96 40%);;
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: left;
-  align-items: center;
+@media only screen and (min-width: 1920px) {
+  .sign-in-form {
+    max-width: 3000px;
+    margin-left: 100px;
+  }
 }
 
-form {
-display: flex;
-align-items: center;
-justify-content: center;
-flex-direction: column;
-height: auto;
+@media only screen and (max-width: 1200px) {
+  .user-registration-page {
+    background: linear-gradient(265deg, white 50%, #005b96 0%);
+  }
 }
 
-h1 {
-width: 90%;
-font-size: 23px ;
-margin-left: 20px;
-margin-bottom: 8px;
+@media only screen and (max-width: 900px) {
+  .user-registration-page {
+    background: linear-gradient(265deg, white 35%, #005b96 0%);
+  }
 }
 
-mat-card {
-  max-width: 400px;
-  height: auto;
-  margin-left: 50px;
+@media only screen and (max-width: 740px) {
+  .user-registration-page {
+    background: linear-gradient(265deg, white 25%, #005b96 0%);
+  }
 }
 
-mat-form-field {
-  width: 90%;
+@media only screen and (max-width: 630px) {
+  .user-registration-page {
+    background: linear-gradient(265deg, white 18%, #005b96 0%);
+  }
 }
 
-
-#reg-btn{
-  width: 40%;
-  padding: 10px;
-  background-color: #0ABA46;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-size: 20px;
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-  display: block;
-  align-items: center;
-  justify-content: center;
+@media only screen and (max-width: 590px) {
+  .user-registration-page {
+    background: none;
+  }
+  .sign-in-form{
+    margin: auto;
+  }
 }
 
-#reg-btn:hover{
-  transform: scale(1.05);
+@media only screen and (max-width: 450px) {
+  .sign-in-form {
+    max-width: 350px;
+    margin-left: 0;
+  }
 }
 
-.password-mismatch-warning {
-color: red;
-font-size: 14px;
-margin-top: -7px;
+@media only screen and (max-width: 350px) {
+  .sign-in-form {
+    max-width: 320px;
+  }
 }
-
-mat-card.sign-in-form {
-background-color: #ffffff;
-color: black;
-padding: 20px;
-border-radius: 20px;
-}
-
-.sign-in-form {
-  background-color: #d41d1d;
-  padding: 10px;
-  border-radius: 8px;
-}
-
-input.mat-input-element{
-  border: none;
-  background: none;
-  outline: none;
-}
-
-input{
-color: black;
-}
-
-.mat-form-field-appearance-outline .mat-form-field-underline {
-  display: none;
-}
-
-input#mat-input-0{
-color: black;
-}
-
-input#mat-input-1{
-color: black;
-}
-
-input#mat-input-2{
-color: black;
-}
-
-input#mat-input-3{
-color: black;
-}
-
-input#mat-input-4{
-color: black;
-}
-
-input#mat-input-5{
-color: black;
-}
-
-input#mat-input-6{
-color: black;
-}
-
-.solo-group{
-width: 40px;
-}
-
-.flex-container {
-width: 90%;
-display: flex;
-gap: 20px;
-}
-
-.flex-grow {
-flex: 1;
-}
-.flex-grow2 {
-flex: 0.5;
-}
-
-
-@media only screen and (min-width: 1920px)  {
-mat-card {
-  max-width: 3000px;
-  margin-left: 100px;
-}
-}
-@media only screen and (max-width: 1200px)  {
-.body{
-  background: linear-gradient(265deg, white 50%, #005B96 0%);
-}
-}
-@media only screen and (max-width: 900px)  {
-.body{
-  background: linear-gradient(265deg, white 35%, #005B96 0%);
-}
-}
-
-@media only screen and (max-width: 740px)  {
-.body{
-  background: linear-gradient(265deg, white 25%, #005B96 0%);
-}
-}
-
-@media only screen and (max-width: 630px)  {
-.body{
-  background: linear-gradient(265deg, white 18%, #005B96 0%);
-}
-}
-@media only screen and (max-width: 590px)  {
-.body{
-  background: none;
-}
-}
-@media only screen and (max-width: 450px)  {
-mat-card {
-  max-width: 350px;
-  margin-left: 0;
-}
-}
-@media only screen and (max-width: 350px)  {
-mat-card {
-  max-width: 320px;
-
-}
-}
-
-
-
-

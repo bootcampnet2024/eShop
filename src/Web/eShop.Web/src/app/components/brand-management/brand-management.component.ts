@@ -83,7 +83,7 @@ export class BrandManagementComponent {
   OpenCreateBrandModal() {
     const dialogRef = this.dialog.open(CreateBrandModalComponent, {
       width: '65%',
-      height: '65%',
+      height: '40%',
       maxWidth: '100%',
       maxHeight: '100%',
     });
@@ -99,7 +99,7 @@ export class BrandManagementComponent {
         id: brandId,
       },
       width: '65%',
-      height: '65%',
+      height: '40%',
       maxWidth: '100%',
       maxHeight: '100%',
     });

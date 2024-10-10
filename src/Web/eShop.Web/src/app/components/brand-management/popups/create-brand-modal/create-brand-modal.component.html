@@ -1,18 +1,18 @@
-<form [formGroup]="brandForm">
+<form class="management-form" [formGroup]="brandForm">
   <h1 mat-dialog-title>New Brand</h1>
-  <div mat-dialog-content class="form-inputs">
-    <mat-form-field class="name">
+  <div mat-dialog-content class="management-form__inputs">
+    <mat-form-field class="management-form__inputs__name">
       <mat-label>Brand Name</mat-label>
       <input
         color="primary"
         #name
-        maxlength="50"
+        maxlength="30"
         matInput
         formControlName="name"
       />
       <mat-hint align="end">{{ name.value.length }} / 30</mat-hint>
     </mat-form-field>
-    <div class="actions">
+    <div class="management-form__actions">
       <button
         mat-flat-button
         color="primary"
