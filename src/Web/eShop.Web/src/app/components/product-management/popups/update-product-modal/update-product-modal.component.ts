@@ -30,7 +30,7 @@ export class UpdateProductModalComponent {
         this.getProduct(this.data.id);
         console.log(this.product)
       } else {
-        console.log("Invalid Id!");
+        this.close()
       }
   }
 

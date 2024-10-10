@@ -48,20 +48,28 @@ describe('CategoryPageComponent', () => {
       //Arrange
       const products: Product[] = [
         {
-          id: 'guid',
+          id: 'guid1',
+          imageURL: "",
           name: 'Product 1',
           description: 'Description',
+          isActive: true,
+          isHighlighted: false,
           price: 10,
-          brand: '1',
-          category: '1',
+          quantity: 1,
+          brand: { id: 1, name: "Brand 1" },
+          category: { id: 1, name: "Category 1" },
         },
         {
-          id: 'guid',
+          id: 'guid2',
+          imageURL: "",
           name: 'Product 2',
           description: 'Description',
+          isActive: true,
+          isHighlighted: false,
           price: 10,
-          brand: '1',
-          category: '1',
+          quantity: 1,
+          brand: { id: 1, name: "Brand 1" },
+          category: { id: 1, name: "Category 1" },
         },
       ];
       const productRequest: ProductRequest = {

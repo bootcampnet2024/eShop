@@ -27,7 +27,7 @@ export class UpdateBrandModalComponent {
         this.getBrand(this.data.id);
         console.log(this.brand)
       } else {
-        console.log("Invalid Id!");
+        this.close()
       }
   }
 

@@ -5,11 +5,19 @@ import { of } from 'rxjs';
 import { CartItemModel } from '../../models/cartItem.model';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { appConfig } from '../../app.config';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('CartPageComponent', () => {
   let component: CartPageComponent;
   let fixture: ComponentFixture<CartPageComponent>;
   let mockCartService;
+
+  const mockRouter = {
+    root: jasmine.createSpy('root'),
+    navigate: jasmine.createSpy('navigate')
+  };
 
   const mockCartItems: CartItemModel[] = [
     {
@@ -36,17 +44,17 @@ describe('CartPageComponent', () => {
 
   beforeEach(async () => {
     mockCartService = {
-      getCartItems: jasmine.createSpy('getCartItems').and.returnValue(of(mockCartItems)),
+      getItems: jasmine.createSpy('getItems').and.returnValue(of(mockCartItems)),
       updateCartItem: jasmine.createSpy('updateCartItem').and.returnValue(of(void 0)),
       removeFromCart: jasmine.createSpy('removeFromCart').and.returnValue(of(void 0)),
     };
 
     await TestBed.configureTestingModule({
-      imports: [CommonModule],
-      declarations: [CartPageComponent],
+      imports: [CommonModule, CartPageComponent, RouterTestingModule],
       providers: [
-        { provide: CartService, useValue: mockCartService },
-        { provide: Router, useValue: {} } 
+        provideHttpClientTesting(),
+        ...appConfig.providers,
+        { provide: CartService, useValue: mockCartService }
       ]
     }).compileComponents();
 
