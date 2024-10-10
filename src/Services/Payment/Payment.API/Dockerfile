@@ -1,5 +1,7 @@
-ARG NODE_VERSION=20.11.1
-FROM node:${NODE_VERSION}-alpine AS build
+ARG NODE_VERSION=22
+FROM node:${NODE_VERSION} AS build
+
+RUN apt-get update && apt-get install -y curl
 
 WORKDIR /app
 
@@ -11,7 +13,7 @@ COPY . .
 
 RUN npm run build
 
-FROM node:${NODE_VERSION}-alpine AS runtime
+FROM node:${NODE_VERSION} AS runtime
 
 WORKDIR /app
 

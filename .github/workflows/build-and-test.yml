@@ -48,3 +48,15 @@ jobs:
       - name: Build
         run: npm run build
         working-directory: src/Web/eShop.Web
+
+  docker:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build
+        run: docker compose build

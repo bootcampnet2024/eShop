@@ -1,8 +1,9 @@
 using Catalog.API._02_Infrastructure.Data;
 using Catalog.API.Services;
-using Catalog.API.Services.Models;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Polly;
 using System.Reflection;
 
 internal class Program
@@ -10,16 +11,21 @@ internal class Program
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
+        builder.Services.AddHealthChecks()
+            .AddSqlServer(connectionString);
+
         builder.Services.AddDbContext<ApplicationDataContext>(options =>
         {
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            options.UseSqlServer(
+                connectionString,
+                x => x.MigrationsHistoryTable("__CatalogMigrationsHistory", "catalog"));
         });
 
         builder.Services.AddScoped<ICatalogService, CatalogService>();
@@ -48,6 +54,37 @@ internal class Program
         app.UseCors();
         app.MapControllers();
 
+        app.MapHealthChecks("/health", new HealthCheckOptions()
+        {
+            Predicate = _ => true,
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+        });
+
+        _ = Task.Run(() => ExecuteMigrationsPeriodically(app));
+
         app.Run();
+    }
+
+    private static async Task ExecuteMigrationsPeriodically(WebApplication app)
+    {
+        var retryPolicy = Policy
+            .Handle<Exception>()
+            .WaitAndRetryForeverAsync(retryAttempt =>
+            {
+                return TimeSpan.FromSeconds(5);
+            });
+
+        await retryPolicy.ExecuteAsync(async () =>
+        {
+            using var scope = app.Services.CreateScope();
+
+            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDataContext>();
+
+            var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
+            if (pendingMigrations.Any())
+            {
+                await dbContext.Database.MigrateAsync();
+            }
+        });
     }
 }

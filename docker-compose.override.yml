@@ -3,6 +3,17 @@ services:
     environment:
       - SA_PASSWORD=Password123!
       - ACCEPT_EULA=Y
+    restart: on-failure
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          '/opt/mssql-tools18/bin/sqlcmd -C -No -U sa -P Password123! -Q "SELECT 1" || exit 1',
+        ]
+      interval: 10s
+      retries: 10
+      start_period: 60s
+      timeout: 10s
     ports:
       - "5433:1433"
 
@@ -10,6 +21,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:80/health || exit 1"]
+      interval: 10s
+      retries: 10
+      start_period: 15s
+      timeout: 10s
     ports:
       - "5560:80"
 
@@ -17,6 +34,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:80/health || exit 1"]
+      interval: 10s
+      retries: 10
+      start_period: 15s
+      timeout: 10s
     ports:
       - "5561:80"
 
@@ -24,6 +47,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:80/health || exit 1"]
+      interval: 10s
+      retries: 10
+      start_period: 15s
+      timeout: 10s
     ports:
       - "5562:80"
 
@@ -31,12 +60,56 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:80/health || exit 1"]
+      interval: 10s
+      retries: 10
+      start_period: 15s
+      timeout: 10s
     ports:
       - "5551:80"
+
+  keycloak:
+    command:
+      - "start-dev"
+      - "--import-realm"
+      - "--http-port=8070"
+    environment:
+      - KEYCLOAK_IMPORT=/opt/keycloak/data/import/realm-export.json
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    healthcheck:
+      #https://gist.github.com/sarath-soman/5d9aec06953bbd0990c648605d4dba07?permalink_comment_id=5120472#gistcomment-5120472
+      test:
+        [
+          "CMD-SHELL",
+          "exec 3<>/dev/tcp/127.0.0.1/9000;echo -e 'GET /health/ready HTTP/1.1\r\nhost: http://localhost\r\nConnection: close\r\n\r\n' >&3;if [ $? -eq 0 ]; then echo 'Healthcheck Successful';exit 0;else echo 'Healthcheck Failed';exit 1;fi;",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    ports:
+      - 8070:8070
 
   payment.api:
     environment:
       - NODE_ENV=Production
-      - NODE_URLS=http://+:80
+      - NODE_PORT=80
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:80/health || exit 1"]
+      interval: 10s
+      retries: 10
+      start_period: 15s
+      timeout: 10s
     ports:
-      - "3000:3000"
+      - "3000:80"
+
+  web:
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:80 || exit 1"]
+      interval: 10s
+      retries: 10
+      start_period: 15s
+      timeout: 10s
+    ports:
+      - 80:80
