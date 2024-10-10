@@ -71,7 +71,7 @@ internal class Program
             .Handle<Exception>()
             .WaitAndRetryForeverAsync(retryAttempt =>
             {
-                return TimeSpan.FromMinutes(1);
+                return TimeSpan.FromSeconds(5);
             });
 
         await retryPolicy.ExecuteAsync(async () =>
