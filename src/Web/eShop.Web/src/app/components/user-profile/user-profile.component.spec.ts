@@ -70,13 +70,11 @@ describe("UserProfileComponent", () => {
 
   it("should load user data", () => {
     const mockUserData = {
-      preferred_username: "testuser",
-      attributes: {
-        number: "1234567890",
-        address: "1234567890",
-        cpf: "12345678901",
-        cep: "12345-678",
-      },
+      username: "testuser",
+      number: "1234567890",
+      address: "1234567890",
+      cpf: "12345678901",
+      cep: "12345-678",
       email: "test@example.com",
       sub: "user123",
     };

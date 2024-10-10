@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ViewUserManagerComponent } from './view-user-manager.component';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { appConfig } from '../../../app.config';
 
 describe('ViewUserManagerComponent', () => {
   let component: ViewUserManagerComponent;
@@ -8,7 +10,11 @@ describe('ViewUserManagerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ViewUserManagerComponent]
+      imports: [ViewUserManagerComponent],
+      providers: [
+        provideHttpClientTesting(),
+        ...appConfig.providers
+      ]
     })
     .compileComponents();
     
