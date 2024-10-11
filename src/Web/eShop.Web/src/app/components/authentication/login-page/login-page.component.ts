@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { RecoverPasswordModalComponent } from '../popups/recover-password-modal/recover-password-modal.component';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -14,7 +16,7 @@ export class LoginPageComponent {
   username: string = '';
   password: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private dialog: MatDialog) {}
 
   login() {
     this.authService.login(this.username, this.password).subscribe({
@@ -25,6 +27,12 @@ export class LoginPageComponent {
       error: (error) => {
         console.error('Error to login', error);
       },
+    });
+  }
+
+  openResetPasswordDialog() {
+    this.dialog.open(RecoverPasswordModalComponent, {
+      width: '300px',
     });
   }
 }

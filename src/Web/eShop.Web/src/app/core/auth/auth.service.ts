@@ -2,7 +2,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { tap, switchMap, catchError } from 'rxjs/operators';
+import { tap, switchMap, catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 interface AuthResponse {
@@ -16,12 +16,18 @@ interface AuthResponse {
   scope: string;
 }
 
+interface User {
+  id: string;
+  username: string;
+  email: string;
+  // Outros campos que você possa precisar
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private adminUrl =
-    'http://localhost:8070/realms/eshop/protocol/openid-connect/token';
+  private adminUrl = 'http://localhost:8070/realms/eshop/protocol/openid-connect/token';
   private registerUrl = 'http://localhost:8070/admin/realms/eshop/users';
   private loginClientId = 'account-user';
   private adminClientId = 'admin-cli';
@@ -29,14 +35,10 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private jtwHelper: JwtHelperService
+    private jwtHelper: JwtHelperService
   ) {}
 
-  private getToken(
-    client_id: string,
-    username: string,
-    password: string
-  ): Observable<AuthResponse> {
+  private getToken(client_id: string, username: string, password: string): Observable<AuthResponse> {
     const body = new URLSearchParams();
     body.set('client_id', client_id);
     body.set('grant_type', 'password');
@@ -47,13 +49,11 @@ export class AuthService {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    return this.http
-      .post<AuthResponse>(this.adminUrl, body.toString(), { headers })
-      .pipe(
-        tap((response: AuthResponse) => {
-          this.storeTokens(response);
-        })
-      );
+    return this.http.post<AuthResponse>(this.adminUrl, body.toString(), { headers }).pipe(
+      tap((response: AuthResponse) => {
+        this.storeTokens(response);
+      })
+    );
   }
 
   getAdminToken(): Observable<AuthResponse> {
@@ -64,14 +64,7 @@ export class AuthService {
     return this.getToken(this.loginClientId, username, password);
   }
 
-  signin(
-    username: string,
-    password: string,
-    email: string,
-    address: string,
-    cep: string,
-    cpf: string
-  ): Observable<any> {
+  signin(username: string, password: string, email: string, address: string, cep: string, cpf: string): Observable<any> {
     return this.getAdminToken().pipe(
       switchMap((response: AuthResponse) => {
         const token = response.access_token;
@@ -127,7 +120,7 @@ export class AuthService {
   }
 
   private isTokenExpired(token: string): boolean {
-    return this.jtwHelper.isTokenExpired(token);
+    return this.jwtHelper.isTokenExpired(token);
   }
 
   private refreshToken(): Observable<AuthResponse> {
@@ -148,17 +141,15 @@ export class AuthService {
         'Content-Type': 'application/x-www-form-urlencoded',
       });
 
-      return this.http
-        .post<AuthResponse>(this.adminUrl, body.toString(), { headers })
-        .pipe(
-          tap((response: AuthResponse) => {
-            this.storeTokens(response);
-          }),
-          catchError((error) => {
-            this.logout();
-            return throwError(() => error);
-          })
-        );
+      return this.http.post<AuthResponse>(this.adminUrl, body.toString(), { headers }).pipe(
+        tap((response: AuthResponse) => {
+          this.storeTokens(response);
+        }),
+        catchError((error) => {
+          this.logout();
+          return throwError(() => error);
+        })
+      );
     } else {
       return new Observable<AuthResponse>((observer) => {
         observer.next({
@@ -179,7 +170,7 @@ export class AuthService {
   getRoles(): string[] {
     if (this.isAuthenticated()) {
       const token = this.getAccessToken();
-      const decodedToken = this.jtwHelper.decodeToken(token);
+      const decodedToken = this.jwtHelper.decodeToken(token);
       const roles = decodedToken?.realm_access?.roles;
 
       return roles;
@@ -193,14 +184,60 @@ export class AuthService {
 
       if (roles.includes('user-manager')) return '/view-user-management';
       if (roles.includes('user')) return '/user-profile';
-      //if (roles.includes('admin')) return '/admin';
 
       const managerType = roles.find(x => x.includes("manager"));
 
-      if (managerType === undefined) return ""
+      if (managerType === undefined) return "";
 
-      return managerType.replace("manager", "management")
+      return managerType.replace("manager", "management");
     }
     return '';
+  }
+
+  getUserIdByEmail(email: string): Observable<string> {
+    return this.getAdminToken().pipe(
+      switchMap((response: AuthResponse) => {
+        const token = response.access_token;
+        const headers = new HttpHeaders({
+          Authorization: `Bearer ${token}`,
+        });
+
+        return this.http.get<User[]>(`http://localhost:8070/admin/realms/eshop/users?email=${email}`, { headers }).pipe(
+          map(users => {
+            if (users.length > 0) {
+              return users[0].id; 
+            } else {
+              throw new Error('User not found');
+            }
+          })
+        );
+      }),
+      catchError((error) => {
+        console.error('Error fetching user ID:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  recoverPassword(userId: string): Observable<any> {
+    return this.getAdminToken().pipe(
+      switchMap((response: AuthResponse) => {
+        const token = response.access_token;
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        });
+
+        return this.http.put(
+          `http://localhost:8070/admin/realms/eshop/users/${userId}/send-verify-email`,
+          {},
+          { headers }
+        );
+      }),
+      catchError((error) => {
+        console.error('Erro ao tentar enviar e-mail de verificação:', error);
+        return throwError(() => error);
+      })
+    );
   }
 }
