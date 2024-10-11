@@ -1,0 +1,19 @@
+[
+  {
+    "Name": "Dev Profile",
+    "Projects": [
+      {
+        "Path": "src\\Services\\Catalog\\Catalog.API\\Catalog.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Services\\Ordering\\Ordering.API\\Ordering.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Services\\Basket\\Basket.API\\Basket.API.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
