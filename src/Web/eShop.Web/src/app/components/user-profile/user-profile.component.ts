@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserManagementService } from '../../services/user-management/user-management.service';
@@ -39,7 +39,7 @@ export class UserProfileComponent implements OnInit {
   userId: string = '';
   token: string = '';
 
-  constructor(private fb: FormBuilder, private userService: UserManagementService, private authService : AuthService) {
+  constructor(private fb: FormBuilder, private router: Router, private userService: UserManagementService, private authService : AuthService) {
     this.perfilForm = this.fb.group({
       username: ['', Validators.required],
       email: [{ value: '', disabled: true }],
@@ -51,7 +51,13 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.redirectManagers();
     this.loadUserData();
+  }
+
+  redirectManagers() : void {
+    const roleBasedRoute = this.authService.getRoleUrl();
+    this.router.navigate([roleBasedRoute]);
   }
 
   loadUserData(): void {

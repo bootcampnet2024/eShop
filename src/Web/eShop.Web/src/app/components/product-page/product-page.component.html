@@ -3,13 +3,13 @@
 <main>
   <div class="product-container">
     <div class="product-container__image">
-      <img class="image" src="assets/products/xbox-series-controller.jpg" alt="">
+      <img class="image" src="{{ product?.imageURL }}" alt="">
     </div>
     <div class="product-container__info">
       <div class="product-container__info__name">
         <h2>{{ product?.name }}</h2>
-        <p class="product-container__info__category-name">{{ product?.category }}</p>
-        <p class="product-container__info__brand-name">{{ product?.brand }}</p>
+        <p class="product-container__info__category-name">{{ product?.category!.name }}</p>
+        <p class="product-container__info__brand-name">{{ product?.brand!.name }}</p>
       </div>
       <p>{{ product?.description }}</p>
       <h2>R$ {{ product?.price }}</h2>
