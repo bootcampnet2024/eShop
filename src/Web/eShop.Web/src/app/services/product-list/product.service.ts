@@ -16,7 +16,7 @@ export class ProductService {
     return this.http.get<ProductRequest>(`${this.url}/items?ShowOnlyHighlighted=${highlighted}&PageSize=${pageSize}&PageIndex=${pageIndex}&CategoryId=${categoryId}`)
   }
 
-  getCalalogItem(id: string) : Observable<Product> {
+  getCatalogItem(id: string) : Observable<Product> {
     return this.http.get<Product>(`${this.url}/items/${id}`)
   }
 
