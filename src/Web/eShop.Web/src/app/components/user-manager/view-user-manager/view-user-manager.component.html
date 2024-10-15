@@ -3,29 +3,17 @@
     <div class="conteudo1">
       <p>Manage</p>
       <div class="opcoes">
-        <a
-          [routerLink]="['/create-user-management']"
-          routerLinkActive="router-link-active"
-        >
+        <a [routerLink]="['/create-user-management']" routerLinkActive="router-link-active">
           <img src="../../../../assets/user-manager/add.png" alt="" />Create new
-          user</a
-        >
+          user</a>
         <br />
-        <a
-          [routerLink]="['/view-user-management']"
-          routerLinkActive="router-link-active"
-        >
+        <a [routerLink]="['/view-user-management']" routerLinkActive="router-link-active">
           <img src="../../../../assets/user-manager/file.png" alt="" />View
-          existents users</a
-        >
+          existents users</a>
         <br />
-        <a
-          [routerLink]="['/edit-user-management']"
-          routerLinkActive="router-link-active"
-        >
+        <a [routerLink]="['/edit-user-management']" routerLinkActive="router-link-active">
           <img src="../../../../assets/user-manager/edit.png" alt="" />Edit a
-          user</a
-        >
+          user</a>
         <br />
       </div>
     </div>
@@ -43,23 +31,17 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Nome da Pessoa</td>
-                <td>Email da Pessoa</td>
+              <tr *ngFor="let user of users">
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
                 <td>
-                  <img [routerLink]="['/edit-user-management']"
-                  routerLinkActive="router-link-active"
-                    src="../../../../assets/user-manager/edit.png"
-                    alt="Edit"
-                    style="cursor: pointer"
-                  />
+                  <img [routerLink]="['/edit-user-management', user.id]" routerLinkActive="router-link-active"
+                    src="../../../../assets/user-manager/edit.png" alt="Edit" style="cursor: pointer" />
 
                 </td>
                 <td>
-                  <img
-                    src="../../../../assets/user-manager/delete.png"
-                    alt="Delete"
-                  />
+                  <img src="../../../../assets/user-manager/delete.png" alt="Delete" style="cursor: pointer"
+                    (click)="deleteUser(user.id)" />
                 </td>
               </tr>
             </tbody>

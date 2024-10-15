@@ -47,7 +47,7 @@ export class UserManagementService {
     return this.http.put(`${this.baseUrl}/${userId}`, user);
   }
 
-  add(user: string): Observable<any> {
+  add(user: any): Observable<any> {
     return this.http.post(this.baseUrl, user);
   }
 
