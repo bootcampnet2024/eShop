@@ -2,19 +2,9 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { tap, switchMap, catchError } from 'rxjs/operators';
+import { tap, switchMap, catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-
-interface AuthResponse {
-  access_token: string;
-  refresh_token: string;
-  expires_in: number;
-  refresh_expires_in: number;
-  token_type: string;
-  'not-before-policy': number;
-  session_state: string;
-  scope: string;
-}
+import { AuthResponse } from './AuthResponse.model';
 
 @Injectable({
   providedIn: 'root',
@@ -47,21 +37,24 @@ export class AuthService {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    return this.http
-      .post<AuthResponse>(this.adminUrl, body.toString(), { headers })
-      .pipe(
-        tap((response: AuthResponse) => {
-          this.storeTokens(response);
-        })
-      );
+    return this.http.post<AuthResponse>(this.adminUrl, body.toString(), { headers });
   }
 
-  getAdminToken(): Observable<AuthResponse> {
-    return this.getToken(this.adminClientId, 'admin', 'admin');
+  getAdminToken(): Observable<any> {
+    return this.getToken(this.adminClientId, 'admin', 'admin').pipe(
+      tap((response: AuthResponse) => {
+        const token = response.access_token;
+        console.log(token);
+      })
+    );;
   }
 
   login(username: string, password: string): Observable<AuthResponse> {
-    return this.getToken(this.loginClientId, username, password);
+    return this.getToken(this.loginClientId, username, password).pipe(
+      tap((response: AuthResponse) => {
+        this.storeTokens(response);
+      })
+    );
   }
 
   signin(

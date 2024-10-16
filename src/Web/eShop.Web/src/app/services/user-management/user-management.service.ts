@@ -1,12 +1,9 @@
 import { User } from './../../models/user.model';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../core/auth/auth.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { throwError, of } from 'rxjs';
-
-
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +18,18 @@ export class UserManagementService {
     return this.http.get(`${this.baseUrl}`, { params: criteria });  }
 
   getAll(): Observable<any> {
-    return this.http.get(this.baseUrl);
+    console.log('Fetching all users from:', this.baseUrl);
+    return this.http.get(this.baseUrl).pipe(
+    tap(response => {
+      console.log('Users fetched:', response);
+    }),
+    catchError(error => {
+      console.error('Error fetching users:', error);
+      return throwError(() => error);
+    })
+    );
   }
-
+    
   getUsersCount(): Observable<any> {
     return this.http.get(`${this.baseUrl}/count`);
   }
