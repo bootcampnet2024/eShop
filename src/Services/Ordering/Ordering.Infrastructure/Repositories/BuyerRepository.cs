@@ -37,6 +37,9 @@ public class BuyerRepository(ApplicationDbContext dbContext) : IBuyerRepository
 
     public Buyer Update(Buyer buyer)
     {
+        if (buyer.IsTransient())
+            return null;
+
         return _buyers.Update(buyer).Entity;
     }
 }
