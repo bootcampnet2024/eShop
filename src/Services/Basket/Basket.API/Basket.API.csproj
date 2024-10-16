@@ -22,12 +22,4 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="00-Application\Extensions\" />
-    <Folder Include="00-Application\Result\" />
-    <Folder Include="02-Infrastructure\Configurations\" />
-    <Folder Include="Controllers\Core\" />
-    <Folder Include="Controllers\Filters\" />
-  </ItemGroup>
-
 </Project>

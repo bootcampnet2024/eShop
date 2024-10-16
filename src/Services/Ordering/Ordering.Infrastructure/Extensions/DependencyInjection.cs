@@ -14,12 +14,9 @@ public static class DependencyInjection
     {
         services.AddDbContext<ApplicationDbContext>(options =>
         {
-            options.UseSqlServer(connectionString, x => x.MigrationsHistoryTable("__ordersMigrationHistory", "orders"));
+            options.UseSqlServer(connectionString, x => x.MigrationsHistoryTable("__OrdersMigrationHistory", "orders"));
         });
         var dbContext = services.BuildServiceProvider().GetService<ApplicationDbContext>();
-
-        dbContext.Database.Migrate();
-        Task.Run(dbContext.SeedAsync);
 
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IBuyerRepository, BuyerRepository>();

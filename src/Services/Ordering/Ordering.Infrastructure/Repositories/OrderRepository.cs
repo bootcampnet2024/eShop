@@ -44,6 +44,9 @@ public class OrderRepository(ApplicationDbContext dbContext) : IOrderRepository
 
     public void Update(Order order)
     {
+        if (order.IsTransient())
+            return;
+
         _orders.Entry(order).State = EntityState.Modified;
     }
 }
