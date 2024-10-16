@@ -1,0 +1,39 @@
+<app-header></app-header>
+
+<div class="container">
+    <h1>User List</h1>
+    <a routerLink="/user-management-add" class="btn-prim" (click)="openAddModal()">Add</a>
+      @if (users) {
+        <table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Address</th>
+              <th>Cpf</th>
+              <th>CEP</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+  
+          <tbody>
+            @for (user of users; track user.id){
+              <td>{{user.id}}</td>
+              <td>{{user.username}}</td>
+              <td>{{user.email}}</td>
+              <td>{{user.address}}</td>
+              <td>{{user.cpf}}</td>
+              <td>{{user.cep}}</td>
+              <td>
+                <a routerlink="/user-management-edit" class="btn-sec" (click)="openEditModal(user)">Edit</a>
+                <a routerlink="/user-management-delete" class="btn-trh" (click)="deleteUser(user)">Delete</a>
+                <a  *ngIf="Admin" routerlink="/admin-function" class="btn-qrt" (click)="adminfunction(user)">Roles</a>
+              </td>
+            }
+          </tbody>
+  
+        </table>
+      }
+  </div>
+<app-footer></app-footer>

@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserManagementService } from '../../services/user-management/user-management.service';
 import { AuthService } from '../../core/auth/auth.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'user-profile',
@@ -57,16 +58,15 @@ export class UserProfileComponent implements OnInit {
   loadUserData(): void {
     this.isLoading = true;
     this.userService.getProfile().subscribe({
-      next: (data) => {
+      next: (data: User) => {
         this.perfilForm.patchValue({
           username: data.username,
-          number: data.number,
           address: data.address,
           email: data.email,
           cpf: data.cpf,
           cep: data.cep
         });
-        this.userId = data.sub;
+        this.userId = data.id;
         this.isLoading = false;
       },
       error: (error) => {

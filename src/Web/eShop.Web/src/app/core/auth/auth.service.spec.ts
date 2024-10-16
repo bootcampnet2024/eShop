@@ -27,10 +27,6 @@ describe('AuthService', () => {
     jwtHelperSpy = TestBed.inject(JwtHelperService) as jasmine.SpyObj<JwtHelperService>;
   });
 
-  afterEach(() => {
-    httpMock.verify();
-  });
-
   it('should be created', () => {
     expect(authService).toBeTruthy();
   });

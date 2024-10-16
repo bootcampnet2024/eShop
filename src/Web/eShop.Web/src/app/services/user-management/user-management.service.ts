@@ -1,3 +1,4 @@
+import { User } from './../../models/user.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -23,16 +24,22 @@ export class UserManagementService {
     return this.http.get(this.baseUrl);
   }
 
+  getUsersCount(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/count`);
+  }
+
   getProfile(): Observable<any> {
     const token = this.authService.getAccessToken();
     if (token){
       const decodedToken = this.jwtHelper.decodeToken(token);
-      const body = {
+      const body: User = {
+        id: decodedToken.sub,
         username: decodedToken.preferred_username,
         email: decodedToken.email,
         cep: decodedToken.cep,
         cpf: decodedToken.cpf,
         address: decodedToken.address,
+        roles: decodedToken.realm_access?.roles || [],
         };
 
       return of(body);
@@ -53,4 +60,13 @@ export class UserManagementService {
 
   delete(userId: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${userId}`);}
+
+  addToGroup(userId: string, groupId: string): Observable<any> {
+    return this.http.put(`${this.baseUrl}/${userId}/groups/${groupId}`, {});
   }
+
+  deleteFromGroup(userId: string, groupId: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${userId}/groups/${groupId}`);
+  }
+
+}

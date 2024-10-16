@@ -191,9 +191,9 @@ export class AuthService {
     if (this.isAuthenticated()) {
       const roles = this.getRoles();
 
-      if (roles.includes('user-manager')) return '/view-user-management';
+      if (roles.includes('user-manager')) return '/user-management';
       if (roles.includes('user')) return '/user-profile';
-      //if (roles.includes('admin')) return '/admin';
+      if (roles.includes('admin')) return '/admin';
 
       const managerType = roles.find(x => x.includes("manager"));
 
@@ -202,5 +202,10 @@ export class AuthService {
       return managerType.replace("manager", "management")
     }
     return '';
+  }
+
+  checkAdminRole(): boolean {
+    const roles = this.getRoles();
+    return roles.includes('admin'); 
   }
 }

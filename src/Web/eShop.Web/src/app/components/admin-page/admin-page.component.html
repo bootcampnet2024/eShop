@@ -1,0 +1,54 @@
+<app-header></app-header>
+
+<div class="admin-dashboard">
+  <div class="sidebar">
+    <div class="sidebar-title">
+      <h1>Admin</h1>
+    </div>
+    <div class="sidebar-link" (click)="userManagement()">
+      <p>Users ({{ userCount }})</p>
+    </div>
+    <div class="sidebar-link" (click)="productManagement()">
+      <p>Products ({{ productCount }})</p>
+    </div>
+    <div class="sidebar-link" (click)="categoryManagement()">
+      <p>Categories ({{ categoryCount }})</p>
+    </div>
+    <div class="sidebar-link" (click)="brandManagement()">
+      <p>Brands ({{ brandCount }})</p>
+    </div>
+    <div class="sidebar-link" >
+      <p>Pages ({{ pageCount }})</p>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="overview-title">
+      <h2>Website Overview</h2>
+    </div>
+    <div class="statistics">
+      <div class="stat-card">
+        <span>{{ userCount }}</span>
+        <span>Users</span>
+      </div>
+      <div class="stat-card">
+        <span>{{ productCount }}</span>
+        <span>Products</span>
+      </div>
+      <div class="stat-card">
+        <span>{{ categoryCount }}</span>
+        <span>Categories</span>
+      </div>
+      <div class="stat-card">
+        <span>{{ brandCount }}</span>
+        <span>Brands</span>
+      </div>
+      <div class="stat-card">
+        <span>{{ pageCount }}</span>
+        <span>Pages</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

@@ -771,7 +771,9 @@
       "redirectUris": [
         "/realms/eshop/account/*"
       ],
-      "webOrigins": [],
+      "webOrigins": [
+        "http://localhost:4200"
+      ],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -804,7 +806,9 @@
       "redirectUris": [
         "/realms/eshop/account/*"
       ],
-      "webOrigins": [],
+      "webOrigins": [
+        "http://localhost:4200"
+      ],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -904,14 +908,16 @@
       "clientId": "admin-cli",
       "name": "${client_admin-cli}",
       "description": "",
-      "rootUrl": "",
-      "adminUrl": "",
-      "baseUrl": "",
+      "rootUrl": "http://localhost:4200",
+      "adminUrl": "http://localhost:4200",
+      "baseUrl": "http://localhost:4200",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "redirectUris": [],
+      "redirectUris": [
+        "http://localhost:4200"
+      ],
       "webOrigins": [
         "http://localhost:4200"
       ],
@@ -974,7 +980,9 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [],
-      "webOrigins": [],
+      "webOrigins": [
+        "http://localhost:4200"
+      ],
       "notBefore": 0,
       "bearerOnly": true,
       "consentRequired": false,
@@ -1012,7 +1020,9 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [],
-      "webOrigins": [],
+      "webOrigins": [
+        "http://localhost:4200"
+      ],
       "notBefore": 0,
       "bearerOnly": true,
       "consentRequired": false,
@@ -1055,7 +1065,7 @@
         "/admin/eshop/console/*"
       ],
       "webOrigins": [
-        "+"
+        "http://localhost:4200"
       ],
       "notBefore": 0,
       "bearerOnly": false,

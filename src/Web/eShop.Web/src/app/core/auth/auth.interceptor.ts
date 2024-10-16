@@ -10,7 +10,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    if (this.authService.getRoles().includes('user-manager')) {
+    if (this.authService.getRoles().some(role => ['user-manager', 'admin'].includes(role))) {      
       return this.authService.getAdminToken().pipe(
         switchMap(token => {
           const clonedReq = req.clone({
