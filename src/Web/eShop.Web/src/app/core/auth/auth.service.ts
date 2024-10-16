@@ -13,8 +13,7 @@ export class AuthService {
   private adminUrl =
     "http://localhost:8070/realms/eshop/protocol/openid-connect/token";
   private registerUrl = "http://localhost:8070/admin/realms/eshop/users";
-  private loginClientId = "account-user";
-  private adminClientId = "admin-cli";
+  private clientId = "account-user";
 
   constructor(
     private http: HttpClient,
@@ -75,7 +74,7 @@ export class AuthService {
   }
 
   getAdminToken(): Observable<any> {
-    return this.getToken(this.adminClientId, "admin", "admin").pipe(
+    return this.getToken(this.clientId, "admin", "admin").pipe(
       tap((response: AuthResponse) => {
         const token = response.access_token;
         console.log(token);
@@ -90,7 +89,7 @@ export class AuthService {
       );
     }
 
-    return this.getToken(this.loginClientId, username, password).pipe(
+    return this.getToken(this.clientId, username, password).pipe(
       tap((response: AuthResponse) => {
         this.storeTokens(response);
       }),
@@ -233,7 +232,7 @@ export class AuthService {
       }
 
       const body = new URLSearchParams();
-      body.set("client_id", this.loginClientId);
+      body.set("client_id", this.clientId);
       body.set("grant_type", "refresh_token");
       body.set("refresh_token", refreshToken);
 

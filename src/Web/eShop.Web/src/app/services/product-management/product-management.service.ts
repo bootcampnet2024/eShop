@@ -23,8 +23,16 @@ export class ProductManagementService {
     return this.http.get<Brand[]>(`${this.url}/${this.brands}`);
   }
 
+  getBrandsCount() : Observable<number>{
+    return this.http.get<number>(`${this.url}/${this.brands}/count/`);
+  }
+
   getCategories() : Observable<Category[]> {
     return this.http.get<Category[]>(`${this.url}/${this.categories}`);
+  }
+
+  getCategoryCount() : Observable<number>{
+    return this.http.get<number>(`${this.url}/${this.categories}/count/`);
   }
 
   getCategoryById(id: number) : Observable<Category> {
@@ -41,6 +49,10 @@ export class ProductManagementService {
 
   getProducts() : Observable<Product[]> {
     return this.http.get<Product[]>(`${this.url}/${this.products}`);
+  }
+
+  getProductCount() : Observable<number>{
+    return this.http.get<number>(`${this.url}/${this.products}/count/`);
   }
 
   getProductById(id: string) : Observable<Product> {

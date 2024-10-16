@@ -1,22 +1,22 @@
-import { Component } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { UserManagementService } from '../../../../services/user-management/user-management.service';
-import { NgFor } from '@angular/common';
+import { Component } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { RouterLink } from "@angular/router";
+import { UserManagementService } from "../../../../services/user-management/user-management.service";
+import { NgFor } from "@angular/common";
 
 @Component({
-  selector: 'app-admin-function',
+  selector: "app-change-user-roles",
   standalone: true,
   imports: [RouterLink, FormsModule, NgFor, ReactiveFormsModule],
-  templateUrl: './admin-function.component.html',
-  styleUrl: '../popups.css'
+  templateUrl: "./change-user-roles.component.html",
+  styleUrl: "../popups.css",
 })
-export class AdminFunctionComponent {
-  constructor(private userService:UserManagementService){}
+export class ChangeUserRolesComponent {
+  constructor(private userService: UserManagementService) {}
 
-  selectedRole: string = '';
+  selectedRole: string = "";
   userRoles: string[] = [];
-  userId: string = '';
+  userId: string = "";
 
   ngOnInit(): void {
     this.userService.getProfile().subscribe({
@@ -25,8 +25,8 @@ export class AdminFunctionComponent {
         this.userRoles = data.roles;
       },
       error: (err) => {
-        console.error('Error fetching profile:', err);
-      }
+        console.error("Error fetching profile:", err);
+      },
     });
   }
 
@@ -39,11 +39,11 @@ export class AdminFunctionComponent {
           this.userRoles.push(this.selectedRole);
         },
         error: (err) => {
-          console.error('Error adding role:', err);
-        }
+          console.error("Error adding role:", err);
+        },
       });
     } else {
-      console.log('Please select a role');
+      console.log("Please select a role");
     }
   }
 
@@ -51,12 +51,11 @@ export class AdminFunctionComponent {
     this.userService.deleteFromGroup(this.userId, role).subscribe({
       next: () => {
         console.log(`Role ${role} removed from user ${this.userId}`);
-        this.userRoles = this.userRoles.filter(r => r !== role);
+        this.userRoles = this.userRoles.filter((r) => r !== role);
       },
       error: (err) => {
-        console.error('Error removing role:', err);
-      }
+        console.error("Error removing role:", err);
+      },
     });
   }
-
 }

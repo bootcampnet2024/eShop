@@ -44,6 +44,7 @@
 }
 
 .sidebar-link {
+  display: block;
   padding: 15px;
   background-color: #444; /* Cor dos links da sidebar */
   margin: 5px 0;

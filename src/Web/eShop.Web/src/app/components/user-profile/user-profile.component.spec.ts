@@ -71,10 +71,8 @@ describe("UserProfileComponent", () => {
   it("should load user data", () => {
     const mockUserData = {
       username: "testuser",
-      number: "1234567890",
-      address: "1234567890",
+      phoneNumber: "1234567890",
       cpf: "12345678901",
-      cep: "12345-678",
       email: "test@example.com",
       sub: "user123",
     };
@@ -87,11 +85,9 @@ describe("UserProfileComponent", () => {
     expect(userService.getProfile).toHaveBeenCalled();
     expect(component.perfilForm.getRawValue()).toEqual({
       username: "testuser",
-      number: "1234567890",
-      address: "1234567890",
+      phoneNumber: "1234567890",
       email: "test@example.com",
       cpf: "12345678901",
-      cep: "12345-678",
     });
     expect(component.userId).toBe("user123");
   });
@@ -113,11 +109,10 @@ describe("UserProfileComponent", () => {
 
     component.perfilForm.setValue({
       username: "updateduser",
-      number: "1234567890",
+      phoneNumber: "1234567890",
       address: "0987654321",
       email: "updated@example.com",
       cpf: "10987654321",
-      cep: "87654-321",
     });
 
     userService.edit.and.returnValue(of({}));

@@ -15,12 +15,12 @@ import { CategoryManagementComponent } from './components/category-management/ca
 import { UserManagementComponent } from './components/user-manager/user-management.component';
 import { BrandManagementComponent } from './components/brand-management/brand-management.component';
 import { AdminPageComponent } from './components/admin-page/admin-page.component';
-import { AdminFunctionComponent } from './components/user-manager/popups/admin-function/admin-function.component';
+import { ChangeUserRolesComponent } from './components/user-manager/popups/change-user-roles/change-user-roles.component';
 
 
 export const routes: Routes = [
-    {path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard]},
     {path: '', component: LandingPageComponent},
+    {path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard]},
     {path: 'login', component: LoginPageComponent},
     {path: 'signin', component: SigninPageComponent},
     {path: 'cart', component: CartPageComponent},
@@ -29,7 +29,7 @@ export const routes: Routes = [
     {path: 'search', component: SearchResultComponent},
     {path: 'category', component: CategoryPageComponent},
     {path: 'admin', component: AdminPageComponent, canActivate: [AuthGuard]},
-    {path: 'admin-function', component: AdminFunctionComponent, canActivate: [AuthGuard]},
+    {path: 'change-user-role', component: ChangeUserRolesComponent, canActivate: [AuthGuard]},
     {path: 'user-management', component: UserManagementComponent, canActivate: [AuthGuard]},
     {path: 'product-management', component: ProductManagementComponent, canActivate: [AuthGuard]},
     {path: 'category-management', component: CategoryManagementComponent, canActivate: [AuthGuard]},

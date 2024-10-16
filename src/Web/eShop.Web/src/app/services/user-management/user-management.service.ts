@@ -42,9 +42,8 @@ export class UserManagementService {
         id: decodedToken.sub,
         username: decodedToken.preferred_username,
         email: decodedToken.email,
-        cep: decodedToken.cep,
         cpf: decodedToken.cpf,
-        address: decodedToken.address,
+        phoneNumber: decodedToken.phoneNumber,
         roles: decodedToken.realm_access?.roles || [],
         };
 
