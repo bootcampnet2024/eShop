@@ -36,7 +36,7 @@ export class UserManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUsers();
-    this.Admin=this.authService.checkAdminRole();
+    this.Admin= this.authService.checkAdminRole();
   }
 
   loadUsers(): void {
