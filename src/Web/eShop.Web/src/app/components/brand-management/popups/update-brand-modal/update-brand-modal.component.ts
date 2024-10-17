@@ -10,6 +10,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { Toast } from 'angular-toastify/lib/toast';
+import { ToastService } from 'angular-toastify';
 
 @Component({
   selector: 'app-update-brand-modal',
@@ -20,7 +22,7 @@ import { MatSelectModule } from '@angular/material/select';
 })
 export class UpdateBrandModalComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: Brand,
-  private ref: MatDialogRef<UpdateProductModalComponent>, private productService : ProductManagementService, private fb: FormBuilder){
+  private ref: MatDialogRef<UpdateProductModalComponent>, private productService : ProductManagementService, private fb: FormBuilder, private _toastService: ToastService){
   }
   ngOnInit(): void {
       if (this.data.id) {
@@ -53,7 +55,7 @@ export class UpdateBrandModalComponent {
         });
       },
       error: () => {
-        console.log("This brand does not exist in the API!");
+        this._toastService.error("This brand does not exist in the API!");
       }
     });
   }
@@ -61,7 +63,7 @@ export class UpdateBrandModalComponent {
   checkProduct(id: number): void {
     this.productService.getBrandById(id).subscribe({
       error: () => {
-        console.log("This brand does not exist in the API!");
+        this._toastService.error("This brand does not exist in the API!");
       }
     });
   }
@@ -72,11 +74,11 @@ export class UpdateBrandModalComponent {
     this.productService.updateBrand(this.data.id, brand)
       .subscribe({
         next: () => {
-          console.log("Product updated sucessfully!")
+          this._toastService.success("Product updated sucessfully!")
           this.close();
         },
         error: () => {
-          console.log(`Values provided wasn't accepted by the API!`)
+          this._toastService.error(`Values provided wasn't accepted by the API!`)
           console.log(this.data.id)
           console.log(brand)
         }

@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateProductModalComponent } from './popups/create-product-modal/create-product-modal.component';
 import { UpdateProductModalComponent } from './popups/update-product-modal/update-product-modal.component';
 import { MatIconModule } from '@angular/material/icon';
+import { ToastService } from 'angular-toastify';
 
 @Component({
   selector: 'app-product-management',
@@ -17,7 +18,8 @@ import { MatIconModule } from '@angular/material/icon';
 export class ProductManagementComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
-    private productService: ProductManagementService
+    private productService: ProductManagementService,
+    private _toastService: ToastService
   ) {
     this.getProducts();
   }
@@ -59,16 +61,13 @@ export class ProductManagementComponent implements OnInit {
   disableProduct(productId: string) {
     this.productService.disableProduct(productId).subscribe({
       next: () => {
-        console.log(
+        this._toastService.success(
           `Product with ID ${productId} has been successfully disabled.`
         );
         this.getProducts();
       },
-      error: (error) => {
-        console.error(`Failed to disable product with ID ${productId}.`, error);
-        alert(
-          'An error occurred while trying to disable the product. Please try again.'
-        );
+      error: () => {
+        this._toastService.error(`Failed to disable product with ID ${productId}.`);
       },
     });
   }
