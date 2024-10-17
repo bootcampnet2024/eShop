@@ -6,6 +6,7 @@ import { ProductManagementService } from '../../services/product-management/prod
 import { CreateBrandModalComponent } from './popups/create-brand-modal/create-brand-modal.component';
 import { UpdateBrandModalComponent } from './popups/update-brand-modal/update-brand-modal.component';
 import { Brand } from '../../models/brand.model';
+import { ToastService } from 'angular-toastify';
 
 @Component({
   selector: 'app-brand-management',
