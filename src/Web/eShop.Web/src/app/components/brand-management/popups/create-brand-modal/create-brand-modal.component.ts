@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ProductManagementService } from '../../../../services/product-management/product-management.service';
 import { BrandDTO } from '../../../../models/brandDTO.model';
+import { ToastService } from 'angular-toastify';
 
 @Component({
   selector: 'app-create-brand-modal',
@@ -23,7 +24,7 @@ export class CreateBrandModalComponent {
     name: new FormControl('', [Validators.required, Validators.maxLength(30)]),
   });
 
-  constructor(private ref: MatDialogRef<CreateBrandModalComponent>, private productService : ProductManagementService){
+  constructor(private ref: MatDialogRef<CreateBrandModalComponent>, private productService : ProductManagementService, private _toastService: ToastService){
   }
 
   convertToBrand(): BrandDTO {
@@ -38,12 +39,12 @@ export class CreateBrandModalComponent {
 
     this.productService.addBrand(brand).subscribe({
       next: (response) => {
-        console.log("Brand added sucessfully!");
+        this._toastService.success("Brand added sucessfully!");
         this.close();
       },
       error: (error) => {
         alert(JSON.stringify(error, null, 2));
-        console.log(`You provided values that will not be accepted by the API!`);
+        this._toastService.error(`You provided values that will not be accepted by the API!`);
         console.log(brand);
       }
     })
