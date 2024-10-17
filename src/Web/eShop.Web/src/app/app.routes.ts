@@ -1,3 +1,4 @@
+import { ContactComponent } from './components/contact/contact.component';
 import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { LandingPageComponent } from './components/home/landing-page/landing-page.component';
@@ -28,6 +29,7 @@ export const routes: Routes = [
     {path: 'payment', component: PaymentPageComponent},
     {path: 'search', component: SearchResultComponent},
     {path: 'category', component: CategoryPageComponent},
+    {path: 'contact', component: ContactComponent},
     {path: 'create-user-management', component: CreateUserManagerComponent, canActivate: [AuthGuard]},
     {path: 'edit-user-management', component: EditUserManagerComponent, canActivate: [AuthGuard]},
     {path: 'view-user-management', component: ViewUserManagerComponent, canActivate: [AuthGuard]},
