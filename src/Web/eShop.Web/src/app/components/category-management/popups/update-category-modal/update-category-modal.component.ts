@@ -7,6 +7,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { ToastService } from 'angular-toastify';
 
 @Component({
   selector: 'app-update-category-modal',
@@ -17,7 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class UpdateCategoryModalComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: Category,
-  private ref: MatDialogRef<UpdateCategoryModalComponent>, private productService : ProductManagementService, private fb: FormBuilder){}
+  private ref: MatDialogRef<UpdateCategoryModalComponent>, private productService : ProductManagementService, private fb: FormBuilder, private _toastService: ToastService){}
   ngOnInit(): void {
       if (this.data.id) {
         this.getCategory(this.data.id);
@@ -49,7 +50,7 @@ export class UpdateCategoryModalComponent {
         });
       },
       error: () => {
-        console.log("This category does not exist in the API!");
+        this._toastService.error("This category does not exist in the API!");
       }
     });
   }
@@ -57,7 +58,7 @@ export class UpdateCategoryModalComponent {
   checkCategory(id: number): void {
     this.productService.getCategoryById(id).subscribe({
       error: () => {
-        console.log("This category does not exist in the API!");
+        this._toastService.error("This category does not exist in the API!");
       }
     });
   }
@@ -68,11 +69,11 @@ export class UpdateCategoryModalComponent {
     this.productService.updateCategory(this.data.id, category)
       .subscribe({
         next: () => {
-          console.log("Category updated sucessfully!")
+          this._toastService.success("Category updated sucessfully!")
           this.close();
         },
         error: () => {
-          console.log(`Values provided wasn't accepted by the API!`)
+          this._toastService.error(`Values provided wasn't accepted by the API!`)
           console.log(this.data.id)
           console.log(category)
         }

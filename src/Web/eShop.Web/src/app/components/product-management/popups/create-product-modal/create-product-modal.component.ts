@@ -11,6 +11,7 @@ import { Category } from '../../../../models/category.model';
 import { ProductManagementService } from '../../../../services/product-management/product-management.service';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { ProductDTO } from '../../../../models/productDTO.model';
+import { ToastService } from 'angular-toastify';
 
 
 @Component({
@@ -42,7 +43,7 @@ export class CreateProductModalComponent implements OnInit{
     this.getCategories();
   }
 
-  constructor(private ref: MatDialogRef<CreateProductModalComponent>, private productService : ProductManagementService){
+  constructor(private ref: MatDialogRef<CreateProductModalComponent>, private productService : ProductManagementService, private _toastService: ToastService){
     this.getBrands();
     this.getCategories();
   }
@@ -66,14 +67,12 @@ export class CreateProductModalComponent implements OnInit{
     let product = this.convertToProduct();
 
     this.productService.addProduct(product).subscribe({
-      next: (response) => {
-        console.log("Product added sucessfully!");
+      next: () => {
+        this._toastService.success("Product added sucessfully!");
         this.close();
       },
-      error: (error) => {
-        alert(JSON.stringify(error, null, 2));
-        console.log(`You provided values that will not be accepted by the API!`);
-        console.log(product);
+      error: () => {
+        this._toastService.error(`You provided values that will not be accepted by the API!`);
       }
     })
   }
