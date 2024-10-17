@@ -5,6 +5,7 @@ import { ProductManagementService } from '../../services/product-management/prod
 import { CreateCategoryModalComponent } from './popups/create-category-modal/create-category-modal.component';
 import { UpdateCategoryModalComponent } from './popups/update-category-modal/update-category-modal.component';
 import { MatButtonModule } from '@angular/material/button';
+import { ToastService } from 'angular-toastify';
 
 @Component({
   selector: 'app-category-management',
