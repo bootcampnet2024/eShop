@@ -1,9 +1,7 @@
 ﻿using Catalog.API._00_Application.Result;
 using Catalog.API._01_Services.DTOs;
-using Catalog.API.Application.Result;
-using Catalog.API.Services.DTOs;
 
-namespace Catalog.API.Application.Extensions
+namespace Catalog.API._00_Application.Extensions
 {
     public static class ResultConverterExtension
     {
