@@ -1,9 +1,8 @@
 ﻿using Catalog.API._01_Services.DTOs;
 using Catalog.API._02_Infrastructure.Data;
-using Catalog.API.Services.DTOs;
 using Microsoft.EntityFrameworkCore;
 
-namespace Catalog.API.Services;
+namespace Catalog.API._01_Services;
 
 public interface ICatalogService
 {

@@ -1,4 +1,4 @@
-﻿namespace Management.API.Results
+﻿namespace Management.API._00_Application.Results
 {
     public class ProductResult
     {

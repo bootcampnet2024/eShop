@@ -1,8 +1,8 @@
 ﻿using Catalog.API._02_Infrastructure.Data;
-using Catalog.API.Services.Models;
+using Catalog.API._01_Services.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Catalog.API.Services;
+namespace Catalog.API._01_Services;
 public interface ICatalogItemService : IService<CatalogItem, Guid>
 {
     Task<CatalogItem> GetByCategoryName(string categoryName);
