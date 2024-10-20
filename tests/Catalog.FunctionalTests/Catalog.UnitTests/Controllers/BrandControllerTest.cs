@@ -2,7 +2,7 @@
 using Catalog.API._00_Application.Operations.Commands.BrandCommands;
 using Catalog.API._00_Application.Operations.Queries.BrandQueries;
 using Catalog.API.Controllers;
-using Catalog.API.Services.Models;
+using Catalog.API._01_Services.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

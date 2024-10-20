@@ -1,5 +1,5 @@
 ﻿using Catalog.API._02_Infrastructure.Configurations;
-using Catalog.API.Services.Models;
+using Catalog.API._01_Services.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.API._02_Infrastructure.Data

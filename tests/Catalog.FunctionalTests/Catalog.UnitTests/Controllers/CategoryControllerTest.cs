@@ -2,7 +2,7 @@
 using Catalog.API._00_Application.Operations.Commands.CategoryCommands;
 using Catalog.API._00_Application.Operations.Queries.CategoryQueries;
 using Catalog.API.Controllers;
-using Catalog.API.Services.Models;
+using Catalog.API._01_Services.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

@@ -1,6 +1,6 @@
-﻿using Catalog.API.Application.Result;
-using Catalog.API.Services.DTOs;
-using Catalog.API.Services;
+﻿using Catalog.API._00_Application.Result;
+using Catalog.API._01_Services.DTOs;
+using Catalog.API._01_Services;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Catalog.API.Controllers.Core;

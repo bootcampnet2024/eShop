@@ -1,4 +1,4 @@
-﻿namespace Catalog.API.Services.Models
+﻿namespace Catalog.API._01_Services.Models
 {
     public class CatalogCategory
     {
