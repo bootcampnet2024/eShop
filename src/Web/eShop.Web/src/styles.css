@@ -759,3 +759,63 @@ body {
 .cart-container__order-summary__summary__buy-button:hover {
   background-color: #218838;
 }
+
+.address-container {
+  background-color: #dadfe6;
+  padding: 15px;
+  margin: 50px auto;
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.address-form {
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.address_form__field {
+  width: 100%;
+}
+
+.btn-address {
+  width: 100%;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.txt {
+  color: black;
+}
+
+.icon {
+  width: 40px;
+  height: 45px;
+  margin-right: 8px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+}

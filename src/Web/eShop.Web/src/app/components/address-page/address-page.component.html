@@ -1,0 +1,54 @@
+<mat-card class="address-container">
+    <div class="header">
+        <img src="../../assets/iconMap.png" alt="Delivery Icon" class="icon" />
+        <span class="title">Delivery</span>
+    </div>
+    <form [formGroup]="addressForm" class="address-form">
+        <div class="form-group">
+            <mat-form-field appearance="outline" class="address_form__field">
+                <mat-label class="txt">Recipient Name</mat-label>
+                <input matInput formControlName="name" placeholder="Full name" />
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field appearance="outline" class="address_form__field">
+                <mat-label class="txt">ZIP Code</mat-label>
+                <input matInput formControlName="zip" (blur)="lookupZIP()" placeholder="Enter ZIP code" />
+                <mat-error *ngIf="zipInvalid">Invalid ZIP code!</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field appearance="outline" class="address_form__field">
+                <mat-label class="txt">Address</mat-label>
+                <input matInput formControlName="address" placeholder="Address" />
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field appearance="outline" class="address_form__field">
+                <mat-label class="txt">Number</mat-label>
+                <input matInput formControlName="number" placeholder="House number" />
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field appearance="outline" class="address_form__field">
+                <mat-label class="txt">Complement</mat-label>
+                <input matInput formControlName="complement" placeholder="Optional complement" />
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field appearance="outline" class="address_form__field">
+                <mat-label class="txt">Reference</mat-label>
+                <input matInput formControlName="reference" placeholder="Reference point (optional)" />
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <button class="btn-address" [disabled]="!addressForm.valid">Save Address</button>
+        </div>
+    </form>
+</mat-card>
