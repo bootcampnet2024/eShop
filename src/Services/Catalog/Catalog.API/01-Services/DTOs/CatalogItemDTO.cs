@@ -1,4 +1,4 @@
-﻿namespace Catalog.API.Services.DTOs
+﻿namespace Catalog.API._01_Services.DTOs
 {
     public class CatalogItemDTO
     {

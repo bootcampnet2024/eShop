@@ -1,4 +1,4 @@
-﻿using Catalog.API.Services.Models;
+﻿using Catalog.API._01_Services.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
