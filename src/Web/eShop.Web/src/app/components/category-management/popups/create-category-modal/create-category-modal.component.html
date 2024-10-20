@@ -6,11 +6,30 @@
       <input
         color="primary"
         #name
-        maxlength="30"
+        maxlength="50"
         matInput
         formControlName="name"
       />
-      <mat-hint align="end">{{ name.value.length }} / 30</mat-hint>
+      <mat-hint align="end">{{ name.value.length }} / 50</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="management-form__inputs__description">
+      <mat-label>Category Description</mat-label>
+      <input
+        color="primary"
+        #description
+        maxlength="150"
+        matInput
+        formControlName="description"
+      />
+      <mat-hint align="end">{{ description.value.length }} / 150</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="management-form__inputs__imageURL">
+      <mat-label>Category Image</mat-label>
+      <input
+        color="primary"
+        matInput
+        formControlName="imageURL"
+      />
     </mat-form-field>
     <div class="management-form__actions">
       <button

@@ -1,4 +1,7 @@
 export interface Brand {
   id: number,
-  name: string
+  name: string,
+  imageURL: string,
+  createdAt: Date,
+  updatedAt: Date
 }

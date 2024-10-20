@@ -1,15 +1,12 @@
 ﻿using Catalog.API._00_Application.Models.Requests;
 using Catalog.API._00_Application.Operations.Commands.BrandCommands;
 using Catalog.API._00_Application.Operations.Queries.BrandQueries;
+using Catalog.API._01_Services.DTOs;
 using Catalog.API.Controllers;
-using Catalog.API.Services.Models;
+using Catalog.API.Controllers.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Catalog.UnitTests.Controllers
 {
@@ -34,36 +31,79 @@ namespace Catalog.UnitTests.Controllers
 
             var result = await _brandController.Add(brand);
 
-            Assert.IsInstanceOfType(result, typeof(OkObjectResult)); 
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
         }
 
         [TestMethod]
-        public async Task GetAll_ReturnsOkWithCateg_WhenBrandExists()
+        public async Task GetAll_ReturnsOkWithBrands_WhenBrandExists()
         {
-            var brands = new List<CatalogBrand> { new CatalogBrand(), new CatalogBrand() };
+            var brandsDTO = new CatalogDataDTO<CatalogBrandDTO>()
+            {
+                TotalItems = 2,
+                Items = new List<CatalogBrandDTO>
+                {   
+                    new CatalogBrandDTO { Name = "Teste1" },
+                    new CatalogBrandDTO { Name = "Teste2" }  
+                }
+            };
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetAllBrandsQuery>(), It.IsAny<CancellationToken>()))
-                  .ReturnsAsync(brands);
+                  .ReturnsAsync(brandsDTO);
 
-            var result = await _brandController.GetAll();
+            var filter = new GenericFilter()
+            {
+                PageIndex = 0,
+                PageSize = 1,
+            };
+
+            var result = await _brandController.GetAll(filter);
 
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
-            Assert.AreEqual(brands, okResult.Value);
+            Assert.AreEqual(200, okResult.StatusCode);
         }
 
         [TestMethod]
-        public async Task GetById_ReturnsOkWithCategory_WhenBrandExists()
+        public async Task GetById_ReturnsOkWithBrand_WhenBrandExists()
         {
             var brandId = 1;
-            var brand = new CatalogBrand { Id = brandId };
-            _mediatorMock.Setup(m => m.Send(It.IsAny<GetBrandsByIdQuery>(), It.IsAny<CancellationToken>()))
-                         .ReturnsAsync(brand);
+            var brandDTO = new CatalogBrandDTO { Id = brandId };
+            _mediatorMock.Setup(m => m.Send(It.IsAny<GetBrandByIdQuery>(), It.IsAny<CancellationToken>()))
+                         .ReturnsAsync(brandDTO);
 
             var result = await _brandController.GetById(brandId);
 
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
-            Assert.AreEqual(brand, okResult.Value);
+            Assert.AreEqual(200, okResult.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task GetByName_ReturnsOkWithBrands_WhenBrandExists()
+        {
+            var brandName = "test";
+            var brandsDTO = new CatalogDataDTO<CatalogBrandDTO>()
+            {
+                TotalItems = 2,
+                Items = new List<CatalogBrandDTO>
+                {
+                    new CatalogBrandDTO { Name = "Teste1" },
+                    new CatalogBrandDTO { Name = "Teste2" }
+                }
+            };
+            _mediatorMock.Setup(m => m.Send(It.IsAny<GetBrandsByNameQuery>(), It.IsAny<CancellationToken>()))
+                         .ReturnsAsync(brandsDTO);
+
+            var filter = new GenericFilter()
+            {
+                PageIndex = 0,
+                PageSize = 1,
+            };
+
+            var result = await _brandController.GetByName(brandName, filter);
+
+            var okResult = result as OkObjectResult;
+            Assert.IsNotNull(okResult);
+            Assert.AreEqual(200, okResult.StatusCode);
         }
 
         [TestMethod]

@@ -1,7 +1,8 @@
-﻿using Catalog.API.Services.Models;
+﻿using Catalog.API._01_Services.DTOs;
+using Catalog.API.Controllers.Filters;
 using MediatR;
 
 namespace Catalog.API._00_Application.Operations.Queries.BrandQueries
 {
-    public record GetAllBrandsQuery : IRequest<IEnumerable<CatalogBrand>>;
+    public record GetAllBrandsQuery(GenericFilter Filter) : IRequest<CatalogDataDTO<CatalogBrandDTO>>;
 }

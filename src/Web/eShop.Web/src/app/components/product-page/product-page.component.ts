@@ -4,11 +4,12 @@ import { FooterComponent } from '../../shared/footer/footer.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DisplayProductsComponent } from '../home/display-products/display-products.component';
 import { Product } from '../../models/product.model';
-import { ProductService } from '../../services/product-list/product.service';
 import { ViewportScroller } from '@angular/common';
 import { NavbarComponent } from "../../shared/navbar/navbar.component";
 import { CartService } from '../../services/cart/cart.service';
 import { ToastService } from "angular-toastify";
+import { ProductManagementService } from '../../services/product-management/product-management.service';
+import { Category } from '../../models/category.model';
 
 @Component({
   selector: "app-product-page",
@@ -29,19 +30,25 @@ export class ProductPageComponent implements OnInit {
     name: "",
     description: "",
     price: 0,
+    discount: 0,
+    finalPrice: 0,
     quantity: 0,
-    brand: { id: 0, name: "" },
-    category: { id: 0, name: "" },
-    imageURL: "",
+    brand: '',
+    category: '',
+    imageURL: '',
     isActive: false,
     isHighlighted: false,
+    createdAt: new Date(),
+    updatedAt: new Date()
   };
+
+  public category?: Category;
 
   private userId: string | null = null;
 
   constructor(
     private router: Router,
-    private productService: ProductService,
+    private productService: ProductManagementService,
     private route: ActivatedRoute,
     private viewportScroller: ViewportScroller,
     private cartService: CartService,
@@ -49,10 +56,11 @@ export class ProductPageComponent implements OnInit {
   ) {}
 
   getProduct(id: string): void {
-    this.productService.getCatalogItem(id).subscribe({
+    this.productService.getProductById(id).subscribe({
       next: (response) => {
         this.product = response;
-        this.product.quantity = 1;
+        const categoryName = this.product.category;
+        this.getCategoryByName(categoryName);
       },
       error: () => {
         this.router.navigate([""]);
@@ -75,6 +83,20 @@ export class ProductPageComponent implements OnInit {
   goToPayment() {
     this.router.navigate(["payment"]);
   }
+
+  getCategoryByName(categoryName: string): any {
+    this.productService.getCategoriesByName(categoryName).subscribe({
+      next: (response) => {
+        if (response && response.length > 0) {
+          this.category = response[0];
+        }
+      },
+      error: () => {
+        console.log('Erro ao obter a categoria');
+      }
+    });
+  }
+
 
   addToCart() {
     const accessToken = localStorage.getItem("access_token");

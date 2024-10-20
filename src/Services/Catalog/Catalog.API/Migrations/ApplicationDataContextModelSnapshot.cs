@@ -23,7 +23,7 @@ namespace Catalog.API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Catalog.API.Services.Models.CatalogBrand", b =>
+            modelBuilder.Entity("Catalog.API._01_Services.Models.CatalogBrand", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,17 +31,27 @@ namespace Catalog.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.ToTable("Brand", "catalog");
                 });
 
-            modelBuilder.Entity("Catalog.API.Services.Models.CatalogCategory", b =>
+            modelBuilder.Entity("Catalog.API._01_Services.Models.CatalogCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,17 +59,32 @@ namespace Catalog.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("ImageURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.ToTable("Category", "catalog");
                 });
 
-            modelBuilder.Entity("Catalog.API.Services.Models.CatalogItem", b =>
+            modelBuilder.Entity("Catalog.API._01_Services.Models.CatalogItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,10 +96,18 @@ namespace Catalog.API.Migrations
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("Discount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("ImageURL")
                         .HasColumnType("nvarchar(max)");
@@ -96,23 +129,29 @@ namespace Catalog.API.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Product", "catalog");
+                    b.ToTable("Product", "catalog", t =>
+                        {
+                            t.HasCheckConstraint("CK_Product_Discount", "[Discount] BETWEEN 0 AND 100");
+                        });
                 });
 
-            modelBuilder.Entity("Catalog.API.Services.Models.CatalogItem", b =>
+            modelBuilder.Entity("Catalog.API._01_Services.Models.CatalogItem", b =>
                 {
-                    b.HasOne("Catalog.API.Services.Models.CatalogBrand", "Brand")
+                    b.HasOne("Catalog.API._01_Services.Models.CatalogBrand", "Brand")
                         .WithMany()
                         .HasForeignKey("BrandId")
                         .HasConstraintName("FK_Product_CatalogBrand");
 
-                    b.HasOne("Catalog.API.Services.Models.CatalogCategory", "Category")
+                    b.HasOne("Catalog.API._01_Services.Models.CatalogCategory", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .HasConstraintName("FK_Product_CatalogCategory");

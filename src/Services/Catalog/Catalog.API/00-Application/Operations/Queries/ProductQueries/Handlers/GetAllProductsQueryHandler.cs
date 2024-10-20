@@ -1,15 +1,15 @@
-﻿using Catalog.API.Services;
-using Catalog.API.Services.Models;
+﻿using Catalog.API._01_Services;
+using Catalog.API._01_Services.DTOs;
 using MediatR;
 
 namespace Catalog.API._00_Application.Operations.Queries.ProductQueries.Handlers
 {
-    public class GetAllProductsQueryHandler(ICatalogItemService repository) : IRequestHandler<GetAllProductsQuery, IEnumerable<CatalogItem>>
+    public class GetAllProductsQueryHandler(ICatalogItemService productService) : IRequestHandler<GetAllProductsQuery, CatalogDataDTO<CatalogItemDTO>>
     {
-        private readonly ICatalogItemService _productService = repository;
-        public Task<IEnumerable<CatalogItem>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
+        private readonly ICatalogItemService _productService = productService;
+        public async Task<CatalogDataDTO<CatalogItemDTO>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
-            return _productService.GetAll();
+            return await _productService.GetAll(request.Filter);
         }
     }
 }

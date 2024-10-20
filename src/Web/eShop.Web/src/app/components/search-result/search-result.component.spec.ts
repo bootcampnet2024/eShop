@@ -2,20 +2,21 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 import { SearchResultComponent } from "./search-result.component";
-import { ProductService } from "../../services/product-list/product.service";
 import { HeaderComponent } from "../../shared/header/header.component";
 import { Product } from "../../models/product.model";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { appConfig } from "../../app.config";
+import { ProductManagementService } from "../../services/product-management/product-management.service";
+
 describe("SearchResultComponent", () => {
   let component: SearchResultComponent;
   let fixture: ComponentFixture<SearchResultComponent>;
-  let mockProductService: jasmine.SpyObj<ProductService>;
+  let mockProductService: jasmine.SpyObj<ProductManagementService>;
   let mockActivatedRoute: any;
 
   beforeEach(async () => {
-    mockProductService = jasmine.createSpyObj("ProductService", [
-      "searchProducts",
+    mockProductService = jasmine.createSpyObj("ProductManagementService", [
+      "getProductsByName",
     ]);
     mockActivatedRoute = {
       queryParams: of({ keyword: "test" }),
@@ -26,7 +27,7 @@ describe("SearchResultComponent", () => {
       providers: [
         provideHttpClientTesting(),
         ...appConfig.providers,
-        { provide: ProductService, useValue: mockProductService },
+        { provide: ProductManagementService, useValue: mockProductService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
     }).compileComponents();
@@ -50,10 +51,13 @@ describe("SearchResultComponent", () => {
         isHighlighted: false,
         price: 10,
         quantity: 1,
-        brand: { id: 1, name: "Marca A" },
-        category: { id: 1, name: "Categoria 1" },
+        brand: "Brand",
+        category: "Category",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        discount: 10,
+        finalPrice: 100,
       },
-
       {
         id: "guid2",
         imageURL: "",
@@ -63,17 +67,21 @@ describe("SearchResultComponent", () => {
         isHighlighted: false,
         price: 10,
         quantity: 1,
-        brand: { id: 1, name: "Marca B" },
-        category: { id: 1, name: "Categoria 2" },
+        brand: "Brand",
+        category: "Category",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        discount: 10,
+        finalPrice: 100,
       },
     ];
 
-    mockProductService.searchProducts.and.returnValue(of(mockProducts));
+    mockProductService.getProductsByName.and.returnValue(of(mockProducts));
 
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(mockProductService.searchProducts).toHaveBeenCalledWith("test");
+    expect(mockProductService.getProductsByName).toHaveBeenCalledWith("test");
     expect(component.products).toEqual(mockProducts);
   });
 
@@ -83,7 +91,7 @@ describe("SearchResultComponent", () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(mockProductService.searchProducts).not.toHaveBeenCalled();
+    expect(mockProductService.getProductsByName).not.toHaveBeenCalled();
     expect(component.products.length).toBe(0);
   });
 
@@ -98,23 +106,27 @@ describe("SearchResultComponent", () => {
         isHighlighted: false,
         price: 10,
         quantity: 1,
-        brand: { id: 1, name: "Marca C" },
-        category: { id: 1, name: "Categoria 3" },
+        brand: "Brand",
+        category: "Category",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        discount: 10,
+        finalPrice: 100,
       },
     ];
 
     mockActivatedRoute.queryParams = of({ keyword: "new-test" });
-    mockProductService.searchProducts.and.returnValue(of(mockProducts));
+    mockProductService.getProductsByName.and.returnValue(of(mockProducts));
 
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(mockProductService.searchProducts).toHaveBeenCalledWith("new-test");
+    expect(mockProductService.getProductsByName).toHaveBeenCalledWith("new-test");
     expect(component.products).toEqual(mockProducts);
   });
 
   it("deve lidar com uma resposta vazia do serviço", () => {
-    mockProductService.searchProducts.and.returnValue(of([]));
+    mockProductService.getProductsByName.and.returnValue(of([]));
 
     component.ngOnInit();
     fixture.detectChanges();

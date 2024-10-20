@@ -1,4 +1,4 @@
-﻿using Catalog.API.Services.Models;
+﻿using Catalog.API._01_Services.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -16,6 +16,9 @@ namespace Catalog.API._02_Infrastructure.Configurations
             builder.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(50);
+
+            builder.Property(e => e.Description)
+                .HasMaxLength(150);
         }
     }
 }

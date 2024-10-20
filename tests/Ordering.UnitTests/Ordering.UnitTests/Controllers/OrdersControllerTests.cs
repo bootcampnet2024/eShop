@@ -1,6 +1,5 @@
 ﻿using eShop.Library.Services;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,7 +12,6 @@ using Ordering.API.Application.ViewModels;
 using Ordering.API.Controllers;
 using Ordering.Domain.AggregatesModel.BuyerAggregate;
 using Ordering.Domain.AggregatesModel.OrderAggregate;
-using System.Net;
 
 namespace Ordering.UnitTests.Controllers;
 
