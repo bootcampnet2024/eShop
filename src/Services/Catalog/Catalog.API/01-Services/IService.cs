@@ -1,4 +1,4 @@
-﻿namespace Catalog.API.Services
+﻿namespace Catalog.API._01_Services
 {
     public interface IService<T, ID> where T : class
     {

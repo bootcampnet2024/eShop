@@ -1,5 +1,5 @@
-﻿using Catalog.API.Services;
-using Catalog.API.Services.Models;
+﻿using Catalog.API._01_Services;
+using Catalog.API._01_Services.Models;
 using MediatR;
 
 namespace Catalog.API._00_Application.Operations.Queries.ProductQueries.Handlers

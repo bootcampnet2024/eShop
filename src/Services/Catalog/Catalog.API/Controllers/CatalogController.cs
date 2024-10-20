@@ -1,9 +1,9 @@
 ﻿using Catalog.API._00_Application.Result;
-using Catalog.API.Application.Extensions;
-using Catalog.API.Application.Result;
+using Catalog.API._00_Application.Extensions;
+using Catalog.API._00_Application.Result;
 using Catalog.API.Controllers.Core;
 using Catalog.API.Controllers.Filters;
-using Catalog.API.Services;
+using Catalog.API._01_Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.API.Controllers;
