@@ -1,10 +1,30 @@
+<app-header></app-header>
+<app-navbar></app-navbar>
 <div class="product-container">
+  <div class="category-page__control-buttons">
+    <div class="category-page__control-button">
+      <p>Sort By:</p>
+      <select (change)="onSortByChange($event)">
+        @for (sortType of sortByTypes; track $index) {
+        <option [value]="sortType">{{ sortType }}</option>
+        }
+      </select>
+    </div>
+    <div class="category-page__control-button">
+      <p>Show:</p>
+      <select (change)="onPageSizeChange($event)">
+        @for (size of pageSizes; track $index) {
+        <option [value]="size">{{ size }} products per page</option>
+        }
+      </select>
+    </div>
+  </div>
   @for (product of products; track product.id) {
   <div class="product-container__card">
     <div class="product-container__image-placeholder">
       <a>
         <img
-          src="assets/products/xbox-series-controller.jpg"
+          src="{{ product.imageURL }}"
           alt=""
           (click)="viewProduct(product)"
           class="product-container__image"
@@ -23,4 +43,16 @@
     </div>
   </div>
   }
+  <div class="category-page__change-page-buttons">
+    <button
+      class="category-page__change-page-button"
+      (click)="goToPreviousPage()"
+    >
+      Go to previous page
+    </button>
+    <button class="category-page__change-page-button" (click)="goToNextPage()">
+      Go to next page
+    </button>
+  </div>
 </div>
+<app-footer></app-footer>

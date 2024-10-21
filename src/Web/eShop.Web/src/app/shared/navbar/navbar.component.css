@@ -14,7 +14,7 @@
   margin: 0;
 }
 
-.subnav:hover .subnavbtn {
+.subnav .subnavbtn:hover {
   background-color: #005b96;
 }
 
@@ -29,10 +29,6 @@
 
 .subnav-content a {
   margin-left: 15px;
-}
-
-.subnav-content a {
-  float: left;
   text-decoration: none;
   cursor: pointer;
 }
@@ -41,7 +37,7 @@
   color: black;
 }
 
-.subnav:hover .subnav-content {
+.subnav-content.show {
   display: flex;
   flex-direction: column;
 }
