@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { HeaderComponent } from "../../shared/header/header.component";
 import { EditUserManagerComponent } from "../user-manager/edit-user-manager/edit-user-manager.component";
 import { FooterComponent } from "../../shared/footer/footer.component";
-import { faFacebookSquare, faInstagramSquare, faLinkedin, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
+import { faFacebookSquare, faInstagramSquare, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faP } from "@fortawesome/free-solid-svg-icons";
 
