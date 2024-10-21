@@ -16,7 +16,7 @@ public class Order : Entity, IAggregateRoot
 
     public int? BuyerId { get; private set; }
 
-    public Buyer Buyer { get; }
+    public Buyer Buyer { get; private set; }
 
     public OrderStatus OrderStatus { get; private set; }
 
