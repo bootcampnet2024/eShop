@@ -271,7 +271,7 @@ body {
 
 .table-container {
   width: 80%;
-  margin: auto;
+  margin: 2em auto auto auto;
   padding: 20px;
   background-color: #f9f9f9;
   border: 1px solid #ccc;
