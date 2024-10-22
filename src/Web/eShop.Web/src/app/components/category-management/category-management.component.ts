@@ -1,3 +1,4 @@
+import { HeaderComponent } from './../../shared/header/header.component';
 import { Category } from './../../models/category.model';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,7 +11,7 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
 @Component({
   selector: 'app-category-management',
   standalone: true,
-  imports: [MatButtonModule, RouterLink, RouterOutlet, RouterLinkActive],
+  imports: [HeaderComponent, MatButtonModule, RouterLink, RouterOutlet, RouterLinkActive],
   templateUrl: './category-management.component.html',
   styleUrl: './category-management.component.css'
 })

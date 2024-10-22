@@ -8,11 +8,12 @@ import { UpdateProductModalComponent } from './popups/update-product-modal/updat
 import { MatIconModule } from '@angular/material/icon';
 import { ToastService } from 'angular-toastify';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { HeaderComponent } from '../../shared/header/header.component';
 
 @Component({
   selector: 'app-product-management',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, RouterLink, RouterOutlet, RouterLinkActive],
+  imports: [HeaderComponent, MatButtonModule, MatIconModule, RouterLink, RouterOutlet, RouterLinkActive],
   templateUrl: './product-management.component.html',
   styleUrl: './product-management.component.css',
 })

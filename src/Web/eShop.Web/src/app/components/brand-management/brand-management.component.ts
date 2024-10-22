@@ -1,3 +1,4 @@
+import { HeaderComponent } from './../../shared/header/header.component';
 import { Component, ElementRef } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,7 +12,7 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
 @Component({
   selector: 'app-brand-management',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, RouterLink, RouterOutlet, RouterLinkActive],
+  imports: [HeaderComponent, MatButtonModule, MatIconModule, RouterLink, RouterOutlet, RouterLinkActive],
   templateUrl: './brand-management.component.html',
   styleUrl: './brand-management.component.css'
 })
