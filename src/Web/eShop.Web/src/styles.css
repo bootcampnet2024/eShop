@@ -333,6 +333,10 @@ body {
   box-shadow: 0 0 0 4px rgb(0 48 73 / 10%);
 }
 
+.table-container__tool-bar__buttons button{
+  margin-left: 5px;
+}
+
 .table-container table {
   width: 100%;
   border-collapse: collapse;

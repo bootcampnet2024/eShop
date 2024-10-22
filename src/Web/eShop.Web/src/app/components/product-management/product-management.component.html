@@ -11,9 +11,17 @@
         </svg>
         <input #searchInput (keypress)="searchProduct($event)" type="search" placeholder="Search"/>
       </div>
-    <button mat-flat-button color="primary" (click)="OpenCreateProductModal()">
-      Add Product
-    </button>
+      <div class="table-container__tool-bar__buttons">
+        <button mat-flat-button color="primary" (click)="OpenCreateProductModal()">
+          Add Product
+        </button>
+        <button mat-flat-button color="primary" (click)="goToBrandManagement()">
+          Go to Brand
+        </button>
+        <button mat-flat-button color="primary" (click)="goToCategoryManagement()">
+          Go to Category
+        </button>
+      </div>
   </div>
   @if (products){
   <table>
