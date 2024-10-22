@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AddressPageComponent } from './address-page.component';
 
 describe('AddressPageComponent', () => {
@@ -8,7 +8,10 @@ describe('AddressPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddressPageComponent]
+      imports: [
+        NoopAnimationsModule,  
+        AddressPageComponent   
+      ]
     })
     .compileComponents();
 
