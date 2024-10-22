@@ -17,6 +17,7 @@ import { CreateUserManagerComponent } from './components/user-manager/create-use
 import { ViewUserManagerComponent } from './components/user-manager/view-user-manager/view-user-manager.component';
 import { EditUserManagerComponent } from './components/user-manager/edit-user-manager/edit-user-manager.component';
 import { BrandManagementComponent } from './components/brand-management/brand-management.component';
+import { AddressPageComponent } from './components/address-page/address-page.component';
 
 
 export const routes: Routes = [
@@ -30,6 +31,7 @@ export const routes: Routes = [
     {path: 'search', component: SearchResultComponent},
     {path: 'category', component: CategoryPageComponent},
     {path: 'contact', component: ContactComponent},
+    {path: 'address', component: AddressPageComponent},
     {path: 'create-user-management', component: CreateUserManagerComponent, canActivate: [AuthGuard]},
     {path: 'edit-user-management', component: EditUserManagerComponent, canActivate: [AuthGuard]},
     {path: 'view-user-management', component: ViewUserManagerComponent, canActivate: [AuthGuard]},

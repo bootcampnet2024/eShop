@@ -1,0 +1,76 @@
+<div class="wrapper">
+    <mat-card class="address-container">
+        <div class="header">
+            <img class="icon" src="../../assets/iconMap.png" alt="Map Icon">
+            <span class="title">Edit address</span>
+        </div>
+
+        <form [formGroup]="addressForm" class="address-form">
+            <div class="form_group">
+                <mat-form-field appearance="outline" class="address_form__field">
+                    <mat-label class="txt">Recipient Name</mat-label>
+                    <input matInput formControlName="name" placeholder="Full name" />
+                </mat-form-field>
+            </div>
+
+            <div class="form_group">
+                <mat-form-field appearance="outline" class="address_form__field">
+                    <mat-label class="txt">CEP</mat-label>
+                    <input matInput formControlName="zip" (blur)="lookupZIP()" placeholder="Enter ZIP code" />
+                </mat-form-field>
+            </div>
+
+            <div class="form_group">
+                <mat-form-field appearance="outline" class="address_form__field">
+                    <mat-label class="txt">Street</mat-label>
+                    <input matInput formControlName="street" placeholder="Street" />
+                </mat-form-field>
+            </div>
+
+            <div class="form_group">
+                <mat-form-field appearance="outline" class="address_form__field">
+                    <mat-label class="txt">Number</mat-label>
+                    <input matInput formControlName="number" placeholder="House number" />
+                </mat-form-field>
+            </div>
+
+            <div class="form_group">
+                <mat-form-field appearance="outline" class="address_form__field">
+                    <mat-label class="txt">State</mat-label>
+                    <input matInput formControlName="state" placeholder="State" />
+                </mat-form-field>
+            </div>
+
+            <div class="form_group">
+                <mat-form-field appearance="outline" class="address_form__field">
+                    <mat-label class="txt">City</mat-label>
+                    <input matInput formControlName="city" placeholder="City" />
+                </mat-form-field>
+            </div>
+            <div class="form_group">
+                <mat-form-field appearance="outline" class="address_form__field">
+                    <mat-label class="txt">Country</mat-label>
+                    <input matInput formControlName="country" placeholder="Country" />
+                </mat-form-field>
+            </div>
+
+            <div class="form_group">
+                <mat-form-field appearance="outline" class="address_form__field">
+                    <mat-label class="txt">Complement</mat-label>
+                    <input matInput formControlName="complement" placeholder="Apartment,House,Store" />
+                </mat-form-field>
+            </div>
+
+            <div class="form_group">
+                <mat-form-field appearance="outline" class="address_form__field">
+                    <mat-label class="txt">Reference</mat-label>
+                    <input matInput formControlName="reference" placeholder="Reference" />
+                </mat-form-field>
+            </div>
+
+            <div class="form-group button-group">
+                <button class="btn-address" [disabled]="!addressForm.valid">Save Address</button>
+            </div>
+        </form>
+    </mat-card>
+</div>
