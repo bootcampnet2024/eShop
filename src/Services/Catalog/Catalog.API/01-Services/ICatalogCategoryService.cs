@@ -27,7 +27,11 @@ public class CatalogCategoryService(ApplicationDataContext context) : ICatalogCa
 
     public async Task<IEnumerable<CatalogCategory>> GetAll()
     {
-        return await _context.CatalogCategories.ToListAsync();
+        var category = await _context.CatalogCategories.ToListAsync();
+
+        if (category == null) return null;
+
+        return category;
     }
 
     public async Task<CatalogCategory> GetById(int id)
@@ -39,9 +43,16 @@ public class CatalogCategoryService(ApplicationDataContext context) : ICatalogCa
         return category;
     }
 
-    public Task<IEnumerable<CatalogCategory>> GetByName(string name)
+    public async Task<IEnumerable<CatalogCategory>> GetByName(string name)
     {
-        throw new NotImplementedException();
+        var category = await _context.CatalogCategories
+            .OrderByDescending(c => c.Name)
+            .Where(c => c.Name.Contains(name.ToLower()))
+            .ToListAsync();
+
+        if (category == null) return null;
+
+        return category;
     }
 
     public async Task<bool> Update(int id, CatalogCategory CatalogCategory)
