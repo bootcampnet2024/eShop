@@ -2,7 +2,7 @@
   <h1 class="table-container__title">Category List</h1>
   <div class="navbar">
     <div class="table-container__tool-bar">
-      <!-- <div class="table-container__search-bar">
+      <div class="table-container__search-bar">
         <svg viewBox="0 0 24 24" aria-hidden="true" class="table-container__search-bar__icon">
           <g>
             <path
@@ -10,12 +10,19 @@
             ></path>
           </g>
         </svg>
-       <input #searchInput (keypress)="searchProduct($event)" type="search" placeholder="Search"/>
-      </div> -->
-    </div>
-    <button mat-flat-button color="primary" (click)="OpenCreateCategoryModal()">
-      Add Category
-    </button>
+        <input #searchInput (keypress)="searchCategory($event)" type="search" placeholder="Search"/>
+      </div>
+      <div class="table-container__tool-bar__buttons">
+        <button mat-flat-button color="primary" (click)="OpenCreateCategoryModal()">
+          Add Category
+        </button>
+        <button mat-flat-button color="primary" (click)="goToProductManagement()">
+          Go to Product
+        </button>
+        <button mat-flat-button color="primary" (click)="goToBrandManagement()">
+          Go to Brand
+        </button>
+      </div>
   </div>
   @if (categories){
   <table>
