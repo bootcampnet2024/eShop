@@ -67,6 +67,14 @@ export class ProductManagementService {
     return this.http.get<Product[]>(`${this.url}/${this.products}/name/${name}`)
   }
 
+  getCategoriesByName(name: string) : Observable<Category[]> {
+    return this.http.get<Category[]>(`${this.url}/${this.categories}/name/${name}`)
+  }
+
+  getBrandsByName(name: string) : Observable<Brand[]> {
+    return this.http.get<Brand[]>(`${this.url}/${this.brands}/name/${name}`)
+  }
+
   addProduct(product: ProductDTO) : Observable<string> {
     return this.http.post<string>(`${this.url}/${this.products}`, product, {responseType: 'text' as 'json'});
   }
