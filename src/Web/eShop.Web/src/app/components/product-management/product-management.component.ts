@@ -7,11 +7,12 @@ import { CreateProductModalComponent } from './popups/create-product-modal/creat
 import { UpdateProductModalComponent } from './popups/update-product-modal/update-product-modal.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ToastService } from 'angular-toastify';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-product-management',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule],
+  imports: [MatButtonModule, MatIconModule, RouterLink, RouterOutlet, RouterLinkActive],
   templateUrl: './product-management.component.html',
   styleUrl: './product-management.component.css',
 })
@@ -19,7 +20,8 @@ export class ProductManagementComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private productService: ProductManagementService,
-    private _toastService: ToastService
+    private _toastService: ToastService,
+    private router : Router
   ) {
     this.getProducts();
   }
@@ -106,5 +108,13 @@ export class ProductManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       this.getProducts();
     });
+  }
+
+  goToBrandManagement(){
+    this.router.navigate(['/brand-management'])
+  }
+
+  goToCategoryManagement(){
+    this.router.navigate(['/category-management'])
   }
 }
