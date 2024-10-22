@@ -19,13 +19,16 @@ namespace Catalog.API._02_Infrastructure.Configurations
 
             builder.Property(e => e.Description)
                 .IsRequired()
-                .HasMaxLength(300);
+                .HasMaxLength(500);
 
             builder.Property(e => e.Price)
                 .IsRequired()
                 .HasColumnType("decimal(9,2)");
 
             builder.Property(e => e.IsHighlighted)
+                .IsRequired();
+
+            builder.Property(e => e.Quantity)
                 .IsRequired();
 
             builder.HasOne(p => p.Brand)

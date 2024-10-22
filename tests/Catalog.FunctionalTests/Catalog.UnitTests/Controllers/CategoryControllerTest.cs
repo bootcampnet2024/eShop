@@ -10,6 +10,7 @@ using Moq;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Catalog.API._00_Application.Operations.Queries.BrandQueries;
 
 namespace Catalog.UnitTests.Controllers
 {
@@ -64,6 +65,21 @@ namespace Catalog.UnitTests.Controllers
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
             Assert.AreEqual(category, okResult.Value);
+        }
+
+        [TestMethod]
+        public async Task GetByName_ReturnsOkWithCategories_WhenCategoriesExists()
+        {
+            var categoryName = "test";
+            var categories = new List<CatalogCategory> { new CatalogCategory { Name = "test" }, new CatalogCategory { Name = "test2" } };
+            _mediatorMock.Setup(m => m.Send(It.IsAny<GetCategoriesByNameQuery>(), It.IsAny<CancellationToken>()))
+                         .ReturnsAsync(categories);
+
+            var result = await _categoryController.GetByName(categoryName);
+
+            var okResult = result as OkObjectResult;
+            Assert.IsNotNull(okResult);
+            Assert.AreEqual(categories, okResult.Value);
         }
 
         [TestMethod]

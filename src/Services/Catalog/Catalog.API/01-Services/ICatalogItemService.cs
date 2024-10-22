@@ -5,8 +5,6 @@ using Microsoft.EntityFrameworkCore;
 namespace Catalog.API._01_Services;
 public interface ICatalogItemService : IService<CatalogItem, Guid>
 {
-    Task<CatalogItem> GetByCategoryName(string categoryName);
-    Task<CatalogItem> GetByBrandName(string brandName);
 }
 public class CatalogItemService(ApplicationDataContext context) : ICatalogItemService
 {
@@ -29,17 +27,11 @@ public class CatalogItemService(ApplicationDataContext context) : ICatalogItemSe
 
     public async Task<IEnumerable<CatalogItem>> GetAll()
     {
-        return await _context.CatalogItems.Include(p => p.Category).Include(p => p.Brand).ToListAsync();
-    }
+        var product = await _context.CatalogItems.Include(p => p.Category).Include(p => p.Brand).ToListAsync();
 
-    public Task<CatalogItem> GetByBrandName(string brandName)
-    {
-        throw new NotImplementedException();
-    }
+        if (product == null) return null;
 
-    public Task<CatalogItem> GetByCategoryName(string categoryName)
-    {
-        throw new NotImplementedException();
+        return product;
     }
 
     public async Task<CatalogItem> GetById(Guid id)
@@ -56,12 +48,17 @@ public class CatalogItemService(ApplicationDataContext context) : ICatalogItemSe
 
     public async Task<IEnumerable<CatalogItem>> GetByName(string name)
     {
-        return await _context.CatalogItems
+        var product = await _context.CatalogItems
             .OrderByDescending(p => p.IsActive)
+            .OrderByDescending (p => p.Name)
             .Include(p => p.Category)
             .Include(p => p.Brand)
             .Where(p => p.Name.ToLower().Contains(name.ToLower()))
             .ToListAsync();
+
+        if (product == null) return null;
+
+        return product;
     }
 
     public async Task<bool> Update(Guid id, CatalogItem product)

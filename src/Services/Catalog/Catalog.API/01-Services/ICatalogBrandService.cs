@@ -27,7 +27,11 @@ public class CatalogBrandService(ApplicationDataContext context) : ICatalogBrand
 
     public async Task<IEnumerable<CatalogBrand>> GetAll()
     {
-        return await _context.CatalogBrands.ToListAsync();
+        var brand = await _context.CatalogBrands.ToListAsync();
+
+        if (brand == null) return null;
+
+        return brand;
     }
 
     public async Task<CatalogBrand> GetById(int id)
@@ -39,9 +43,16 @@ public class CatalogBrandService(ApplicationDataContext context) : ICatalogBrand
         return brand;
     }
 
-    public Task<IEnumerable<CatalogBrand>> GetByName(string name)
+    public async Task<IEnumerable<CatalogBrand>> GetByName(string name)
     {
-        throw new NotImplementedException();
+        var brand = await _context.CatalogBrands
+            .OrderByDescending(b => b.Name)
+            .Where(b => b.Name.Contains(name.ToLower()))
+            .ToListAsync();
+
+        if (brand == null) return null;
+
+        return brand;
     }
 
     public async Task<bool> Update(int id, CatalogBrand CatalogBrand)
