@@ -1,0 +1,8 @@
+#kc-header-wrapper {
+    font-size: 3em;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+  }
