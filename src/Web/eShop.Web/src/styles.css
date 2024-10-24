@@ -1003,7 +1003,7 @@ button[type="submit"]:hover {
   padding: 50px 40px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: justify; /* Centraliza o conteúdo do texto */
+  text-align: justify; 
 }
 
 .history-info h1 {
@@ -1023,12 +1023,12 @@ button[type="submit"]:hover {
 }
 
 .history-info strong {
-  color: #3498db; /* Destaque em azul */
+  color: #3498db; 
   font-weight: bold;
 }
 
 .history-info p:last-child {
-  margin-bottom: 0; /* Remove margem inferior do último parágrafo */
+  margin-bottom: 0; 
 }
 
 @media (max-width: 768px) {
