@@ -59,6 +59,8 @@ describe("UserManagementService", () => {
         cpf: "38906499809",
         phoneNumber: "(11) 99962-3213",
         roles: ["mockRoles"],
+        fullname: "Mock 1",
+        updateAt: new Date()
       },
     ];
 
@@ -76,6 +78,8 @@ describe("UserManagementService", () => {
         cpf: "38906499809",
         phoneNumber: "(11) 99962-3213",
         roles: ["mockRoles"],
+        fullname: "Mock 1",
+        updateAt: new Date()
       },
     ];
 

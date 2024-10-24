@@ -46,7 +46,6 @@ export class UserProfileComponent implements OnInit {
       email: [{ value: '', disabled: true }],
       phoneNumber: [ { value: "", disabled: true }],
       cpf: [{ value: '', disabled: true }],
-      updateAt: [{ value: '', disabled: true }],
     });
   }
 
@@ -64,7 +63,6 @@ export class UserProfileComponent implements OnInit {
           email: data.email,
           cpf: data.cpf,
           phoneNumber: data.phoneNumber,
-          updateAt: data.updateAt,
         });
         this.userId = data.id;
         this.isLoading = false;
@@ -85,7 +83,6 @@ export class UserProfileComponent implements OnInit {
 
     if (this.perfilForm.valid && (daysDiff > 7)) {
       this.perfilForm.get('email')?.enable();
-      this.perfilForm.get('cpf')?.enable();
 
       const updatedProfile = {
         username: this.perfilForm.get('username')?.value,
@@ -94,7 +91,6 @@ export class UserProfileComponent implements OnInit {
         attributes: {
           phoneNumber: this.perfilForm.get('number')?.value,
           cpf: this.perfilForm.get('cpf')?.value,
-          address: this.perfilForm.get('address')?.value,
         }
       };
 

@@ -27,6 +27,8 @@ export class EditUserComponent implements OnInit {
     cpf: this.data.cpf,
     phoneNumber: this.data.phoneNumber,
     roles: this.data.roles,
+    fullname: this.data.fullname,
+    updateAt: this.data.updateAt
   };
 
   closeModal() {

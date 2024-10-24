@@ -19,6 +19,8 @@ export class AddUserComponent implements OnInit {
     cpf: "",
     phoneNumber: "",
     roles: [""],
+    fullname: "",
+    updateAt: new Date()
   };
 
   constructor(
