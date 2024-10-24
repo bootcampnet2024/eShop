@@ -1,0 +1,31 @@
+<app-header></app-header>
+<br>
+
+<div class="container">
+    <h1>Cards Information</h1>
+    <h3>All your saved debit/credit cards</h3>
+    <br>
+    <div class="cards-container">
+      @for (card of cards; track card){  
+      <div class="credit-card">
+        <div class="card-header">
+          <div class="bank-info">
+            <span class="bank-name">{{card.type}} Card</span>
+          </div>
+
+          <div class="card-type">
+            <img src="https://www.logo.wine/a/logo/Mastercard/Mastercard-Logo.wine.svg" alt="mastercard" class="mastercard-logo">
+          </div>
+        </div>
+
+        <div class="chip"></div>
+        <div class="card-info">    
+          <p class="card-number">{{card.number}}</p>
+          <p class="valid-date">{{card.validity}} VALIDITY</p>
+          <p class="cardholder-name">{{card.name}}</p>
+        </div>
+      </div>
+      }
+    </div>  
+</div>
+<app-footer></app-footer>
