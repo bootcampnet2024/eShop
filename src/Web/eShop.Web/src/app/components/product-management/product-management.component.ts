@@ -6,18 +6,23 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateProductModalComponent } from './popups/create-product-modal/create-product-modal.component';
 import { UpdateProductModalComponent } from './popups/update-product-modal/update-product-modal.component';
 import { MatIconModule } from '@angular/material/icon';
+import { ToastService } from 'angular-toastify';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { HeaderComponent } from '../../shared/header/header.component';
 
 @Component({
   selector: 'app-product-management',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule],
+  imports: [HeaderComponent, MatButtonModule, MatIconModule, RouterLink, RouterOutlet, RouterLinkActive],
   templateUrl: './product-management.component.html',
   styleUrl: './product-management.component.css',
 })
 export class ProductManagementComponent implements OnInit {
   constructor(
-    private dialog: MatDialog,
-    private productService: ProductManagementService
+    public dialog: MatDialog,
+    private productManagementService: ProductManagementService,
+    public _toastService: ToastService,
+    private router : Router
   ) {
     this.getProducts();
   }
@@ -33,14 +38,11 @@ export class ProductManagementComponent implements OnInit {
     return text === null || text.match(/^ *$/) !== null;
   };
 
-  searchProduct = (event: KeyboardEvent): void => {
-    const element = event.currentTarget as HTMLInputElement
-    const value = element.value
-
+  searchProduct = (value: string, event: KeyboardEvent): void => {
     if (event.key !== 'Enter') return;
 
     if (this.isEmpty(value)) {
-      this.productService.getProducts()
+      this.productManagementService.getProducts()
         .subscribe({
           next: (response) => {
             this.products = response
@@ -48,7 +50,7 @@ export class ProductManagementComponent implements OnInit {
         });
       return;
     }
-    this.productService.getProductsByName(value)
+    this.productManagementService.getProductsByName(value)
       .subscribe((response) => {
         this.products = response
       })
@@ -57,24 +59,21 @@ export class ProductManagementComponent implements OnInit {
   products?: Product[];
 
   disableProduct(productId: string) {
-    this.productService.disableProduct(productId).subscribe({
+    this.productManagementService.disableProduct(productId).subscribe({
       next: () => {
-        console.log(
+        this._toastService.success(
           `Product with ID ${productId} has been successfully disabled.`
         );
         this.getProducts();
       },
-      error: (error) => {
-        console.error(`Failed to disable product with ID ${productId}.`, error);
-        alert(
-          'An error occurred while trying to disable the product. Please try again.'
-        );
+      error: () => {
+        this._toastService.error(`Failed to disable product with ID ${productId}.`);
       },
     });
   }
 
   getProducts() {
-    this.productService.getProducts().subscribe((products) => {
+    this.productManagementService.getProducts().subscribe((products) => {
       this.products = products;
       console.log(products);
     });
@@ -107,5 +106,13 @@ export class ProductManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       this.getProducts();
     });
+  }
+
+  goToBrandManagement(){
+    this.router.navigate(['/brand-management'])
+  }
+
+  goToCategoryManagement(){
+    this.router.navigate(['/category-management'])
   }
 }

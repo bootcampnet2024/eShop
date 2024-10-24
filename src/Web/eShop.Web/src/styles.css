@@ -271,7 +271,7 @@ body {
 
 .table-container {
   width: 80%;
-  margin: auto;
+  margin: 2em auto auto auto;
   padding: 20px;
   background-color: #f9f9f9;
   border: 1px solid #ccc;
@@ -331,6 +331,10 @@ body {
   border-color: #007bff;
   background-color: #fff;
   box-shadow: 0 0 0 4px rgb(0 48 73 / 10%);
+}
+
+.table-container__tool-bar__buttons button{
+  margin-left: 5px;
 }
 
 .table-container table {
@@ -758,4 +762,144 @@ body {
 
 .cart-container__order-summary__summary__buy-button:hover {
   background-color: #218838;
+}
+
+
+.container-contact {
+  max-width: 1200px;
+  margin: 50px auto;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.contact-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.contact-info {
+  flex: 1;
+}
+
+.contact-info h2 {
+  font-size: 2rem;
+  text-align: left;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.contact-info p {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.map-container {
+  margin: 20px 0;
+}
+
+.social-media {
+  margin-top: 20px;
+}
+
+.social-media a {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.social-media img {
+  width: 40px;
+  transition: transform 0.3s ease;
+}
+
+.social-media img:hover {
+  transform: scale(1.2);
+}
+
+.contact-form {
+  flex: 1;
+}
+
+.contact-form h1 {
+  text-align: left;
+  color: #333;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+button[type="submit"] {
+  width: 100%;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .contact-wrapper {
+    flex-direction: column;
+  }
+
+  .contact-form h1,
+  .contact-info h2 {
+    font-size: 2rem;
+  }
+}
+
+.social-media a {
+  display: inline-block;
+  margin-right: 15px;
+  font-size: 2.5rem;
+  color: #333;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-media a:hover {
+  color: #007bff;
+  transform: scale(1.2);
 }

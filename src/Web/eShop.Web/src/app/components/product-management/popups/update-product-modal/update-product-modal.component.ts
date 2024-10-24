@@ -11,6 +11,7 @@ import { Brand } from '../../../../models/brand.model';
 import { ProductManagementService } from '../../../../services/product-management/product-management.service';
 import { ProductDTO } from '../../../../models/productDTO.model';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ToastService } from 'angular-toastify';
 
 @Component({
   selector: 'app-update-product-modal',
@@ -21,15 +22,17 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 })
 export class UpdateProductModalComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: Product,
-  private ref: MatDialogRef<UpdateProductModalComponent>, private productService : ProductManagementService, private fb: FormBuilder){
+  private ref: MatDialogRef<UpdateProductModalComponent>, private productService : ProductManagementService,
+   public _toastService: ToastService){
     this.getBrands();
     this.getCategories();
   }
   ngOnInit(): void {
-      if (this.data.id) {
+      if (this.data?.id) {
         this.getProduct(this.data.id);
         console.log(this.product)
       } else {
+        this._toastService.error("This product does not exist in the API!");
         this.close()
       }
   }
@@ -63,7 +66,7 @@ export class UpdateProductModalComponent {
 
   brands?: Brand[];
   categories?: Category[];
-  private product?: Product;
+  product?: Product;
 
   getBrands() {this.productService.getBrands().subscribe((brands) => {
     this.brands = brands;
@@ -86,15 +89,7 @@ export class UpdateProductModalComponent {
         });
       },
       error: () => {
-        console.log("This product does not exist in the API!");
-      }
-    });
-  }
-
-  checkProduct(id: string): void {
-    this.productService.getProductById(id).subscribe({
-      error: () => {
-        console.log("This product does not exist in the API!");
+        this._toastService.error("This product does not exist in the API!");
       }
     });
   }
@@ -105,11 +100,11 @@ export class UpdateProductModalComponent {
     this.productService.updateProduct(this.data.id, product)
       .subscribe({
         next: () => {
-          console.log("Product updated sucessfully!")
+          this._toastService.success("Product updated sucessfully!")
           this.close();
         },
         error: () => {
-          console.log(`Values provided wasn't accepted by the API!`)
+          this._toastService.error("Values provided wasn't accepted by the API!")
           console.log(this.data.id)
           console.log(product)
         }
