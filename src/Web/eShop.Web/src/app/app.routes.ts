@@ -23,6 +23,7 @@ import { AddressPageComponent } from './components/address-page/address-page.com
 
 export const routes: Routes = [
     {path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard]},
+    {path: 'user-cards', component: UserCardsComponent, canActivate: [AuthGuard]},
     {path: '', component: LandingPageComponent},
     {path: 'login', component: LoginPageComponent},
     {path: 'signin', component: SigninPageComponent},
