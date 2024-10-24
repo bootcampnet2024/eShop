@@ -122,13 +122,15 @@ export class AuthService {
 
   signin(
     username: string,
+    fullname: string,
     password: string,
     email: string,
     address: string,
-    cep: string,
-    cpf: string
+    phonenumber: string,
+    cpf: string,
+    date: Date = new Date(),
   ): Observable<any> {
-    if (!username || !password || !email || !address || !cep || !cpf) {
+    if (!fullname || !password || !email || !address || !phonenumber || !cpf || !username || !date) {
       return throwError(() => new Error("Todos os campos são obrigatórios."));
     }
 
@@ -143,14 +145,16 @@ export class AuthService {
         }
 
         const body = {
-          username: username,
+          username : username,
+          full_name: fullname,
           enabled: true,
           emailVerified: true,
           email: email,
           attributes: {
-            cep: cep,
+            phone_number: [phonenumber],
             cpf: cpf,
-            address: address,
+            address: [address],
+            update_at: date,
           },
           credentials: [
             {

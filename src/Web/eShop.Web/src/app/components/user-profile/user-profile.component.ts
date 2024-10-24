@@ -46,6 +46,7 @@ export class UserProfileComponent implements OnInit {
       email: [{ value: '', disabled: true }],
       phoneNumber: [ { value: "", disabled: true }],
       cpf: [{ value: '', disabled: true }],
+      updateAt: [{ value: '', disabled: true }],
     });
   }
 
@@ -59,9 +60,11 @@ export class UserProfileComponent implements OnInit {
       next: (data: User) => {
         this.perfilForm.patchValue({
           username: data.username,
+          fullname: data.fullname,
           email: data.email,
           cpf: data.cpf,
           phoneNumber: data.phoneNumber,
+          updateAt: data.updateAt,
         });
         this.userId = data.id;
         this.isLoading = false;
@@ -74,18 +77,24 @@ export class UserProfileComponent implements OnInit {
   }
 
   updateProfile(): void {
-    if (this.perfilForm.valid) {
+    const date: Date = new Date();
+    const formUpdateAt = new Date(this.perfilForm.get('updateAt')?.value); 
+
+    const timeDiff = date.getTime() - formUpdateAt.getTime();
+    const daysDiff = timeDiff / (1000 * 3600 * 24);
+
+    if (this.perfilForm.valid && (daysDiff > 7)) {
       this.perfilForm.get('email')?.enable();
       this.perfilForm.get('cpf')?.enable();
 
       const updatedProfile = {
         username: this.perfilForm.get('username')?.value,
+        fullname: this.perfilForm.get('fullname')?.value,
         email: this.perfilForm.get('email')?.value,
         attributes: {
           phoneNumber: this.perfilForm.get('number')?.value,
           cpf: this.perfilForm.get('cpf')?.value,
           address: this.perfilForm.get('address')?.value,
-          cep: this.perfilForm.get('cep')?.value
         }
       };
 

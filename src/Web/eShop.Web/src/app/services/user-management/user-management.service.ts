@@ -41,9 +41,11 @@ export class UserManagementService {
       const body: User = {
         id: decodedToken.sub,
         username: decodedToken.preferred_username,
+        fullname: decodedToken.full_name,
         email: decodedToken.email,
         cpf: decodedToken.cpf,
-        phoneNumber: decodedToken.phoneNumber,
+        phoneNumber: decodedToken.phone_number,
+        updateAt: decodedToken.update_at,
         roles: decodedToken.realm_access?.roles || [],
         };
 
