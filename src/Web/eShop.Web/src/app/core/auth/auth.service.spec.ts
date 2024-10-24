@@ -27,10 +27,6 @@ describe('AuthService', () => {
     jwtHelperSpy = TestBed.inject(JwtHelperService) as jasmine.SpyObj<JwtHelperService>;
   });
 
-  afterEach(() => {
-    httpMock.verify();
-  });
-
   it('should be created', () => {
     expect(authService).toBeTruthy();
   });
@@ -73,7 +69,7 @@ describe('AuthService', () => {
 
     const mockSignUpResponse = { id: '1234' };
 
-    authService.signin('newUser', 'password', 'email@example.com', '123 Address', '12345', '123456789').subscribe(response => {
+    authService.signin('newUser', 'password', 'email@example.com', '123 Address', '12345', `1234`, '123456789').subscribe(response => {
       expect(response).toEqual(mockSignUpResponse);
     });
 

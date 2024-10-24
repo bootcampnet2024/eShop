@@ -1,0 +1,19 @@
+<form (ngSubmit)="closeModal()" #productForm="ngForm">
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input type="text" class="form-control" id="username" required [(ngModel)]="user.username" name="username">
+  </div>
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="text" class="form-control" id="email" required [(ngModel)]="user.email" name="email">
+  </div>
+  <div class="form-group">
+    <label for="cpf">CPF:</label>
+    <input type="text" class="form-control" id="cpf" required [(ngModel)]="user.cpf" name="cpf">
+  </div>
+  <div class="form-group">
+    <label for="phone-number">Phone Number:</label>
+    <input type="text" class="form-control" id="phoneNumber" required [(ngModel)]="user.phoneNumber" name="phoneNumber">
+  </div>
+  <button type="submit" class="btn btn-primary" >Edit User</button>
+</form>

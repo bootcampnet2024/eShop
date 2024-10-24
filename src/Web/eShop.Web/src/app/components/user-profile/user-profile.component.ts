@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserManagementService } from '../../services/user-management/user-management.service';
 import { AuthService } from '../../core/auth/auth.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'user-profile',
@@ -43,10 +44,8 @@ export class UserProfileComponent implements OnInit {
     this.perfilForm = this.fb.group({
       username: ['', Validators.required],
       email: [{ value: '', disabled: true }],
-      address: [{ value: "", disabled: true}],
-      number: [ { value: "", disabled: true }],
+      phoneNumber: [ { value: "", disabled: true }],
       cpf: [{ value: '', disabled: true }],
-      cep: ['', Validators.required]
     });
   }
 
@@ -57,16 +56,15 @@ export class UserProfileComponent implements OnInit {
   loadUserData(): void {
     this.isLoading = true;
     this.userService.getProfile().subscribe({
-      next: (data) => {
+      next: (data: User) => {
         this.perfilForm.patchValue({
           username: data.username,
-          number: data.number,
-          address: data.address,
+          fullname: data.fullname,
           email: data.email,
           cpf: data.cpf,
-          cep: data.cep
+          phoneNumber: data.phoneNumber,
         });
-        this.userId = data.sub;
+        this.userId = data.id;
         this.isLoading = false;
       },
       error: (error) => {
@@ -77,18 +75,22 @@ export class UserProfileComponent implements OnInit {
   }
 
   updateProfile(): void {
-    if (this.perfilForm.valid) {
+    const date: Date = new Date();
+    const formUpdateAt = new Date(this.perfilForm.get('updateAt')?.value); 
+
+    const timeDiff = date.getTime() - formUpdateAt.getTime();
+    const daysDiff = timeDiff / (1000 * 3600 * 24);
+
+    if (this.perfilForm.valid && (daysDiff > 7)) {
       this.perfilForm.get('email')?.enable();
-      this.perfilForm.get('cpf')?.enable();
 
       const updatedProfile = {
         username: this.perfilForm.get('username')?.value,
+        fullname: this.perfilForm.get('fullname')?.value,
         email: this.perfilForm.get('email')?.value,
         attributes: {
-          number: this.perfilForm.get('number')?.value,
+          phoneNumber: this.perfilForm.get('number')?.value,
           cpf: this.perfilForm.get('cpf')?.value,
-          address: this.perfilForm.get('address')?.value,
-          cep: this.perfilForm.get('cep')?.value
         }
       };
 

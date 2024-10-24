@@ -30,8 +30,13 @@ export class HeaderComponent {
     this.isLoggedIn = this.authService.isAuthenticated();
   }
 
+  profile(){
+    this.router.navigate([this.authService.getRoleUrl()]);
+  }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
+
 }
