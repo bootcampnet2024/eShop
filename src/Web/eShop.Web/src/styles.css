@@ -987,3 +987,60 @@ button[type="submit"]:hover {
     justify-content: center;
   }
 }
+
+.container-history {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+.history-wrapper {
+  max-width: 900px;
+  background-color: #ffffff;
+  padding: 50px 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: justify; /* Centraliza o conteúdo do texto */
+}
+
+.history-info h1 {
+  font-size: 42px;
+  margin-bottom: 30px;
+  color: #2c3e50;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+}
+
+.history-info p {
+  font-size: 20px;
+  line-height: 1.8;
+  color: #7f8c8d;
+  font-family: 'Open Sans', sans-serif;
+  margin-bottom: 20px;
+}
+
+.history-info strong {
+  color: #3498db; /* Destaque em azul */
+  font-weight: bold;
+}
+
+.history-info p:last-child {
+  margin-bottom: 0; /* Remove margem inferior do último parágrafo */
+}
+
+@media (max-width: 768px) {
+  .history-wrapper {
+    padding: 30px 20px;
+  }
+
+  .history-info h1 {
+    font-size: 32px;
+  }
+
+  .history-info p {
+    font-size: 18px;
+  }
+}
