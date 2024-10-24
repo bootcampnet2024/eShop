@@ -18,11 +18,13 @@ import { ViewUserManagerComponent } from './components/user-manager/view-user-ma
 import { EditUserManagerComponent } from './components/user-manager/edit-user-manager/edit-user-manager.component';
 import { BrandManagementComponent } from './components/brand-management/brand-management.component';
 import { AddressPageComponent } from './components/address-page/address-page.component';
+import { UserCardsComponent } from './components/user-cards/user-cards.component';
 
 
 
 export const routes: Routes = [
     {path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard]},
+    {path: 'user-cards', component: UserCardsComponent, canActivate: [AuthGuard]},
     {path: '', component: LandingPageComponent},
     {path: 'login', component: LoginPageComponent},
     {path: 'signin', component: SigninPageComponent},
