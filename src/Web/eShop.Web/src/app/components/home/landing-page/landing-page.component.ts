@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../../shared/header/header.component';
 import { StaticCarouselComponent } from '../static-carousel/static-carousel.component';
-import { DisplayHighlightedProductComponent } from '../display-highlighted-product/display-highlighted-product.component';
+import { DisplayProductsComponent } from '../display-products/display-products.component';
 import { FooterComponent } from "../../../shared/footer/footer.component";
 import { CategoryDisplayComponent } from '../category-display/category-display.component';
 import { ViewportScroller } from '@angular/common';
@@ -13,7 +13,7 @@ import { NavbarComponent } from '../../../shared/navbar/navbar.component';
     standalone: true,
     templateUrl: './landing-page.component.html',
     styleUrl: './landing-page.component.css',
-    imports: [HeaderComponent, StaticCarouselComponent, DisplayHighlightedProductComponent, FooterComponent, CategoryDisplayComponent, NavbarComponent]
+    imports: [HeaderComponent, StaticCarouselComponent, DisplayProductsComponent, FooterComponent, CategoryDisplayComponent, NavbarComponent]
 })
 
 export class LandingPageComponent implements OnInit {

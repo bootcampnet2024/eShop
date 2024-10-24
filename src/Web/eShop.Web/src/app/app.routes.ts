@@ -1,3 +1,4 @@
+import { ContactComponent } from './components/contact/contact.component';
 import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { LandingPageComponent } from './components/home/landing-page/landing-page.component';
@@ -16,7 +17,7 @@ import { UserManagementComponent } from './components/user-manager/user-manageme
 import { BrandManagementComponent } from './components/brand-management/brand-management.component';
 import { AdminPageComponent } from './components/admin-page/admin-page.component';
 import { ChangeUserRolesComponent } from './components/user-manager/popups/change-user-roles/change-user-roles.component';
-
+import { AddressPageComponent } from './components/address-page/address-page.component';
 
 export const routes: Routes = [
     {path: '', component: LandingPageComponent},
@@ -31,6 +32,8 @@ export const routes: Routes = [
     {path: 'admin', component: AdminPageComponent, canActivate: [AuthGuard]},
     {path: 'change-user-role', component: ChangeUserRolesComponent, canActivate: [AuthGuard]},
     {path: 'user-management', component: UserManagementComponent, canActivate: [AuthGuard]},
+    {path: 'contact', component: ContactComponent},
+    {path: 'addresses', component: AddressPageComponent},
     {path: 'product-management', component: ProductManagementComponent, canActivate: [AuthGuard]},
     {path: 'category-management', component: CategoryManagementComponent, canActivate: [AuthGuard]},
     {path: 'brand-management', component: BrandManagementComponent, canActivate: [AuthGuard]}
