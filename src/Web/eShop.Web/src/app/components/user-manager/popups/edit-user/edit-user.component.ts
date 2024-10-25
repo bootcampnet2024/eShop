@@ -28,7 +28,8 @@ export class EditUserComponent implements OnInit {
     phoneNumber: this.data.phoneNumber,
     roles: this.data.roles,
     fullname: this.data.fullname,
-    updateAt: this.data.updateAt
+    updateAt: this.data.updateAt,
+    addresss: this.data.addresss,
   };
 
   closeModal() {

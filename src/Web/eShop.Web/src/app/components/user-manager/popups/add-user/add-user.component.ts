@@ -20,6 +20,7 @@ export class AddUserComponent implements OnInit {
     phoneNumber: "",
     roles: [""],
     fullname: "",
+    addresss: [""],
     updateAt: new Date()
   };
 

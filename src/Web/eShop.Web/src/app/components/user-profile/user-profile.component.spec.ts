@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ReactiveFormsModule, FormBuilder } from "@angular/forms";
+import { ReactiveFormsModule } from "@angular/forms";
 import { UserProfileComponent } from "./user-profile.component";
 import { of, throwError } from "rxjs";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -17,23 +17,11 @@ describe("UserProfileComponent", () => {
   let component: UserProfileComponent;
   let fixture: ComponentFixture<UserProfileComponent>;
   let userService: jasmine.SpyObj<UserManagementService>;
-  let formBuilder: FormBuilder;
 
   beforeEach(async () => {
-    const authServiceSpy = jasmine.createSpyObj("AuthService", [
-      "getAccessToken",
-    ]);
-    const jwtHelperSpy = jasmine.createSpyObj("JwtHelperService", [
-      "decodeToken",
-    ]);
-
-    authServiceSpy.getAccessToken.and.returnValue("mockedToken");
-    jwtHelperSpy.decodeToken.and.returnValue({ sub: "12345" });
-
     const userServiceSpy = jasmine.createSpyObj("UserManagementService", {
-      getProfile: of({ id: "12345", name: "Test User", number: "123456789" }),
+      getProfile: of({ id: "12345", username: "Test User", email: "test@example.com", cpf: "12345678901", phoneNumber: "9876543210", fullname: "Test Fullname", updateAt: new Date() }),
       edit: of({ success: true }),
-      loadUserData: of({}),
     });
 
     await TestBed.configureTestingModule({
@@ -57,10 +45,7 @@ describe("UserProfileComponent", () => {
 
     fixture = TestBed.createComponent(UserProfileComponent);
     component = fixture.componentInstance;
-    userService = TestBed.inject(
-      UserManagementService
-    ) as jasmine.SpyObj<UserManagementService>;
-    formBuilder = TestBed.inject(FormBuilder);
+    userService = TestBed.inject(UserManagementService) as jasmine.SpyObj<UserManagementService>;
     fixture.detectChanges();
   });
 
@@ -68,85 +53,54 @@ describe("UserProfileComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  it("should load user data", () => {
-    const mockUserData = {
-      username: "testuser",
-      phoneNumber: "1234567890",
-      cpf: "12345678901",
-      email: "test@example.com",
-      sub: "user123",
-
-      updateAt: new Date(),
-    };
-    userService.getProfile.and.returnValue(of(mockUserData));
-
-    component.ngOnInit();
-
-    fixture.detectChanges();
-
-    expect(userService.getProfile).toHaveBeenCalled();
-    expect(component.perfilForm.getRawValue()).toEqual({
-      username: "testuser",
-      phoneNumber: "1234567890",
-      email: "test@example.com",
-      cpf: "12345678901",
-    });
-    expect(component.userId).toBe("user123");
-  });
-
-  it("should handle error when loading user data", () => {
-    userService.getProfile.and.returnValue(
-      throwError(() => new Error("Error loading user data"))
-    );
-
-    component.ngOnInit();
-
-    fixture.detectChanges();
-
+  it("should load user data on init", () => {
+    component.loadUserData();
     expect(userService.getProfile).toHaveBeenCalled();
   });
 
-  it("should update user profile", () => {
-    component.userId = "user123";
-
-    component.perfilForm.setValue({
-      username: "updateduser",
-      phoneNumber: "1234567890",
-      email: "updated@example.com",
-      cpf: "10987654321",
-    });
-
-    userService.edit.and.returnValue(of({}));
-
-    component.updateProfile();
-
-    expect(userService.edit).toHaveBeenCalledWith("user123", {
-      fullname: "user123",
-      username: "updateduser",
-      email: "updated@example.com",
-      attributes: {
-        number: "1234567890",
-        cpf: "10987654321",
-      },
-    });
+  it("should patch the form with user data", () => {
+    component.loadUserData();
+    expect(component.perfilForm.get('username')?.value).toBe("Test User");
+    expect(component.perfilForm.get('email')?.value).toBe("test@example.com");
+    expect(component.perfilForm.get('fullname')?.value).toBe("Test Fullname");
   });
 
-  it("should handle error when updating profile", () => {
-    component.userId = "user123";
+  it("should log an error if loading user data fails", () => {
+    userService.getProfile.and.returnValue(throwError(new Error("Error loading user data")));
+    spyOn(console, 'error');
+    component.loadUserData();
+    expect(console.error).toHaveBeenCalledWith('Error loading user data:', jasmine.any(Error));
+  });
 
-    component.perfilForm.setValue({
-      username: "updateduser",
-      email: "updated@example.com",
-      cpf: "10987654321",
-      phoneNumber: `1234567`,
+  it("should enable email field and update profile", () => {
+    component.perfilForm.patchValue({
+      username: 'New Username',
+      email: 'new@example.com',
+      fullname: 'New Fullname',
+      cpf: '12345678901',
+      phoneNumber: '9876543210',
+      updateAt: new Date(new Date().getTime() - 8 * 24 * 60 * 60 * 1000),
     });
-
-    userService.edit.and.returnValue(
-      throwError(() => new Error("Error updating profile"))
-    );
-
     component.updateProfile();
+    expect(userService.edit).toHaveBeenCalledWith('12345', jasmine.any(Object));
+  });
 
-    expect(userService.edit).toHaveBeenCalled();
+  it("should not update profile if the form is invalid", () => {
+    component.perfilForm.patchValue({ username: '' });
+    component.updateProfile();
+    expect(userService.edit).not.toHaveBeenCalled();
+  });
+
+  it("should not enable email field or update profile if the time difference is less than 7 days", () => {
+    component.perfilForm.patchValue({
+      username: 'Valid Username',
+      email: 'valid@example.com',
+      fullname: 'Valid Fullname',
+      cpf: '12345678901',
+      phoneNumber: '9876543210',
+      updateAt: new Date(), 
+    });
+    component.updateProfile();
+    expect(userService.edit).not.toHaveBeenCalled();
   });
 });

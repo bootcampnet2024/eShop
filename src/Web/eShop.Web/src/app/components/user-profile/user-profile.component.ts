@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserManagementService } from '../../services/user-management/user-management.service';
 import { AuthService } from '../../core/auth/auth.service';
-import { User } from '../../models/user.model';
+import { User } from '../../models/user.model'; // Importando a interface User
 
 @Component({
   selector: 'user-profile',
@@ -38,14 +38,19 @@ export class UserProfileComponent implements OnInit {
   perfilForm: FormGroup;
   isLoading = true;
   userId: string = '';
-  token: string = '';
 
-  constructor(private fb: FormBuilder, private userService: UserManagementService, private authService : AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserManagementService,
+    private authService: AuthService
+  ) {
     this.perfilForm = this.fb.group({
       username: ['', Validators.required],
       email: [{ value: '', disabled: true }],
-      phoneNumber: [ { value: "", disabled: true }],
+      phoneNumber: [{ value: '', disabled: true }],
       cpf: [{ value: '', disabled: true }],
+      fullname: [{ value: '', disabled: true }],
+      updateAt: [{ value: '', disabled: true }],
     });
   }
 
@@ -63,6 +68,7 @@ export class UserProfileComponent implements OnInit {
           email: data.email,
           cpf: data.cpf,
           phoneNumber: data.phoneNumber,
+          updateAt: data.updateAt,
         });
         this.userId = data.id;
         this.isLoading = false;
@@ -77,21 +83,22 @@ export class UserProfileComponent implements OnInit {
   updateProfile(): void {
     const date: Date = new Date();
     const formUpdateAt = new Date(this.perfilForm.get('updateAt')?.value); 
-
     const timeDiff = date.getTime() - formUpdateAt.getTime();
     const daysDiff = timeDiff / (1000 * 3600 * 24);
 
     if (this.perfilForm.valid && (daysDiff > 7)) {
       this.perfilForm.get('email')?.enable();
 
-      const updatedProfile = {
+      const updatedProfile: User = {
+        id: this.userId,
         username: this.perfilForm.get('username')?.value,
         fullname: this.perfilForm.get('fullname')?.value,
         email: this.perfilForm.get('email')?.value,
-        attributes: {
-          phoneNumber: this.perfilForm.get('number')?.value,
-          cpf: this.perfilForm.get('cpf')?.value,
-        }
+        cpf: this.perfilForm.get('cpf')?.value,
+        phoneNumber: this.perfilForm.get('phoneNumber')?.value,
+        updateAt: new Date(),
+        addresss: [], 
+        roles: [] 
       };
 
       this.userService.edit(this.userId, updatedProfile).subscribe({
@@ -107,7 +114,7 @@ export class UserProfileComponent implements OnInit {
       this.perfilForm.get('email')?.disable();
       this.perfilForm.get('cpf')?.disable();
     } else {
-      console.warn('Form is invalid');
+      console.warn('Form is invalid or update time is not valid');
     }
   }
 }

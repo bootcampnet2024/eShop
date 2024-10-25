@@ -47,7 +47,6 @@ export class AuthService {
       .post<AuthResponse>(this.adminUrl, body.toString(), { headers })
       .pipe(
         catchError((error) => {
-          // Tratamento de erros mais detalhado, verificando status e mensagem de erro
           if (error.status === 400) {
             return throwError(
               () =>

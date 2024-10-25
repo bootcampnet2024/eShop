@@ -45,8 +45,9 @@ export class UserManagementService {
         email: decodedToken.email,
         cpf: decodedToken.cpf,
         phoneNumber: decodedToken.phone_number,
-        updateAt: decodedToken.update_at,
+        updateAt: decodedToken.updated_at,
         roles: decodedToken.realm_access?.roles || [],
+        addresss: decodedToken.address || []
         };
 
       return of(body);

@@ -5,6 +5,7 @@ import {
   MatDialogRef,
   MatDialog,
   MatDialogConfig,
+  MatDialogModule,
 } from "@angular/material/dialog";
 import { AddUserComponent } from "./popups/add-user/add-user.component";
 import { EditUserComponent } from "./popups/edit-user/edit-user.component";
@@ -17,7 +18,7 @@ import { CommonModule } from "@angular/common";
 @Component({
   selector: "app-user-management",
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, CommonModule],
+  imports: [HeaderComponent, FooterComponent, CommonModule,MatDialogModule],
   templateUrl: "./user-management.component.html",
   styleUrl: "./user-management.component.css",
 })

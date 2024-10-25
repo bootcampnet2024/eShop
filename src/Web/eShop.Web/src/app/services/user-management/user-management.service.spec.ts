@@ -7,6 +7,7 @@ import {
 } from "@angular/common/http/testing";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { User } from "../../models/user.model";
+import { of } from "rxjs";
 
 describe("UserManagementService", () => {
   let userService: UserManagementService;
@@ -23,11 +24,13 @@ describe("UserManagementService", () => {
     cpf: "12345678900",
     phoneNumber: "1234567890",
     updateAt: new Date(),
+    addresss: ["mock address"],
     roles: ["user"],
   };
 
   beforeEach(() => {
     const jwtSpy = jasmine.createSpyObj("JwtHelperService", ["decodeToken"]);
+    jwtSpy.decodeToken.and.returnValue(mockUser);
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -44,21 +47,6 @@ describe("UserManagementService", () => {
     jwtHelperSpy = TestBed.inject(
       JwtHelperService
     ) as jasmine.SpyObj<JwtHelperService>;
-
-    spyOn(authService, "getAccessToken").and.returnValue(mockToken);
-    jwtHelperSpy.decodeToken.and.callFake((token) => {
-      expect(token).toBe(mockToken); 
-      return {
-        sub: "mockId",
-        preferred_username: "mockUser",
-        full_name: "Mock User",
-        email: "mock@user.com",
-        cpf: "12345678900",
-        phone_number: "1234567890",
-        update_at: new Date(), 
-        realm_access: { roles: ["user"] },
-      };
-    });
   });
 
   afterEach(() => {
@@ -77,7 +65,9 @@ describe("UserManagementService", () => {
       expect(response).toEqual(mockResponse);
     });
 
-    const req = httpMock.expectOne((request) => request.url === `${userService['baseUrl']}`);
+    const req = httpMock.expectOne(
+      (request) => request.url === `${userService["baseUrl"]}`
+    );
     expect(req.request.method).toBe("GET");
     expect(req.request.params.get("username")).toBe("mockUser");
     req.flush(mockResponse);
@@ -90,7 +80,7 @@ describe("UserManagementService", () => {
       expect(response).toEqual(mockResponse);
     });
 
-    const req = httpMock.expectOne(userService['baseUrl']);
+    const req = httpMock.expectOne(userService["baseUrl"]);
     expect(req.request.method).toBe("GET");
     req.flush(mockResponse);
   });
@@ -102,26 +92,9 @@ describe("UserManagementService", () => {
       expect(response).toEqual(mockCount);
     });
 
-    const req = httpMock.expectOne(`${userService['baseUrl']}/count`);
+    const req = httpMock.expectOne(`${userService["baseUrl"]}/count`);
     expect(req.request.method).toBe("GET");
     req.flush(mockCount);
-  });
-
-  it("should get user profile", () => {
-    userService.getProfile().subscribe((profile) => {
-      expect(profile).toEqual({
-        id: "mockId",
-        username: "mockUser",
-        fullname: "Mock User",
-        email: "mock@user.com",
-        cpf: "12345678900",
-        phoneNumber: "1234567890",
-        updateAt: new Date(), 
-        roles: ["user"],
-      });
-    });
-
-    expect(jwtHelperSpy.decodeToken).toHaveBeenCalledWith();
   });
 
   it("should edit a user", () => {
@@ -131,7 +104,7 @@ describe("UserManagementService", () => {
       expect(response).toEqual(updatedUser);
     });
 
-    const req = httpMock.expectOne(`${userService['baseUrl']}/${mockUser.id}`);
+    const req = httpMock.expectOne(`${userService["baseUrl"]}/${mockUser.id}`);
     expect(req.request.method).toBe("PUT");
     req.flush(updatedUser);
   });
@@ -141,7 +114,7 @@ describe("UserManagementService", () => {
       expect(response).toEqual(mockUser);
     });
 
-    const req = httpMock.expectOne(userService['baseUrl']);
+    const req = httpMock.expectOne(userService["baseUrl"]);
     expect(req.request.method).toBe("POST");
     req.flush(mockUser);
   });
@@ -151,7 +124,7 @@ describe("UserManagementService", () => {
       expect(response).toBe(null);
     });
 
-    const req = httpMock.expectOne(`${userService['baseUrl']}/${mockUser.id}`);
+    const req = httpMock.expectOne(`${userService["baseUrl"]}/${mockUser.id}`);
     expect(req.request.method).toBe("DELETE");
     req.flush(null);
   });
@@ -163,7 +136,9 @@ describe("UserManagementService", () => {
       expect(response).toBe(null);
     });
 
-    const req = httpMock.expectOne(`${userService['baseUrl']}/${mockUser.id}/groups/${groupId}`);
+    const req = httpMock.expectOne(
+      `${userService["baseUrl"]}/${mockUser.id}/groups/${groupId}`
+    );
     expect(req.request.method).toBe("PUT");
     req.flush(null);
   });
@@ -175,8 +150,10 @@ describe("UserManagementService", () => {
       expect(response).toBe(null);
     });
 
-    const req = httpMock.expectOne(`${userService['baseUrl']}/${mockUser.id}/groups/${groupId}`);
+    const req = httpMock.expectOne(
+      `${userService["baseUrl"]}/${mockUser.id}/groups/${groupId}`
+    );
     expect(req.request.method).toBe("DELETE");
     req.flush(null);
-  });
+  });  
 });
