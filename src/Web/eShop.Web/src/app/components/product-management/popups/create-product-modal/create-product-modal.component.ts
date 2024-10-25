@@ -67,8 +67,7 @@ export class CreateProductModalComponent implements OnInit{
 
     this.productService.addProduct(product).subscribe({
       next: (response) => {
-        console.log("Product added sucessfully!");
-        this.close();
+        console.log("Product added successfully!");
       },
       error: (error) => {
         alert(JSON.stringify(error, null, 2));
@@ -76,6 +75,7 @@ export class CreateProductModalComponent implements OnInit{
         console.log(product);
       }
     })
+    this.close();
   }
 
   getBrands() {this.productService.getBrands().subscribe((brands) => {

@@ -36,8 +36,7 @@ export class CreateCategoryModalComponent{
 
     this.productService.addCategory(category).subscribe({
       next: (response) => {
-        console.log("Category added sucessfully!");
-        this.close();
+        console.log("Category added successfully!");
       },
       error: (error) => {
         alert(JSON.stringify(error, null, 2));
@@ -45,6 +44,7 @@ export class CreateCategoryModalComponent{
         console.log(category);
       }
     })
+    this.close();
   }
 
   close() {

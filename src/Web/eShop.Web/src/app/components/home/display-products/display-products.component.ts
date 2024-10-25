@@ -11,15 +11,17 @@ import { Component, Input, OnInit } from "@angular/core";
   styleUrl: './display-products.component.css',
 })
 export class DisplayProductsComponent implements OnInit {
+  @Input({required: true}) displayName!: string;
   @Input() showOnlyHighlighted: boolean = false;
   @Input() productQuantity: number = 10;
   @Input() categoryId: number = 0;
 
-  products: Product[] = [];
+  @Input() products: Product[] = [];
 
   constructor(private router: Router, private productService: ProductService) {}
 
   ngOnInit(): void {
+    if (this.products.length != 0) return;
     this.productService
       .getCatalogItems(
         this.showOnlyHighlighted,

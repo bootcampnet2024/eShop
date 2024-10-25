@@ -72,8 +72,7 @@ export class UpdateBrandModalComponent {
     this.productService.updateBrand(this.data.id, brand)
       .subscribe({
         next: () => {
-          console.log("Product updated sucessfully!")
-          this.close();
+          console.log("Product updated successfully!")
         },
         error: () => {
           console.log(`Values provided wasn't accepted by the API!`)
@@ -81,6 +80,7 @@ export class UpdateBrandModalComponent {
           console.log(brand)
         }
       })
+      this.close();
   }
 
   close() {

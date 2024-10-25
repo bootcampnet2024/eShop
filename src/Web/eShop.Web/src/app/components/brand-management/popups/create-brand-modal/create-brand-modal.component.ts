@@ -38,8 +38,7 @@ export class CreateBrandModalComponent {
 
     this.productService.addBrand(brand).subscribe({
       next: (response) => {
-        console.log("Brand added sucessfully!");
-        this.close();
+        console.log("Brand added successfully!");
       },
       error: (error) => {
         alert(JSON.stringify(error, null, 2));
@@ -47,6 +46,7 @@ export class CreateBrandModalComponent {
         console.log(brand);
       }
     })
+    this.close();
   }
 
   close() {

@@ -7,18 +7,42 @@ import { ProductService } from "../../services/product-list/product.service";
 import { ActivatedRoute } from "@angular/router";
 import { Router } from "@angular/router";
 import { ViewportScroller } from "@angular/common";
+import { DisplayProductsComponent } from "../home/display-products/display-products.component";
+import { CategoryService } from "../../services/category-service/category.service";
+import { Brand } from "../../models/brand.model";
 
 @Component({
   selector: "app-category-page",
   standalone: true,
-  imports: [HeaderComponent, NavbarComponent, FooterComponent],
+  imports: [
+    HeaderComponent,
+    NavbarComponent,
+    FooterComponent,
+    DisplayProductsComponent,
+  ],
   templateUrl: "./category-page.component.html",
   styleUrls: ["./category-page.component.css"],
 })
 export class CategoryPageComponent implements OnInit {
   public products: Product[] = [];
 
+  maxPage: number = 0;
+  brands: Brand[] = [
+    {
+      id: 1,
+      name: "Brand 1",
+    },
+    {
+      id: 3,
+      name: "Brand 2",
+    },
+    {
+      id: 3,
+      name: "Brand 3",
+    },
+  ];
   categoryId: number = 0;
+  categoryName: string = "Products";
   pageIndex: number = 0;
   sortBy: string = "Relevancy";
   sortByTypes: string[] = ["Relevancy", "Lowest Price", "Highest Price"];
@@ -29,6 +53,7 @@ export class CategoryPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private productService: ProductService,
+    private categoryService: CategoryService,
     private viewportScroller: ViewportScroller
   ) {}
 
@@ -45,10 +70,18 @@ export class CategoryPageComponent implements OnInit {
   }
 
   loadItems(): void {
+    if (this.categoryId != 0) {
+      this.categoryService.getById(this.categoryId).subscribe({
+        next: (response) => {
+          this.categoryName = response.name;
+        },
+      });
+    }
     this.productService
       .getCatalogItems(false, this.pageIndex, this.pageSize, this.categoryId)
       .subscribe({
         next: (response) => {
+          this.maxPage = response.count / this.pageSize;
           this.products = response.items;
         },
       });
@@ -80,7 +113,7 @@ export class CategoryPageComponent implements OnInit {
   }
 
   goToNextPage() {
-    // Adicionar maximo de paginas.
+    if (this.maxPage >= this.pageIndex) return;
     this.pageIndex++;
     this.updateUrlParameter("page", this.pageIndex);
     this.loadItems();

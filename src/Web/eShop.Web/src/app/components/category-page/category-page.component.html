@@ -1,58 +1,54 @@
 <app-header></app-header>
 <app-navbar></app-navbar>
-<div class="product-container">
-  <div class="category-page__control-buttons">
-    <div class="category-page__control-button">
-      <p>Sort By:</p>
-      <select (change)="onSortByChange($event)">
-        @for (sortType of sortByTypes; track $index) {
-        <option [value]="sortType">{{ sortType }}</option>
-        }
-      </select>
-    </div>
-    <div class="category-page__control-button">
-      <p>Show:</p>
-      <select (change)="onPageSizeChange($event)">
-        @for (size of pageSizes; track $index) {
-        <option [value]="size">{{ size }} products per page</option>
-        }
-      </select>
-    </div>
-  </div>
-  @for (product of products; track product.id) {
-  <div class="product-container__card">
-    <div class="product-container__image-placeholder">
-      <a>
-        <img
-          src="{{ product.imageURL }}"
-          alt=""
-          (click)="viewProduct(product)"
-          class="product-container__image"
-        />
-      </a>
-    </div>
-    <div class="product-container__info">
-      <div class="product-container__about">
-        <a (click)="viewProduct(product)" class="product-container__name">{{
-          product.name
-        }}</a>
-        <p class="product-container__category">{{ product.category }}</p>
-        <p class="product-container__brand">{{ product.brand }}</p>
+<div class="category-page__product-container">
+  <div class="category-page__filter_by">
+    <p>Brands</p>
+    <div class="category-page__brands-filter">
+      @for (brand of brands; track brand.id) {
+      <div class="category-page__brand">
+        <input type="checkbox" name="brand" />
+        <label for="brand">{{ brand.name }}</label>
       </div>
-      <p class="product-container__price">R${{ product.price }}</p>
+      }
     </div>
   </div>
-  }
-  <div class="category-page__change-page-buttons">
-    <button
-      class="category-page__change-page-button"
-      (click)="goToPreviousPage()"
-    >
-      Go to previous page
-    </button>
-    <button class="category-page__change-page-button" (click)="goToNextPage()">
-      Go to next page
-    </button>
+  <div class="category-page__product-container2">
+    <div class="category-page__control-buttons">
+      <div class="category-page__control-button">
+        <p>Sort By:</p>
+        <select (change)="onSortByChange($event)">
+          @for (sortType of sortByTypes; track $index) {
+          <option [value]="sortType">{{ sortType }}</option>
+          }
+        </select>
+      </div>
+      <div class="category-page__control-button">
+        <p>Show:</p>
+        <select (change)="onPageSizeChange($event)">
+          @for (size of pageSizes; track $index) {
+          <option [value]="size">{{ size }} products per page</option>
+          }
+        </select>
+      </div>
+    </div>
+    <app-display-products class="category-page__display_product"
+      [displayName]="categoryName"
+      [products]="products"
+    ></app-display-products>
+    <div class="category-page__change-page-buttons">
+      <button
+        class="category-page__change-page-button"
+        (click)="goToPreviousPage()"
+      >
+        Go to previous page
+      </button>
+      <button
+        class="category-page__change-page-button"
+        (click)="goToNextPage()"
+      >
+        Go to next page
+      </button>
+    </div>
   </div>
 </div>
 <app-footer></app-footer>
