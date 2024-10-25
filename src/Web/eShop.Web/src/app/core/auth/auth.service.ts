@@ -1,16 +1,11 @@
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { tap, switchMap, catchError, map } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { AuthResponse } from "./AuthResponse.model";
-
-interface User {
-  id: string;
-  username: string;
-  email: string;
-}
+import { User } from "../../models/user.model";
 
 @Injectable({
   providedIn: "root",
@@ -349,7 +344,7 @@ export class AuthService {
         });
   
         const params = new HttpParams()
-          .set('client_id', this.loginClientId)
+          .set('client_id', this.clientId)
           .set('redirect_uri', 'http://localhost:4200/login');
   
         return this.http.put(
