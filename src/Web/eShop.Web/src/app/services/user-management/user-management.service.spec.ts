@@ -22,8 +22,8 @@ describe("UserManagementService", () => {
     email: "mock@user.com",
     cpf: "12345678900",
     phoneNumber: "1234567890",
-    roles: ["user"],
     updateAt: new Date(),
+    roles: ["user"],
   };
 
   beforeEach(() => {
@@ -45,15 +45,19 @@ describe("UserManagementService", () => {
       JwtHelperService
     ) as jasmine.SpyObj<JwtHelperService>;
 
-    spyOn(authService, 'getAccessToken').and.returnValue(mockToken);
-    jwtHelperSpy.decodeToken.and.returnValue({
-      sub: "mockId",
-      preferred_username: "mockUser",
-      name: "Mock User",
-      email: "mock@user.com",
-      cpf: "12345678900",
-      phone_number: "1234567890",
-      realm_access: { roles: ["user"] },
+    spyOn(authService, "getAccessToken").and.returnValue(mockToken);
+    jwtHelperSpy.decodeToken.and.callFake((token) => {
+      expect(token).toBe(mockToken); 
+      return {
+        sub: "mockId",
+        preferred_username: "mockUser",
+        full_name: "Mock User",
+        email: "mock@user.com",
+        cpf: "12345678900",
+        phone_number: "1234567890",
+        update_at: new Date(), 
+        realm_access: { roles: ["user"] },
+      };
     });
   });
 
@@ -108,14 +112,16 @@ describe("UserManagementService", () => {
       expect(profile).toEqual({
         id: "mockId",
         username: "mockUser",
-        fullName: "Mock User",
+        fullname: "Mock User",
         email: "mock@user.com",
         cpf: "12345678900",
         phoneNumber: "1234567890",
-        updateAt: mockUser.updateAt,
+        updateAt: new Date(), 
         roles: ["user"],
       });
     });
+
+    expect(jwtHelperSpy.decodeToken).toHaveBeenCalledWith();
   });
 
   it("should edit a user", () => {
