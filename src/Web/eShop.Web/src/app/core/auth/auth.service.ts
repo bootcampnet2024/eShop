@@ -6,6 +6,12 @@ import { tap, switchMap, catchError, map } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { AuthResponse } from "./AuthResponse.model";
 
+interface User {
+  id: string;
+  username: string;
+  email: string;
+}
+
 @Injectable({
   providedIn: "root",
 })
@@ -303,4 +309,65 @@ export class AuthService {
   checkAdminRole(): boolean {
     return this.getRoles().includes("admin");
   }
+
+  getUserIdByEmail(email: string): Observable<string> {
+    return this.getAdminToken().pipe(
+      switchMap((response: AuthResponse) => {
+        const token = response.access_token;
+        const headers = new HttpHeaders({
+          Authorization: `Bearer ${token}`,
+        });
+
+        return this.http.get<User[]>(`http://localhost:8070/admin/realms/eshop/users?email=${email}`, { headers }).pipe(
+          map(users => {
+            if (users.length > 0) {
+              return users[0].id; 
+            } else {
+              throw new Error('User not found');
+            }
+          }),
+          catchError((error) => {
+            console.error('Error fetching user ID:', error);
+            return throwError(() => error);
+          })
+        );
+      }),
+      catchError((error) => {
+        console.error('Error fetching admin token:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  recoverPassword(userId: string): Observable<any> {
+    return this.getAdminToken().pipe(
+      switchMap((response: AuthResponse) => {
+        const token = response.access_token;
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        });
+  
+        const params = new HttpParams()
+          .set('client_id', this.loginClientId)
+          .set('redirect_uri', 'http://localhost:4200/login');
+  
+        return this.http.put(
+          `http://localhost:8070/admin/realms/eshop/users/${userId}/reset-password-email`,
+          {},
+          { headers, params }
+        ).pipe(
+          catchError((error) => {
+            console.error('Error trying to send verification email:', error);
+            return throwError(() => error);
+          })
+        );
+      }),
+      catchError((error) => {
+        console.error('Error fetching admin token:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
 }

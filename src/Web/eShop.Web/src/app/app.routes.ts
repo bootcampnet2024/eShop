@@ -18,6 +18,7 @@ import { BrandManagementComponent } from './components/brand-management/brand-ma
 import { AdminPageComponent } from './components/admin-page/admin-page.component';
 import { ChangeUserRolesComponent } from './components/user-manager/popups/change-user-roles/change-user-roles.component';
 import { AddressPageComponent } from './components/address-page/address-page.component';
+import { HistoryPageComponent } from './components/history-page/history-page.component';
 
 export const routes: Routes = [
     {path: '', component: LandingPageComponent},
@@ -34,6 +35,7 @@ export const routes: Routes = [
     {path: 'user-management', component: UserManagementComponent, canActivate: [AuthGuard]},
     {path: 'contact', component: ContactComponent},
     {path: 'addresses', component: AddressPageComponent},
+    {path: 'history', component: HistoryPageComponent},
     {path: 'product-management', component: ProductManagementComponent, canActivate: [AuthGuard]},
     {path: 'category-management', component: CategoryManagementComponent, canActivate: [AuthGuard]},
     {path: 'brand-management', component: BrandManagementComponent, canActivate: [AuthGuard]}
