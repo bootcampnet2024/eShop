@@ -18,6 +18,7 @@ import { ViewUserManagerComponent } from './components/user-manager/view-user-ma
 import { EditUserManagerComponent } from './components/user-manager/edit-user-manager/edit-user-manager.component';
 import { BrandManagementComponent } from './components/brand-management/brand-management.component';
 import { AddressPageComponent } from './components/address-page/address-page.component';
+import { HistoryPageComponent } from './components/history-page/history-page.component';
 
 
 
@@ -32,6 +33,7 @@ export const routes: Routes = [
     {path: 'search', component: SearchResultComponent},
     {path: 'category', component: CategoryPageComponent},
     {path: 'contact', component: ContactComponent},
+    {path: 'history', component: HistoryPageComponent},
     {path: 'address', component: AddressPageComponent},
     {path: 'create-user-management', component: CreateUserManagerComponent, canActivate: [AuthGuard]},
     {path: 'edit-user-management', component: EditUserManagerComponent, canActivate: [AuthGuard]},
