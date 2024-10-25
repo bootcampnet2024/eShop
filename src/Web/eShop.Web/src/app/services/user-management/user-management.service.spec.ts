@@ -4,35 +4,39 @@ import { AuthService } from "../../core/auth/auth.service";
 import {
   HttpTestingController,
   HttpClientTestingModule,
-  provideHttpClientTesting,
 } from "@angular/common/http/testing";
 import { JwtHelperService } from "@auth0/angular-jwt";
-import { Router } from "@angular/router";
 import { User } from "../../models/user.model";
-import { appConfig } from "../../app.config";
 
 describe("UserManagementService", () => {
   let userService: UserManagementService;
   let authService: AuthService;
   let httpMock: HttpTestingController;
-  let routerSpy = { navigate: jasmine.createSpy("navigate") };
   let jwtHelperSpy: jasmine.SpyObj<JwtHelperService>;
+  const mockToken = "mockToken";
 
-  beforeEach(async () => {
-    const jwtSpy = jasmine.createSpyObj("JwtHelperService", [
-      "isTokenExpired",
-      "decodeToken",
-    ]);
+  const mockUser: User = {
+    id: "mockId",
+    username: "mockUser",
+    fullname: "Mock User",
+    email: "mock@user.com",
+    cpf: "12345678900",
+    phoneNumber: "1234567890",
+    roles: ["user"],
+    updateAt: new Date(),
+  };
 
-    await TestBed.configureTestingModule({
+  beforeEach(() => {
+    const jwtSpy = jasmine.createSpyObj("JwtHelperService", ["decodeToken"]);
+
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       providers: [
-        provideHttpClientTesting(),
-        ...appConfig.providers,
+        UserManagementService,
         AuthService,
-        { provide: Router, useValue: routerSpy },
         { provide: JwtHelperService, useValue: jwtSpy },
       ],
-    }).compileComponents();
+    });
 
     userService = TestBed.inject(UserManagementService);
     authService = TestBed.inject(AuthService);
@@ -40,6 +44,17 @@ describe("UserManagementService", () => {
     jwtHelperSpy = TestBed.inject(
       JwtHelperService
     ) as jasmine.SpyObj<JwtHelperService>;
+
+    spyOn(authService, 'getAccessToken').and.returnValue(mockToken);
+    jwtHelperSpy.decodeToken.and.returnValue({
+      sub: "mockId",
+      preferred_username: "mockUser",
+      name: "Mock User",
+      email: "mock@user.com",
+      cpf: "12345678900",
+      phone_number: "1234567890",
+      realm_access: { roles: ["user"] },
+    });
   });
 
   afterEach(() => {
@@ -51,111 +66,111 @@ describe("UserManagementService", () => {
   });
 
   it("should get users by criteria", () => {
-    const mockResponse: User[] = [
-      {
-        id: "mockId",
-        username: "mock",
-        email: "mock@mock",
-        cpf: "38906499809",
-        phoneNumber: "(11) 99962-3213",
-        roles: ["mockRoles"],
-        fullname: "Mock 1",
-        updateAt: new Date()
-      },
-    ];
+    const mockResponse: User[] = [mockUser];
+    const criteria = { username: "mockUser" };
 
-    userService.getByCriteria("mock").subscribe((response) => {
+    userService.getByCriteria(criteria).subscribe((response) => {
       expect(response).toEqual(mockResponse);
     });
+
+    const req = httpMock.expectOne((request) => request.url === `${userService['baseUrl']}`);
+    expect(req.request.method).toBe("GET");
+    expect(req.request.params.get("username")).toBe("mockUser");
+    req.flush(mockResponse);
   });
 
   it("should get all users", () => {
-    const mockResponse: User[] = [
-      {
-        id: "mockId",
-        username: "mock",
-        email: "mock@mock",
-        cpf: "38906499809",
-        phoneNumber: "(11) 99962-3213",
-        roles: ["mockRoles"],
-        fullname: "Mock 1",
-        updateAt: new Date()
-      },
-    ];
+    const mockResponse: User[] = [mockUser];
 
     userService.getAll().subscribe((response) => {
       expect(response).toEqual(mockResponse);
     });
+
+    const req = httpMock.expectOne(userService['baseUrl']);
+    expect(req.request.method).toBe("GET");
+    req.flush(mockResponse);
   });
 
   it("should get number of users", () => {
-    const mockResponse = 0;
+    const mockCount = 1;
 
-    userService.getAll().subscribe((response) => {
-      expect(response).toEqual(mockResponse);
+    userService.getUsersCount().subscribe((response) => {
+      expect(response).toEqual(mockCount);
     });
+
+    const req = httpMock.expectOne(`${userService['baseUrl']}/count`);
+    expect(req.request.method).toBe("GET");
+    req.flush(mockCount);
   });
 
   it("should get user profile", () => {
-    const mockResponse = {
-      username: "mock",
-      email: "mock@mock",
-      cpf: "38906499809",
-      phoneNumber: "(11) 99962-3213",
-      sub: "mockID",
-      roles: ["mockRoles"],
-    };
-
-    userService.getProfile().subscribe((response) => {
-      expect(response).toEqual(mockResponse);
+    userService.getProfile().subscribe((profile) => {
+      expect(profile).toEqual({
+        id: "mockId",
+        username: "mockUser",
+        fullName: "Mock User",
+        email: "mock@user.com",
+        cpf: "12345678900",
+        phoneNumber: "1234567890",
+        updateAt: mockUser.updateAt,
+        roles: ["user"],
+      });
     });
   });
 
-  it("should edit user profile", () => {
-    const mockResponse = {
-      username: "mock",
-      email: "mock@mock",
-      cpf: "38906499809",
-      phoneNumber: "(11) 99962-3213",
-      id: "mockID",
-      roles: ["mockRoles"],
-    };
+  it("should edit a user", () => {
+    const updatedUser: Partial<User> = { fullname: "Updated User" };
 
-    userService.edit("mockId", mockResponse).subscribe((response) => {
-      expect(response).toEqual(200);
+    userService.edit(mockUser.id, updatedUser).subscribe((response) => {
+      expect(response).toEqual(updatedUser);
     });
+
+    const req = httpMock.expectOne(`${userService['baseUrl']}/${mockUser.id}`);
+    expect(req.request.method).toBe("PUT");
+    req.flush(updatedUser);
   });
 
-  it("should add user profile", () => {
-    const mockUser = {
-      username: "mock",
-      email: "mock@mock",
-      cpf: "38906499809",
-      phoneNumber: "(11) 99962-3213",
-      sub: "mockID",
-      roles: ["mockRoles"],
-    };
-
-    userService.add(mockUser.toString()).subscribe((response) => {
-      expect(response).toEqual(200);
+  it("should add a new user", () => {
+    userService.add(mockUser).subscribe((response) => {
+      expect(response).toEqual(mockUser);
     });
+
+    const req = httpMock.expectOne(userService['baseUrl']);
+    expect(req.request.method).toBe("POST");
+    req.flush(mockUser);
   });
 
-  it("should delete user profile", () => {
-    userService.delete("id").subscribe((response) => {
-      expect(response).toEqual(200);
+  it("should delete a user", () => {
+    userService.delete(mockUser.id).subscribe((response) => {
+      expect(response).toBe(null);
     });
+
+    const req = httpMock.expectOne(`${userService['baseUrl']}/${mockUser.id}`);
+    expect(req.request.method).toBe("DELETE");
+    req.flush(null);
   });
 
-  it("should add user profile to Group", () => {
-    userService.addToGroup("mockid", "mockGroup").subscribe((response) => {
-      expect(response).toEqual(200);
+  it("should add user to a group", () => {
+    const groupId = "groupId";
+
+    userService.addToGroup(mockUser.id, groupId).subscribe((response) => {
+      expect(response).toBe(null);
     });
+
+    const req = httpMock.expectOne(`${userService['baseUrl']}/${mockUser.id}/groups/${groupId}`);
+    expect(req.request.method).toBe("PUT");
+    req.flush(null);
   });
 
-  it("should delete user profile from Group", () => {
-    userService.deleteFromGroup("mockid", "mockGroup").subscribe((response) => {
-      expect(response).toEqual(200);
+  it("should delete user from a group", () => {
+    const groupId = "groupId";
+
+    userService.deleteFromGroup(mockUser.id, groupId).subscribe((response) => {
+      expect(response).toBe(null);
     });
+
+    const req = httpMock.expectOne(`${userService['baseUrl']}/${mockUser.id}/groups/${groupId}`);
+    expect(req.request.method).toBe("DELETE");
+    req.flush(null);
   });
 });
