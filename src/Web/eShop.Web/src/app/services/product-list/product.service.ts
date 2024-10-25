@@ -17,7 +17,7 @@ export class ProductService {
   }
 
   getCatalogItem(id: string) : Observable<Product> {
-    return this.http.get<Product>(`${this.url}/items/${id}`)
+    return this.http.get<Product>(`http://localhost:5200/products/${id}`)
   }
 
   searchProducts(keyword: string) : Observable<Product[]> {

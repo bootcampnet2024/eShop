@@ -105,8 +105,7 @@ export class UpdateProductModalComponent {
     this.productService.updateProduct(this.data.id, product)
       .subscribe({
         next: () => {
-          console.log("Product updated sucessfully!")
-          this.close();
+          console.log("Product updated successfully!")
         },
         error: () => {
           console.log(`Values provided wasn't accepted by the API!`)
@@ -114,6 +113,7 @@ export class UpdateProductModalComponent {
           console.log(product)
         }
       })
+      this.close();
   }
 
   close() {
