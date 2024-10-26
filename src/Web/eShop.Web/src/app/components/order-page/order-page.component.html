@@ -1,0 +1,44 @@
+<app-header></app-header>
+<app-navbar></app-navbar>
+
+<div class="order-page">
+  <div class="order-page_summary">
+    <div class="order-page_summary-text">
+      <h1>Your order</h1>
+    </div>
+
+    <div class="order-page-showproduct">
+      @for (item of order.items; track item.id) {
+      <div class="orderlist-item">
+        <img src="{{item.pictureUrl}}" alt="" />
+
+        <div class="orderlist-text">
+          <h2>Name: {{ item.productName }}</h2>
+
+          <h6>Quantity: {{ item.quantity }}</h6>
+        </div>
+
+        <div class="orderlist-button_section">
+          <button (onclick)="viewProduct(item)" class="orderlist-button-style">
+            View Product
+          </button>
+        </div>          
+      </div>
+      }
+    </div>
+
+  </div>
+
+  <div class="order-page-sidewindow">
+    <h2>Details:</h2>
+    <hr />
+    Products: {{ order.items.length }} <br />
+    Status: Delivered<br />
+    <br />
+    <hr />
+    Total: $
+  </div>
+
+</div>
+
+<app-footer></app-footer>

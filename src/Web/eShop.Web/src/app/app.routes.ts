@@ -20,6 +20,10 @@ import { ChangeUserRolesComponent } from './components/user-manager/popups/chang
 import { AddressPageComponent } from './components/address-page/address-page.component';
 import { UserCardsComponent } from './components/user-cards/user-cards.component';
 import { HistoryPageComponent } from './components/history-page/history-page.component';
+import { OrderListComponent } from './components/order-list/order-list.component';
+import { OrderPageComponent } from './components/order-page/order-page.component';
+
+
 
 export const routes: Routes = [
     {path: '', component: LandingPageComponent},
@@ -38,6 +42,9 @@ export const routes: Routes = [
     {path: 'contact', component: ContactComponent},
     {path: 'addresses', component: AddressPageComponent},
     {path: 'history', component: HistoryPageComponent},
+    {path: 'addresses', component: AddressPageComponent},
+    {path: 'orders', component: OrderListComponent},
+    {path: 'order', component: OrderPageComponent },
     {path: 'product-management', component: ProductManagementComponent, canActivate: [AuthGuard]},
     {path: 'category-management', component: CategoryManagementComponent, canActivate: [AuthGuard]},
     {path: 'brand-management', component: BrandManagementComponent, canActivate: [AuthGuard]}

@@ -1044,3 +1044,79 @@ button[type="submit"]:hover {
     font-size: 18px;
   }
 }
+
+.orderlist-container{
+  background-color: #ffffff;
+  border-radius: 8px;
+  margin: 20px auto;
+  width: 80%;
+  padding: 10px 20px 0px 20px;
+  
+}
+
+.orderlist-item{
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-top: 1px solid;
+}
+
+.orderlist-item img{
+  mix-blend-mode: multiply;
+  max-width: 150px;
+  
+}
+
+.orderlist-text{
+  padding-right: 200px;
+}
+
+.orderlist-button_section{
+  width: 200px;
+}
+
+.orderlist-button-style{
+  background-color: #0aba46;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 200px;
+  align-self: center;
+  margin-top: 3vh;
+}
+
+.order-page{
+  display: flex;
+  flex-direction: row;
+}
+
+.order-page_summary{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 20px auto;
+  width: 70%;
+  padding: 10px 20px 10px 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.order-page_summary-text{
+  padding-right: 1px;
+}
+.order-page_summary img{
+  max-width: 150px;
+  mix-blend-mode: multiply;
+}
+
+.order-page-sidewindow{
+  background-color: #fff;
+  padding: 10px 100px 10px 30px;
+}
+
+.order-page-showproduct{
+  padding: 4px;
+}
