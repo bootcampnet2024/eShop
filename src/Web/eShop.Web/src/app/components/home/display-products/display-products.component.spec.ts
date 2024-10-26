@@ -1,30 +1,34 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { appConfig } from './../../../app.config';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { DisplayProductsComponent } from './display-products.component';
 import { of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ProductManagementService } from '../../../services/product-management/product-management.service';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('DisplayProductsComponent', () => {
   let component: DisplayProductsComponent;
   let fixture: ComponentFixture<DisplayProductsComponent>;
-  let productManagementServiceSpy: jasmine.SpyObj<ProductManagementService>;
+  let productManagementService: ProductManagementService;
 
-  beforeEach(() => {
-    const spy = jasmine.createSpyObj('ProductManagementService', ['getProducts']);
-    
+  beforeEach(() => {    
     TestBed.configureTestingModule({
       imports: [CommonModule],
       providers: [
-        { provide: ProductManagementService, useValue: spy }
+        ...appConfig.providers,
+        provideHttpClientTesting(),
+        ProductManagementService
       ]
     });
 
     fixture = TestBed.createComponent(DisplayProductsComponent);
     component = fixture.componentInstance;
-    productManagementServiceSpy = TestBed.inject(ProductManagementService) as jasmine.SpyObj<ProductManagementService>;
+    productManagementService = TestBed.inject(ProductManagementService);
+    fixture.detectChanges();
   });
 
-  it('should call getCatalogItems on init', () => {
+  it('should call getCatalogItems on init', fakeAsync(() => {
     const mockProducts = [
       {
         id: "1",
@@ -67,11 +71,12 @@ describe('DisplayProductsComponent', () => {
       totalItems: mockProducts.length,
     };
 
-    productManagementServiceSpy.getProducts.and.returnValue(of(mockProductRequest));
-
+    const spy = spyOn(productManagementService, "getProducts").and.returnValue(of(mockProductRequest));
+    component.ngOnInit();
+    tick(550);
     fixture.detectChanges();
 
-    expect(productManagementServiceSpy.getProducts).toHaveBeenCalled();
+    expect(productManagementService.getProducts).toHaveBeenCalled();
     expect(component.products).toEqual(mockProducts);
-  });
+  }));
 });

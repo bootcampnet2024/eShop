@@ -27,6 +27,10 @@ export class ProductManagementService {
     return this.http.get<PaginatedResult<Brand>>(`${this.url}/brands`, { params });
   }
 
+  getBrandsByCategory(categoryId: number): Observable<Brand[]> {
+    return this.http.get<Brand[]>(`${this.url}/brands/category/${categoryId}`);
+  }
+  
   getBrandsCount() : Observable<number>{
     return this.http.get<number>(`${this.url}/${this.brands}/count/`);
   }

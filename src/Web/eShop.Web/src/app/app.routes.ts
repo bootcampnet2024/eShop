@@ -8,7 +8,7 @@ import { ProductPageComponent } from './components/product-page/product-page.com
 import { PaymentPageComponent } from './components/payment-page/payment-page.component';
 import { SearchResultComponent } from './components/search-result/search-result.component';
 import { AuthGuard } from './core/auth/guard/auth.guard';
-import { CategoryPageComponent } from './components/category-page/category-page.component';
+import { ProductsPageComponent } from './components/products-page/products-page.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { CategoryManagementComponent } from './components/category-management/category-management.component';
@@ -35,7 +35,7 @@ export const routes: Routes = [
     {path: 'product', component: ProductPageComponent},
     {path: 'payment', component: PaymentPageComponent},
     {path: 'search', component: SearchResultComponent},
-    {path: 'category', component: CategoryPageComponent},
+    {path: 'products', component: ProductsPageComponent},
     {path: 'admin', component: AdminPageComponent, canActivate: [AuthGuard]},
     {path: 'change-user-role', component: ChangeUserRolesComponent, canActivate: [AuthGuard]},
     {path: 'user-management', component: UserManagementComponent, canActivate: [AuthGuard]},

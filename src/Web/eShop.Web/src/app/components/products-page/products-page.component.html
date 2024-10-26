@@ -1,0 +1,100 @@
+<app-header></app-header>
+<app-navbar></app-navbar>
+<div class="all-products-page">
+  <div class="all-products-page__product-container">
+    <div class="all-products-page__filter_by">
+      <p>Brands</p>
+      <div class="all-products-page__brands-filter">
+        @for (brand of brands; track brand.id) {
+        <div class="all-products-page__brand">
+          <input
+            type="checkbox"
+            name="brand"
+            [value]="brand.id"
+            (change)="onBrandChange($event, brand.id)"
+            [checked]="brandsIds.includes(brand.id)"
+          />
+          <label for="brand">{{ brand.name }}</label>
+        </div>
+        }
+      </div>
+    </div>
+    <div class="all-products-page__product-container2">
+      <div class="all-products-page__control-buttons">
+        <div class="all-products-page__control-button">
+          <p>Sort By:</p>
+          <select [(ngModel)]="sortBy" (change)="onSortByChange($event)">
+            @for (sortType of sortByTypes; track $index) {
+            <option [value]="sortType">{{ sortType }}</option>
+            }
+          </select>
+        </div>
+        <div class="all-products-page__control-button">
+          <p>Show:</p>
+          <select [(ngModel)]="pageSize" (change)="onPageSizeChange($event)">
+            @for (size of pageSizes; track $index) {
+            <option [value]="size">{{ size }} products per page</option>
+            }
+          </select>
+        </div>
+      </div>
+      <section class="all_procucts-page__product-container">
+        @for (product of products; track product.id) {
+        <div class="all_procucts-page__product-card">
+          <div class="all_procucts-page__image-placeholder">
+            <a
+              ><img
+                src="{{ product.imageURL }}"
+                alt=""
+                (click)="viewProduct(product)"
+                class="all_procucts-page__product-image"
+            /></a>
+          </div>
+          <div class="all_procucts-page__product-info">
+            <div class="all_procucts-page__product-about">
+              <a
+                (click)="viewProduct(product)"
+                class="all_procucts-page__product-name"
+                >{{ product.name }}</a
+              >
+              <p class="all_procucts-page__product-category">
+                {{ product.category }}
+              </p>
+              <p class="all_procucts-page__product-brand">
+                {{ product.brand }}
+              </p>
+            </div>
+            <p class="all_procucts-page__product-price">
+              R${{ product.finalPrice }}
+            </p>
+          </div>
+        </div>
+        }
+      </section>
+      <div class="change-page-buttons">
+        <button [ngClass]="this.pageIndex != 0 ? 'change-page-buttons__button' : 'invisible'" (click)="goToPreviousPage()">
+          Previous
+        </button>
+        @if(pageIndex > 2){
+        <button class="change-page-buttons__page-index" (click)="goToFirstPage()">
+          1
+        </button>
+        <span>...</span>
+        }
+        @for (number of numbers; track numbers){
+          <button [ngClass]="this.pageIndex == number - 1 ? 'change-page-buttons__page-index--selected' : 'change-page-buttons__page-index'" (click)="goToPage(number)">{{number}}</button>
+        }
+        @if(pageIndex < maxPage - 3){
+          <span>...</span>
+        <button class="change-page-buttons__page-index" (click)="goToLastPage()">
+          {{this.maxPage}}
+        </button>
+        }
+        <button [ngClass]="this.maxPage - 1 > this.pageIndex ? 'change-page-buttons__button' : 'invisible'" (click)="goToNextPage()">
+          Next
+        </button>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

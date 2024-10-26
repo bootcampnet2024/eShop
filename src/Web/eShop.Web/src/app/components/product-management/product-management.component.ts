@@ -11,6 +11,7 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } fr
 import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { CommonModule } from '@angular/common';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-product-management',
@@ -92,7 +93,9 @@ export class ProductManagementComponent implements OnInit {
   }
 
   getProducts() {
-    this.productManagementService.getProducts(false, this.pageIndex, this.pageSize, [], [], 0).subscribe((products) => {
+    this.productManagementService.getProducts(false, this.pageIndex, this.pageSize, [], [], 0)
+    .pipe(delay(100))
+    .subscribe((products) => {
       this.products = products.items;
       this.maxPage = Math.ceil(products.totalItems / this.pageSize)
       this.numbers = Array.from({ length: this.maxPage }, (_, i) => i + 1);

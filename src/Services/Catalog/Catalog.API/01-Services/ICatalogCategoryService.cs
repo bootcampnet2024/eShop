@@ -3,8 +3,6 @@ using Catalog.API._01_Services.Models;
 using Catalog.API._02_Infrastructure.Data;
 using Catalog.API.Controllers.Filters;
 using Microsoft.EntityFrameworkCore;
-using Catalog.API.Controllers.Filters;
-using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.API._01_Services;
 public interface ICatalogCategoryService : IService<CatalogCategoryDTO, int>
