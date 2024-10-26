@@ -1,0 +1,24 @@
+<app-header></app-header>
+<app-navbar></app-navbar>
+
+<div class="orderlist-container">
+    <h3>Your purchases:</h3>
+    <br>
+
+    @for (order of orders; track order.date) {
+    <div class="orderlist-item">
+        <img src={{order.pictureUrl}} alt=""> 
+        
+        <div class="orderlist-text">
+            <h2>Ordered at: {{order.date}}</h2>
+
+            <h6>Delivery status: {{order.status}}</h6>
+        </div>
+
+        <div class="orderlist-button_section">
+            <button (click)="viewOrder(order.orderId)" class="orderlist-button-style">Check Purchase</button>
+        </div>
+    </div>
+}
+</div>
+<app-footer></app-footer>
