@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { UserManagementComponent } from './user-management.component';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ActivatedRoute } from '@angular/router';
-
+import { AuthService } from '../../core/auth/auth.service';
 
 describe('UserManagementComponent', () => {
   let component: UserManagementComponent;
   let fixture: ComponentFixture<UserManagementComponent>;
-  let jwtSpy = jasmine.createSpyObj('JwtHelperService', ['isTokenExpired', 'decodeToken']);
+  let jwtSpy = jasmine.createSpyObj('JwtHelperService', ['decodeToken']);
   let activatedRouteSpy = {
     snapshot: {
       paramMap: {
@@ -18,14 +18,22 @@ describe('UserManagementComponent', () => {
     }
   };
 
-  beforeEach(async () => {
+  let mockAuthService = {
+    checkAdminRole: () => true,
+    isAuthenticated: () => true 
+  };
 
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserManagementComponent, HttpClientTestingModule],
+      imports: [
+        UserManagementComponent, 
+        HttpClientTestingModule,
+        MatDialogModule
+      ],
       providers: [
-        { provide: MatDialog, useValue: {} },
         { provide: JwtHelperService, useValue: jwtSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: AuthService, useValue: mockAuthService }
       ]
     }).compileComponents();
 

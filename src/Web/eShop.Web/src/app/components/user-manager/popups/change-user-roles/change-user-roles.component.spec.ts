@@ -9,10 +9,12 @@ describe("ChangeUserRolesComponent", () => {
   const jwtSpy = jasmine.createSpyObj("JwtHelperService", ["decodeToken"]);
 
   beforeEach(async () => {
+    jwtSpy.decodeToken.and.returnValue({ sub: 'mocked-sub-value' });
+
     await TestBed.configureTestingModule({
       imports: [ChangeUserRolesComponent, HttpClientTestingModule],
       providers: [
-        { provide: JwtHelperService, useValue: {jwtSpy} },
+        { provide: JwtHelperService, useValue: jwtSpy }, 
       ]
     }).compileComponents();
 
