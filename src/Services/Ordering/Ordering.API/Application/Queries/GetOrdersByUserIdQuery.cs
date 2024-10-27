@@ -19,6 +19,7 @@ internal class GetOrdersByUserIdQueryHandler(IOrderRepository orderRepository) :
             {
                 PictureUrl = o.OrderItems.FirstOrDefault()?.PictureUrl,
                 OrderId = o.Id,
+                BuyerId = o.Buyer.IdentityGuid,
                 Date = o.OrderDate,
                 Status = o.OrderStatus.ToString(),
                 Total = (double)o.OrderItems.Sum(oi => oi.UnitPrice * oi.Units)

@@ -4,11 +4,11 @@
 <div class="order-page">
   <div class="order-page_summary">
     <div class="order-page_summary-text">
-      <h1>Your order</h1>
+      <h1>{{ prefix }} order</h1>
     </div>
 
     <div class="order-page-showproduct">
-      @for (item of order.items; track item.id) {
+      @for (item of order.items; track item.productId) {
       <div class="orderlist-item">
         <img src="{{ item.pictureUrl }}" alt="" />
 
@@ -21,7 +21,7 @@
         </div>
 
         <div class="orderlist-button_section">
-          <button (onclick)="viewProduct(item)" class="orderlist-button-style">
+          <button (click)="viewProduct(item)" class="orderlist-button-style">
             View Product
           </button>
         </div>

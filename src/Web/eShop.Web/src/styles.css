@@ -1050,6 +1050,7 @@ button[type="submit"]:hover {
   background-color: #ffffff;
   border-radius: 8px;
   margin: 20px auto;
+  height: 100%;
   width: 80%;
   padding: 10px 20px 0px 20px;
   
