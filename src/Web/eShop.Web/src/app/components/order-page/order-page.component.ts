@@ -1,9 +1,11 @@
-import { Router } from "@angular/router";
-import { Component } from "@angular/core";
-import { Order } from "../../models/order.model";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import { Order, OrderItem } from "../../models/order.model";
 import { HeaderComponent } from "../../shared/header/header.component";
 import { FooterComponent } from "../../shared/footer/footer.component";
 import { NavbarComponent } from "../../shared/navbar/navbar.component";
+import { OrderService } from "../../services/order/order.service";
+import { UserManagementService } from "../../services/user-management/user-management.service";
 
 @Component({
   selector: "app-order-page",
@@ -12,10 +14,14 @@ import { NavbarComponent } from "../../shared/navbar/navbar.component";
   templateUrl: "./order-page.component.html",
   styleUrl: "./order-page.component.css",
 })
-export class OrderPageComponent {
+export class OrderPageComponent implements OnInit {
+  orderId: number = 0;
+  public prefix = "Your";
 
   public order: Order = {
-    id: 0,
+    orderId: 0,
+    buyerId: "",
+    pictureUrl: "",
     date: new Date(),
     address: {
       city: "guariroba",
@@ -28,7 +34,6 @@ export class OrderPageComponent {
     total: 12399.913,
     items: [
       {
-        id: "",
         productId: 0,
         productName: "Cabo sem fio xbox 360",
         unitPrice: 0,
@@ -37,8 +42,7 @@ export class OrderPageComponent {
         pictureUrl: "assets/products/xbox-series-controller.jpg",
       },
       {
-        id: "",
-        productId: 0,
+        productId: 1,
         productName: "Cabo sem fio xbox 360",
         unitPrice: 0,
         discount: 0,
@@ -48,12 +52,48 @@ export class OrderPageComponent {
     ],
   };
 
-  constructor(private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private orderService: OrderService,
+    private userService: UserManagementService
+  ) {}
 
-  viewProduct(product: any): void {
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.orderId = parseInt(params.get("id") ?? "0");
+      if (this.orderId == 0) {
+        //this.router.navigate([""]);
+        return;
+      }
+      this.loadOrder();
+    });
+  }
+
+  loadOrder(): void {
+    this.orderService.getById(this.orderId).subscribe({
+      next: (response) => {
+        this.order = response;
+        this.loadUserData(this.order.buyerId);
+      },
+      error: () => {
+        //this.router.navigate([""]);
+      },
+    });
+  }
+
+  loadUserData(sub: string): void {
+    this.userService.getByCriteria({ id: sub }).subscribe({
+      next: (response) => {
+        this.prefix = response.fullname.split(" ")[0];
+      },
+    });
+  }
+
+  viewProduct(item: OrderItem): void {
     this.router.navigate([
       "/product",
-      { id: product.id, name: product.name.trim().replaceAll(" ", "-") },
+      { id: item.productId, name: item.productName.trim().replaceAll(" ", "-") },
     ]);
   }
 }

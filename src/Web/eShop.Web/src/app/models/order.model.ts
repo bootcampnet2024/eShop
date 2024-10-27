@@ -1,10 +1,12 @@
 export interface Order {
-  id: number;
+  orderId: number;
+  pictureUrl: string;
+  buyerId: string;
   address: Address;
   date: Date;
   status: string;
   total: number;
-  items: OrdemItem[];
+  items: OrderItem[];
 }
 
 export interface Address {
@@ -15,8 +17,7 @@ export interface Address {
   zipCode: string;
 }
 
-export interface OrdemItem {
-  id: string;
+export interface OrderItem {
   productId: number;
   productName: string;
   unitPrice: number;

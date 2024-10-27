@@ -19,14 +19,15 @@ export class OrderListComponent implements OnInit {
   public orders: OrderSummary[] = [
     {
       pictureUrl: "assets/products/xbox-series-controller.jpg",
+      buyerId: "",
       orderId: 0,
       date: "23/10/2024",
       status: "En route",
       total: 250,
     },
-
     {
       pictureUrl: "assets/products/xbox-series-controller.jpg",
+      buyerId: "",
       orderId: 1,
       date: "26/10/2024",
       status: "Delivered",
@@ -45,10 +46,20 @@ export class OrderListComponent implements OnInit {
     private userService: UserManagementService
   ) {}
 
-  loadItems(): void {
-    this.orderService.getByUserId(this.userId).subscribe({
+  loadOrders(): void {
+    if (this.userId == "") return;
+    this.orderService.getAllByUserId(this.userId).subscribe({
       next: (response) => {
         this.orders = response;
+        this.loadUserData(this.orders[0].buyerId);
+      },
+    });
+  }
+
+  loadUserData(sub: string): void {
+    this.userService.getByCriteria({ id: sub }).subscribe({
+      next: (response) => {
+        this.prefix = response.fullname.split(" ")[0];
       },
     });
   }
@@ -60,14 +71,24 @@ export class OrderListComponent implements OnInit {
         this.userService.getProfile().subscribe({
           next: (response) => {
             this.userId = response.sub;
-            this.loadItems();
+            this.loadOrders();
           },
           error: () => {
             //this.router.navigate([""]);
           },
         });
+        return;
       }
-      this.loadItems();
+      this.userService.getByCriteria({ id: this.userId }).subscribe({
+        next: () => {
+          this.loadOrders();
+          this.loadUserData(this.userId);
+        },
+        error: () => {
+          //this.router.navigate([""]);
+          return;
+        },
+      });
     });
   }
 
