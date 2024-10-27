@@ -10,35 +10,35 @@
     <div class="order-page-showproduct">
       @for (item of order.items; track item.id) {
       <div class="orderlist-item">
-        <img src="{{item.pictureUrl}}" alt="" />
+        <img src="{{ item.pictureUrl }}" alt="" />
 
         <div class="orderlist-text">
           <h2>Name: {{ item.productName }}</h2>
-
-          <h6>Quantity: {{ item.quantity }}</h6>
+          <h6>Quantity: {{ item.units }}</h6>
+          <h6>Price: R$ {{ item.unitPrice }}</h6>
+          <br />
+          <h6>Total: R$ {{ (item.unitPrice * item.units).toFixed(2) }}</h6>
         </div>
 
         <div class="orderlist-button_section">
           <button (onclick)="viewProduct(item)" class="orderlist-button-style">
             View Product
           </button>
-        </div>          
+        </div>
       </div>
       }
     </div>
-
   </div>
 
   <div class="order-page-sidewindow">
     <h2>Details:</h2>
     <hr />
     Products: {{ order.items.length }} <br />
-    Status: Delivered<br />
+    Status: {{ order.status }}<br />
     <br />
     <hr />
-    Total: $
+    Total: R$ {{ order.total.toFixed(2) }}
   </div>
-
 </div>
 
 <app-footer></app-footer>

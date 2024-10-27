@@ -1144,12 +1144,12 @@ button[type="submit"]:hover {
 .order-page{
   display: flex;
   flex-direction: row;
+  height: 100%;
 }
 
 .order-page_summary{
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   margin: 20px auto;
   width: 70%;
   padding: 10px 20px 10px 20px;
@@ -1166,8 +1166,12 @@ button[type="submit"]:hover {
 }
 
 .order-page-sidewindow{
+  position: sticky;
+  height: 20%;
+
   background-color: #fff;
-  padding: 10px 100px 10px 30px;
+  padding: 10px 10px 10px 10px;
+  margin-right: 10px;
 }
 
 .order-page-showproduct{
