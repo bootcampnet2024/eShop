@@ -23,9 +23,4 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="00-Application\Request\" />
-    <Folder Include="02-Infrastructure\Migrations\" />
-  </ItemGroup>
-
 </Project>

@@ -33,7 +33,7 @@ export class CategoryPageComponent implements OnInit {
       name: "Brand 1",
     },
     {
-      id: 3,
+      id: 2,
       name: "Brand 2",
     },
     {
@@ -77,6 +77,7 @@ export class CategoryPageComponent implements OnInit {
         },
       });
     }
+
     this.productService
       .getCatalogItems(false, this.pageIndex, this.pageSize, this.categoryId)
       .subscribe({
@@ -85,6 +86,12 @@ export class CategoryPageComponent implements OnInit {
           this.products = response.items;
         },
       });
+
+    this.productService.getBrandsByCategoryId(this.categoryId).subscribe({
+      next: (response) => {
+        this.brands = response;
+      },
+    });
   }
 
   ngOnInit(): void {

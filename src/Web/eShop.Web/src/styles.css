@@ -126,6 +126,7 @@ body {
   max-height: 100%;
   object-fit: cover;
   cursor: pointer;
+  mix-blend-mode: multiply;
 }
 
 .product-container__info {
@@ -135,7 +136,7 @@ body {
   margin: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   padding: 0 0.5em 0 0.5em;
   border-radius: 0 0 6px 6px;
 }
@@ -557,11 +558,18 @@ body {
   transform: scale(1);
 }
 
+.product-container__buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .product-container__info__add-cart-button{
   background-color: #394f40;
   color: white;
   font-weight: 600;
   font-size: 15px;
+  margin-top: 10px;
   padding: 10px;
   border: none;
   border-radius: 5px;

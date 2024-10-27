@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Product } from '../../models/product.model';
 import { ProductRequest } from '../../models/product-request.model';
+import { Brand } from '../../models/brand.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,10 @@ export class ProductService {
 
    getCatalogItem(id: string) : Observable<Product> {
     return this.http.get<Product>(`http://localhost:5200/products/${id}`)
+  }
+
+  getBrandsByCategoryId(id: number) : Observable<Brand[]> {
+    return this.http.get<Brand[]>(`http://localhost:5200/brands/categoryId/${id}`)
   }
 
   searchProducts(keyword: string) : Observable<Product[]> {
