@@ -1,11 +1,9 @@
+import { User } from './../../models/user.model';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../core/auth/auth.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { throwError, of } from 'rxjs';
-
-
 
 @Injectable({
   providedIn: 'root'
@@ -20,19 +18,36 @@ export class UserManagementService {
     return this.http.get(`${this.baseUrl}`, { params: criteria });  }
 
   getAll(): Observable<any> {
-    return this.http.get(this.baseUrl);
+    console.log('Fetching all users from:', this.baseUrl);
+    return this.http.get(this.baseUrl).pipe(
+    tap(response => {
+      console.log('Users fetched:', response);
+    }),
+    catchError(error => {
+      console.error('Error fetching users:', error);
+      return throwError(() => error);
+    })
+    );
+  }
+    
+  getUsersCount(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/count`);
   }
 
   getProfile(): Observable<any> {
     const token = this.authService.getAccessToken();
     if (token){
       const decodedToken = this.jwtHelper.decodeToken(token);
-      const body = {
+      const body: User = {
+        id: decodedToken.sub,
         username: decodedToken.preferred_username,
+        fullname: decodedToken.full_name,
         email: decodedToken.email,
-        cep: decodedToken.cep,
         cpf: decodedToken.cpf,
-        address: decodedToken.address,
+        phoneNumber: decodedToken.phone_number,
+        updateAt: decodedToken.updated_at,
+        roles: decodedToken.realm_access?.roles || [],
+        addresss: decodedToken.address || []
         };
 
       return of(body);
@@ -47,10 +62,19 @@ export class UserManagementService {
     return this.http.put(`${this.baseUrl}/${userId}`, user);
   }
 
-  add(user: string): Observable<any> {
+  add(user: any): Observable<any> {
     return this.http.post(this.baseUrl, user);
   }
 
   delete(userId: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${userId}`);}
+
+  addToGroup(userId: string, groupId: string): Observable<any> {
+    return this.http.put(`${this.baseUrl}/${userId}/groups/${groupId}`, {});
   }
+
+  deleteFromGroup(userId: string, groupId: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${userId}/groups/${groupId}`);
+  }
+
+}

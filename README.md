@@ -1,9 +1,9 @@
-# eShop - Bootcamp .NET CORE + MICROSERVICES
+# eShop - Bootcamp .NET + MICROSERVICES
 
 ## Get Started
 
 ### Tools
-    VSCode
+    Visual Studio Code
     Visual Studio Community
     Docker (Desktop or CE)
 
@@ -12,11 +12,14 @@
 
 ## Ferramentas / Tecnologias
 ### Web
-- Angular 16 + Material
+- Angular 18
+- Angular Material
+- Font Awesome
 
 ### Microservices
+- .NET 8
 - SQL Server
-- .net core 8.0
+- Keycloak
 
 ### Gateway
 - YARP
@@ -24,4 +27,3 @@
 ### Event bus
 - Azure
 - RabbitMQ
-

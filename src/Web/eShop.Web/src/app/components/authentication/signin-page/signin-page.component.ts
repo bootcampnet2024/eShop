@@ -93,7 +93,7 @@ export class SigninPageComponent implements OnInit {
       const fullAddress = `${address}, ${numCasa}`;
 
       this.authService
-        .signin(name, password, email, fullAddress, cep, cpf)
+        .signin(name, password, email, fullAddress, cep, "", cpf)
         .subscribe({
           next: () => {
             this.router.navigate(['/login']);

@@ -1,0 +1,24 @@
+<div class="admin-function-container">
+  <h2>User Roles</h2>
+
+  <div class="role-selection">
+    <label for="roleSelect">Select a Role:</label>
+    <select id="roleSelect" [(ngModel)]="selectedRole">
+      <option value="" disabled selected>Select a role</option>
+      <option *ngFor="let role of userRoles" [value]="role">{{ role }}</option>
+      <option value="admin">Admin</option>
+      <option value="manager">Manager</option>
+      <option value="user">User</option>
+    </select>
+  </div>
+
+  <button class="btn btn-primary" (click)="onSubmit()">Add Role</button>
+
+  <h3>Current Roles:</h3>
+  <ul>
+    <li *ngFor="let role of userRoles">
+      {{ role }}
+      <button class="btn btn-danger" (click)="onDeleteRole(role)">Remove</button>
+    </li>
+  </ul>
+</div>

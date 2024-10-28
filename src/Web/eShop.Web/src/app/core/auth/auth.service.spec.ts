@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthService } from './auth.service';
+import { of } from 'rxjs';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -73,7 +74,7 @@ describe('AuthService', () => {
 
     const mockSignUpResponse = { id: '1234' };
 
-    authService.signin('newUser', 'password', 'email@example.com', '123 Address', '12345', '123456789').subscribe(response => {
+    authService.signin('newUser','fullName', 'password', 'email@example.com', '123 Address', '12345', '123456789').subscribe(response => {
       expect(response).toEqual(mockSignUpResponse);
     });
 
@@ -106,12 +107,138 @@ describe('AuthService', () => {
     expect(authService.isAuthenticated()).toBeFalse();
   });
 
-  it('should return the correct route based on role', () => {
+  it("should return the correct route based on role", () => {
     jwtHelperSpy.decodeToken.and.returnValue({
-      realm_access: { roles: ['user-manager'] },
+      realm_access: { roles: ["user-manager"] },
     });
+    localStorage.setItem("access_token", "mockAccessToken");
+    expect(authService.getRoles()).toContain("user-manager");
+  });
 
-    localStorage.setItem('access_token', 'mockAccessToken');
-    expect(authService.getRoles()).toContain('user-manager');
+  it("should get user ID by email", () => {
+    const mockTokenResponse = {
+      access_token: "mockAccessToken",
+      refresh_token: "mockRefreshToken",
+      expires_in: 3600,
+      refresh_expires_in: 36000,
+      token_type: "Bearer",
+      "not-before-policy": 0,
+      session_state: "session123",
+      scope: "openid",
+    };
+    const mockUserResponse = [
+      { id: "1234", username: "testUser", email: "email@example.com" },
+    ];
+    authService.getAdminToken = jasmine
+      .createSpy()
+      .and.returnValue(of(mockTokenResponse));
+    authService.getUserIdByEmail("email@example.com").subscribe((userId) => {
+      expect(userId).toEqual("1234");
+    });
+    const req = httpMock.expectOne(
+      "http://localhost:8070/admin/realms/eshop/users?email=email@example.com"
+    );
+    expect(req.request.method).toBe("GET");
+    req.flush(mockUserResponse);
+  });
+
+  it("should handle error when user is not found", () => {
+    const mockTokenResponse = {
+      access_token: "mockAccessToken",
+      refresh_token: "mockRefreshToken",
+      expires_in: 3600,
+      refresh_expires_in: 36000,
+      token_type: "Bearer",
+      "not-before-policy": 0,
+      session_state: "session123",
+      scope: "openid",
+    };
+    authService.getAdminToken = jasmine
+      .createSpy()
+      .and.returnValue(of(mockTokenResponse));
+    authService.getUserIdByEmail("email@example.com").subscribe({
+      next: () => fail("Expected error, but got user ID"),
+      error: (error) => {
+        expect(error.message).toBe("User not found");
+      },
+    });
+    const req = httpMock.expectOne(
+      "http://localhost:8070/admin/realms/eshop/users?email=email@example.com"
+    );
+    expect(req.request.method).toBe("GET");
+    req.flush([]);
+  });
+  it('should recover password by user ID', () => {
+    const mockTokenResponse = {
+      access_token: 'mockAccessToken',
+      refresh_token: 'mockRefreshToken',
+      expires_in: 3600,
+      refresh_expires_in: 36000,
+      token_type: 'Bearer',
+      'not-before-policy': 0,
+      session_state: 'session123',
+      scope: 'openid',
+    };
+  
+    spyOn(authService, 'getAdminToken').and.returnValue(of(mockTokenResponse));
+  
+    authService.recoverPassword('123').subscribe();
+  
+    const req = httpMock.expectOne(
+      'http://localhost:8070/admin/realms/eshop/users/123/reset-password-email?client_id=account-user&redirect_uri=http://localhost:4200/login'
+    );
+    expect(req.request.method).toBe('PUT');
+    req.flush({}); 
+  });
+  
+  
+  it("should handle error when recovering password fails", (done) => {
+  const mockTokenResponse = {
+    access_token: "mockAccessToken",
+    refresh_token: "mockRefreshToken",
+    expires_in: 3600,
+    refresh_expires_in: 36000,
+    token_type: "Bearer",
+    "not-before-policy": 0,
+    session_state: "session123",
+    scope: "openid",
+  };
+
+  spyOn(authService, "getAdminToken").and.returnValue(of(mockTokenResponse));
+
+  authService.recoverPassword("1234").subscribe({
+    next: () => {
+      fail("Expected error, but password recovery succeeded");
+      done();
+    },
+    error: (error) => {
+      expect(error.status).toBe(400);
+      done();
+    },
+  });
+
+  const req = httpMock.expectOne((request) => {
+    return request.url === "http://localhost:8070/admin/realms/eshop/users/1234/reset-password-email" &&
+           request.method === "PUT" &&
+           request.params.get('client_id') === 'account-user' &&
+           request.params.get('redirect_uri') === 'http://localhost:4200/login';
+  });
+
+  expect(req.request.method).toBe("PUT");
+  req.flush("Error recovering password", {
+    status: 400,
+    statusText: "Bad Request",
+  });
+});
+
+  
+  it('should correctly check if the token is expired', async () => {
+    const mockToken = 'mockAccessToken';
+    
+    jwtHelperSpy.isTokenExpired.and.returnValue(Promise.resolve(false));
+    expect(await authService['isTokenExpired'](mockToken)).toBeFalse();
+    
+    jwtHelperSpy.isTokenExpired.and.returnValue(Promise.resolve(true));
+    expect(await authService['isTokenExpired'](mockToken)).toBeTrue();
   });
 });
