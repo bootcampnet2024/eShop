@@ -1511,19 +1511,19 @@
       },
       "protocolMappers": [
         {
-          "id": "fc1476f4-2f96-4795-b278-afceb12d84a4",
-          "name": "cep",
+          "id": "22592fee-e358-4bab-bd4f-43a898afaab9",
+          "name": "full_name",
           "protocol": "openid-connect",
           "protocolMapper": "oidc-usermodel-attribute-mapper",
           "consentRequired": false,
           "config": {
             "introspection.token.claim": "true",
             "userinfo.token.claim": "true",
-            "user.attribute": "cep",
+            "user.attribute": "full_name",
             "id.token.claim": "true",
             "lightweight.claim": "false",
             "access.token.claim": "true",
-            "claim.name": "cep",
+            "claim.name": "full_name",
             "jsonType.label": "String"
           }
         },
@@ -1541,6 +1541,40 @@
             "lightweight.claim": "false",
             "access.token.claim": "true",
             "claim.name": "cpf",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "a17a2cb9-db3a-4c6d-9bfe-b742467eefb3",
+          "name": "phone_number",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "introspection.token.claim": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "phone_number",
+            "id.token.claim": "true",
+            "lightweight.claim": "false",
+            "access.token.claim": "true",
+            "claim.name": "phone_number",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "19a98c79-0b5f-4bc1-8f2d-8c2e7ca4b78c",
+          "name": "update_at",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "introspection.token.claim": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "update_at",
+            "id.token.claim": "true",
+            "lightweight.claim": "false",
+            "access.token.claim": "true",
+            "claim.name": "update_at",
             "jsonType.label": "String"
           }
         },
@@ -1567,7 +1601,9 @@
           "protocolMapper": "oidc-usermodel-attribute-mapper",
           "consentRequired": false,
           "config": {
+            "aggregate.attrs": "true",
             "introspection.token.claim": "true",
+            "multivalued": "true",
             "userinfo.token.claim": "true",
             "user.attribute": "address",
             "id.token.claim": "true",
@@ -1699,7 +1735,20 @@
     "xXSSProtection": "1; mode=block",
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
-  "smtpServer": {},
+  "smtpServer": {
+    "password": "**********",
+    "replyToDisplayName": "eShop noreply",
+    "starttls": "true",
+    "auth": "true",
+    "port": "587",
+    "replyTo": "bootcampeshop@gmail.com",
+    "host": "smtp.gmail.com",
+    "from": "bootcampeshop@gmail.com",
+    "fromDisplayName": "eShop noreply",
+    "envelopeFrom": "",
+    "ssl": "false",
+    "user": "bootcampeshop@gmail.com"
+  },
   "eventsEnabled": false,
   "eventsListeners": [
     "jboss-logging"
@@ -1737,14 +1786,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
+            "saml-user-attribute-mapper",
             "oidc-usermodel-property-mapper",
-            "oidc-full-name-mapper",
-            "oidc-address-mapper",
-            "saml-role-list-mapper",
             "oidc-usermodel-attribute-mapper",
-            "oidc-sha256-pairwise-sub-mapper",
             "saml-user-property-mapper",
-            "saml-user-attribute-mapper"
+            "oidc-full-name-mapper",
+            "saml-role-list-mapper",
+            "oidc-sha256-pairwise-sub-mapper",
+            "oidc-address-mapper"
           ]
         }
       },
@@ -1788,14 +1837,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "saml-user-property-mapper",
+            "oidc-usermodel-property-mapper",
             "oidc-address-mapper",
-            "oidc-usermodel-attribute-mapper",
+            "saml-user-attribute-mapper",
+            "saml-role-list-mapper",
             "oidc-full-name-mapper",
             "oidc-sha256-pairwise-sub-mapper",
-            "saml-user-attribute-mapper",
-            "oidc-usermodel-property-mapper",
-            "saml-role-list-mapper"
+            "saml-user-property-mapper",
+            "oidc-usermodel-attribute-mapper"
           ]
         }
       },
@@ -1842,7 +1891,7 @@
         "subComponents": {},
         "config": {
           "kc.user.profile.config": [
-            "{\"attributes\":[{\"name\":\"username\",\"displayName\":\"${username}\",\"validations\":{\"length\":{\"min\":3,\"max\":255},\"username-prohibited-characters\":{},\"up-username-not-idn-homograph\":{}},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\",\"user\"]},\"multivalued\":false},{\"name\":\"email\",\"displayName\":\"${email}\",\"validations\":{\"email\":{},\"length\":{\"max\":255}},\"required\":{\"roles\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\",\"user\"]},\"multivalued\":false},{\"name\":\"cpf\",\"displayName\":\"cpf\",\"validations\":{},\"annotations\":{},\"required\":{\"roles\":[\"user\"],\"scopes\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\"]},\"selector\":{\"scopes\":[\"user\"]},\"multivalued\":false},{\"name\":\"cep\",\"displayName\":\"cep\",\"validations\":{},\"annotations\":{},\"required\":{\"roles\":[\"user\"],\"scopes\":[\"roles\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\"]},\"selector\":{\"scopes\":[\"user\"]},\"multivalued\":false},{\"name\":\"address\",\"displayName\":\"address\",\"validations\":{},\"annotations\":{},\"required\":{\"roles\":[\"user\"],\"scopes\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\"]},\"selector\":{\"scopes\":[\"user\"]},\"multivalued\":false}],\"groups\":[]}"
+            "{\"attributes\":[{\"name\":\"username\",\"displayName\":\"${username}\",\"validations\":{\"length\":{\"min\":3,\"max\":255},\"username-prohibited-characters\":{},\"up-username-not-idn-homograph\":{}},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\",\"user\"]},\"multivalued\":false},{\"name\":\"email\",\"displayName\":\"${email}\",\"validations\":{\"email\":{},\"length\":{\"max\":255}},\"required\":{\"roles\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\",\"user\"]},\"multivalued\":false},{\"name\":\"full_name\",\"displayName\":\"full_name\",\"validations\":{},\"annotations\":{},\"required\":{\"roles\":[\"user\"],\"scopes\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\"]},\"selector\":{\"scopes\":[\"user\"]},\"multivalued\":false},{\"name\":\"cpf\",\"displayName\":\"cpf\",\"validations\":{},\"annotations\":{},\"required\":{\"roles\":[\"user\"],\"scopes\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\"]},\"selector\":{\"scopes\":[\"user\"]},\"multivalued\":false},{\"name\":\"address\",\"displayName\":\"address\",\"validations\":{},\"annotations\":{},\"required\":{\"roles\":[\"user\"],\"scopes\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\"]},\"selector\":{\"scopes\":[\"user\"]},\"multivalued\":true},{\"name\":\"phone_number\",\"displayName\":\"phone_number\",\"validations\":{},\"annotations\":{},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\"]},\"selector\":{\"scopes\":[\"user\"]},\"multivalued\":false},{\"name\":\"update_at\",\"displayName\":\"update_at\",\"validations\":{\"iso-date\":{}},\"annotations\":{},\"required\":{\"roles\":[\"user\"],\"scopes\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\"]},\"selector\":{\"scopes\":[\"user\"]},\"multivalued\":false}],\"groups\":[]}"
           ]
         }
       }
@@ -2562,7 +2611,7 @@
     "clientSessionMaxLifespan": "0",
     "organizationsEnabled": "false"
   },
-  "keycloakVersion": "25.0.4",
+  "keycloakVersion": "25.0.6",
   "userManagedAccessAllowed": false,
   "organizationsEnabled": false,
   "clientProfiles": {

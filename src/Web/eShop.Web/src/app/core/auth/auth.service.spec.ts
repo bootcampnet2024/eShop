@@ -74,7 +74,7 @@ describe('AuthService', () => {
 
     const mockSignUpResponse = { id: '1234' };
 
-    authService.signin('newUser', 'password', 'email@example.com', '123 Address', '12345', '123456789').subscribe(response => {
+    authService.signin('newUser','fullName', 'password', 'email@example.com', '123 Address', '12345', '123456789').subscribe(response => {
       expect(response).toEqual(mockSignUpResponse);
     });
 
@@ -114,6 +114,7 @@ describe('AuthService', () => {
     localStorage.setItem("access_token", "mockAccessToken");
     expect(authService.getRoles()).toContain("user-manager");
   });
+
   it("should get user ID by email", () => {
     const mockTokenResponse = {
       access_token: "mockAccessToken",
@@ -140,6 +141,7 @@ describe('AuthService', () => {
     expect(req.request.method).toBe("GET");
     req.flush(mockUserResponse);
   });
+
   it("should handle error when user is not found", () => {
     const mockTokenResponse = {
       access_token: "mockAccessToken",
@@ -191,39 +193,44 @@ describe('AuthService', () => {
   
   
   it("should handle error when recovering password fails", (done) => {
-    const mockTokenResponse = {
-      access_token: "mockAccessToken",
-      refresh_token: "mockRefreshToken",
-      expires_in: 3600,
-      refresh_expires_in: 36000,
-      token_type: "Bearer",
-      "not-before-policy": 0,
-      session_state: "session123",
-      scope: "openid",
-    };
-  
-    spyOn(authService, "getAdminToken").and.returnValue(of(mockTokenResponse));
-  
-    authService.recoverPassword("1234").subscribe({
-      next: () => {
-        fail("Expected error, but password recovery succeeded");
-        done();
-      },
-      error: (error) => {
-        expect(error.status).toBe(400);
-        done();
-      },
-    });
-  
-    const req = httpMock.expectOne(
-      "http://localhost:8070/admin/realms/eshop/users/1234/reset-password-email?client_id=account-user&redirect_uri=http://localhost:4200/login"
-    );
-    expect(req.request.method).toBe("PUT");
-    req.flush("Error recovering password", {
-      status: 400,
-      statusText: "Bad Request",
-    });
+  const mockTokenResponse = {
+    access_token: "mockAccessToken",
+    refresh_token: "mockRefreshToken",
+    expires_in: 3600,
+    refresh_expires_in: 36000,
+    token_type: "Bearer",
+    "not-before-policy": 0,
+    session_state: "session123",
+    scope: "openid",
+  };
+
+  spyOn(authService, "getAdminToken").and.returnValue(of(mockTokenResponse));
+
+  authService.recoverPassword("1234").subscribe({
+    next: () => {
+      fail("Expected error, but password recovery succeeded");
+      done();
+    },
+    error: (error) => {
+      expect(error.status).toBe(400);
+      done();
+    },
   });
+
+  const req = httpMock.expectOne((request) => {
+    return request.url === "http://localhost:8070/admin/realms/eshop/users/1234/reset-password-email" &&
+           request.method === "PUT" &&
+           request.params.get('client_id') === 'account-user' &&
+           request.params.get('redirect_uri') === 'http://localhost:4200/login';
+  });
+
+  expect(req.request.method).toBe("PUT");
+  req.flush("Error recovering password", {
+    status: 400,
+    statusText: "Bad Request",
+  });
+});
+
   
   it('should correctly check if the token is expired', async () => {
     const mockToken = 'mockAccessToken';

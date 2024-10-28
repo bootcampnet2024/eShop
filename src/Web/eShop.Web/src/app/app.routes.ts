@@ -13,18 +13,16 @@ import { CategoryPageComponent } from './components/category-page/category-page.
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { CategoryManagementComponent } from './components/category-management/category-management.component';
-import { CreateUserManagerComponent } from './components/user-manager/create-user-manager/create-user-manager.component';
-import { ViewUserManagerComponent } from './components/user-manager/view-user-manager/view-user-manager.component';
-import { EditUserManagerComponent } from './components/user-manager/edit-user-manager/edit-user-manager.component';
+import { UserManagementComponent } from './components/user-manager/user-management.component';
 import { BrandManagementComponent } from './components/brand-management/brand-management.component';
+import { AdminPageComponent } from './components/admin-page/admin-page.component';
+import { ChangeUserRolesComponent } from './components/user-manager/popups/change-user-roles/change-user-roles.component';
 import { AddressPageComponent } from './components/address-page/address-page.component';
 import { HistoryPageComponent } from './components/history-page/history-page.component';
 
-
-
 export const routes: Routes = [
-    {path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard]},
     {path: '', component: LandingPageComponent},
+    {path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard]},
     {path: 'login', component: LoginPageComponent},
     {path: 'signin', component: SigninPageComponent},
     {path: 'cart', component: CartPageComponent},
@@ -32,12 +30,12 @@ export const routes: Routes = [
     {path: 'payment', component: PaymentPageComponent},
     {path: 'search', component: SearchResultComponent},
     {path: 'category', component: CategoryPageComponent},
+    {path: 'admin', component: AdminPageComponent, canActivate: [AuthGuard]},
+    {path: 'change-user-role', component: ChangeUserRolesComponent, canActivate: [AuthGuard]},
+    {path: 'user-management', component: UserManagementComponent, canActivate: [AuthGuard]},
     {path: 'contact', component: ContactComponent},
+    {path: 'addresses', component: AddressPageComponent},
     {path: 'history', component: HistoryPageComponent},
-    {path: 'address', component: AddressPageComponent},
-    {path: 'create-user-management', component: CreateUserManagerComponent, canActivate: [AuthGuard]},
-    {path: 'edit-user-management', component: EditUserManagerComponent, canActivate: [AuthGuard]},
-    {path: 'view-user-management', component: ViewUserManagerComponent, canActivate: [AuthGuard]},
     {path: 'product-management', component: ProductManagementComponent, canActivate: [AuthGuard]},
     {path: 'category-management', component: CategoryManagementComponent, canActivate: [AuthGuard]},
     {path: 'brand-management', component: BrandManagementComponent, canActivate: [AuthGuard]}

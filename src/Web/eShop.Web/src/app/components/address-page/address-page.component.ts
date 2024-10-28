@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,10 +24,11 @@ import { HttpClientModule } from '@angular/common/http';
   styleUrl: './address-page.component.css'
 })
 export class AddressPageComponent {
+  userId?: string;
   addressForm: FormGroup;
   zipInvalid: boolean = false;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
+  constructor(private fb: FormBuilder, private http: HttpClient, private route: ActivatedRoute) {
     this.addressForm = this.fb.group({
       zip: ['', [Validators.required, Validators.pattern('[0-9]{8}')]],
       name: ['', Validators.required],
@@ -39,6 +40,15 @@ export class AddressPageComponent {
       complement: [''],
       reference: ['']
     });
+    
+    this.route.paramMap.subscribe(params => {
+      this.userId = params.get('id') || '' as string;
+      this.getUserAddresses();
+    });
+  }
+
+  getUserAddresses() {
+
   }
 
   lookupZIP() {
