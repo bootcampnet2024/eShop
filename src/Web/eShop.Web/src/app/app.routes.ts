@@ -1,5 +1,4 @@
 import { ContactComponent } from './components/contact/contact.component';
-import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { LandingPageComponent } from './components/home/landing-page/landing-page.component';
 import { LoginPageComponent } from './components/authentication/login-page/login-page.component';
@@ -22,8 +21,6 @@ import { UserCardsComponent } from './components/user-cards/user-cards.component
 import { HistoryPageComponent } from './components/history-page/history-page.component';
 import { OrderListComponent } from './components/order-list/order-list.component';
 import { OrderPageComponent } from './components/order-page/order-page.component';
-
-
 
 export const routes: Routes = [
     {path: '', component: LandingPageComponent},

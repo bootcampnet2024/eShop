@@ -3,9 +3,7 @@
 
 <div class="order-page">
   <div class="order-page_summary">
-    <div class="order-page_summary-text">
-      <h1>{{ prefix }} order</h1>
-    </div>
+    <h1>{{ prefix }} order</h1>
 
     <div class="order-page-showproduct">
       @for (item of order.items; track item.productId) {
@@ -14,10 +12,10 @@
 
         <div class="orderlist-text">
           <h2>Name: {{ item.productName }}</h2>
-          <h6>Quantity: {{ item.units }}</h6>
-          <h6>Price: R$ {{ item.unitPrice }}</h6>
+          <h2>Quantity: {{ item.units }}</h2>
+          <h2>Price: R$ {{ item.unitPrice }}</h2>
           <br />
-          <h6>Total: R$ {{ (item.unitPrice * item.units).toFixed(2) }}</h6>
+          <h2>Total: R$ {{ (item.unitPrice * item.units).toFixed(2) }}</h2>
         </div>
 
         <div class="orderlist-button_section">
@@ -31,13 +29,16 @@
   </div>
 
   <div class="order-page-sidewindow">
-    <h2>Details:</h2>
-    <hr />
-    Products: {{ order.items.length }} <br />
-    Status: {{ order.status }}<br />
-    <br />
-    <hr />
-    Total: R$ {{ order.total.toFixed(2) }}
+    <div class="order-page-sidewindow-details">
+      <h2>Details:</h2>
+      <hr />
+      Products: {{ order.items.length }} <br />
+      Status: {{ order.status }}<br />
+      <br />
+      <hr />
+      Total: R$ {{ order.total.toFixed(2) }}
+    </div>
+    <a href="/contact" class="order-page-sidewindow-help">❓ Help</a>
   </div>
 </div>
 
