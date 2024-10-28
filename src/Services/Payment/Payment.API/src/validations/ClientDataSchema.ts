@@ -28,7 +28,7 @@ const clientDataSchema = z.object({
   email: z.string().email(),
   phoneNumber: z.string(),
   cpf: z.string(),
-  paymentMethod: z.enum(['credit_card', 'boleto', 'pix']),
+  paymentMethod: z.enum(['credit_card', 'boleto', 'pix', 'debit_card']),	
   cardData: z.union([cardPaymentSchema, z.undefined()]),
   address: addressSchema,
   items: z.array(itemSchema),
