@@ -1,20 +1,20 @@
 <app-header></app-header>
 <app-navbar></app-navbar>
-<div class="category-page__product-container">
-  <div class="category-page__filter_by">
+<div class="all-products-page__product-container">
+  <div class="all-products-page__filter_by">
     <p>Brands</p>
-    <div class="category-page__brands-filter">
+    <div class="all-products-page__brands-filter">
       @for (brand of brands; track brand.id) {
-      <div class="category-page__brand">
+      <div class="all-products-page__brand">
         <input type="checkbox" name="brand" />
         <label for="brand">{{ brand.name }}</label>
       </div>
       }
     </div>
   </div>
-  <div class="category-page__product-container2">
-    <div class="category-page__control-buttons">
-      <div class="category-page__control-button">
+  <div class="all-products-page__product-container2">
+    <div class="all-products-page__control-buttons">
+      <div class="all-products-page__control-button">
         <p>Sort By:</p>
         <select (change)="onSortByChange($event)">
           @for (sortType of sortByTypes; track $index) {
@@ -22,7 +22,7 @@
           }
         </select>
       </div>
-      <div class="category-page__control-button">
+      <div class="all-products-page__control-button">
         <p>Show:</p>
         <select (change)="onPageSizeChange($event)">
           @for (size of pageSizes; track $index) {
@@ -31,19 +31,19 @@
         </select>
       </div>
     </div>
-    <app-display-products class="category-page__display_product"
+    <app-display-products class="all-products-page__display_product"
       [displayName]="categoryName"
       [products]="products"
     ></app-display-products>
-    <div class="category-page__change-page-buttons">
+    <div class="all-products-page__change-page-buttons">
       <button
-        class="category-page__change-page-button"
+        class="all-products-page__change-page-button"
         (click)="goToPreviousPage()"
       >
         Go to previous page
       </button>
       <button
-        class="category-page__change-page-button"
+        class="all-products-page__change-page-button"
         (click)="goToNextPage()"
       >
         Go to next page

@@ -4,14 +4,14 @@ import { ProductService } from "../../../services/product-list/product.service";
 import { Component, Input, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-display-products',
+  selector: "app-display-products",
   standalone: true,
   imports: [],
-  templateUrl: './display-products.component.html',
-  styleUrl: './display-products.component.css',
+  templateUrl: "./display-products.component.html",
+  styleUrl: "./display-products.component.css",
 })
 export class DisplayProductsComponent implements OnInit {
-  @Input({required: true}) displayName!: string;
+  @Input({ required: true }) displayName!: string;
   @Input() showOnlyHighlighted: boolean = false;
   @Input() productQuantity: number = 10;
   @Input() categoryId: number = 0;
@@ -21,7 +21,13 @@ export class DisplayProductsComponent implements OnInit {
   constructor(private router: Router, private productService: ProductService) {}
 
   ngOnInit(): void {
-    if (this.products.length != 0) return;
+    setTimeout(() => {
+      if (this.products.length != 0) return;
+      this.getProducts();
+    }, 500);
+  }
+
+  getProducts(): void {
     this.productService
       .getCatalogItems(
         this.showOnlyHighlighted,

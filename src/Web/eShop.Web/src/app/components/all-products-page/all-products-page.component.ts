@@ -10,9 +10,10 @@ import { ViewportScroller } from "@angular/common";
 import { DisplayProductsComponent } from "../home/display-products/display-products.component";
 import { CategoryService } from "../../services/category-service/category.service";
 import { Brand } from "../../models/brand.model";
+import { ProductManagementService } from "../../services/product-management/product-management.service";
 
 @Component({
-  selector: "app-category-page",
+  selector: 'app-all-products-page',
   standalone: true,
   imports: [
     HeaderComponent,
@@ -20,27 +21,14 @@ import { Brand } from "../../models/brand.model";
     FooterComponent,
     DisplayProductsComponent,
   ],
-  templateUrl: "./category-page.component.html",
-  styleUrls: ["./category-page.component.css"],
+  templateUrl: './all-products-page.component.html',
+  styleUrls: ['./all-products-page.component.css'],
 })
-export class CategoryPageComponent implements OnInit {
+export class AllProductsPageComponent implements OnInit {
   public products: Product[] = [];
 
   maxPage: number = 0;
-  brands: Brand[] = [
-    {
-      id: 1,
-      name: "Brand 1",
-    },
-    {
-      id: 2,
-      name: "Brand 2",
-    },
-    {
-      id: 3,
-      name: "Brand 3",
-    },
-  ];
+  brands: Brand[] = [];
   categoryId: number = 0;
   categoryName: string = "Products";
   pageIndex: number = 0;
@@ -52,6 +40,7 @@ export class CategoryPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private productManagement: ProductManagementService,
     private productService: ProductService,
     private categoryService: CategoryService,
     private viewportScroller: ViewportScroller
@@ -66,18 +55,52 @@ export class CategoryPageComponent implements OnInit {
     const selectElement = event.target as HTMLSelectElement;
     this.pageSize = Number(selectElement.value);
     this.updateUrlParameter("pageSize", this.pageSize);
-    this.loadItems();
+    this.loadPage();
   }
 
-  loadItems(): void {
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.categoryId = parseInt(params.get("categoryId") ?? "0");
+      this.pageIndex = parseInt(params.get("page") ?? "0");
+      this.pageSize = parseInt(params.get("pageSize") ?? "50");
+      if (!this.pageSizes.includes(this.pageSize)) this.pageSize = 50;
+      this.loadPage();
+      this.viewportScroller.scrollToPosition([0, 0]);
+    });
+  }
+
+  loadPage(): void {
+    this.loadCategory();
+    this.loadBrands();
+    this.loadProducts();
+  }
+
+  loadCategory(): void {
+    if (this.categoryId == 0) return;
+    this.categoryService.getById(this.categoryId).subscribe({
+      next: (response) => {
+        this.categoryName = response.name;
+      },
+    });
+  }
+
+  loadBrands(): void {
     if (this.categoryId != 0) {
-      this.categoryService.getById(this.categoryId).subscribe({
+      this.productService.getBrandsByCategoryId(this.categoryId).subscribe({
         next: (response) => {
-          this.categoryName = response.name;
+          this.brands = response;
         },
       });
+      return;
     }
+    this.productManagement.getBrands().subscribe({
+      next: (response) => {
+        this.brands = response;
+      },
+    });
+  }
 
+  loadProducts(): void {
     this.productService
       .getCatalogItems(false, this.pageIndex, this.pageSize, this.categoryId)
       .subscribe({
@@ -86,23 +109,6 @@ export class CategoryPageComponent implements OnInit {
           this.products = response.items;
         },
       });
-
-    this.productService.getBrandsByCategoryId(this.categoryId).subscribe({
-      next: (response) => {
-        this.brands = response;
-      },
-    });
-  }
-
-  ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      this.categoryId = parseInt(params.get("id") ?? "0");
-      this.pageIndex = parseInt(params.get("page") ?? "0");
-      this.pageSize = parseInt(params.get("pageSize") ?? "50");
-      if (!this.pageSizes.includes(this.pageSize)) this.pageSize = 50;
-      this.loadItems();
-      this.viewportScroller.scrollToPosition([0, 0]);
-    });
   }
 
   viewProduct(product: Product): void {
@@ -116,14 +122,14 @@ export class CategoryPageComponent implements OnInit {
     if (this.pageIndex == 0) return;
     this.pageIndex--;
     this.updateUrlParameter("page", this.pageIndex);
-    this.loadItems();
+    this.loadPage();
   }
 
   goToNextPage() {
     if (this.maxPage >= this.pageIndex) return;
     this.pageIndex++;
     this.updateUrlParameter("page", this.pageIndex);
-    this.loadItems();
+    this.loadPage();
   }
 
   updateUrlParameter(param: string, value: any) {

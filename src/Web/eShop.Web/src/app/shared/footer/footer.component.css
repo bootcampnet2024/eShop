@@ -8,6 +8,12 @@ footer {
   color: white;
 }
 
+a {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;  
+}
+
 p {
   font-weight: 600;
 }

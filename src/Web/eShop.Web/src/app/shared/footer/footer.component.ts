@@ -16,4 +16,8 @@ export class FooterComponent {
   faTwitterSquare = faSquareXTwitter;
   faYoutubeSquare = faYoutubeSquare;
   faInstagramSquare = faInstagramSquare;
+
+  goToTopOfThePage(): void {
+    window.scrollTo(0, 0);
+  }
 }

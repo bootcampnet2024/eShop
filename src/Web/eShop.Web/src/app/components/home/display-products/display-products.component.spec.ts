@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing";
 
 import { DisplayProductsComponent } from "./display-products.component";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
@@ -38,7 +38,9 @@ describe("DisplayProductsComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  it("should call getCatalogItems on init", () => {
+  it("should call getCatalogItems on init", fakeAsync(() => {
+    component.displayName = "Test";
+    
     const mockProducts: Product[] = [
       {
         id: "1",
@@ -69,13 +71,14 @@ describe("DisplayProductsComponent", () => {
     const mockProductRequest = {
       items: mockProducts,
       pageSize: 10,
-      pageIndex: 1,
+      pageIndex: 0,
       count: mockProducts.length,
     };
 
     productServiceSpy.getCatalogItems.and.returnValue(of(mockProductRequest));
 
     fixture.detectChanges();
+    tick(550);
 
     expect(productServiceSpy.getCatalogItems).toHaveBeenCalledWith(
       component.showOnlyHighlighted,
@@ -84,7 +87,7 @@ describe("DisplayProductsComponent", () => {
       component.categoryId
     );
     expect(component.products).toEqual(mockProducts);
-  });
+  }));
 
   it("should navigate to product details when viewProduct is called", () => {
     const mockProduct: Product = {
