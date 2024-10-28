@@ -1,5 +1,4 @@
 import { ContactComponent } from './components/contact/contact.component';
-import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { LandingPageComponent } from './components/home/landing-page/landing-page.component';
 import { LoginPageComponent } from './components/authentication/login-page/login-page.component';

@@ -1105,24 +1105,22 @@ button[type="submit"]:hover {
   height: 100%;
   width: 80%;
   padding: 10px 20px 0px 20px;
-  
 }
 
 .orderlist-item{
   display: flex;
   justify-content: space-between;
-  padding: 10px;
+  padding: 2em 2em 2em 2em;
   border-top: 1px solid;
 }
 
 .orderlist-item img{
   mix-blend-mode: multiply;
-  max-width: 150px;
-  
+  max-width: 15%;
 }
 
-.orderlist-text{
-  padding-right: 200px;
+.orderlist-container h1{
+  margin-top: 1em;
 }
 
 .orderlist-button_section{
@@ -1140,39 +1138,52 @@ button[type="submit"]:hover {
   width: 200px;
   align-self: center;
   margin-top: 3vh;
+  cursor: pointer;
 }
 
 .order-page{
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
+  min-height: fit-content;
   height: 100%;
+  padding: 2em 2em 2em 2em;
 }
 
 .order-page_summary{
+  padding: 2em 2em 2em 2em;
   display: flex;
   flex-direction: column;
-  margin: 20px auto;
-  width: 70%;
-  padding: 10px 20px 10px 20px;
   background-color: #ffffff;
   border-radius: 8px;
+  width: 80%;
 }
 
-.order-page_summary-text{
-  padding-right: 1px;
-}
 .order-page_summary img{
-  max-width: 150px;
+  max-width: 200px;
   mix-blend-mode: multiply;
 }
 
 .order-page-sidewindow{
-  position: sticky;
-  height: 20%;
-
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
   background-color: #fff;
-  padding: 10px 10px 10px 10px;
-  margin-right: 10px;
+  padding: 1em 1em 1em 1em;
+  margin-right: 2em;
+}
+
+.order-page-sidewindow-help {
+  background-color: #005b96;
+  border: 2px #000 solid;
+  margin-top: 2em;
+  border-radius: 4px;
+  padding: .1em .2em .1em .2em;
+  color: white;
+  text-decoration: none;
 }
 
 .order-page-showproduct{

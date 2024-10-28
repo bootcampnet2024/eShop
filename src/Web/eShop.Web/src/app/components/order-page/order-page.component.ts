@@ -31,22 +31,22 @@ export class OrderPageComponent implements OnInit {
       zipCode: "",
     },
     status: "Delivered",
-    total: 12399.913,
+    total: 2615.2,
     items: [
       {
         productId: 0,
         productName: "Cabo sem fio xbox 360",
-        unitPrice: 0,
-        units: 0,
+        unitPrice: 10.76,
+        units: 20,
         discount: 0,
         pictureUrl: "assets/products/xbox-series-controller.jpg",
       },
       {
         productId: 1,
         productName: "Cabo sem fio xbox 360",
-        unitPrice: 0,
+        unitPrice: 20,
         discount: 0,
-        units: 0,
+        units: 120,
         pictureUrl: "assets/products/xbox-series-controller.jpg",
       },
     ],
@@ -93,7 +93,10 @@ export class OrderPageComponent implements OnInit {
   viewProduct(item: OrderItem): void {
     this.router.navigate([
       "/product",
-      { id: item.productId, name: item.productName.trim().replaceAll(" ", "-") },
+      {
+        id: item.productId,
+        name: item.productName.trim().replaceAll(" ", "-"),
+      },
     ]);
   }
 }
