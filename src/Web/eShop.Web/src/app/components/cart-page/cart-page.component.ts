@@ -24,6 +24,7 @@ export class CartPageComponent implements OnInit {
     private cartService: CartService,
   ) {}
 
+  
   async ngOnInit(): Promise<void> {
     const accessToken = localStorage.getItem('access_token');
     console.log('Access Token:', accessToken); 
@@ -39,8 +40,8 @@ export class CartPageComponent implements OnInit {
       this.router.navigate(['/login']);
       return;
     }
-
     this.loadCartItems();
+    this.updateOrderTotal(); 
   }
 
   extractUserIdFromToken(token: string): string | null {
@@ -59,11 +60,11 @@ export class CartPageComponent implements OnInit {
       console.error('User ID is null or undefined.');
       return;
     }
-
+  
     this.cartService.getItems(this.userId).subscribe(
       (items) => {
         console.log('Itens do carrinho recebidos:', items); 
-        this.products = items;
+        this.products = items; 
         this.updateOrderTotal();
       },
       (error) => {
@@ -71,6 +72,7 @@ export class CartPageComponent implements OnInit {
       }
     );
   }
+  
 
   trackByProductId(index: number, item: CartItemModel): string {
     return item.productId; 
