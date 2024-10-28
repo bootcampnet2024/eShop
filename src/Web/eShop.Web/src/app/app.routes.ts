@@ -18,11 +18,13 @@ import { BrandManagementComponent } from './components/brand-management/brand-ma
 import { AdminPageComponent } from './components/admin-page/admin-page.component';
 import { ChangeUserRolesComponent } from './components/user-manager/popups/change-user-roles/change-user-roles.component';
 import { AddressPageComponent } from './components/address-page/address-page.component';
+import { UserCardsComponent } from './components/user-cards/user-cards.component';
 import { HistoryPageComponent } from './components/history-page/history-page.component';
 
 export const routes: Routes = [
     {path: '', component: LandingPageComponent},
     {path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard]},
+    {path: 'user-cards', component: UserCardsComponent, canActivate: [AuthGuard]},
     {path: 'login', component: LoginPageComponent},
     {path: 'signin', component: SigninPageComponent},
     {path: 'cart', component: CartPageComponent},

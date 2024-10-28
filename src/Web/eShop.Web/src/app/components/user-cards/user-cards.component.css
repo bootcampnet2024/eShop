@@ -1,0 +1,119 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  h1 {
+    color: #333;
+  }
+  
+  h3 {
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .credit-card {
+    width: 350px;
+    height: 220px;
+    background: linear-gradient(45deg, #000000, #333333);
+    border-radius: 15px;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .bank-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .bank-name {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  
+  .card-type img {
+    width: 60px;
+    height: auto;
+  }
+
+  .card-type2 img {
+    width: 60px;
+    height: auto;
+    float: right
+    
+  }
+  
+  
+  .chip {
+    width: 50px;
+    height: 35px;
+    background-color: silver;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+  
+  .card-info {
+    text-align: left;
+  }
+  
+  .card-number {
+    font-size: 1.4em;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+  }
+  
+  .valid-date, .cardholder-name {
+    font-size: 1em;
+  }
+  
+  @media (max-width: 768px) {
+    .cards-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+  }
+
+  .container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 610px;
+  }
+  
