@@ -47,7 +47,7 @@ export class UserManagementService {
         phoneNumber: decodedToken.phone_number,
         updateAt: decodedToken.updated_at,
         roles: decodedToken.realm_access?.roles || [],
-        addresss: decodedToken.address || []
+        address: decodedToken.address || []
         };
 
       return of(body);

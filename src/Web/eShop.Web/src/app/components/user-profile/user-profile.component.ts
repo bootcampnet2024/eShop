@@ -97,8 +97,8 @@ export class UserProfileComponent implements OnInit {
         cpf: this.perfilForm.get('cpf')?.value,
         phoneNumber: this.perfilForm.get('phoneNumber')?.value,
         updateAt: new Date(),
-        addresss: [], 
-        roles: [] 
+        address: [], 
+        roles: ["user"] 
       };
 
       this.userService.edit(this.userId, updatedProfile).subscribe({

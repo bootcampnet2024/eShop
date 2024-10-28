@@ -4,6 +4,11 @@
     <form [formGroup]="registrationForm" (ngSubmit)="signin()" class="sign-in-form__form">
 
       <mat-form-field appearance="outline" class="sign-in-form__field">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="sign-in-form__field">
         <mat-label>Name</mat-label>
         <input matInput formControlName="fullname" required>
       </mat-form-field>
@@ -20,26 +25,6 @@
         <mat-label>E-mail</mat-label>
         <input matInput type="email" formControlName="email" required>
       </mat-form-field>
-
-      <mat-form-field appearance="outline" class="sign-in-form__field">
-        <mat-label>CEP</mat-label>
-        <input matInput type="cep" formControlName="cep" required (blur)="consultCep()">
-        <mat-error *ngIf="registrationForm.get('cep')?.hasError('invalidCep')">
-          CEP inválido
-        </mat-error>
-      </mat-form-field>
-
-      <div class="sign-in-form__container">
-        <mat-form-field appearance="outline" class="sign-in-form__field sign-in-form__field--grow">
-          <mat-label>Address</mat-label>
-          <input matInput type="address" formControlName="address" required>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="sign-in-form__field sign-in-form__field--shrink">
-          <mat-label>Number</mat-label>
-          <input matInput type="numCasa" formControlName="numCasa" required>
-        </mat-form-field>
-      </div>
 
       <mat-form-field appearance="outline" class="sign-in-form__field">
         <mat-label>Password</mat-label>

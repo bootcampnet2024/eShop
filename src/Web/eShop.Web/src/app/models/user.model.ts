@@ -6,6 +6,6 @@ export interface User {
   cpf: string;
   phoneNumber: string;
   updateAt: Date;
-  addresss: string[];
+  address: string[];
   roles: string[];
 }
