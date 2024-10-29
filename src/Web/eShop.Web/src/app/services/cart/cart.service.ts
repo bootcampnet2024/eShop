@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { CartItemModel } from '../../models/cartItem.model';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { catchError, Observable, tap, throwError } from "rxjs";
+import { CartItemModel } from "../../models/cartItem.model";
+import { Product } from "../../models/product.model";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class CartService {
-  private apiUrl = 'http://localhost:5066/api/Basket';
+  private apiUrl = "http://localhost:5066/api/Basket";
 
   constructor(private http: HttpClient) {}
 
@@ -22,5 +23,9 @@ export class CartService {
 
   remove(userId: string, productId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${userId}/${productId}`);
+  }
+
+  add(userId: string, product: Product): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${userId}`, product);
   }
 }
