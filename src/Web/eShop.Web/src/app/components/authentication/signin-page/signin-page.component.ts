@@ -39,7 +39,7 @@ export class SigninPageComponent implements OnInit {
   ngOnInit(): void {
     this.registrationForm = this.fb.group(
       {
-        name: ['', Validators.required],
+        fullname: ['', Validators.required],
         cpf: ['', [Validators.required, cpfValidator()]],
         email: ['', [Validators.required, Validators.email]],
         address: ['', Validators.required],
@@ -88,12 +88,12 @@ export class SigninPageComponent implements OnInit {
 
   signin() {
     if (this.registrationForm.valid) {
-      const { name, password, email, address, cep, cpf, numCasa } =
+      const { fullname, password, email, address, cpf, numCasa } =
         this.registrationForm.value;
       const fullAddress = `${address}, ${numCasa}`;
 
       this.authService
-        .signin(name, password, email, fullAddress, cep, "", cpf)
+        .signin(fullname, fullname, password, email, fullAddress, cpf)
         .subscribe({
           next: () => {
             this.router.navigate(['/login']);
