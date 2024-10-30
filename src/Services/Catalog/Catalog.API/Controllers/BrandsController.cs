@@ -35,7 +35,7 @@ namespace Catalog.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var query = new GetBrandsByIdQuery(id);
+            var query = new GetBrandByIdQuery(id);
             var result = await _mediator.Send(query);
             return Ok(result);
         }
@@ -44,6 +44,14 @@ namespace Catalog.API.Controllers
         public async Task<IActionResult> GetByName(string name)
         {
             var query = new GetBrandsByNameQuery(name);
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
+        [HttpGet("count/")]
+        public async Task<IActionResult> GetCount()
+        {
+            var query = new GetCountBrandsQuery();
             var result = await _mediator.Send(query);
             return Ok(result);
         }

@@ -3,5 +3,5 @@ using MediatR;
 
 namespace Catalog.API._00_Application.Operations.Queries.ProductQueries
 {
-    public record GetProductsByNameQuery(string name) : IRequest<IEnumerable<CatalogItem>>;
+    public record GetProductsByNameQuery(string Name) : IRequest<IEnumerable<CatalogItem>>;
 }

@@ -56,7 +56,7 @@ namespace Catalog.UnitTests.Controllers
         {
             var brandId = 1;
             var brand = new CatalogBrand { Id = brandId };
-            _mediatorMock.Setup(m => m.Send(It.IsAny<GetBrandsByIdQuery>(), It.IsAny<CancellationToken>()))
+            _mediatorMock.Setup(m => m.Send(It.IsAny<GetBrandByIdQuery>(), It.IsAny<CancellationToken>()))
                          .ReturnsAsync(brand);
 
             var result = await _brandController.GetById(brandId);

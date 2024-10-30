@@ -4,9 +4,9 @@ using MediatR;
 
 namespace Catalog.API._00_Application.Operations.Queries.ProductQueries.Handlers
 {
-    public class GetAllProductsQueryHandler(ICatalogItemService repository) : IRequestHandler<GetAllProductsQuery, IEnumerable<CatalogItem>>
+    public class GetAllProductsQueryHandler(ICatalogItemService productService) : IRequestHandler<GetAllProductsQuery, IEnumerable<CatalogItem>>
     {
-        private readonly ICatalogItemService _productService = repository;
+        private readonly ICatalogItemService _productService = productService;
         public Task<IEnumerable<CatalogItem>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
             return _productService.GetAll();

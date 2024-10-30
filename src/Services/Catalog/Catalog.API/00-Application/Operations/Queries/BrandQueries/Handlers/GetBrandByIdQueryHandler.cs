@@ -4,12 +4,12 @@ using MediatR;
 
 namespace Catalog.API._00_Application.Operations.Queries.BrandQueries.Handlers
 {
-    public class GetBrandsByIdQueryHandler(ICatalogBrandService brandService) : IRequestHandler<GetBrandsByIdQuery, CatalogBrand>
+    public class GetBrandByIdQueryHandler(ICatalogBrandService brandService) : IRequestHandler<GetBrandByIdQuery, CatalogBrand>
     {
         private readonly ICatalogBrandService _brandService = brandService;
-        public async Task<CatalogBrand> Handle(GetBrandsByIdQuery request, CancellationToken cancellationToken)
+        public async Task<CatalogBrand> Handle(GetBrandByIdQuery request, CancellationToken cancellationToken)
         {
-            var brand = await _brandService.GetById(request.id);
+            var brand = await _brandService.GetById(request.Id);
             return brand;
         }
     }

@@ -3,5 +3,5 @@ using MediatR;
 
 namespace Catalog.API._00_Application.Operations.Queries.ProductQueries
 {
-    public record GetProductsByIdQuery(Guid id) : IRequest<CatalogItem>;
+    public record GetProductByIdQuery(Guid Id) : IRequest<CatalogItem>;
 }
