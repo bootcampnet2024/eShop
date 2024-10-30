@@ -50,7 +50,18 @@ export class PaymentPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadCartItems();
+    this.loadUserProfile();
+  }
+
+  loadUserProfile(): void {
+    this.UserManagementService.getProfile().subscribe({
+      next: (user: User) => {
+        this.loadCartItems();
+      },
+      error: (err: any) => {
+        console.error('Erro ao obter dados do perfil do usuário:', err);
+      }
+    });
   }
 
   loadCartItems(): void {

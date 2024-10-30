@@ -1,12 +1,12 @@
 <app-header></app-header>
+<div *ngIf="message" class="alert"
+      [ngClass]="{'alert-success': message.includes('sucesso'), 'alert-danger': message.includes('Falha')}">
+      {{ message }}
+    </div>
 <div class="payment-page">
   <p>1. Choose your address</p>
   <p>2. Choose your payment method</p>
   <div class="payment-body">
-    <div *ngIf="message" class="alert"
-      [ngClass]="{'alert-success': message.includes('sucesso'), 'alert-danger': message.includes('Falha')}">
-      {{ message }}
-    </div>
     <div class="payment-box">
       <div class="payment-method">
         <form [formGroup]="paymentForm" class="card">
