@@ -26,12 +26,12 @@ const mockUser: User = {
 
 const mockItems: CartItemModel[] = [
   {
-    productId: 1,
+    productId: '1',
     name: 'Item 1',
     price: 100,
     quantity: 2,
     description: 'Description of Item 1',
-    image: 'url-to-image-1',
+    imageURL: 'url-to-image-1',
     availableQuantity: 5,
     userId: 'user123',
   }
@@ -109,12 +109,12 @@ describe('PaymentPageComponent', () => {
   it('should load cart items', () => {
     const mockItems: CartItemModel[] = [
       {
-        productId: 1,
+        productId: '1',
         name: 'Item 1',
         price: 100,
         quantity: 2,
         description: 'Description of Item 1',
-        image: 'url-to-image-1',
+        imageURL: 'url-to-image-1',
         availableQuantity: 5,
         userId: 'user123',
       }
@@ -131,8 +131,8 @@ describe('PaymentPageComponent', () => {
 
   it('should calculate total amount correctly', () => {
     component.items = [
-      { productId: 1, name: 'Product 1', price: 100, quantity: 2, description: '', image: '', availableQuantity: 0, userId: '' },
-      { productId: 2, name: 'Product 2', price: 50, quantity: 1, description: '', image: '', availableQuantity: 0, userId: '' }
+      { productId: '1', name: 'Product 1', price: 100, quantity: 2, description: '', imageURL: '', availableQuantity: 0, userId: '' },
+      { productId: '2', name: 'Product 2', price: 50, quantity: 1, description: '', imageURL: '', availableQuantity: 0, userId: '' }
     ];
     const total = component.calculateTotalAmount();
     expect(total).toBe(250);
@@ -152,12 +152,12 @@ describe('PaymentPageComponent', () => {
     };
     const mockItems: CartItemModel[] = [
       {
-        productId: 1,
+        productId: '1',
         name: 'Item 1',
         price: 100,
         quantity: 2,
         description: 'Description of Item 1',
-        image: 'url-to-image-1',
+        imageURL: 'url-to-image-1',
         availableQuantity: 5,
         userId: 'user123',
       }
@@ -216,12 +216,12 @@ describe('PaymentPageComponent', () => {
     };
     const mockItems: CartItemModel[] = [
       {
-        productId: 1,
+        productId: '1',
         name: 'Item 1',
         price: 100,
         quantity: 2,
         description: 'Description of Item 1',
-        image: 'url-to-image-1',
+        imageURL: 'url-to-image-1',
         availableQuantity: 5,
         userId: 'user123',
       }
