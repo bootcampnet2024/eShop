@@ -7,6 +7,7 @@ import { Category } from '../../models/category.model';
 import { ProductDTO } from '../../models/productDTO.model';
 import { CategoryDTO } from '../../models/categoryDTO.model';
 import { BrandDTO } from '../../models/brandDTO.model';
+import { ProductRequest } from '../../models/product-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -47,8 +48,8 @@ export class ProductManagementService {
     return this.http.put<string>(`${this.url}/${this.categories}?id=${id}`, category, {responseType: 'text' as 'json'});
   }
 
-  getProducts() : Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.url}/${this.products}`);
+  getProducts(highlighted: boolean, pageIndex: number, pageSize: number, categoriesIds: number[], brandsIds: [], filterOrder: FilterOrder): Observable<ProductRequest> {
+    return this.http.get<ProductRequest>(`${this.url}/items?ShowOnlyHighlighted=${highlighted}&PageSize=${pageSize}&PageIndex=${pageIndex}&CategoriesIds=${categoriesIds}&BrandsIds${brandsIds}&FilterOrder=${filterOrder}`);
   }
 
   getProductCount() : Observable<number>{
@@ -94,4 +95,10 @@ export class ProductManagementService {
   disableProduct(id: string) : Observable<Product> {
     return this.http.delete<Product>(`${this.url}/${this.products}/${id}`)
   }
+}
+
+enum FilterOrder {
+  None,
+  LowestPrice,
+  HighestPrice,
 }
