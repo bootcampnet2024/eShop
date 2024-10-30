@@ -16,24 +16,7 @@ import { UserManagementService } from "../../services/user-management/user-manag
   styleUrl: "./order-list.component.css",
 })
 export class OrderListComponent implements OnInit {
-  public orders: OrderSummary[] = [
-    {
-      pictureUrl: "assets/products/xbox-series-controller.jpg",
-      buyerId: "",
-      orderId: 0,
-      date: "23/10/2024",
-      status: "En route",
-      total: 250,
-    },
-    {
-      pictureUrl: "assets/products/xbox-series-controller.jpg",
-      buyerId: "",
-      orderId: 1,
-      date: "26/10/2024",
-      status: "Delivered",
-      total: 100,
-    },
-  ];
+  public orders: OrderSummary[] = [];
 
   userId: string = "";
 
@@ -74,7 +57,7 @@ export class OrderListComponent implements OnInit {
             this.loadOrders();
           },
           error: () => {
-            //this.router.navigate([""]);
+            this.router.navigate([""]);
           },
         });
         return;
@@ -85,7 +68,7 @@ export class OrderListComponent implements OnInit {
           this.loadUserData(this.userId);
         },
         error: () => {
-          //this.router.navigate([""]);
+          this.router.navigate([""]);
           return;
         },
       });
