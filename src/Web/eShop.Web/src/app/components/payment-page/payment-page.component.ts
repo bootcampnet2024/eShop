@@ -9,6 +9,8 @@ import { UserManagementService } from '../../services/user-management/user-manag
 import { CartService } from '../../services/cart/cart.service';
 import { CartItemModel } from '../../models/cartItem.model';
 import { User } from '../../models/user.model';
+import { Address } from '../../models/address';
+import { Item } from '../../models/item ';
 
 
 @Component({
@@ -88,7 +90,15 @@ export class PaymentPageComponent implements OnInit {
     });
   }
 
-  buildCustomerData(user: User) {
+  buildCustomerData(user: User): {
+    name: string;
+    email: string;
+    phoneNumber: string;
+    cpf: string;
+    paymentMethod: string;
+    address: Address;
+    items: Item[];
+  } {
     return {
       name: user.fullname,
       email: user.email,
