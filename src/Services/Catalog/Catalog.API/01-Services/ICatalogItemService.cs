@@ -77,6 +77,9 @@ public class CatalogItemService(ApplicationDataContext context) : ICatalogItemSe
         var data = await query
             .Skip(filter.PageIndex * filter.PageSize)
             .Take(filter.PageSize)
+            .Include(x => x.Brand)
+            .Include(x => x.Category)
+            .AsSplitQuery()
             .AsNoTracking()
             .ToListAsync();
 

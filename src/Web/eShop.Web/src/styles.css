@@ -269,6 +269,14 @@ body {
   flex: 0.5;
 }
 
+.product-management{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 12vh;
+  height: 100%;
+}
+
 .table-container {
   width: 80%;
   margin: 2em auto auto auto;
@@ -277,6 +285,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2vh;
 }
 
 .table-container__title {
@@ -376,6 +385,31 @@ body {
 
 .table-container__table__check{
   color: #007bff;
+}
+
+.change-page-buttons{
+  display: flex;
+  gap: 1em;
+}
+
+.change-page-buttons__button, .change-page-buttons__page-index, .change-page-buttons__page-index--selected, .invisible{
+  border: none;
+  font-size: x-large;
+  font-weight: 900;
+  background-color: transparent;
+  color: rgb(164, 164, 164);
+}
+
+.change-page-buttons__page-index--selected{
+  color: #007bff;
+}
+
+.change-page-buttons__button:hover, .change-page-buttons__page-index:hover{
+  cursor: pointer;
+}
+
+.invisible{
+  color: transparent;
 }
 
 .management-form{
