@@ -66,13 +66,13 @@ export class UpdateProductModalComponent {
   categories?: Category[];
   private product?: Product;
 
-  getBrands() {this.productService.getBrands().subscribe((brands) => {
-    this.brands = brands;
+  getBrands() {this.productService.getBrands(0, 50).subscribe((brands) => {
+    this.brands = brands.items;
     });
   }
 
-  getCategories() {this.productService.getCategories().subscribe((categories) => {
-    this.categories = categories;
+  getCategories() {this.productService.getCategories(0, 50).subscribe((categories) => {
+    this.categories = categories.items;
   });
 }
 

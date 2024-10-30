@@ -33,7 +33,7 @@ export class ProductManagementComponent implements OnInit {
   pageIndex: number = 0;
   sortBy: string = "Relevancy";
   sortByTypes: string[] = ["Relevancy", "Lowest Price", "Highest Price"];
-  pageSize: number = 1;
+  pageSize: number = 7;
   maxPage: number = 0;
   numbers: number[] = [];
 
@@ -91,7 +91,7 @@ export class ProductManagementComponent implements OnInit {
   getProducts() {
     this.productService.getProducts(false, this.pageIndex, this.pageSize, [], [], 0).subscribe((products) => {
       this.products = products.items;
-      this.maxPage = Math.floor(products.totalItems / this.pageSize)
+      this.maxPage = Math.ceil(products.totalItems / this.pageSize)
       this.numbers = Array.from({ length: this.maxPage }, (_, i) => i + 1);
       if(this.pageIndex < 3) this.numbers = this.numbers.slice(0 , 5);
       else this.numbers = this.numbers.slice(this.pageIndex - 2 , this.pageIndex + 3);
