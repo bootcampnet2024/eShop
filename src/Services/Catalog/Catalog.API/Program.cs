@@ -28,7 +28,6 @@ internal class Program
                 x => x.MigrationsHistoryTable("__CatalogMigrationsHistory", "catalog"));
         });
 
-        builder.Services.AddScoped<ICatalogService, CatalogService>();
         builder.Services.AddScoped<ICatalogBrandService, CatalogBrandService>();
         builder.Services.AddScoped<ICatalogItemService, CatalogItemService>();
         builder.Services.AddScoped<ICatalogCategoryService, CatalogCategoryService>();

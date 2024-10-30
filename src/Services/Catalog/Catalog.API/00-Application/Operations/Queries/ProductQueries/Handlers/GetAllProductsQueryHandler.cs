@@ -4,12 +4,12 @@ using MediatR;
 
 namespace Catalog.API._00_Application.Operations.Queries.ProductQueries.Handlers
 {
-    public class GetAllProductsQueryHandler(ICatalogItemService productService) : IRequestHandler<GetAllProductsQuery, IEnumerable<CatalogItem>>
+    public class GetAllProductsQueryHandler(ICatalogItemService productService) : IRequestHandler<GetAllProductsQuery, CatalogItemDataResult>
     {
         private readonly ICatalogItemService _productService = productService;
-        public Task<IEnumerable<CatalogItem>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
+        public async Task<CatalogItemDataResult> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
-            return _productService.GetAll();
+            return await _productService.GetAll(request.Filter);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Catalog.API._00_Application.Models.Requests;
 using Catalog.API._00_Application.Operations.Queries.ProductQueries;
 using Catalog.API._00_Application_Operations.Commands.ProductCommands;
+using Catalog.API.Controllers.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,9 +26,9 @@ namespace Catalog.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(CatalogItemsFilter filter)
         {
-            var query = new GetAllProductsQuery();
+            var query = new GetAllProductsQuery(filter);
             var result = await _mediator.Send(query);
             return Ok(result);
         }
