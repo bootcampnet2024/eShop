@@ -87,13 +87,25 @@
   </div>
   <div class="change-page-buttons">
     <button [ngClass]="this.pageIndex != 0 ? 'change-page-buttons__button' : 'invisible'" (click)="goToPreviousPage()">
-      < 
+      Previous
     </button>
+    @if(pageIndex > 2){
+    <button class="change-page-buttons__page-index" (click)="goToFirstPage()">
+      1
+    </button>
+    <span>...</span>
+    }
     @for (number of numbers; track numbers){
       <button [ngClass]="this.pageIndex == number - 1 ? 'change-page-buttons__page-index--selected' : 'change-page-buttons__page-index'" (click)="goToPage(number)">{{number}}</button>
     }
+    @if(pageIndex < maxPage - 3){
+      <span>...</span>
+    <button class="change-page-buttons__page-index" (click)="goToLastPage()">
+      {{this.maxPage}}
+    </button>
+    }
     <button [ngClass]="this.maxPage - 1 > this.pageIndex ? 'change-page-buttons__button' : 'invisible'" (click)="goToNextPage()">
-      >
+      Next
     </button>
   </div>
 </div>
