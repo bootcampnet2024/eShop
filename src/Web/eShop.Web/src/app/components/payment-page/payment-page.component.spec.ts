@@ -27,13 +27,13 @@ const mockUser: User = {
 const mockItems: CartItemModel[] = [
   {
     productId: 1,
-    quantity: 2,
-    price: 100,
     name: 'Item 1',
-    description: 'Description 1',
-    image: 'image1.png',
-    availableQuantity: 10,
-    userId: 'user1'
+    price: 100,
+    quantity: 2,
+    description: 'Description of Item 1',
+    image: 'url-to-image-1',
+    availableQuantity: 5,
+    userId: 'user123',
   }
 ];
 
@@ -55,7 +55,7 @@ describe('PaymentPageComponent', () => {
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
-        PaymentPageComponent 
+        PaymentPageComponent
       ],
       providers: [
         provideHttpClientTesting(),
@@ -66,7 +66,7 @@ describe('PaymentPageComponent', () => {
         { provide: JwtHelperService, useValue: jwtHelperSpy }
       ]
     })
-    .compileComponents();
+      .compileComponents();
 
 
     fixture = TestBed.createComponent(PaymentPageComponent);
@@ -79,7 +79,7 @@ describe('PaymentPageComponent', () => {
 
     userManagementService.getProfile.and.returnValue(of(mockUser));
     cartService.getItems.and.returnValue(of(mockItems));
-    
+
     fixture.detectChanges();
   });
 
@@ -110,13 +110,13 @@ describe('PaymentPageComponent', () => {
     const mockItems: CartItemModel[] = [
       {
         productId: 1,
-        quantity: 2,
-        price: 100,
         name: 'Item 1',
-        description: 'Description 1',
-        image: 'image1.png',
-        availableQuantity: 10,
-        userId: 'user1'
+        price: 100,
+        quantity: 2,
+        description: 'Description of Item 1',
+        image: 'url-to-image-1',
+        availableQuantity: 5,
+        userId: 'user123',
       }
     ];
 
@@ -135,7 +135,7 @@ describe('PaymentPageComponent', () => {
       { productId: 2, name: 'Product 2', price: 50, quantity: 1, description: '', image: '', availableQuantity: 0, userId: '' }
     ];
     const total = component.calculateTotalAmount();
-    expect(total).toBe(250); // 100*2 + 50*1
+    expect(total).toBe(250);
   });
 
   it('should complete order successfully', () => {
@@ -153,13 +153,13 @@ describe('PaymentPageComponent', () => {
     const mockItems: CartItemModel[] = [
       {
         productId: 1,
-        quantity: 2,
-        price: 100,
         name: 'Item 1',
-        description: 'Description 1',
-        image: 'image1.png',
-        availableQuantity: 10,
-        userId: 'user1'
+        price: 100,
+        quantity: 2,
+        description: 'Description of Item 1',
+        image: 'url-to-image-1',
+        availableQuantity: 5,
+        userId: 'user123',
       }
     ];
     const mockCustomerData = {
@@ -217,13 +217,13 @@ describe('PaymentPageComponent', () => {
     const mockItems: CartItemModel[] = [
       {
         productId: 1,
-        quantity: 2,
-        price: 100,
         name: 'Item 1',
-        description: 'Description 1',
-        image: 'image1.png',
-        availableQuantity: 10,
-        userId: 'user1'
+        price: 100,
+        quantity: 2,
+        description: 'Description of Item 1',
+        image: 'url-to-image-1',
+        availableQuantity: 5,
+        userId: 'user123',
       }
     ];
 
