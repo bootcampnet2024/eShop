@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Basket.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241028153854_Basket")]
+    [Migration("20240902104315_Basket")]
     partial class Basket
     {
         /// <inheritdoc />
@@ -20,7 +20,6 @@ namespace Basket.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("basket")
                 .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
@@ -35,9 +34,11 @@ namespace Basket.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageURL")
+                    b.Property<string>("Image")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -56,7 +57,7 @@ namespace Basket.API.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.ToTable("CartItems", "basket");
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("Basket.API._01_Services.Models.UserBasket", b =>
@@ -65,11 +66,12 @@ namespace Basket.API.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
 
-                    b.ToTable("UserBaskets", "basket");
+                    b.ToTable("UserBaskets");
                 });
 #pragma warning restore 612, 618
         }
