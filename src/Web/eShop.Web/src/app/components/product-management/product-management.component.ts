@@ -33,9 +33,9 @@ export class ProductManagementComponent implements OnInit {
   pageIndex: number = 0;
   sortBy: string = "Relevancy";
   sortByTypes: string[] = ["Relevancy", "Lowest Price", "Highest Price"];
-  pageSize: number = 7;
+  pageSize: number = 1;
   maxPage: number = 0;
-  numbers: number[] = Array.from({ length: this.maxPage }, (_, i) => i + 1);
+  numbers: number[] = [];
 
   @ViewChild('searchInput', { static: true }) searchInputElementRef!: ElementRef;
   searchInputElement!: HTMLInputElement;
@@ -43,7 +43,6 @@ export class ProductManagementComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.pageIndex = parseInt(params.get("page") ?? "0");
-      this.pageSize = parseInt(params.get("pageSize") ?? "7");
       this.getProducts();
     });
   }
@@ -92,9 +91,10 @@ export class ProductManagementComponent implements OnInit {
   getProducts() {
     this.productService.getProducts(false, this.pageIndex, this.pageSize, [], [], 0).subscribe((products) => {
       this.products = products.items;
-      console.log(products);
-      this.maxPage = Math.ceil(products.totalItems / this.pageSize)
+      this.maxPage = Math.floor(products.totalItems / this.pageSize)
       this.numbers = Array.from({ length: this.maxPage }, (_, i) => i + 1);
+      if(this.pageIndex < 3) this.numbers = this.numbers.slice(0 , 5);
+      else this.numbers = this.numbers.slice(this.pageIndex - 2 , this.pageIndex + 3);
     });
   }
 
@@ -137,7 +137,7 @@ export class ProductManagementComponent implements OnInit {
 
   goToPage(page : number){
     this.pageIndex = page - 1;
-    this.updateUrlParameter("page", page);
+    this.updateUrlParameter("page", this.pageIndex);
     this.getProducts();
   }
 
@@ -151,6 +151,18 @@ export class ProductManagementComponent implements OnInit {
   goToNextPage() {
     if (this.maxPage - 1 <= this.pageIndex) return;
     this.pageIndex++;
+    this.updateUrlParameter("page", this.pageIndex);
+    this.getProducts();
+  }
+
+  goToFirstPage() {
+    this.pageIndex = 0;
+    this.updateUrlParameter("page", this.pageIndex);
+    this.getProducts();
+  }
+
+  goToLastPage() {
+    this.pageIndex = this.maxPage - 1;
     this.updateUrlParameter("page", this.pageIndex);
     this.getProducts();
   }

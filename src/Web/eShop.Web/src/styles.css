@@ -394,14 +394,32 @@ body {
 
 .change-page-buttons__button, .change-page-buttons__page-index, .change-page-buttons__page-index--selected, .invisible{
   border: none;
-  font-size: x-large;
-  font-weight: 900;
+  font-size: medium;
+  font-weight: 400;
   background-color: transparent;
-  color: rgb(164, 164, 164);
+  color: black;
+  padding: 10px 15px;
+  border-radius: 3px;
+  transition: all 0.1s ease-in-out;
+}
+
+.change-page-buttons__button{
+  text-decoration: underline;
+}
+
+.change-page-buttons span{
+  display: flex;
+  align-items: center;
 }
 
 .change-page-buttons__page-index--selected{
-  color: #007bff;
+  background-color: #007bff;
+  color: white;
+}
+
+.change-page-buttons__page-index:hover{
+  background-color: #007bff;
+  color: white;
 }
 
 .change-page-buttons__button:hover, .change-page-buttons__page-index:hover{
@@ -409,7 +427,7 @@ body {
 }
 
 .invisible{
-  color: transparent;
+  display: none;
 }
 
 .management-form{
