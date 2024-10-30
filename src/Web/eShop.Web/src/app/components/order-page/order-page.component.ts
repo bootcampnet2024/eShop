@@ -18,39 +18,7 @@ export class OrderPageComponent implements OnInit {
   orderId: number = 0;
   public prefix = "Your";
 
-  public order: Order = {
-    orderId: 0,
-    buyerId: "",
-    pictureUrl: "",
-    date: new Date(),
-    address: {
-      city: "guariroba",
-      street: "general osorio",
-      state: "",
-      country: "brasil",
-      zipCode: "",
-    },
-    status: "Delivered",
-    total: 2615.2,
-    items: [
-      {
-        productId: 0,
-        productName: "Cabo sem fio xbox 360",
-        unitPrice: 10.76,
-        units: 20,
-        discount: 0,
-        pictureUrl: "assets/products/xbox-series-controller.jpg",
-      },
-      {
-        productId: 1,
-        productName: "Cabo sem fio xbox 360",
-        unitPrice: 20,
-        discount: 0,
-        units: 120,
-        pictureUrl: "assets/products/xbox-series-controller.jpg",
-      },
-    ],
-  };
+  public order?: Order;
 
   constructor(
     private route: ActivatedRoute,
@@ -63,7 +31,7 @@ export class OrderPageComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       this.orderId = parseInt(params.get("id") ?? "0");
       if (this.orderId == 0) {
-        //this.router.navigate([""]);
+        this.router.navigate([""]);
         return;
       }
       this.loadOrder();
@@ -77,7 +45,7 @@ export class OrderPageComponent implements OnInit {
         this.loadUserData(this.order.buyerId);
       },
       error: () => {
-        //this.router.navigate([""]);
+        this.router.navigate([""]);
       },
     });
   }
