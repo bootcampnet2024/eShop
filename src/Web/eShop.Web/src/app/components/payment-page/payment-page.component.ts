@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { PaymentService } from '../../services/payment/payment.service'; 
+import { PaymentService } from '../../services/payment/payment.service';
 import { UserManagementService } from '../../services/user-management/user-management.service';
 import { CartService } from '../../services/cart/cart.service';
 import { CartItemModel } from '../../models/cartItem.model';
@@ -15,10 +15,10 @@ import { User } from '../../models/user.model';
   selector: 'app-payment-page',
   standalone: true,
   imports: [
-    HeaderComponent, 
-    FooterComponent, 
-    FontAwesomeModule, 
-    ReactiveFormsModule, 
+    HeaderComponent,
+    FooterComponent,
+    FontAwesomeModule,
+    ReactiveFormsModule,
     CommonModule
   ],
   templateUrl: './payment-page.component.html',
@@ -28,10 +28,11 @@ export class PaymentPageComponent implements OnInit {
   items: CartItemModel[] = [];
   paymentForm: FormGroup;
   totalAmount: number = 0;
-  user : string | null = null;
+  userId: string = '3834ab69-3330-4e2b-b4e6-413e7c3ca703';
+  message: string = '';
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private paymentService: PaymentService,
     private UserManagementService: UserManagementService,
     private cartService: CartService
@@ -42,37 +43,21 @@ export class PaymentPageComponent implements OnInit {
       cardOwner: ['', Validators.required],
       expirationMonth: ['', Validators.required],
       expirationYear: ['', Validators.required],
-      cvv: ['', [Validators.required, Validators.pattern('^[0-9]{3,4}$')]], 
-      couponCode: [''], 
+      cvv: ['', [Validators.required, Validators.pattern('^[0-9]{3,4}$')]],
+      couponCode: [''],
       postalCode: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
-    this.loadUserProfile();
-  }
-
-  loadUserProfile(): void {
-    this.UserManagementService.getProfile().subscribe({
-      next: (user: User) => {
-        this.user = user.id; 
-        this.loadCartItems();
-      },
-      error: (err: any) => {
-        console.error('Erro ao obter dados do perfil do usuário:', err);
-      }
-    });
+    this.loadCartItems();
   }
 
   loadCartItems(): void {
-    if (this.user) { 
-      this.cartService.getItems(this.user).subscribe(items => {
-        this.items = items;
-        this.totalAmount = this.calculateTotalAmount();
-      });
-    } else {
-      console.error('User ID is not available');
-    }
+    this.cartService.getItems(this.userId).subscribe(items => {
+      this.items = items;
+      this.totalAmount = this.calculateTotalAmount();
+    });
   }
 
   calculateTotalAmount(): number {
@@ -80,8 +65,6 @@ export class PaymentPageComponent implements OnInit {
   }
 
   completeOrder(): void {
-    if (!this.user) return; 
-
     this.UserManagementService.getProfile().subscribe({
       next: (user: User) => {
         const customerData = this.buildCustomerData(user);
@@ -89,6 +72,7 @@ export class PaymentPageComponent implements OnInit {
       },
       error: (err: any) => {
         console.error('Erro ao obter dados do perfil do usuário:', err);
+        this.message = 'Falha ao obter dados do usuário. Tente novamente.';
       }
     });
   }
@@ -121,9 +105,11 @@ export class PaymentPageComponent implements OnInit {
     this.paymentService.processPayment(customerData).subscribe(
       response => {
         console.log('API response:', response);
+        this.message = 'Compra realizada com sucesso!';
       },
       error => {
         console.error('API error:', error);
+        this.message = 'Falha na compra. Por favor, tente novamente.';
       }
     );
   }

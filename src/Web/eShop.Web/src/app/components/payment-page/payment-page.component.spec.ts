@@ -16,7 +16,7 @@ describe('PaymentPageComponent', () => {
         ...appConfig.providers
       ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(PaymentPageComponent);
     component = fixture.componentInstance;
