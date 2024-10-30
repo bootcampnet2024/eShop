@@ -74,7 +74,7 @@ describe('AuthService', () => {
 
     const mockSignUpResponse = { id: '1234' };
 
-    authService.signin('newUser','fullName', 'password', 'email@example.com', '123 Address', '12345', '123456789').subscribe(response => {
+    authService.signin('newUser','fullName', 'password', 'email@example.com', '123 Address', '123456789').subscribe(response => {
       expect(response).toEqual(mockSignUpResponse);
     });
 

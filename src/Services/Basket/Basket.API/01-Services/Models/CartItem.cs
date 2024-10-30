@@ -14,7 +14,7 @@ namespace Basket.API._01_Services.Models
         [Required]
         public string Name { get; set; }  
 
-        public string Image { get; set; }
+        public string ImageURL { get; set; }
 
         public string Description { get; set; }
 

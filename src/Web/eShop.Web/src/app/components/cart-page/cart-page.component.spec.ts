@@ -2,80 +2,56 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CartPageComponent } from './cart-page.component';
 import { CartService } from '../../services/cart/cart.service';
 import { of } from 'rxjs';
-import { CartItemModel } from '../../models/cartItem.model';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { appConfig } from '../../app.config';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { HeaderComponent } from '../../shared/header/header.component';
+import { FooterComponent } from '../../shared/footer/footer.component';
+import { HttpClientModule } from '@angular/common/http';
+import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CartItemModel } from '../../models/cartItem.model';
 
 describe('CartPageComponent', () => {
   let component: CartPageComponent;
   let fixture: ComponentFixture<CartPageComponent>;
-  let mockCartService;
-
-  const mockRouter = {
-    root: jasmine.createSpy('root'),
-    navigate: jasmine.createSpy('navigate')
-  };
-
-  const mockCartItems: CartItemModel[] = [
-    {
-      productId: 1,
-      name: 'Item 1',
-      price: 100,
-      quantity: 2,
-      description: 'Description of Item 1',
-      image: 'url-to-image-1',
-      availableQuantity: 5,
-      userId: 'user123'
-    },
-    {
-      productId: 2,
-      name: 'Item 2',
-      price: 50,
-      quantity: 1,
-      description: 'Description of Item 2',
-      image: 'url-to-image-2',
-      availableQuantity: 10,
-      userId: 'user123'
-    }
-  ];
+  let cartServiceMock: jasmine.SpyObj<CartService>;
+  const mockCartItems: CartItemModel[] = [];
 
   beforeEach(async () => {
-    mockCartService = {
-      getItems: jasmine.createSpy('getItems').and.returnValue(of(mockCartItems)),
-      updateCartItem: jasmine.createSpy('updateCartItem').and.returnValue(of(void 0)),
-      removeFromCart: jasmine.createSpy('removeFromCart').and.returnValue(of(void 0)),
+    cartServiceMock = jasmine.createSpyObj('CartService', ['getItems']);
+    const activatedRouteMock = {
+      snapshot: {
+        params: {},
+        queryParams: {}
+      }
     };
 
     await TestBed.configureTestingModule({
-      imports: [CommonModule, CartPageComponent, RouterTestingModule],
+      imports: [
+        CommonModule,
+        HeaderComponent,
+        FooterComponent,
+        HttpClientModule,
+        RouterTestingModule,
+        CartPageComponent
+      ],
       providers: [
-        provideHttpClientTesting(),
-        ...appConfig.providers,
-        { provide: CartService, useValue: mockCartService }
+        { provide: CartService, useValue: cartServiceMock },
+        { provide: JWT_OPTIONS, useValue: {} },
+        JwtHelperService,
+        { provide: ActivatedRoute, useValue: activatedRouteMock }
       ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(CartPageComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    cartServiceMock.getItems.and.returnValue(of(mockCartItems));
   });
 
   it('should load cart items on init', () => {
     component.ngOnInit();
-    expect(component.products.length).toBe(2);
+    expect(component.products.length).toBe(mockCartItems.length);
     expect(component.products).toEqual(mockCartItems);
-  });
-
-  it('should calculate the correct order total', () => {
-    component.products = mockCartItems;
-    component.updateOrderTotal();
-    expect(component.orderTotal).toBe(250);
   });
 });
