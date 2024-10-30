@@ -5,9 +5,9 @@ using MediatR;
 
 namespace Catalog.API.__00_Application.Operations.Queries.BrandQueries.Handlers
 {
-    public class GetAllBrandsQueryHandler(ICatalogBrandService service) : IRequestHandler<GetAllBrandsQuery, IEnumerable<CatalogBrand>>
+    public class GetAllBrandsQueryHandler(ICatalogBrandService brandService) : IRequestHandler<GetAllBrandsQuery, IEnumerable<CatalogBrand>>
     {
-        private readonly ICatalogBrandService _brandService = service;
+        private readonly ICatalogBrandService _brandService = brandService;
         public Task<IEnumerable<CatalogBrand>> Handle(GetAllBrandsQuery request, CancellationToken cancellationToken)
         {
             return _brandService.GetAll();

@@ -3,5 +3,5 @@ using MediatR;
 
 namespace Catalog.API._00_Application.Operations.Queries.CategoryQueries
 {
-    public record GetCategoriesByNameQuery(string name) : IRequest<IEnumerable<CatalogCategory>>;
+    public record GetCategoriesByNameQuery(string Name) : IRequest<IEnumerable<CatalogCategory>>;
 }

@@ -9,7 +9,7 @@ namespace Catalog.API._00_Application.Operations.Queries.BrandQueries.Handlers
         private readonly ICatalogBrandService _brandService = brandService;
         public async Task<IEnumerable<CatalogBrand>> Handle(GetBrandsByNameQuery request, CancellationToken cancellationToken)
         {
-            var brands = await _brandService.GetByName(request.name);
+            var brands = await _brandService.GetByName(request.Name);
             return brands;
         }
     }

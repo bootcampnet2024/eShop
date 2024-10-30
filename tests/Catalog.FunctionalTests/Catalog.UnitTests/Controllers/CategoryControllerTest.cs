@@ -57,7 +57,7 @@ namespace Catalog.UnitTests.Controllers
         {
             var categoryId = 1;
             var category = new CatalogCategory { Id = categoryId };
-            _mediatorMock.Setup(m => m.Send(It.IsAny<GetCategoriesByIdQuery>(), It.IsAny<CancellationToken>()))
+            _mediatorMock.Setup(m => m.Send(It.IsAny<GetCategoryByIdQuery>(), It.IsAny<CancellationToken>()))
                          .ReturnsAsync(category);
 
             var result = await _categoryController.GetById(categoryId);

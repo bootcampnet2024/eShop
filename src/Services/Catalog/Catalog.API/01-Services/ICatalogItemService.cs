@@ -61,6 +61,11 @@ public class CatalogItemService(ApplicationDataContext context) : ICatalogItemSe
         return product;
     }
 
+    public async Task<int> GetCount()
+    {
+        return await _context.CatalogItems.CountAsync();
+    }
+
     public async Task<bool> Update(Guid id, CatalogItem product)
     {
         var productId = await _context.CatalogItems.FindAsync(id);

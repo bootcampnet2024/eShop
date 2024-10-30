@@ -55,6 +55,11 @@ public class CatalogCategoryService(ApplicationDataContext context) : ICatalogCa
         return category;
     }
 
+    public async Task<int> GetCount()
+    {
+        return await _context.CatalogCategories.CountAsync();
+    }
+
     public async Task<bool> Update(int id, CatalogCategory CatalogCategory)
     {
         var CatalogCategoryId = await _context.CatalogCategories.FindAsync(id);

@@ -9,7 +9,7 @@ namespace Catalog.API._00_Application.Operations.Queries.CategoryQueries.Handler
         private readonly ICatalogCategoryService _categoryService = categoryService;
         public async Task<IEnumerable<CatalogCategory>> Handle(GetCategoriesByNameQuery request, CancellationToken cancellationToken)
         {
-            var categories = await _categoryService.GetByName(request.name);
+            var categories = await _categoryService.GetByName(request.Name);
             return categories;
         }
     }

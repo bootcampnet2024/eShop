@@ -72,7 +72,7 @@ namespace Catalog.UnitTests.Controllers
         {
             var productId = Guid.NewGuid();
             var product = new CatalogItem { Id = productId };
-            _mediatorMock.Setup(m => m.Send(It.IsAny<GetProductsByIdQuery>(), It.IsAny<CancellationToken>()))
+            _mediatorMock.Setup(m => m.Send(It.IsAny<GetProductByIdQuery>(), It.IsAny<CancellationToken>()))
                          .ReturnsAsync(product);
 
             var result = await _productController.GetById(productId);
