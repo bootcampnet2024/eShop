@@ -8,6 +8,8 @@ import { ProductDTO } from '../../models/productDTO.model';
 import { CategoryDTO } from '../../models/categoryDTO.model';
 import { BrandDTO } from '../../models/brandDTO.model';
 import { ProductRequest } from '../../models/product-request.model';
+import { CategoryRequest } from '../../models/category-request.model';
+import { BrandRequest } from '../../models/brand-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,16 +22,26 @@ export class ProductManagementService {
 
   constructor(private http: HttpClient) { }
 
-  getBrands() : Observable<Brand[]> {
-    return this.http.get<Brand[]>(`${this.url}/${this.brands}`);
+  getBrands(pageIndex: number, pageSize: number): Observable<BrandRequest> {
+    const params : any = {
+      PageSize: pageSize.toString(),
+      PageIndex: pageIndex.toString(),
+    };
+    
+    return this.http.get<BrandRequest>(`${this.url}/brands`, { params });
   }
 
   getBrandsCount() : Observable<number>{
     return this.http.get<number>(`${this.url}/${this.brands}/count/`);
   }
 
-  getCategories() : Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.url}/${this.categories}`);
+  getCategories(pageIndex: number, pageSize: number): Observable<CategoryRequest> {
+    const params : any = {
+      PageSize: pageSize.toString(),
+      PageIndex: pageIndex.toString(),
+    };
+    
+    return this.http.get<CategoryRequest>(`${this.url}/categories`, { params });
   }
 
   getCategoryCount() : Observable<number>{

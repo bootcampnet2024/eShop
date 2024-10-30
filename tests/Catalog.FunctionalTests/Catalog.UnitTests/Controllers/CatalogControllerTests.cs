@@ -35,7 +35,7 @@ public class CatalogControllerTests
 
         // Assert
         Assert.IsNotNull(result);
-        Assert.IsInstanceOfType(result, typeof(IEnumerable<CatalogCategoryResult>));
+        Assert.IsInstanceOfType(result, typeof(IEnumerable<GenericResult>));
         Assert.IsTrue(result.Count() == 2);
     }
 

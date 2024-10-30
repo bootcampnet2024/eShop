@@ -2,6 +2,7 @@
 using Catalog.API._00_Application.Operations.Commands.CategoryCommands;
 using Catalog.API._00_Application.Operations.Queries.CategoryQueries;
 using Catalog.API._00_Application.Operations.Queries.CategoryQueries.Handlers;
+using Catalog.API.Controllers.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,9 +27,9 @@ namespace Catalog.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] GenericFilter filter)
         {
-            var query = new GetAllCategoriesQuery();
+            var query = new GetAllCategoriesQuery(filter);
             var result = await _mediator.Send(query);
             return Ok(result);
         }

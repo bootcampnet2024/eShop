@@ -1,10 +1,12 @@
 ﻿using Catalog.API._02_Infrastructure.Data;
 using Catalog.API._01_Services.Models;
 using Microsoft.EntityFrameworkCore;
+using Catalog.API.Controllers.Filters;
 
 namespace Catalog.API._01_Services;
 public interface ICatalogCategoryService : IService<CatalogCategory, int>
 {
+    Task<CatalogCategoryDataResult> GetAll(GenericFilter filter);
 }
 public class CatalogCategoryService(ApplicationDataContext context) : ICatalogCategoryService
 {
@@ -25,13 +27,37 @@ public class CatalogCategoryService(ApplicationDataContext context) : ICatalogCa
         return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task<IEnumerable<CatalogCategory>> GetAll()
+    public async Task<CatalogCategoryDataResult> GetAll(GenericFilter filter)
     {
-        var category = await _context.CatalogCategories.ToListAsync();
+        filter ??= new GenericFilter()
+        {
+            PageIndex = 0,
+            PageSize = 20,
+        };
 
-        if (category == null) return null;
+        if (filter.PageSize <= 0)
+            filter.PageSize = 10;
 
-        return category;
+        if (filter.PageSize > 50)
+            filter.PageSize = 50;
+
+        var query = _context.CatalogCategories.AsQueryable();
+
+        var data = await query
+            .Skip(filter.PageIndex * filter.PageSize)
+            .Take(filter.PageSize)
+            .AsSplitQuery()
+            .AsNoTracking()
+            .ToListAsync();
+
+        var totalItems = query.Count();
+
+        return new CatalogCategoryDataResult() { TotalItems = totalItems, Items = data };
+    }
+
+    public Task<IEnumerable<CatalogCategory>> GetAll()
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<CatalogCategory> GetById(int id)
@@ -69,4 +95,9 @@ public class CatalogCategoryService(ApplicationDataContext context) : ICatalogCa
         _context.CatalogCategories.Update(CatalogCategoryId);
         return await _context.SaveChangesAsync() > 0;
     }
+}
+public class CatalogCategoryDataResult
+{
+    public int TotalItems { get; set; }
+    public IEnumerable<CatalogCategory> Items { get; set; }
 }

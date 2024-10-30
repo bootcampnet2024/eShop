@@ -1,6 +1,7 @@
 ﻿using Catalog.API._00_Application.Models.Requests;
 using Catalog.API._00_Application.Operations.Commands.BrandCommands;
 using Catalog.API._00_Application.Operations.Queries.BrandQueries;
+using Catalog.API.Controllers.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,9 +26,9 @@ namespace Catalog.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] GenericFilter filter)
         {
-            var query = new GetAllBrandsQuery();
+            var query = new GetAllBrandsQuery(filter);
             var result = await _mediator.Send(query);
             return Ok(result);
         }
