@@ -26,7 +26,7 @@ namespace Catalog.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(CatalogItemsFilter filter)
+        public async Task<IActionResult> GetAll([FromQuery] CatalogItemsFilter filter)
         {
             var query = new GetAllProductsQuery(filter);
             var result = await _mediator.Send(query);

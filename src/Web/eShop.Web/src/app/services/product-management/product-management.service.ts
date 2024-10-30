@@ -48,8 +48,23 @@ export class ProductManagementService {
     return this.http.put<string>(`${this.url}/${this.categories}?id=${id}`, category, {responseType: 'text' as 'json'});
   }
 
-  getProducts(highlighted: boolean, pageIndex: number, pageSize: number, categoriesIds: number[], brandsIds: [], filterOrder: FilterOrder): Observable<ProductRequest> {
-    return this.http.get<ProductRequest>(`${this.url}/items?ShowOnlyHighlighted=${highlighted}&PageSize=${pageSize}&PageIndex=${pageIndex}&CategoriesIds=${categoriesIds}&BrandsIds${brandsIds}&FilterOrder=${filterOrder}`);
+  getProducts(highlighted: boolean, pageIndex: number, pageSize: number, categoriesIds: number[], brandsIds: number[], filterOrder: FilterOrder): Observable<ProductRequest> {
+    const params : any = {
+      ShowOnlyHighlighted: highlighted.toString(),
+      PageSize: pageSize.toString(),
+      PageIndex: pageIndex.toString(),
+      FilterOrder: filterOrder
+    };
+    
+    if (categoriesIds.length > 0) {
+      params['CategoriesIds'] = categoriesIds.toString();
+    }
+    
+    if (brandsIds.length > 0) {
+      params['BrandsIds'] = brandsIds.toString();
+    }
+    
+    return this.http.get<ProductRequest>(`${this.url}/products`, { params });
   }
 
   getProductCount() : Observable<number>{

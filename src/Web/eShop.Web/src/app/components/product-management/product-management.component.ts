@@ -7,13 +7,15 @@ import { CreateProductModalComponent } from './popups/create-product-modal/creat
 import { UpdateProductModalComponent } from './popups/update-product-modal/update-product-modal.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ToastService } from 'angular-toastify';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from '../../shared/header/header.component';
+import { FooterComponent } from '../../shared/footer/footer.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-product-management',
   standalone: true,
-  imports: [HeaderComponent, MatButtonModule, MatIconModule, RouterLink, RouterOutlet, RouterLinkActive],
+  imports: [HeaderComponent, FooterComponent, MatButtonModule, MatIconModule, RouterLink, RouterOutlet, RouterLinkActive, CommonModule],
   templateUrl: './product-management.component.html',
   styleUrl: './product-management.component.css',
 })
@@ -22,16 +24,28 @@ export class ProductManagementComponent implements OnInit {
     private dialog: MatDialog,
     private productService: ProductManagementService,
     private _toastService: ToastService,
-    private router : Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.getProducts();
   }
+
+  pageIndex: number = 0;
+  sortBy: string = "Relevancy";
+  sortByTypes: string[] = ["Relevancy", "Lowest Price", "Highest Price"];
+  pageSize: number = 7;
+  maxPage: number = 0;
+  numbers: number[] = Array.from({ length: this.maxPage }, (_, i) => i + 1);
 
   @ViewChild('searchInput', { static: true }) searchInputElementRef!: ElementRef;
   searchInputElement!: HTMLInputElement;
 
   ngOnInit(): void {
-    this.getProducts();
+    this.route.paramMap.subscribe((params) => {
+      this.pageIndex = parseInt(params.get("page") ?? "0");
+      this.pageSize = parseInt(params.get("pageSize") ?? "7");
+      this.getProducts();
+    });
   }
 
   isEmpty = (text: string): boolean => {
@@ -45,10 +59,10 @@ export class ProductManagementComponent implements OnInit {
     if (event.key !== 'Enter') return;
 
     if (this.isEmpty(value)) {
-      this.productService.getProducts()
+      this.productService.getProducts(false, this.pageIndex, this.pageSize, [], [], 0)
         .subscribe({
           next: (response) => {
-            this.products = response
+            this.products = response.items
           }
         });
       return;
@@ -76,9 +90,11 @@ export class ProductManagementComponent implements OnInit {
   }
 
   getProducts() {
-    this.productService.getProducts().subscribe((products) => {
-      this.products = products;
+    this.productService.getProducts(false, this.pageIndex, this.pageSize, [], [], 0).subscribe((products) => {
+      this.products = products.items;
       console.log(products);
+      this.maxPage = Math.ceil(products.totalItems / this.pageSize)
+      this.numbers = Array.from({ length: this.maxPage }, (_, i) => i + 1);
     });
   }
 
@@ -111,11 +127,39 @@ export class ProductManagementComponent implements OnInit {
     });
   }
 
-  goToBrandManagement(){
+  goToBrandManagement() {
     this.router.navigate(['/brand-management'])
   }
 
-  goToCategoryManagement(){
+  goToCategoryManagement() {
     this.router.navigate(['/category-management'])
+  }
+
+  goToPage(page : number){
+    this.pageIndex = page - 1;
+    this.updateUrlParameter("page", page);
+    this.getProducts();
+  }
+
+  goToPreviousPage() {
+    if (this.pageIndex == 0) return;
+    this.pageIndex--;
+    this.updateUrlParameter("page", this.pageIndex);
+    this.getProducts();
+  }
+
+  goToNextPage() {
+    if (this.maxPage - 1 <= this.pageIndex) return;
+    this.pageIndex++;
+    this.updateUrlParameter("page", this.pageIndex);
+    this.getProducts();
+  }
+
+  updateUrlParameter(param: string, value: any) {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { [param]: value },
+      queryParamsHandling: "merge",
+    });
   }
 }
