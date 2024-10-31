@@ -45,6 +45,8 @@ internal class CreateOrderCommandHandler(IOrderRepository orderRepository, IBuye
 
         order = _orderRepository.Add(order);
         order.SetAwaitingValidationStatus();
+        order.SetStockConfirmedStatus();
+        order.SetPaidStatus();
         buyer.VerifyOrAddPaymentMethod(request.CardTypeId, $"Alias {request.CardNumber}", request.CardNumber, request.CardSecurityNumber, request.CardHolderName, request.CardExpiration, order.Id);
 
         await _orderRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
@@ -54,13 +56,8 @@ internal class CreateOrderCommandHandler(IOrderRepository orderRepository, IBuye
 
     private async Task<Buyer> AddOrUpdateBuyer(CreateOrderCommand request)
     {
-        var buyer = await _buyerRepository.FindAsync(request.UserId);
-
-        if (buyer == null)
-        {
-            buyer = new Buyer(request.UserId, request.UserName);
-            _buyerRepository.Add(buyer);
-        }
+        var buyer = await _buyerRepository.FindAsync(request.UserId) ?? new Buyer(request.UserId, request.UserName);
+        buyer = _buyerRepository.Add(buyer);
 
         await _buyerRepository.UnitOfWork.SaveEntitiesAsync();
 

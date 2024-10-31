@@ -38,6 +38,7 @@ public class OrderRepository(ApplicationDbContext dbContext) : IOrderRepository
         var query = _orders
             .OrderByDescending(o => o.OrderDate)
             .Include(o => o.OrderItems)
+            .Include(o => o.Buyer)
             .Where(o => o.Buyer.IdentityGuid == userId)
             .AsSplitQuery();
 

@@ -20,7 +20,7 @@ public class BuyerRepository(ApplicationDbContext dbContext) : IBuyerRepository
 
     public async Task<Buyer> FindAsync(string buyerIdentityGuid)
     {
-        return await _buyers.Include(b => b.PaymentMethods).AsNoTracking().FirstOrDefaultAsync(b => b.IdentityGuid == buyerIdentityGuid);
+        return await _buyers.Include(b => b.PaymentMethods).FirstOrDefaultAsync(b => b.IdentityGuid == buyerIdentityGuid);
     }
 
     public async Task<Buyer> FindByIdAsync(int id)
