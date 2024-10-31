@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { ToastService } from 'angular-toastify';
 
 @Component({
   selector: 'app-create-category-modal',
@@ -22,7 +23,7 @@ export class CreateCategoryModalComponent{
     name: new FormControl('', [Validators.required, Validators.maxLength(30)]),
   });
 
-  constructor(private ref: MatDialogRef<CreateCategoryModalComponent>, private productService : ProductManagementService){}
+  constructor(private ref: MatDialogRef<CreateCategoryModalComponent>, private productService : ProductManagementService, private _toastService: ToastService ){}
 
   convertToCategory(): CategoryDTO {
     let category: CategoryDTO = {
@@ -36,12 +37,12 @@ export class CreateCategoryModalComponent{
 
     this.productService.addCategory(category).subscribe({
       next: (response) => {
-        console.log("Category added sucessfully!");
+        this._toastService.success("Category added sucessfully!");
         this.close();
       },
       error: (error) => {
         alert(JSON.stringify(error, null, 2));
-        console.log(`You provided values that will not be accepted by the API!`);
+        this._toastService.error(`You provided values that will not be accepted by the API!`);
         console.log(category);
       }
     })

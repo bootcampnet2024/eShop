@@ -1,6 +1,8 @@
 ﻿using Catalog.API._00_Application.Models.Requests;
 using Catalog.API._00_Application.Operations.Commands.CategoryCommands;
 using Catalog.API._00_Application.Operations.Queries.CategoryQueries;
+using Catalog.API._00_Application.Operations.Queries.CategoryQueries.Handlers;
+using Catalog.API.Controllers.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,9 +27,9 @@ namespace Catalog.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] GenericFilter filter)
         {
-            var query = new GetAllCategoriesQuery();
+            var query = new GetAllCategoriesQuery(filter);
             var result = await _mediator.Send(query);
             return Ok(result);
         }
@@ -35,8 +37,24 @@ namespace Catalog.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var query = new GetCategoriesByIdQuery(id);
+            var query = new GetCategoryByIdQuery(id);
             var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
+        [HttpGet("name/{name}")]
+        public async Task<IActionResult> GetByName(string name)
+        {
+            var query = new GetCategoriesByNameQuery(name);
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
+        [HttpGet("count/")]
+        public async Task<IActionResult> GetCount()
+        {
+            var query = new GetCountCategoriesQuery();
+            var result = await _mediator.Send(query);   
             return Ok(result);
         }
 

@@ -270,14 +270,23 @@ body {
   flex: 0.5;
 }
 
+.product-management{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 12vh;
+  height: 100%;
+}
+
 .table-container {
   width: 80%;
-  margin: auto;
+  margin: 2em auto auto auto;
   padding: 20px;
   background-color: #f9f9f9;
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2vh;
 }
 
 .table-container__title {
@@ -334,6 +343,10 @@ body {
   box-shadow: 0 0 0 4px rgb(0 48 73 / 10%);
 }
 
+.table-container__tool-bar__buttons button{
+  margin-left: 5px;
+}
+
 .table-container table {
   width: 100%;
   border-collapse: collapse;
@@ -373,6 +386,49 @@ body {
 
 .table-container__table__check{
   color: #007bff;
+}
+
+.change-page-buttons{
+  display: flex;
+  gap: 1em;
+}
+
+.change-page-buttons__button, .change-page-buttons__page-index, .change-page-buttons__page-index--selected, .invisible{
+  border: none;
+  font-size: medium;
+  font-weight: 400;
+  background-color: transparent;
+  color: black;
+  padding: 10px 15px;
+  border-radius: 3px;
+  transition: all 0.1s ease-in-out;
+}
+
+.change-page-buttons__button{
+  text-decoration: underline;
+}
+
+.change-page-buttons span{
+  display: flex;
+  align-items: center;
+}
+
+.change-page-buttons__page-index--selected{
+  background-color: #007bff;
+  color: white;
+}
+
+.change-page-buttons__page-index:hover{
+  background-color: #007bff;
+  color: white;
+}
+
+.change-page-buttons__button:hover, .change-page-buttons__page-index:hover{
+  cursor: pointer;
+}
+
+.invisible{
+  display: none;
 }
 
 .management-form{

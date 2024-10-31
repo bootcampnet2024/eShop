@@ -23,7 +23,7 @@ namespace Catalog.API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Catalog.API.Services.Models.CatalogBrand", b =>
+            modelBuilder.Entity("Catalog.API._01_Services.Models.CatalogBrand", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -41,7 +41,7 @@ namespace Catalog.API.Migrations
                     b.ToTable("Brand", "catalog");
                 });
 
-            modelBuilder.Entity("Catalog.API.Services.Models.CatalogCategory", b =>
+            modelBuilder.Entity("Catalog.API._01_Services.Models.CatalogCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -59,7 +59,7 @@ namespace Catalog.API.Migrations
                     b.ToTable("Category", "catalog");
                 });
 
-            modelBuilder.Entity("Catalog.API.Services.Models.CatalogItem", b =>
+            modelBuilder.Entity("Catalog.API._01_Services.Models.CatalogItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -105,14 +105,14 @@ namespace Catalog.API.Migrations
                     b.ToTable("Product", "catalog");
                 });
 
-            modelBuilder.Entity("Catalog.API.Services.Models.CatalogItem", b =>
+            modelBuilder.Entity("Catalog.API._01_Services.Models.CatalogItem", b =>
                 {
-                    b.HasOne("Catalog.API.Services.Models.CatalogBrand", "Brand")
+                    b.HasOne("Catalog.API._01_Services.Models.CatalogBrand", "Brand")
                         .WithMany()
                         .HasForeignKey("BrandId")
                         .HasConstraintName("FK_Product_CatalogBrand");
 
-                    b.HasOne("Catalog.API.Services.Models.CatalogCategory", "Category")
+                    b.HasOne("Catalog.API._01_Services.Models.CatalogCategory", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .HasConstraintName("FK_Product_CatalogCategory");

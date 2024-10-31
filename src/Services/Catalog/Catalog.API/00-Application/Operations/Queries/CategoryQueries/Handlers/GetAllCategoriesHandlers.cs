@@ -1,15 +1,14 @@
-﻿using Catalog.API.Services;
-using Catalog.API.Services.Models;
+﻿using Catalog.API._01_Services;
 using MediatR;
 
 namespace Catalog.API._00_Application.Operations.Queries.CategoryQueries.Handlers
 {
-    public class GetAllCategoriesHandlers(ICatalogCategoryService repository) : IRequestHandler<GetAllCategoriesQuery, IEnumerable<CatalogCategory>>
+    public class GetAllCategoriesHandlers(ICatalogCategoryService categoryService) : IRequestHandler<GetAllCategoriesQuery, CatalogCategoryDataResult>
     {
-        private readonly ICatalogCategoryService _categoryService = repository;
-        public Task<IEnumerable<CatalogCategory>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
+        private readonly ICatalogCategoryService _categoryService = categoryService;
+        public async Task<CatalogCategoryDataResult> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
         {
-            return _categoryService.GetAll();
+            return await _categoryService.GetAll(request.Filter);
         }
     }
 }

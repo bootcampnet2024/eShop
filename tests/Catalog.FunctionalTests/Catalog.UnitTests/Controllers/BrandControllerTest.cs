@@ -2,7 +2,7 @@
 using Catalog.API._00_Application.Operations.Commands.BrandCommands;
 using Catalog.API._00_Application.Operations.Queries.BrandQueries;
 using Catalog.API.Controllers;
-using Catalog.API.Services.Models;
+using Catalog.API._01_Services.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -38,7 +38,7 @@ namespace Catalog.UnitTests.Controllers
         }
 
         [TestMethod]
-        public async Task GetAll_ReturnsOkWithCateg_WhenBrandExists()
+        public async Task GetAll_ReturnsOkWithBrands_WhenBrandExists()
         {
             var brands = new List<CatalogBrand> { new CatalogBrand(), new CatalogBrand() };
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetAllBrandsQuery>(), It.IsAny<CancellationToken>()))
@@ -52,11 +52,11 @@ namespace Catalog.UnitTests.Controllers
         }
 
         [TestMethod]
-        public async Task GetById_ReturnsOkWithCategory_WhenBrandExists()
+        public async Task GetById_ReturnsOkWithBrand_WhenBrandExists()
         {
             var brandId = 1;
             var brand = new CatalogBrand { Id = brandId };
-            _mediatorMock.Setup(m => m.Send(It.IsAny<GetBrandsByIdQuery>(), It.IsAny<CancellationToken>()))
+            _mediatorMock.Setup(m => m.Send(It.IsAny<GetBrandByIdQuery>(), It.IsAny<CancellationToken>()))
                          .ReturnsAsync(brand);
 
             var result = await _brandController.GetById(brandId);
@@ -64,6 +64,21 @@ namespace Catalog.UnitTests.Controllers
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
             Assert.AreEqual(brand, okResult.Value);
+        }
+
+        [TestMethod]
+        public async Task GetByName_ReturnsOkWithBrands_WhenBrandExists()
+        {
+            var brandName = "test";
+            var brands = new List<CatalogBrand> { new CatalogBrand{ Name = "test"}, new CatalogBrand{ Name = "test2"} };
+            _mediatorMock.Setup(m => m.Send(It.IsAny<GetBrandsByNameQuery>(), It.IsAny<CancellationToken>()))
+                         .ReturnsAsync(brands);
+
+            var result = await _brandController.GetByName(brandName);
+
+            var okResult = result as OkObjectResult;
+            Assert.IsNotNull(okResult);
+            Assert.AreEqual(brands, okResult.Value);
         }
 
         [TestMethod]

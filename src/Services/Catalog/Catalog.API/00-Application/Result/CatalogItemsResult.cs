@@ -1,4 +1,4 @@
-﻿namespace Catalog.API.Application.Result;
+﻿namespace Catalog.API._00_Application.Result;
 
 public class CatalogItemsResult
 {

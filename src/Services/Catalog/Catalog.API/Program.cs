@@ -1,5 +1,5 @@
 using Catalog.API._02_Infrastructure.Data;
-using Catalog.API.Services;
+using Catalog.API._01_Services;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +28,6 @@ internal class Program
                 x => x.MigrationsHistoryTable("__CatalogMigrationsHistory", "catalog"));
         });
 
-        builder.Services.AddScoped<ICatalogService, CatalogService>();
         builder.Services.AddScoped<ICatalogBrandService, CatalogBrandService>();
         builder.Services.AddScoped<ICatalogItemService, CatalogItemService>();
         builder.Services.AddScoped<ICatalogCategoryService, CatalogCategoryService>();

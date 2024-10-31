@@ -7,6 +7,9 @@ import { Category } from '../../models/category.model';
 import { ProductDTO } from '../../models/productDTO.model';
 import { CategoryDTO } from '../../models/categoryDTO.model';
 import { BrandDTO } from '../../models/brandDTO.model';
+import { ProductRequest } from '../../models/product-request.model';
+import { CategoryRequest } from '../../models/category-request.model';
+import { BrandRequest } from '../../models/brand-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,16 +22,26 @@ export class ProductManagementService {
 
   constructor(private http: HttpClient) { }
 
-  getBrands() : Observable<Brand[]> {
-    return this.http.get<Brand[]>(`${this.url}/${this.brands}`);
+  getBrands(pageIndex: number, pageSize: number): Observable<BrandRequest> {
+    const params : any = {
+      PageSize: pageSize.toString(),
+      PageIndex: pageIndex.toString(),
+    };
+    
+    return this.http.get<BrandRequest>(`${this.url}/brands`, { params });
   }
 
   getBrandsCount() : Observable<number>{
     return this.http.get<number>(`${this.url}/${this.brands}/count/`);
   }
 
-  getCategories() : Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.url}/${this.categories}`);
+  getCategories(pageIndex: number, pageSize: number): Observable<CategoryRequest> {
+    const params : any = {
+      PageSize: pageSize.toString(),
+      PageIndex: pageIndex.toString(),
+    };
+    
+    return this.http.get<CategoryRequest>(`${this.url}/categories`, { params });
   }
 
   getCategoryCount() : Observable<number>{
@@ -47,8 +60,23 @@ export class ProductManagementService {
     return this.http.put<string>(`${this.url}/${this.categories}?id=${id}`, category, {responseType: 'text' as 'json'});
   }
 
-  getProducts() : Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.url}/${this.products}`);
+  getProducts(highlighted: boolean, pageIndex: number, pageSize: number, categoriesIds: number[], brandsIds: number[], filterOrder: FilterOrder): Observable<ProductRequest> {
+    const params : any = {
+      ShowOnlyHighlighted: highlighted.toString(),
+      PageSize: pageSize.toString(),
+      PageIndex: pageIndex.toString(),
+      FilterOrder: filterOrder
+    };
+    
+    if (categoriesIds.length > 0) {
+      params['CategoriesIds'] = categoriesIds.toString();
+    }
+    
+    if (brandsIds.length > 0) {
+      params['BrandsIds'] = brandsIds.toString();
+    }
+    
+    return this.http.get<ProductRequest>(`${this.url}/products`, { params });
   }
 
   getProductCount() : Observable<number>{
@@ -65,6 +93,14 @@ export class ProductManagementService {
 
   getProductsByName(name: string) : Observable<Product[]> {
     return this.http.get<Product[]>(`${this.url}/${this.products}/name/${name}`)
+  }
+
+  getCategoriesByName(name: string) : Observable<Category[]> {
+    return this.http.get<Category[]>(`${this.url}/${this.categories}/name/${name}`)
+  }
+
+  getBrandsByName(name: string) : Observable<Brand[]> {
+    return this.http.get<Brand[]>(`${this.url}/${this.brands}/name/${name}`)
   }
 
   addProduct(product: ProductDTO) : Observable<string> {
@@ -86,4 +122,10 @@ export class ProductManagementService {
   disableProduct(id: string) : Observable<Product> {
     return this.http.delete<Product>(`${this.url}/${this.products}/${id}`)
   }
+}
+
+enum FilterOrder {
+  None,
+  LowestPrice,
+  HighestPrice,
 }

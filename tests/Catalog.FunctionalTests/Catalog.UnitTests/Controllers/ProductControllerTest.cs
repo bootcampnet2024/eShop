@@ -2,7 +2,7 @@
 using Catalog.API._00_Application.Operations.Queries.ProductQueries;
 using Catalog.API._00_Application_Operations.Commands.ProductCommands;
 using Catalog.API.Controllers;
-using Catalog.API.Services.Models;
+using Catalog.API._01_Services.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -72,7 +72,7 @@ namespace Catalog.UnitTests.Controllers
         {
             var productId = Guid.NewGuid();
             var product = new CatalogItem { Id = productId };
-            _mediatorMock.Setup(m => m.Send(It.IsAny<GetProductsByIdQuery>(), It.IsAny<CancellationToken>()))
+            _mediatorMock.Setup(m => m.Send(It.IsAny<GetProductByIdQuery>(), It.IsAny<CancellationToken>()))
                          .ReturnsAsync(product);
 
             var result = await _productController.GetById(productId);
