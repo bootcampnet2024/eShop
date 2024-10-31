@@ -6,7 +6,7 @@
     <h1>{{ prefix }} order</h1>
 
     <div class="order-page-showproduct">
-      @for (item of order?.items; track item.productId) {
+      @for (item of order?.orderItems; track item.productId) {
       <div class="orderlist-item">
         <img src="{{ item.pictureUrl }}" alt="" />
 
@@ -32,7 +32,7 @@
     <div class="order-page-sidewindow-details">
       <h2>Details:</h2>
       <hr />
-      Products: {{ order?.items?.length }} <br />
+      Products: {{ order?.orderItems?.length }} <br />
       Status: {{ order?.status }}<br />
       <br />
       <hr />

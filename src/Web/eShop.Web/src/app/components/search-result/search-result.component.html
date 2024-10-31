@@ -8,15 +8,15 @@
     <div class="product-search__container__products-grid">
       <div class="product-search__container__products-grid__product-card" *ngFor="let product of products">
         <div class="product-search__container__products-grid__product-card__image">
-          <img src="#" alt="" />
+          <img src="{{ product.imageURL}}" alt="" />
         </div>
         <div class="product-search__container__products-grid__product-card__product-details">
           <h4>
-            <a href="">{{ product.name }}</a>
+            <a (click)="viewProduct(product)">{{ product.name }}</a>
           </h4>
           <p>{{ product.description }}</p>
           <div class="product-search__container__products-grid__product-card__product-details__bottom">
-            <div class="product-search__container__products-grid__product-card__product-details__bottom__product-price">$ {{ product.price }}</div>
+            <div class="product-search__container__products-grid__product-card__product-details__bottom__product-price">R$ {{ product.price }}</div>
             <div class="product-search__container__products-grid__product-card__product-details__bottom__product-links">
               <a [routerLink]="['/cart']"><i class="fa fa-shopping-cart"></i></a>
             </div>

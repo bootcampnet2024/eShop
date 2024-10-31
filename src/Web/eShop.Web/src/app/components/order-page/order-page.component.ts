@@ -42,7 +42,7 @@ export class OrderPageComponent implements OnInit {
     this.orderService.getById(this.orderId).subscribe({
       next: (response) => {
         this.order = response;
-        this.loadUserData(this.order.buyerId);
+        //this.loadUserData(this.order.buyerId);
       },
       error: () => {
         this.router.navigate([""]);
@@ -50,13 +50,13 @@ export class OrderPageComponent implements OnInit {
     });
   }
 
-  loadUserData(sub: string): void {
-    this.userService.getByCriteria({ id: sub }).subscribe({
-      next: (response) => {
-        this.prefix = response.fullname.split(" ")[0];
-      },
-    });
-  }
+  // loadUserData(sub: string): void {
+  //   this.userService.getByCriteria({ id: sub }).subscribe({
+  //     next: (response) => {
+  //       this.prefix = response.fullname.split(" ")[0];
+  //     },
+  //   });
+  // }
 
   viewProduct(item: OrderItem): void {
     this.router.navigate([

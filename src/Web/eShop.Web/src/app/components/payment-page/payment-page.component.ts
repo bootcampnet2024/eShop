@@ -102,7 +102,7 @@ export class PaymentPageComponent implements OnInit {
     return {
       name: user.fullname,
       email: user.email,
-      phoneNumber: user.phoneNumber.toString(),
+      phoneNumber: user.phoneNumber,
       cpf: user.cpf,
       paymentMethod: this.paymentForm.value.paymentMethod,
       address: {

@@ -863,6 +863,11 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.category-page-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1em;
+}
 
 .cart-container__product-list__product-item__product-details {
   flex: 2;

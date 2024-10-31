@@ -1,6 +1,6 @@
 import { Router } from "@angular/router";
 import { Product } from "../../../models/product.model";
-import { ProductService } from "../../../services/product-list/product.service";
+import { ProductManagementService } from "../../../services/product-management/product-management.service";
 import { Component, ElementRef, Input, OnInit } from "@angular/core";
 import { CarouselModule } from 'primeng/carousel';
 import { TagModule } from 'primeng/tag';
@@ -21,7 +21,7 @@ export class DisplayProductsComponent implements OnInit {
 
   @Input() products: Product[] = [];
 
-  constructor(private router: Router, private productService: ProductService, private el: ElementRef) {}
+  constructor(private router: Router, private productService: ProductManagementService, private el: ElementRef) {}
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -32,11 +32,13 @@ export class DisplayProductsComponent implements OnInit {
 
   getProducts(): void {
     this.productService
-      .getCatalogItems(
+      .getProducts(
         this.showOnlyHighlighted,
         0,
         this.productQuantity,
-        this.categoryId
+        [this.categoryId],
+        [],
+        0
       )
       .subscribe({
         next: (response) => {

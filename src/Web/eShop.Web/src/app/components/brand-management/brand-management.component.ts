@@ -61,7 +61,7 @@ export class BrandManagementComponent {
   // }
 
   getBrands() {
-    this.productService.getCategories(this.pageIndex, this.pageSize).subscribe((brands) => {
+    this.productService.getBrands(this.pageIndex, this.pageSize).subscribe((brands) => {
       this.brands = brands.items;
       this.maxPage = Math.ceil(brands.totalItems / this.pageSize)
       this.numbers = Array.from({ length: this.maxPage }, (_, i) => i + 1);

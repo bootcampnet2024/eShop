@@ -3,6 +3,8 @@ import { Router } from "@angular/router";
 import { Component, OnInit } from "@angular/core";
 import { CategoryService } from "../../services/category-service/category.service";
 import { CommonModule } from "@angular/common";
+import { ProductManagementComponent } from "../../components/product-management/product-management.component";
+import { ProductManagementService } from "../../services/product-management/product-management.service";
 
 @Component({
   selector: "app-navbar",
@@ -17,7 +19,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private categoryService: CategoryService
+    private categoryService: ProductManagementService
   ) {}
 
   showCategories() {
@@ -29,9 +31,9 @@ export class NavbarComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this.categoryService.getAll().subscribe({
+    this.categoryService.getCategories(0, 50).subscribe({
       next: (response) => {
-        this.categories = response;
+        this.categories = response.items;
       },
     });
   }

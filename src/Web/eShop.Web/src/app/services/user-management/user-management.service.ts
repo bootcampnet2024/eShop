@@ -1,5 +1,5 @@
 import { User } from './../../models/user.model';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { catchError, Observable, of, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../core/auth/auth.service';

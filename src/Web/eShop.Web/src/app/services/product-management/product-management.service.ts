@@ -31,8 +31,12 @@ export class ProductManagementService {
     return this.http.get<BrandRequest>(`${this.url}/brands`, { params });
   }
 
+  getBrandsByCategoryId(id: number): Observable<Brand[]> {
+    return this.http.get<Brand[]>(`http://localhost:5200/brands/categoryId/${id}`)
+  }
+  
   getBrandsCount() : Observable<number>{
-    return this.http.get<number>(`${this.url}/${this.brands}/count/`);
+    return this.http.get<number>(`${this.url}/brands/count/`);
   }
 
   getCategories(pageIndex: number, pageSize: number): Observable<CategoryRequest> {
@@ -61,22 +65,28 @@ export class ProductManagementService {
   }
 
   getProducts(highlighted: boolean, pageIndex: number, pageSize: number, categoriesIds: number[], brandsIds: number[], filterOrder: FilterOrder): Observable<ProductRequest> {
-    const params : any = {
-      ShowOnlyHighlighted: highlighted.toString(),
-      PageSize: pageSize.toString(),
-      PageIndex: pageIndex.toString(),
-      FilterOrder: filterOrder
-    };
+    const params: string[] = [
+      `ShowOnlyHighlighted=${highlighted}`,
+      `PageSize=${pageSize}`,
+      `PageIndex=${pageIndex}`,
+      `FilterOrder=${filterOrder}`
+  ];
+  
+  if (categoriesIds.length > 0) {
+      categoriesIds.forEach(id => {
+          params.push(`CategoriesIds=${id}`);
+      });
+  }
+  
+  if (brandsIds.length > 0) {
+      brandsIds.forEach(id => {
+          params.push(`BrandsIds=${id}`);
+      });
+  }
     
-    if (categoriesIds.length > 0) {
-      params['CategoriesIds'] = categoriesIds.toString();
-    }
-    
-    if (brandsIds.length > 0) {
-      params['BrandsIds'] = brandsIds.toString();
-    }
-    
-    return this.http.get<ProductRequest>(`${this.url}/products`, { params });
+    const url = `http://localhost:5200/products?${params.join('&')}`;
+
+    return this.http.get<ProductRequest>(url);
   }
 
   getProductCount() : Observable<number>{

@@ -9,7 +9,7 @@
   <div class="orderlist-item">
     <div class="orderlist-text">
       <img src="{{ order.pictureUrl }}" alt="" />
-      <h2>Ordered at: {{ order.date }}</h2>
+      <h2>Ordered at: {{ formatDate(order.date) }}</h2>
       <h3>Status: {{ order.status }}</h3>
     </div>
 

@@ -57,12 +57,6 @@
                 class="all_procucts-page__product-name"
                 >{{ product.name }}</a
               >
-              <p class="all_procucts-page__product-category">
-                {{ product.category.name }}
-              </p>
-              <p class="all_procucts-page__product-brand">
-                {{ product.brand.name }}
-              </p>
             </div>
             <p class="all_procucts-page__product-price">
               R${{ product.price }}
@@ -75,39 +69,31 @@
         [displayName]="categoryName"
         [products]="products"
       ></app-display-products> -->
-      <div class="change-page-buttons">
-        <button
-          [ngClass]="
-            this.pageIndex != 0 ? 'change-page-buttons__button' : 'invisible'
-          "
-          (click)="goToPreviousPage()"
-        >
-          <
-        </button>
-        @for (number of numbers; track numbers){
-        <button
-          [ngClass]="
-            this.pageIndex == number - 1
-              ? 'change-page-buttons__page-index--selected'
-              : 'change-page-buttons__page-index'
-          "
-          (click)="goToPage(number)"
-        >
-          {{ number }}
-        </button>
-        }
-        <button
-          [ngClass]="
-            this.maxPage > this.pageIndex
-              ? 'change-page-buttons__button'
-              : 'invisible'
-          "
-          (click)="goToNextPage()"
-        >
-          >
-        </button>
-      </div>
     </div>
   </div>
+  <div class="change-page-buttons category-page-buttons">
+    <button [ngClass]="this.pageIndex != 0 ? 'change-page-buttons__button' : 'invisible'" (click)="goToPreviousPage()">
+      Previous
+    </button>
+    @if(pageIndex > 2){
+    <button class="change-page-buttons__page-index" (click)="goToFirstPage()">
+      1
+    </button>
+    <span>...</span>
+    }
+    @for (number of numbers; track numbers){
+      <button [ngClass]="this.pageIndex == number - 1 ? 'change-page-buttons__page-index--selected' : 'change-page-buttons__page-index'" (click)="goToPage(number)">{{number}}</button>
+    }
+    @if(pageIndex < maxPage - 3){
+      <span>...</span>
+    <button class="change-page-buttons__page-index" (click)="goToLastPage()">
+      {{this.maxPage}}
+    </button>
+    }
+    <button [ngClass]="this.maxPage - 1 > this.pageIndex ? 'change-page-buttons__button' : 'invisible'" (click)="goToNextPage()">
+      Next
+    </button>
+  </div>
+
   <app-footer></app-footer>
 </div>

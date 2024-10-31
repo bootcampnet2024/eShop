@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Product } from '../../models/product.model';
-import { ProductService } from '../../services/product-list/product.service';
 import { NgFor, NgIf } from '@angular/common';
 import { HeaderComponent } from '../../shared/header/header.component';
+import { ProductManagementService } from '../../services/product-management/product-management.service';
 
 @Component({
   selector: 'app-search-result',
@@ -15,15 +15,22 @@ import { HeaderComponent } from '../../shared/header/header.component';
 export class SearchResultComponent implements OnInit {
   products: Product[] = [];
 
-  constructor(private route: ActivatedRoute, private productService: ProductService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private productService: ProductManagementService) { }
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       const keyword = params['keyword'];
       if (keyword) {
-        this.productService.searchProducts(keyword).subscribe(data => {
+        this.productService.getProductsByName(keyword).subscribe(data => {
           this.products = data;
         });
       }
     });
+  }
+
+  viewProduct(product: Product): void {
+    this.router.navigate([
+      "/product",
+      { id: product.id, name: product.name.trim().replaceAll(" ", "-") },
+    ]);
   }
 }

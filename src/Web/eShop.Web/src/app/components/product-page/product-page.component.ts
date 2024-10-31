@@ -4,10 +4,10 @@ import { FooterComponent } from '../../shared/footer/footer.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DisplayProductsComponent } from '../home/display-products/display-products.component';
 import { Product } from '../../models/product.model';
-import { ProductService } from '../../services/product-list/product.service';
 import { ViewportScroller } from '@angular/common';
 import { NavbarComponent } from "../../shared/navbar/navbar.component";
 import { CartService } from '../../services/cart/cart.service';
+import { ProductManagementService } from '../../services/product-management/product-management.service';
 
 @Component({
   selector: 'app-product-page',
@@ -36,14 +36,14 @@ export class ProductPageComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private productService: ProductService,
+    private productService: ProductManagementService,
     private route: ActivatedRoute,
     private viewportScroller: ViewportScroller,
     private cartService: CartService
   ) {}
 
   getProduct(id: string): void {
-    this.productService.getCatalogItem(id).subscribe({
+    this.productService.getProductById(id).subscribe({
       next: (response) => {
         this.product = response;
       },

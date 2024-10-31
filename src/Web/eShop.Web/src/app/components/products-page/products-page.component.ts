@@ -3,10 +3,9 @@ import { HeaderComponent } from "../../shared/header/header.component";
 import { NavbarComponent } from "../../shared/navbar/navbar.component";
 import { FooterComponent } from "../../shared/footer/footer.component";
 import { Product } from "../../models/product.model";
-import { ProductService } from "../../services/product-list/product.service";
 import { ActivatedRoute } from "@angular/router";
 import { Router } from "@angular/router";
-import { CommonModule, ViewportScroller } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { DisplayProductsComponent } from "../home/display-products/display-products.component";
 import { CategoryService } from "../../services/category-service/category.service";
 import { Brand } from "../../models/brand.model";
@@ -46,7 +45,6 @@ export class ProductsPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private productManagement: ProductManagementService,
-    private productService: ProductService,
     private categoryService: CategoryService
   ) {}
 
@@ -64,18 +62,18 @@ export class ProductsPageComponent implements OnInit {
 
   onBrandChange(event: Event, brandId: number) {
     const isChecked = (event.target as HTMLInputElement).checked;
-  
+
     if (isChecked) {
       this.brandsIds.push(brandId);
     } else {
-      this.brandsIds = this.brandsIds.filter(id => id !== brandId);
+      this.brandsIds = this.brandsIds.filter((id) => id !== brandId);
     }
-  
+
     const queryParams = {
       ...this.route.snapshot.queryParams,
-      brandIds: this.brandsIds.length ? this.brandsIds : null
+      brandIds: this.brandsIds.length ? this.brandsIds : null,
     };
-  
+
     this.updateUrlParameterQuery(queryParams);
   }
 
@@ -108,28 +106,41 @@ export class ProductsPageComponent implements OnInit {
 
   loadBrands(): void {
     if (this.categoryId != 0) {
-      this.productService.getBrandsByCategoryId(this.categoryId).subscribe({
+      this.productManagement.getBrandsByCategoryId(this.categoryId).subscribe({
         next: (response) => {
           this.brands = response;
         },
       });
       return;
     }
-    this.productManagement.getBrands().subscribe({
+    this.productManagement.getBrands(0, 50).subscribe({
       next: (response) => {
-        this.brands = response;
+        this.brands = response.items;
       },
     });
   }
 
   loadProducts(): void {
-    this.productService
-      .getCatalogItems(false, this.pageIndex, this.pageSize, this.categoryId)
+    this.productManagement
+      .getProducts(
+        false,
+        this.pageIndex,
+        this.pageSize,
+        [this.categoryId],
+        this.brandsIds,
+        this.sortByTypes.indexOf(this.sortBy)
+      )
       .subscribe({
         next: (response) => {
           this.products = response.items;
-          this.maxPage = Math.floor(response.totalItems / this.pageSize);
+          this.maxPage = Math.ceil(response.totalItems / this.pageSize);
           this.numbers = Array.from({ length: this.maxPage }, (_, i) => i + 1);
+          if (this.pageIndex < 3) this.numbers = this.numbers.slice(0, 5);
+          else
+            this.numbers = this.numbers.slice(
+              this.pageIndex - 2,
+              this.pageIndex + 3
+            );
         },
       });
   }
@@ -141,7 +152,7 @@ export class ProductsPageComponent implements OnInit {
     ]);
   }
 
-  goToPage(page: number) {
+  goToPage(page : number){
     this.pageIndex = page - 1;
     this.updateUrlParameter("page", this.pageIndex);
   }
@@ -153,8 +164,18 @@ export class ProductsPageComponent implements OnInit {
   }
 
   goToNextPage() {
-    if (this.maxPage <= this.pageIndex) return;
+    if (this.maxPage - 1 <= this.pageIndex) return;
     this.pageIndex++;
+    this.updateUrlParameter("page", this.pageIndex);
+  }
+
+  goToFirstPage() {
+    this.pageIndex = 0;
+    this.updateUrlParameter("page", this.pageIndex);
+  }
+
+  goToLastPage() {
+    this.pageIndex = this.maxPage - 1;
     this.updateUrlParameter("page", this.pageIndex);
   }
 

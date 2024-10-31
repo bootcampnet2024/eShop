@@ -6,7 +6,7 @@ export interface Order {
   date: Date;
   status: string;
   total: number;
-  items: OrderItem[];
+  orderItems: OrderItem[];
 }
 
 export interface Address {

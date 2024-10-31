@@ -75,7 +75,7 @@ export class UpdateBrandModalComponent {
       .subscribe({
         next: () => {
           this._toastService.success("Product updated sucessfully!")
-          this.close();
+          
         },
         error: () => {
           this._toastService.error(`Values provided wasn't accepted by the API!`)
