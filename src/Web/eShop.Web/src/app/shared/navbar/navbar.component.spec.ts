@@ -5,7 +5,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { CategoryService } from '../../services/category-filter/category.service';
+import { CategoryService } from '../../services/category-service/category.service';
 import { appConfig } from '../../app.config';
 import { Category } from '../../models/category.model';
 import { of } from 'rxjs';

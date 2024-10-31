@@ -69,12 +69,12 @@ export class CreateProductModalComponent implements OnInit{
     this.productService.addProduct(product).subscribe({
       next: () => {
         this._toastService.success("Product added sucessfully!");
-        this.close();
       },
       error: () => {
         this._toastService.error(`You provided values that will not be accepted by the API!`);
       }
     })
+    this.close();
   }
 
   getBrands() {this.productService.getBrands(0, 50).subscribe((brands) => {

@@ -8,6 +8,12 @@ footer {
   color: white;
 }
 
+a {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;  
+}
+
 p {
   font-weight: 600;
 }
@@ -34,8 +40,9 @@ p {
   gap: 0.5em;
 }
 
-#social-payment {
+#social-payment, #about-us {
   align-items: end;
+  text-align: end;
 }
 
 .navigate,
@@ -53,22 +60,18 @@ p {
   text-decoration: none;
 }
 
-.social-media {
-  display: flex;
-  gap: 1em;
-}
-
-.social-media fa-icon {
+.social-media-footer fa-icon {
   color: white;
   font-size: 1.5rem;
 }
 
-.payment-methods {
+.payment-methods { 
   margin-top: 1em;
 }
 
-.payment-methods-icons {
+.payment-methods-icons, .social-media-footer {
   display: flex;
+  margin-top: 0.5em;
   gap: 1em;
 }
 

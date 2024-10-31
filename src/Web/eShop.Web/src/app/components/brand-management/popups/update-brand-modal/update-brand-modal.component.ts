@@ -83,6 +83,7 @@ export class UpdateBrandModalComponent {
           console.log(brand)
         }
       })
+      this.close();
   }
 
   close() {

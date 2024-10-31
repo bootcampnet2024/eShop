@@ -48,6 +48,7 @@ export class CreateBrandModalComponent {
         console.log(brand);
       }
     })
+    this.close();
   }
 
   close() {
