@@ -37,6 +37,10 @@ export class NavbarComponent implements OnInit {
   }
 
   goToCategoryPage(categoryId: number): void {
-    this.router.navigate(["/products", { categoryId: categoryId }]);
+    this.router.navigate(['/products'], {
+      queryParams: { categoryId: categoryId }
+    }).then(() => {
+      window.location.reload();
+    });
   }
 }

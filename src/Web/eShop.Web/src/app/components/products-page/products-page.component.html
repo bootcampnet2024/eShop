@@ -7,7 +7,13 @@
       <div class="all-products-page__brands-filter">
         @for (brand of brands; track brand.id) {
         <div class="all-products-page__brand">
-          <input type="checkbox" name="brand" />
+          <input
+            type="checkbox"
+            name="brand"
+            [value]="brand.id"
+            (change)="onBrandChange($event, brand.id)"
+            [checked]="brandsIds.includes(brand.id)"
+          />
           <label for="brand">{{ brand.name }}</label>
         </div>
         }
@@ -17,7 +23,7 @@
       <div class="all-products-page__control-buttons">
         <div class="all-products-page__control-button">
           <p>Sort By:</p>
-          <select (change)="onSortByChange($event)">
+          <select [(ngModel)]="sortBy" (change)="onSortByChange($event)">
             @for (sortType of sortByTypes; track $index) {
             <option [value]="sortType">{{ sortType }}</option>
             }
@@ -25,7 +31,7 @@
         </div>
         <div class="all-products-page__control-button">
           <p>Show:</p>
-          <select (change)="onPageSizeChange($event)">
+          <select [(ngModel)]="pageSize" (change)="onPageSizeChange($event)">
             @for (size of pageSizes; track $index) {
             <option [value]="size">{{ size }} products per page</option>
             }
@@ -46,13 +52,21 @@
           </div>
           <div class="all_procucts-page__product-info">
             <div class="all_procucts-page__product-about">
-              <a (click)="viewProduct(product)" class="all_procucts-page__product-name">{{
-                product.name
-              }}</a>
-              <p class="all_procucts-page__product-category">{{ product.category.name }}</p>
-              <p class="all_procucts-page__product-brand">{{ product.brand.name }}</p>
+              <a
+                (click)="viewProduct(product)"
+                class="all_procucts-page__product-name"
+                >{{ product.name }}</a
+              >
+              <p class="all_procucts-page__product-category">
+                {{ product.category.name }}
+              </p>
+              <p class="all_procucts-page__product-brand">
+                {{ product.brand.name }}
+              </p>
             </div>
-            <p class="all_procucts-page__product-price">R${{ product.price }}</p>
+            <p class="all_procucts-page__product-price">
+              R${{ product.price }}
+            </p>
           </div>
         </div>
         }
@@ -61,18 +75,36 @@
         [displayName]="categoryName"
         [products]="products"
       ></app-display-products> -->
-      <div class="all-products-page__change-page-buttons">
+      <div class="change-page-buttons">
         <button
-          class="all-products-page__change-page-button"
+          [ngClass]="
+            this.pageIndex != 0 ? 'change-page-buttons__button' : 'invisible'
+          "
           (click)="goToPreviousPage()"
         >
-          Go to previous page
+          <
         </button>
+        @for (number of numbers; track numbers){
         <button
-          class="all-products-page__change-page-button"
+          [ngClass]="
+            this.pageIndex == number - 1
+              ? 'change-page-buttons__page-index--selected'
+              : 'change-page-buttons__page-index'
+          "
+          (click)="goToPage(number)"
+        >
+          {{ number }}
+        </button>
+        }
+        <button
+          [ngClass]="
+            this.maxPage > this.pageIndex
+              ? 'change-page-buttons__button'
+              : 'invisible'
+          "
           (click)="goToNextPage()"
         >
-          Go to next page
+          >
         </button>
       </div>
     </div>

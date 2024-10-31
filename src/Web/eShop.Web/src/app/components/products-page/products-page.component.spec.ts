@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpTestingController } from '@angular/common/http/testing';
-import { AllProductsPageComponent } from './all-products-page.component';
+import { ProductsPageComponent } from './products-page.component';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product-list/product.service';
 import { of } from 'rxjs';
@@ -10,15 +10,15 @@ import { FooterComponent } from '../../shared/footer/footer.component';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { appConfig } from '../../app.config';
 
-describe('AllProductsPageComponent', () => {
-  let component: AllProductsPageComponent;
-  let fixture: ComponentFixture<AllProductsPageComponent>;
+describe('ProductsPageComponent', () => {
+  let component: ProductsPageComponent;
+  let fixture: ComponentFixture<ProductsPageComponent>;
   let productService: ProductService;
   let httpMock: HttpTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeaderComponent, FooterComponent, AllProductsPageComponent],
+      imports: [HeaderComponent, FooterComponent, ProductsPageComponent],
       declarations: [],
       providers: [
         ProductService,
@@ -27,7 +27,7 @@ describe('AllProductsPageComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AllProductsPageComponent);
+    fixture = TestBed.createComponent(ProductsPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
 
