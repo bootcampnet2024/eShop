@@ -1,9 +1,38 @@
 <p class="category-name">{{ displayName }}</p>
-<section class="product-container">
+<p-carousel
+  [value]="products"
+  [numVisible]="4"
+  [numScroll]="1"
+  [circular]="true"
+  [showIndicators]="false"
+>
+  <ng-template let-product pTemplate="item">
+    <div class="product-display">
+      <div class="product-card">
+        <div class="image-placeholder">
+          <img
+            src="{{ product.imageURL }}"
+            [alt]="product.name"
+            class="product-image"
+          />
+        </div>
+        <div class="product-info">
+          <div class="product-about">
+            <a (click)="viewProduct(product)" class="product-name">{{ product.name }}</a>
+            <p class="product-category">{{ product.category.name }}</p>
+            <p class="product-brand">{{ product.brand.name }}</p>
+          </div>
+          <p class="product-price">R${{ product.price }}</p>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-carousel>
+<!-- <section class="product-container">
   @for (product of products; track product.id) {
   <div class="product-card">
     <div class="image-placeholder">
-      <a><img src="{{ product.imageURL }}" alt="" (click)="viewProduct(product)" class="product-image" /></a>
+      <a><img src="{{ product.imageURL }}" alt="{{ product.name }}" (click)="viewProduct(product)" class="product-image" /></a>
     </div>
     <div class="product-info">
       <div class="product-about">
@@ -15,4 +44,4 @@
     </div>
   </div>
   }
-</section>
+</section> -->
