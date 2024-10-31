@@ -36,6 +36,7 @@ public class OrdersController(ILogger<OrdersController> logger, IKeycloakService
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<IActionResult> CancelOrder(int orderId)
     {
@@ -61,7 +62,10 @@ public class OrdersController(ILogger<OrdersController> logger, IKeycloakService
             orderId);
 
         var command = new CancelOrderCommand(orderId);
-        await _mediator.Send(command);
+        var result = await _mediator.Send(command);
+
+        if (!result)
+            return BadRequest("Is not possible to change the order status to Cancelled.");
 
         return Ok();
     }
@@ -71,6 +75,7 @@ public class OrdersController(ILogger<OrdersController> logger, IKeycloakService
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<IActionResult> ShipOrder(int orderId)
     {
@@ -95,7 +100,10 @@ public class OrdersController(ILogger<OrdersController> logger, IKeycloakService
             orderId);
 
         var command = new ShipOrderCommand(orderId);
-        await _mediator.Send(command);
+        var result = await _mediator.Send(command);
+
+        if (!result)
+            return BadRequest("Is not possible to change the order status to Shipped.");
 
         return Ok();
     }

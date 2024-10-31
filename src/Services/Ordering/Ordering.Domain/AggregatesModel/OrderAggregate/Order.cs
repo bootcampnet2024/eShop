@@ -56,7 +56,7 @@ public class Order : Entity, IAggregateRoot
     // This Order AggregateRoot's method "AddOrderItem()" should be the only way to add Items to the Order,
     // so any behavior (discounts, etc.) and validations are controlled by the AggregateRoot 
     // in order to maintain consistency between the whole Aggregate. 
-    public void AddOrderItem(int productId, string productName, decimal unitPrice, decimal discount, string pictureUrl, int units = 1)
+    public void AddOrderItem(string productId, string productName, decimal unitPrice, decimal discount, string pictureUrl, int units = 1)
     {
         var existingOrderForProduct = _orderItems.SingleOrDefault(o => o.ProductId == productId);
 
@@ -140,7 +140,7 @@ public class Order : Entity, IAggregateRoot
         AddDomainEvent(new OrderCancelledDomainEvent(this));
     }
 
-    public void SetCancelledStatusWhenStockIsRejected(IEnumerable<int> orderStockRejectedItems)
+    public void SetCancelledStatusWhenStockIsRejected(IEnumerable<string> orderStockRejectedItems)
     {
         if (OrderStatus == OrderStatus.AwaitingValidation)
         {
