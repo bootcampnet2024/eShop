@@ -1,19 +1,25 @@
 <app-header></app-header>
+<div *ngIf="message" class="alert"
+  [ngClass]="{'alert-success': message.includes('sucesso'), 'alert-danger': message.includes('Falha')}">
+  {{ message }}
+</div>
 <div class="payment-page">
   <p>1. Choose your address</p>
   <p>2. Choose your payment method</p>
   <div class="payment-body">
     <div class="payment-box">
       <div class="payment-method">
-        <div class="card">
+        <form [formGroup]="paymentForm" class="card">
           <div class="credit-debit">
             <div class="method">
-              <input type="radio" id="creditCard" name="method">
-              <label for="creditCard"><fa-icon class="creditCard" [icon]="faSolidCreditCard"></fa-icon> Credit Card</label>
+              <input type="radio" id="creditCard" name="paymentMethod" formControlName="paymentMethod"
+                value="credit_card">
+              <label for="creditCard">Credit Card</label>
             </div>
             <div class="method">
-              <input type="radio" id="debitCard" name="method">
-              <label for="debitCard"><fa-icon class="debitCard" [icon]="faSolidCreditCard"></fa-icon> Debit Card</label>
+              <input type="radio" id="debitCard" name="paymentMethod" formControlName="paymentMethod"
+                value="debit_card">
+              <label for="debitCard"><fa-icon class="debitCard"></fa-icon> Debit Card</label>
             </div>
           </div>
           <form class="credit-card-info">
@@ -65,10 +71,10 @@
               </div>
             </div>
           </form>
-        </div>
+        </form>
         <div class="method">
           <input type="radio" id="pix" name="method">
-          <label for="pix"><fa-icon class="pix" [icon]="faPix"></fa-icon> Pix</label>
+          <label for="pix"><fa-icon class="pix"></fa-icon> Pix</label>
           <span>O código Pix gerado para o pagamento é válido por 30 minutos após a finalização do pedido.</span>
         </div>
       </div>
@@ -88,7 +94,7 @@
           <p>Subtotal:</p>
           <p>Total: R$ {{ 9900 }}</p>
         </div>
-        <button class="buy-button">Complete Order</button>
+        <button class="buy-button" (click)="completeOrder()">Complete Order</button>
       </div>
     </div>
   </div>
