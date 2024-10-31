@@ -1,18 +1,16 @@
-<div class="category-card">
-    <button class="display-card-left">
-        <div class="category-title">
-            Summer
-        </div>
-        <div class="category-description">
-            Come and see the new launch that we prepared for the hot summer!
-        </div>
-    </button>
-    <button class="display-card-right">
-        <div class="category-title">
-            Barbecue
-        </div>
-        <div class="category-description">
-            Nothing better than a barbecue in the summer!
-        </div>
-    </button>
-</div>
+<section class="product-categories">
+  <h2 class="product-categories__title">Explore Nossas Categorias</h2>
+  <div class="product-categories__grid">
+    @for (category of categories; track $index) {
+    <a
+      class="product-categories__card"
+      [style.backgroundImage]="'url(' + category.image + ')'"
+    >
+      <div class="product-categories__details">
+        <span class="product-categories__name">{{ category.name }}</span>
+        <p class="product-categories__description">{{ category.description }}</p>
+      </div>
+    </a>
+    }
+  </div>
+</section>
