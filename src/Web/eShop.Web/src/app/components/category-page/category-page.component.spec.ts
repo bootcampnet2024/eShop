@@ -75,7 +75,7 @@ describe('CategoryPageComponent', () => {
       const productRequest: ProductRequest = {
         pageSize: 10,
         pageIndex: 0,
-        count: products.length,
+        totalItems: products.length,
         items: products,
       };
       spyOn(productService, 'getCatalogItems').and.returnValue(

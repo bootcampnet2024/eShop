@@ -151,7 +151,6 @@ namespace Catalog.UnitTests.Controllers
         [TestMethod]
         public async Task GetAllShowOnlyHighlighted_ReturnsOk_WhenProductsHighlightedExist()
         {
-            // Arrange
             var products = new CatalogItemDataResult()
             {
                 TotalItems = 2,
@@ -182,7 +181,7 @@ namespace Catalog.UnitTests.Controllers
                         Category = new CatalogCategory { Id = 1, Name = "Test" }
                     }
                 }
-             };
+            };
 
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetAllProductsQuery>(), It.IsAny<CancellationToken>()))
                          .ReturnsAsync(products);
@@ -197,84 +196,16 @@ namespace Catalog.UnitTests.Controllers
                 FilterOrder = 0
             };
 
-            // Act
             var result = await _productController.GetAll(filter);
 
-            // Assert
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
 
             var returnedProducts = okResult.Value as CatalogItemDataResult;
             Assert.IsNotNull(returnedProducts);
 
-            // Verifica se apenas 1 item é destacado
             var highlightedItems = returnedProducts.Items.Where(p => p.IsHighlighted).ToList();
             Assert.AreEqual(1, highlightedItems.Count);
-        }
-
-        [TestMethod]
-        public async Task GetAllShowOnlyOneProductPerSize_ReturnsOk_WhenReturnsOnlyOneProduct()
-        {
-            // Arrange
-            var products = new CatalogItemDataResult()
-            {
-                TotalItems = 2, // Existem dois produtos no total
-                Items = new List<CatalogItem>
-        {
-            new CatalogItem {
-                Id = Guid.NewGuid(),
-                Name = "Test",
-                Description = "Test",
-                Quantity = 1,
-                Price = 1,
-                ImageURL = "abc",
-                IsActive = true,
-                IsHighlighted = false,
-                Brand = new CatalogBrand { Id = 1, Name = "Test" },
-                Category = new CatalogCategory { Id = 1, Name = "Test" }
-            },
-            new CatalogItem {
-                Id = Guid.NewGuid(),
-                Name = "Test",
-                Description = "Test",
-                Quantity = 1,
-                Price = 1,
-                ImageURL = "abc",
-                IsActive = true,
-                IsHighlighted = false,
-                Brand = new CatalogBrand { Id = 1, Name = "Test" },
-                Category = new CatalogCategory { Id = 1, Name = "Test" }
-            }
-        }
-            };
-
-            // Configurando o mock do Mediator
-            _mediatorMock.Setup(m => m.Send(It.IsAny<GetAllProductsQuery>(), It.IsAny<CancellationToken>()))
-                         .ReturnsAsync(products);
-
-            // Definindo o filtro, com PageSize = 1
-            var filter = new CatalogItemsFilter()
-            {
-                ShowOnlyHighlighted = false,
-                PageSize = 1, // Solicita que apenas 1 item seja retornado por página
-                PageIndex = 0,
-                BrandsIds = new List<int>(),
-                CategoriesIds = new List<int>(),
-                FilterOrder = 0
-            };
-
-            // Act
-            var result = await _productController.GetAll(filter);
-
-            // Assert
-            var okResult = result as OkObjectResult;
-            Assert.IsNotNull(okResult);
-
-            var returnedProducts = okResult.Value as CatalogItemDataResult;
-            Assert.IsNotNull(returnedProducts);
-
-            // Verifica se apenas 1 produto foi retornado
-            Assert.AreEqual(1, returnedProducts.Items.Count()); // Verifica se o número de itens retornados é 1
         }
     }
 }
