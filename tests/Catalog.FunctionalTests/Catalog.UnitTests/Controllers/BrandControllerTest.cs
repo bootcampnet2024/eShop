@@ -10,6 +10,8 @@ using Moq;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Catalog.API._01_Services;
+using Catalog.API.Controllers.Filters;
 
 namespace Catalog.UnitTests.Controllers
 {
@@ -40,11 +42,17 @@ namespace Catalog.UnitTests.Controllers
         [TestMethod]
         public async Task GetAll_ReturnsOkWithBrands_WhenBrandExists()
         {
-            var brands = new List<CatalogBrand> { new CatalogBrand(), new CatalogBrand() };
+            var brands = new CatalogBrandDataResult();
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetAllBrandsQuery>(), It.IsAny<CancellationToken>()))
                   .ReturnsAsync(brands);
 
-            var result = await _brandController.GetAll();
+            var filter = new GenericFilter()
+            {
+                PageIndex = 1,
+                PageSize = 1,
+            };
+
+            var result = await _brandController.GetAll(filter);
 
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
