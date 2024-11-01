@@ -22,6 +22,10 @@ header{
   font-weight: 600;
 }
 
+.profile-button {
+  color: black;
+}
+
 .header-buttons{
   display: flex;
   align-items: center;

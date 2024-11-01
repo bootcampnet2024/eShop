@@ -1,32 +1,45 @@
 <app-header></app-header>
 <app-navbar></app-navbar>
-<main>
-  <div class="product-container">
-    <img class="product-container__image" src="{{ product.imageURL }}" alt="">
-    <div class="product-container__info">
-      <div class="product-container__info__name">
-        <h2>{{ product.name }}</h2>
-        <p class="product-container__info__category-name">{{ product.category.name }}</p>
-        <p class="product-container__info__brand-name">{{ product.brand.name }}</p>
-        <h2>R$ {{ product.price }}</h2>
-      </div>
-      <p>{{ product.description }}</p>
-      <div class="product-container__info__product-options">
-        @for (option of options; track option.name){
-        <div class="option">
-          <p>{{option.name}}</p>
-        </div>
-        }
-      </div>
-      <div class="product-container__buttons">
-      <button class="product-container__info__buy-button" (click)="goToCart()">Buy Product</button>
-      <button class="product-container__info__add-cart-button" (click)="addToCart()">Add to Cart</button>
+<div class="product-container">
+  <img class="product-container__image" src="{{ product.imageURL }}" alt="" />
+  <div class="product-container__info">
+    <div class="product-container__info__name">
+      <h2>{{ product.name }}</h2>
+      <p class="product-container__info__category-name">
+        {{ product.category.name }}
+      </p>
+      <p class="product-container__info__brand-name">
+        {{ product.brand.name }}
+      </p>
+      <h2>R$ {{ product.price }}</h2>
     </div>
+    <p>{{ product.description }}</p>
+    <div class="product-container__info__product-options">
+      @for (option of options; track option.name){
+      <div class="option">
+        <p>{{ option.name }}</p>
+      </div>
+      }
+    </div>
+    <div class="product-container__buttons">
+      <button class="product-container__info__buy-button" (click)="goToCart()">
+        Buy Product
+      </button>
+      <button
+        class="product-container__info__add-cart-button"
+        (click)="addToCart()"
+      >
+        Add to Cart
+      </button>
     </div>
   </div>
-  <div class="similar-products">
-    <app-display-products [displayName]="'Related Products'" [showOnlyHighlighted]="false" [productQuantity]="10"
-      [categoryId]="product.category.id"></app-display-products>
-  </div>
-</main>
+</div>
+<div class="similar-products">
+  <app-display-products
+    [displayName]="'Related Products'"
+    [showOnlyHighlighted]="false"
+    [productQuantity]="10"
+    [categoryId]="product.category.id"
+  ></app-display-products>
+</div>
 <app-footer></app-footer>

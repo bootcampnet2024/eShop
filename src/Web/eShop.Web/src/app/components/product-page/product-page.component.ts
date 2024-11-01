@@ -46,6 +46,7 @@ export class ProductPageComponent implements OnInit {
     this.productService.getProductById(id).subscribe({
       next: (response) => {
         this.product = response;
+        this.product.quantity = 1
       },
       error: () => {
         this.router.navigate(['']);

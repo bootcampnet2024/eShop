@@ -1,6 +1,6 @@
 <app-header></app-header>
 <app-navbar></app-navbar>
-<div class="all-products-page">
+<div class="main">
   <div class="all-products-page__product-container">
     <div class="all-products-page__filter_by">
       <p>Brands</p>
@@ -39,7 +39,11 @@
         </div>
       </div>
       <section class="all_procucts-page__product-container">
-        @for (product of products; track product.id) {
+        @if (products.length == 0) {
+        <a class="all_procucts-page__product-about"
+          >There aren't a single product using these parameters.</a
+        >
+        } @for (product of products; track product.id) {
         <div class="all_procucts-page__product-card">
           <div class="all_procucts-page__image-placeholder">
             <a
@@ -51,13 +55,11 @@
             /></a>
           </div>
           <div class="all_procucts-page__product-info">
-            <div class="all_procucts-page__product-about">
-              <a
-                (click)="viewProduct(product)"
-                class="all_procucts-page__product-name"
-                >{{ product.name }}</a
-              >
-            </div>
+            <a
+              (click)="viewProduct(product)"
+              class="all_procucts-page__product-name"
+              >{{ product.name }}</a
+            >
             <p class="all_procucts-page__product-price">
               R${{ product.price }}
             </p>
@@ -72,7 +74,12 @@
     </div>
   </div>
   <div class="change-page-buttons category-page-buttons">
-    <button [ngClass]="this.pageIndex != 0 ? 'change-page-buttons__button' : 'invisible'" (click)="goToPreviousPage()">
+    <button
+      [ngClass]="
+        this.pageIndex != 0 ? 'change-page-buttons__button' : 'invisible'
+      "
+      (click)="goToPreviousPage()"
+    >
       Previous
     </button>
     @if(pageIndex > 2){
@@ -80,20 +87,33 @@
       1
     </button>
     <span>...</span>
-    }
-    @for (number of numbers; track numbers){
-      <button [ngClass]="this.pageIndex == number - 1 ? 'change-page-buttons__page-index--selected' : 'change-page-buttons__page-index'" (click)="goToPage(number)">{{number}}</button>
-    }
-    @if(pageIndex < maxPage - 3){
-      <span>...</span>
+    } @for (number of numbers; track numbers){
+    <button
+      [ngClass]="
+        this.pageIndex == number - 1
+          ? 'change-page-buttons__page-index--selected'
+          : 'change-page-buttons__page-index'
+      "
+      (click)="goToPage(number)"
+    >
+      {{ number }}
+    </button>
+    } @if(pageIndex < maxPage - 3){
+    <span>...</span>
     <button class="change-page-buttons__page-index" (click)="goToLastPage()">
-      {{this.maxPage}}
+      {{ this.maxPage }}
     </button>
     }
-    <button [ngClass]="this.maxPage - 1 > this.pageIndex ? 'change-page-buttons__button' : 'invisible'" (click)="goToNextPage()">
+    <button
+      [ngClass]="
+        this.maxPage - 1 > this.pageIndex
+          ? 'change-page-buttons__button'
+          : 'invisible'
+      "
+      (click)="goToNextPage()"
+    >
       Next
     </button>
   </div>
-
-  <app-footer></app-footer>
 </div>
+<app-footer></app-footer>

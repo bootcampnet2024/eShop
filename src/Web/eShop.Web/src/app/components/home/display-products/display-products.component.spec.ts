@@ -6,7 +6,6 @@ import { appConfig } from "../../../app.config";
 import { Router } from "@angular/router";
 import { of } from "rxjs";
 import { Product } from "../../../models/product.model";
-import { ProductService } from "../../../services/product-list/product.service";
 
 describe("DisplayProductsComponent", () => {
   let component: DisplayProductsComponent;
