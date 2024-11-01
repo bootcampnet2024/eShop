@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
 import { DisplayProductsComponent } from "./display-products.component";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { appConfig } from "../../../app.config";
@@ -65,18 +64,18 @@ describe("DisplayProductsComponent", () => {
         isHighlighted: true,
       },
     ];
-
+  
     const mockProductRequest = {
       items: mockProducts,
       pageSize: 10,
       pageIndex: 1,
-      count: mockProducts.length,
+      totalItems: mockProducts.length,
     };
-
+  
     productServiceSpy.getCatalogItems.and.returnValue(of(mockProductRequest));
-
+  
     fixture.detectChanges();
-
+  
     expect(productServiceSpy.getCatalogItems).toHaveBeenCalledWith(
       component.showOnlyHighlighted,
       0,
@@ -84,7 +83,7 @@ describe("DisplayProductsComponent", () => {
       component.categoryId
     );
     expect(component.products).toEqual(mockProducts);
-  });
+  });  
 
   it("should navigate to product details when viewProduct is called", () => {
     const mockProduct: Product = {
