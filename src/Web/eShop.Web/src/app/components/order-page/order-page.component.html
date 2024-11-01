@@ -3,7 +3,7 @@
 
 <div class="order-page">
   <div class="order-page_summary">
-    <h1>{{ prefix }} order</h1>
+    <h1>{{ prefix }} Order - {{ formatDate(order!.date) }}</h1>
 
     <div class="order-page-showproduct">
       @for (item of order?.items; track item.productId) {
@@ -33,7 +33,7 @@
       <h2>Details:</h2>
       <hr />
       Products: {{ order?.items?.length }} <br />
-      Status: {{ order?.status }}<br />
+      Status: {{ formatEnum(order!.status) }}<br />
       <br />
       <hr />
       Total: R$ {{ order?.total?.toFixed(2) }}
