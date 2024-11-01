@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Catalog.API._00_Application.Operations.Queries.BrandQueries;
+using Catalog.API._01_Services;
+using Catalog.API.Controllers.Filters;
 
 namespace Catalog.UnitTests.Controllers
 {
@@ -41,11 +43,16 @@ namespace Catalog.UnitTests.Controllers
         [TestMethod]
         public async Task GetAll_ReturnsOkWithCateg_WhenCategoriesExists()
         {
-            var categories = new List<CatalogCategory> { new CatalogCategory(), new CatalogCategory() };
+            var categories = new CatalogCategoryDataResult();
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetAllCategoriesQuery>(), It.IsAny<CancellationToken>()))
                   .ReturnsAsync(categories);
 
-            var result = await _categoryController.GetAll();
+            var filter = new GenericFilter()
+            {
+                PageIndex = 1,
+                PageSize = 1,
+            };
+            var result = await _categoryController.GetAll(filter);
 
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
