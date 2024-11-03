@@ -21,9 +21,9 @@ import { CommonModule } from '@angular/common';
 })
 export class ProductManagementComponent implements OnInit {
   constructor(
-    private dialog: MatDialog,
-    private productService: ProductManagementService,
-    private _toastService: ToastService,
+    public dialog: MatDialog,
+    private productManagementService: ProductManagementService,
+    public _toastService: ToastService,
     private router: Router,
     private route: ActivatedRoute
   ) {
@@ -51,14 +51,11 @@ export class ProductManagementComponent implements OnInit {
     return text === null || text.match(/^ *$/) !== null;
   };
 
-  searchProduct = (event: KeyboardEvent): void => {
-    const element = event.currentTarget as HTMLInputElement
-    const value = element.value
-
+  searchProduct = (value: string, event: KeyboardEvent): void => {
     if (event.key !== 'Enter') return;
 
     if (this.isEmpty(value)) {
-      this.productService.getProducts(false, this.pageIndex, this.pageSize, [], [], 0)
+      this.productManagementService.getProducts(false, this.pageIndex, this.pageSize, [], [], 0)
         .subscribe({
           next: (response) => {
             this.products = response.items
@@ -66,7 +63,7 @@ export class ProductManagementComponent implements OnInit {
         });
       return;
     }
-    this.productService.getProductsByName(value)
+    this.productManagementService.getProductsByName(value)
       .subscribe((response) => {
         this.products = response
       })
@@ -75,7 +72,7 @@ export class ProductManagementComponent implements OnInit {
   products?: Product[];
 
   disableProduct(productId: string) {
-    this.productService.disableProduct(productId).subscribe({
+    this.productManagementService.disableProduct(productId).subscribe({
       next: () => {
         this._toastService.success(
           `Product with ID ${productId} has been successfully disabled.`
@@ -89,7 +86,7 @@ export class ProductManagementComponent implements OnInit {
   }
 
   getProducts() {
-    this.productService.getProducts(false, this.pageIndex, this.pageSize, [], [], 0).subscribe((products) => {
+    this.productManagementService.getProducts(false, this.pageIndex, this.pageSize, [], [], 0).subscribe((products) => {
       this.products = products.items;
       this.maxPage = Math.ceil(products.totalItems / this.pageSize)
       this.numbers = Array.from({ length: this.maxPage }, (_, i) => i + 1);

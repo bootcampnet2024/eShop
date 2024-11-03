@@ -11,7 +11,7 @@
               ></path>
             </g>
           </svg>
-          <input #searchInput (keypress)="searchProduct($event)" type="search" placeholder="Search"/>
+          <input #searchInput (keypress)="searchProduct(searchInput.value, $event)" type="search" placeholder="Search"/>
         </div>
         <div class="table-container__tool-bar__buttons">
           <button mat-flat-button color="primary" (click)="OpenCreateProductModal()">

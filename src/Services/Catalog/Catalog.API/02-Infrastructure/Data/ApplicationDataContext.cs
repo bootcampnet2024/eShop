@@ -1,6 +1,7 @@
 ﻿using Catalog.API._02_Infrastructure.Configurations;
 using Catalog.API._01_Services.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Principal;
 
 namespace Catalog.API._02_Infrastructure.Data
 {

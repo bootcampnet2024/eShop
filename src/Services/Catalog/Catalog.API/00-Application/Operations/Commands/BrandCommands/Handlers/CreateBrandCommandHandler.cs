@@ -9,9 +9,14 @@ namespace Catalog.API._00_Application.Operations.Commands.BrandCommands.Handlers
         private readonly ICatalogBrandService _brandService = brandService;
         public async Task<bool> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
         {
+            var createdAt = DateTime.UtcNow;
+
             var brand = new CatalogBrand
             {
-                Name = request.Brand.Name
+                Name = request.Brand.Name,
+                ImageURL = request.Brand.ImageURL,
+                CreatedAt = createdAt,
+                UpdatedAt = createdAt
             };
 
             return await _brandService.Add(brand);

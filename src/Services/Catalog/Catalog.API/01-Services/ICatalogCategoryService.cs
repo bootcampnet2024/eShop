@@ -86,13 +86,9 @@ public class CatalogCategoryService(ApplicationDataContext context) : ICatalogCa
         return await _context.CatalogCategories.CountAsync();
     }
 
-    public async Task<bool> Update(int id, CatalogCategory CatalogCategory)
+    public async Task<bool> Update(CatalogCategory CatalogCategory)
     {
-        var CatalogCategoryId = await _context.CatalogCategories.FindAsync(id);
-
-        if (CatalogCategoryId == null) return false;
-
-        _context.CatalogCategories.Update(CatalogCategoryId);
+        _context.CatalogCategories.Update(CatalogCategory);
         return await _context.SaveChangesAsync() > 0;
     }
 }

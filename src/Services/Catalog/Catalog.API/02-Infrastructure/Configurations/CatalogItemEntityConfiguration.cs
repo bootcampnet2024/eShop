@@ -8,7 +8,10 @@ namespace Catalog.API._02_Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<CatalogItem> builder)
         {
-            builder.ToTable("Product");
+            builder.ToTable("Product", t =>
+            {
+                t.HasCheckConstraint("CK_Product_Discount", "[Discount] BETWEEN 0 AND 100");
+            });
 
             builder.Property(e => e.Id)
                 .ValueGeneratedOnAdd();
@@ -24,6 +27,9 @@ namespace Catalog.API._02_Infrastructure.Configurations
             builder.Property(e => e.Price)
                 .IsRequired()
                 .HasColumnType("decimal(9,2)");
+
+            builder.Property(e => e.Discount)
+                .HasDefaultValue(0);
 
             builder.Property(e => e.IsHighlighted)
                 .IsRequired();

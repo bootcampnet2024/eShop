@@ -86,13 +86,9 @@ public class CatalogBrandService(ApplicationDataContext context) : ICatalogBrand
         return await _context.CatalogBrands.CountAsync();
     }
 
-    public async Task<bool> Update(int id, CatalogBrand CatalogBrand)
+    public async Task<bool> Update(CatalogBrand CatalogBrand)
     {
-        var brandId = await _context.CatalogBrands.FindAsync(id);
-
-        if (brandId == null) return false;
-
-        _context.CatalogBrands.Update(brandId);
+        _context.CatalogBrands.Update(CatalogBrand);
         return await _context.SaveChangesAsync() > 0;
     }
 }

@@ -5,6 +5,7 @@ export interface ProductDTO {
   name: string,
   description: string,
   price: number,
+  discount: number,
   quantity: number,
   brandId: number,
   categoryId: number,

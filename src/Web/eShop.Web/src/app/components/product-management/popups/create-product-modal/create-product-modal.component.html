@@ -56,8 +56,14 @@
     <div class="management-form__checkboxes">
       <div>
         <mat-checkbox color="primary" formControlName="isActive"
-          >Is Active</mat-checkbox
-        >
+          >Is Active</mat-checkbox>
+      </div>
+      <div>
+        @if (productForm.value.isActive)
+        {
+        <mat-checkbox color="primary" formControlName="isHighlighted"
+          >Is Highlighted</mat-checkbox>
+        }
       </div>
     </div>
     <div class="management-form__actions">
