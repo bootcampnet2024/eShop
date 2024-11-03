@@ -15,6 +15,9 @@ namespace Catalog.API._00_Application.Operations.Commands.ProductCommands.Handle
         {
             var brand = await _productBrandService.GetById(request.Product.BrandId);
             var category = await _productCategoryService.GetById(request.Product.CategoryId);
+            var createdAt = DateTime.UtcNow;
+
+            if (brand == null || category == null) return false;
 
             var product = new CatalogItem
             {
@@ -24,11 +27,15 @@ namespace Catalog.API._00_Application.Operations.Commands.ProductCommands.Handle
                 Quantity = request.Product.Quantity,
                 Price = request.Product.Price,
                 ImageURL = request.Product.ImageURL,
-                IsActive = true,
-                IsHighlighted = false,
+                IsActive = request.Product.IsActive,
+                IsHighlighted = request.Product.IsHighlighted,
                 Brand = brand,
-                Category = category
+                Category = category,
+                CreatedAt = createdAt,
+                UpdatedAt = createdAt
             };
+
+            if (!product.IsActive) product.IsHighlighted = false;
 
             return await _productService.Add(product);
         }

@@ -13,9 +13,11 @@ namespace Catalog.API._00_Application.Operations.Commands.BrandCommands.Handlers
 
             if (brand == null) return false;
 
-            brand.Name = request.Category.Name;
+            brand.Name = request.Brand.Name;
+            brand.ImageURL = request.Brand.ImageURL;
+            brand.UpdatedAt = DateTime.UtcNow;
 
-            return await _brandService.Update(request.Id, brand);
+            return await _brandService.Update(brand);
         }
     }
 }

@@ -9,12 +9,18 @@ namespace Catalog.API._00_Application.Operations.Commands.CategoryCommands.Handl
         private readonly ICatalogCategoryService _categoryService = categoryService;
         public async Task<bool> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
-            var brand = new CatalogCategory
+            var createdAt = DateTime.UtcNow;
+
+            var category = new CatalogCategory
             {
-                Name = request.Category.Name
+                Name = request.Category.Name,
+                Description = request.Category.Description,
+                ImageURL = request.Category.ImageURL,
+                CreatedAt = createdAt,
+                UpdatedAt = createdAt
             };
 
-            return await _categoryService.Add(brand);
+            return await _categoryService.Add(category);
         }
     }
 }

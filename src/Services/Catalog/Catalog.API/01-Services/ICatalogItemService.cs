@@ -26,6 +26,7 @@ public class CatalogItemService(ApplicationDataContext context) : ICatalogItemSe
         if (product == null) return false;
 
         product.IsActive = false;
+        product.IsHighlighted = false;
         return await _context.SaveChangesAsync() > 0;
     }
 
@@ -120,13 +121,9 @@ public class CatalogItemService(ApplicationDataContext context) : ICatalogItemSe
         return await _context.CatalogItems.CountAsync();
     }
 
-    public async Task<bool> Update(Guid id, CatalogItem product)
+    public async Task<bool> Update(CatalogItem request)
     {
-        var productId = await _context.CatalogItems.FindAsync(id);
-
-        if (productId == null) return false;
-
-        _context.CatalogItems.Update(productId);
+        _context.CatalogItems.Update(request);
         return await _context.SaveChangesAsync() > 0;
     }
 }

@@ -7,7 +7,7 @@
         Task<IEnumerable<T>> GetByName(string name);
         Task<int> GetCount();
         Task<bool> Add(T entity);
-        Task<bool> Update(ID id, T entity);
+        Task<bool> Update(T entity);
         Task<bool> Delete(ID id);
     }
 }
