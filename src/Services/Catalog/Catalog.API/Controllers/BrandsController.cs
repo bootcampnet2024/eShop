@@ -1,6 +1,7 @@
 ﻿using Catalog.API._00_Application.Models.Requests;
 using Catalog.API._00_Application.Operations.Commands.BrandCommands;
 using Catalog.API._00_Application.Operations.Queries.BrandQueries;
+using Catalog.API._00_Application.Result;
 using Catalog.API.Controllers.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,8 @@ namespace Catalog.API.Controllers
         {
             var query = new GetAllBrandsQuery(filter);
             var result = await _mediator.Send(query);
-            return Ok(result);
+
+            return Ok(new CatalogDataResult<CatalogBrandResult> { Items = result.Items.Select(CatalogBrandResult.FromDTO), TotalItems = result.TotalItems });
         }
 
         [HttpGet("{id}")]
@@ -38,15 +40,15 @@ namespace Catalog.API.Controllers
         {
             var query = new GetBrandByIdQuery(id);
             var result = await _mediator.Send(query);
-            return Ok(result);
+            return Ok(CatalogBrandResult.FromDTO(result));
         }
 
         [HttpGet("name/{name}")]
-        public async Task<IActionResult> GetByName(string name)
+        public async Task<IActionResult> GetByName(string name, [FromQuery] GenericFilter filter)
         {
-            var query = new GetBrandsByNameQuery(name);
+            var query = new GetBrandsByNameQuery(name, filter);
             var result = await _mediator.Send(query);
-            return Ok(result);
+            return Ok(new CatalogDataResult<CatalogBrandResult> { Items = result.Items.Select(CatalogBrandResult.FromDTO), TotalItems = result.TotalItems });
         }
 
         [HttpGet("count/")]

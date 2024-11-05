@@ -66,7 +66,7 @@ internal class Program
     private static async Task ExecuteMigrationsPeriodically(WebApplication app)
     {
         await Task.Delay(TimeSpan.FromSeconds(3));
-        
+
         var retryPolicy = Policy
             .Handle<Exception>()
             .WaitAndRetryForeverAsync(retryAttempt =>

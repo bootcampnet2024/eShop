@@ -1,6 +1,6 @@
 ﻿using Basket.API._01_Services.DTOs;
-using Basket.API._02_Infrastructure.Data;
 using Basket.API._01_Services.Models;
+using Basket.API._02_Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Basket.API._01_Services

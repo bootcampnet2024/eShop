@@ -17,7 +17,7 @@ namespace Catalog.API._00_Application.Operations.Commands.ProductCommands.Handle
             var product = await _productService.GetById(request.Id);
 
             if (product == null || brand == null || category == null) return false;
-            
+
 
             product.Name = request.Product.Name;
             product.Description = request.Product.Description;
@@ -28,8 +28,8 @@ namespace Catalog.API._00_Application.Operations.Commands.ProductCommands.Handle
             product.IsActive = request.Product.IsActive;
             product.IsHighlighted = request.Product.IsHighlighted;
             if (!request.Product.IsActive) product.IsHighlighted = false;
-            product.Brand = brand;
-            product.Category = category;
+            product.Brand = brand.Name;
+            product.Category = category.Name;
             product.UpdatedAt = DateTime.UtcNow;
 
             return await _productService.Update(product);

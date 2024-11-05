@@ -1,21 +1,38 @@
-﻿using Catalog.API._02_Infrastructure.Data;
+﻿using Catalog.API._01_Services.DTOs;
 using Catalog.API._01_Services.Models;
-using Microsoft.EntityFrameworkCore;
+using Catalog.API._02_Infrastructure.Data;
 using Catalog.API.Controllers.Filters;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using Catalog.API._01_Services.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.API._01_Services;
-public interface ICatalogItemService : IService<CatalogItem, Guid>
+public interface ICatalogItemService : IService<CatalogItemDTO, Guid>
 {
-    Task<CatalogItemDataResult> GetAll(CatalogItemsFilter filter);
 }
 public class CatalogItemService(ApplicationDataContext context) : ICatalogItemService
 {
     public readonly ApplicationDataContext _context = context;
-    public async Task<bool> Add(CatalogItem product)
+    public async Task<bool> Add(CatalogItemDTO dto)
     {
-        await _context.CatalogItems.AddAsync(product);
+        var brand = await _context.CatalogBrands.FirstOrDefaultAsync(x => x.Name == dto.Brand);
+        var category = await _context.CatalogCategories.FirstOrDefaultAsync(x => x.Name == dto.Category);
+
+        var model = new CatalogItem()
+        {
+            Name = dto.Name,
+            Description = dto.Description,
+            Price = dto.Price,
+            Discount = dto.Discount,
+            Quantity = dto.Quantity,
+            ImageURL = dto.ImageURL,
+            CreatedAt = dto.CreatedAt,
+            UpdatedAt = dto.UpdatedAt,
+            IsActive = dto.IsActive,
+            IsHighlighted = dto.IsHighlighted,
+            Brand = brand,
+            Category = category,
+        };
+
+        await _context.CatalogItems.AddAsync(model);
         return await _context.SaveChangesAsync() > 0;
     }
 
@@ -30,18 +47,11 @@ public class CatalogItemService(ApplicationDataContext context) : ICatalogItemSe
         return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task<IEnumerable<CatalogItem>> GetAll()
+    public async Task<CatalogDataDTO<CatalogItemDTO>> GetAll(GenericFilter filter)
     {
-        var product = await _context.CatalogItems.Include(p => p.Category).Include(p => p.Brand).ToListAsync();
+        var catalogFilter = (CatalogItemsFilter)filter;
 
-        if (product == null) return null;
-
-        return product;
-    }
-
-    public async Task<CatalogItemDataResult> GetAll(CatalogItemsFilter filter)
-    {
-        filter ??= new CatalogItemsFilter()
+        catalogFilter ??= new CatalogItemsFilter()
         {
             ShowOnlyHighlighted = false,
             PageIndex = 0,
@@ -51,45 +61,48 @@ public class CatalogItemService(ApplicationDataContext context) : ICatalogItemSe
             FilterOrder = OrderBy.None
         };
 
-        if (filter.PageSize <= 0)
-            filter.PageSize = 10;
+        if (catalogFilter.PageSize <= 0)
+            catalogFilter.PageSize = 10;
 
-        if (filter.PageSize > 50)
-            filter.PageSize = 50;
+        if (catalogFilter.PageSize > 50)
+            catalogFilter.PageSize = 50;
 
         var query = _context.CatalogItems.AsQueryable();
 
-        query = query.Where(w => (!filter.ShowOnlyHighlighted || w.IsHighlighted));
+        query = query.Where(w => (!catalogFilter.ShowOnlyHighlighted || w.IsHighlighted));
 
-        var categoriesIds = _context.CatalogCategories.Where(w => filter.CategoriesIds.Contains(w.Id)).Select(w => w.Id);
+        var categoriesIds = _context.CatalogCategories.Where(w => catalogFilter.CategoriesIds.Contains(w.Id)).Select(w => w.Id);
 
-        var brandsIds = _context.CatalogBrands.Where(w => filter.BrandsIds.Contains(w.Id)).Select(w => w.Id);
+        var brandsIds = _context.CatalogBrands.Where(w => catalogFilter.BrandsIds.Contains(w.Id)).Select(w => w.Id);
 
         query = query.Where(w => (!categoriesIds.Any() || categoriesIds.Contains(w.Category.Id)));
 
         query = query.Where(w => (!brandsIds.Any() || brandsIds.Contains(w.Brand.Id)));
 
-        if (filter.FilterOrder == OrderBy.None) query = query.OrderByDescending(w => w.IsHighlighted);
+        if (catalogFilter.FilterOrder == OrderBy.None) query = query.OrderByDescending(w => w.IsHighlighted).OrderByDescending(w => w.UpdatedAt);
 
-        if (filter.FilterOrder == OrderBy.LowestPrice) query = query.OrderBy(w => w.Price);
+        if (catalogFilter.FilterOrder == OrderBy.LowestPrice) query = query.OrderBy(w => w.Price);
 
-        if (filter.FilterOrder == OrderBy.HighestPrice) query = query.OrderByDescending(w => w.Price);
+        if (catalogFilter.FilterOrder == OrderBy.HighestPrice) query = query.OrderByDescending(w => w.Price);
+
+        if (catalogFilter.FilterOrder == OrderBy.Latest) query = query.OrderByDescending(w => w.UpdatedAt);
 
         var data = await query
-            .Skip(filter.PageIndex * filter.PageSize)
-            .Take(filter.PageSize)
+            .Skip(catalogFilter.PageIndex * catalogFilter.PageSize)
+            .Take(catalogFilter.PageSize)
             .Include(x => x.Brand)
             .Include(x => x.Category)
             .AsSplitQuery()
             .AsNoTracking()
+            .Select(x => CatalogItemDTO.FromModel(x))
             .ToListAsync();
 
         var totalItems = query.Count();
-        
-        return new CatalogItemDataResult() { TotalItems = totalItems, Items = data };
+
+        return new CatalogDataDTO<CatalogItemDTO> { TotalItems = totalItems, Items = data };
     }
 
-    public async Task<CatalogItem> GetById(Guid id)
+    public async Task<CatalogItemDTO> GetById(Guid id)
     {
         var product = await _context.CatalogItems.FindAsync(id);
 
@@ -98,22 +111,62 @@ public class CatalogItemService(ApplicationDataContext context) : ICatalogItemSe
         await _context.Entry(product).Reference(p => p.Category).LoadAsync();
         await _context.Entry(product).Reference(p => p.Brand).LoadAsync();
 
-        return product;
+        return CatalogItemDTO.FromModel(product);
     }
 
-    public async Task<IEnumerable<CatalogItem>> GetByName(string name)
+    public async Task<CatalogDataDTO<CatalogItemDTO>> GetByName(string name, GenericFilter filter)
     {
-        var product = await _context.CatalogItems
-            .OrderByDescending(p => p.IsActive)
-            .OrderByDescending (p => p.Name)
-            .Include(p => p.Category)
-            .Include(p => p.Brand)
-            .Where(p => p.Name.ToLower().Contains(name.ToLower()))
+        var catalogFilter = (CatalogItemsFilter)filter;
+
+        catalogFilter ??= new CatalogItemsFilter()
+        {
+            ShowOnlyHighlighted = false,
+            PageIndex = 0,
+            PageSize = 20,
+            BrandsIds = [],
+            CategoriesIds = [],
+            FilterOrder = OrderBy.None
+        };
+
+        if (catalogFilter.PageSize <= 0)
+            catalogFilter.PageSize = 10;
+
+        if (catalogFilter.PageSize > 50)
+            catalogFilter.PageSize = 50;
+
+        var query = _context.CatalogItems.AsQueryable().Where(p => p.Name.ToLower().Contains(name.ToLower()));
+
+        query = query.Where(w => (!catalogFilter.ShowOnlyHighlighted || w.IsHighlighted));
+
+        var categoriesIds = _context.CatalogCategories.Where(w => catalogFilter.CategoriesIds.Contains(w.Id)).Select(w => w.Id);
+
+        var brandsIds = _context.CatalogBrands.Where(w => catalogFilter.BrandsIds.Contains(w.Id)).Select(w => w.Id);
+
+        query = query.Where(w => (!categoriesIds.Any() || categoriesIds.Contains(w.Category.Id)));
+
+        query = query.Where(w => (!brandsIds.Any() || brandsIds.Contains(w.Brand.Id)));
+
+        if (catalogFilter.FilterOrder == OrderBy.None) query = query.OrderByDescending(w => w.IsHighlighted).OrderByDescending(w => w.UpdatedAt);
+
+        if (catalogFilter.FilterOrder == OrderBy.LowestPrice) query = query.OrderBy(w => w.Price);
+
+        if (catalogFilter.FilterOrder == OrderBy.HighestPrice) query = query.OrderByDescending(w => w.Price);
+
+        if (catalogFilter.FilterOrder == OrderBy.Latest) query = query.OrderByDescending(w => w.UpdatedAt);
+
+        var data = await query
+            .Skip(catalogFilter.PageIndex * catalogFilter.PageSize)
+            .Take(catalogFilter.PageSize)
+            .Include(x => x.Brand)
+            .Include(x => x.Category)
+            .AsSplitQuery()
+            .AsNoTracking()
+            .Select(x => CatalogItemDTO.FromModel(x))
             .ToListAsync();
 
-        if (product == null) return null;
+        var totalItems = query.Count();
 
-        return product;
+        return new CatalogDataDTO<CatalogItemDTO> { TotalItems = totalItems, Items = data };
     }
 
     public async Task<int> GetCount()
@@ -121,15 +174,27 @@ public class CatalogItemService(ApplicationDataContext context) : ICatalogItemSe
         return await _context.CatalogItems.CountAsync();
     }
 
-    public async Task<bool> Update(CatalogItem request)
+    public async Task<bool> Update(CatalogItemDTO dto)
     {
-        _context.CatalogItems.Update(request);
+        var model = _context.CatalogItems.Find(dto.Id);
+        if (model == null) return false;
+
+        var brand = await _context.CatalogBrands.FirstOrDefaultAsync(x => x.Name == dto.Brand);
+        var category = await _context.CatalogCategories.FirstOrDefaultAsync(x => x.Name == dto.Category);
+
+        model.Name = dto.Name;
+        model.Description = dto.Description;
+        model.Price = dto.Price;
+        model.Discount = dto.Discount;
+        model.Quantity = dto.Quantity;
+        model.ImageURL = dto.ImageURL;
+        model.IsActive = dto.IsActive;
+        model.IsHighlighted = dto.IsHighlighted;
+        model.UpdatedAt = dto.UpdatedAt;
+        model.Brand = brand;
+        model.Category = category;
+
+        _context.CatalogItems.Update(model);
         return await _context.SaveChangesAsync() > 0;
     }
-}
-
-public class CatalogItemDataResult
-{
-    public int TotalItems { get; set; }
-    public IEnumerable<CatalogItem> Items { get; set; }
 }

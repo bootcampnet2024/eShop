@@ -1,13 +1,12 @@
 ﻿using Catalog.API._00_Application.Models.Requests;
 using Catalog.API._00_Application.Operations.Queries.ProductQueries;
 using Catalog.API._00_Application_Operations.Commands.ProductCommands;
-using Catalog.API.Controllers;
 using Catalog.API._01_Services.Models;
+using Catalog.API.Controllers;
+using Catalog.API.Controllers.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Catalog.API._01_Services;
-using Catalog.API.Controllers.Filters;
 
 namespace Catalog.UnitTests.Controllers
 {

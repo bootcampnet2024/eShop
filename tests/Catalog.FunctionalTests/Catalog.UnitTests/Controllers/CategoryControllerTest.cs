@@ -1,18 +1,12 @@
 ﻿using Catalog.API._00_Application.Models.Requests;
 using Catalog.API._00_Application.Operations.Commands.CategoryCommands;
 using Catalog.API._00_Application.Operations.Queries.CategoryQueries;
-using Catalog.API.Controllers;
 using Catalog.API._01_Services.Models;
+using Catalog.API.Controllers;
+using Catalog.API.Controllers.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Catalog.API._00_Application.Operations.Queries.BrandQueries;
-using Catalog.API._01_Services;
-using Catalog.API.Controllers.Filters;
 
 namespace Catalog.UnitTests.Controllers
 {

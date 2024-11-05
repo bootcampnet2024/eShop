@@ -1,5 +1,6 @@
 ﻿using Catalog.API._00_Application.Models.Requests;
 using Catalog.API._00_Application.Operations.Queries.ProductQueries;
+using Catalog.API._00_Application.Result;
 using Catalog.API._00_Application_Operations.Commands.ProductCommands;
 using Catalog.API.Controllers.Filters;
 using MediatR;
@@ -30,7 +31,8 @@ namespace Catalog.API.Controllers
         {
             var query = new GetAllProductsQuery(filter);
             var result = await _mediator.Send(query);
-            return Ok(result);
+
+            return Ok(new CatalogDataResult<CatalogItemResult> { Items = result.Items.Select(CatalogItemResult.FromDTO), TotalItems = result.TotalItems });
         }
 
         [HttpDelete("{id}")]
@@ -47,15 +49,17 @@ namespace Catalog.API.Controllers
         {
             var query = new GetProductByIdQuery(id);
             var result = await _mediator.Send(query);
-            return Ok(result);
+
+            return Ok(CatalogItemResult.FromDTO(result));
         }
 
         [HttpGet("name/{name}")]
-        public async Task<IActionResult> SearchByName(string name)
+        public async Task<IActionResult> GetByName(string name, [FromQuery] CatalogItemsFilter filter)
         {
-            var query = new GetProductsByNameQuery(name);
+            var query = new GetProductsByNameQuery(name, filter);
             var result = await _mediator.Send(query);
-            return Ok(result);
+
+            return Ok(new CatalogDataResult<CatalogItemResult> { Items = result.Items.Select(CatalogItemResult.FromDTO), TotalItems = result.TotalItems });
         }
 
         [HttpGet("count/")]

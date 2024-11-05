@@ -1,5 +1,5 @@
 ﻿using Catalog.API._01_Services;
-using Catalog.API._01_Services.Models;
+using Catalog.API._01_Services.DTOs;
 using MediatR;
 
 namespace Catalog.API._00_Application.Operations.Commands.CategoryCommands.Handlers
@@ -11,7 +11,7 @@ namespace Catalog.API._00_Application.Operations.Commands.CategoryCommands.Handl
         {
             var createdAt = DateTime.UtcNow;
 
-            var category = new CatalogCategory
+            var category = new CatalogCategoryDTO
             {
                 Name = request.Category.Name,
                 Description = request.Category.Description,

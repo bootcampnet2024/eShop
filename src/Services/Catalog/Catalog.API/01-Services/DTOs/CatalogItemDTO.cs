@@ -17,7 +17,7 @@ namespace Catalog.API._01_Services.DTOs
         public DateTime UpdatedAt { get; set; }
         public string Brand { get; set; }
         public string Category { get; set; }
-        
+
         public static CatalogItemDTO FromModel(CatalogItem item)
         {
             return new()

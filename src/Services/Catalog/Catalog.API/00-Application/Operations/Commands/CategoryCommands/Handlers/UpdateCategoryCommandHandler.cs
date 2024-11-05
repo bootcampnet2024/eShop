@@ -16,7 +16,7 @@ namespace Catalog.API._00_Application.Operations.Commands.CategoryCommands.Handl
             category.Name = request.Category.Name;
             category.Description = request.Category.Description;
             category.ImageURL = request.Category.ImageURL;
-            category.UpdatedAt = DateTime.UtcNow;   
+            category.UpdatedAt = DateTime.UtcNow;
 
             return await _categoryService.Update(category);
         }

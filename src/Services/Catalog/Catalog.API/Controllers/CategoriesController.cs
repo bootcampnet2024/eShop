@@ -2,6 +2,7 @@
 using Catalog.API._00_Application.Operations.Commands.CategoryCommands;
 using Catalog.API._00_Application.Operations.Queries.CategoryQueries;
 using Catalog.API._00_Application.Operations.Queries.CategoryQueries.Handlers;
+using Catalog.API._00_Application.Result;
 using Catalog.API.Controllers.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,7 @@ namespace Catalog.API.Controllers
         {
             var query = new GetAllCategoriesQuery(filter);
             var result = await _mediator.Send(query);
-            return Ok(result);
+            return Ok(new CatalogDataResult<CatalogCategoryResult> { Items = result.Items.Select(CatalogCategoryResult.FromDTO), TotalItems = result.TotalItems });
         }
 
         [HttpGet("{id}")]
@@ -39,22 +40,25 @@ namespace Catalog.API.Controllers
         {
             var query = new GetCategoryByIdQuery(id);
             var result = await _mediator.Send(query);
-            return Ok(result);
+
+            return Ok(CatalogCategoryResult.FromDTO(result));
         }
 
         [HttpGet("name/{name}")]
-        public async Task<IActionResult> GetByName(string name)
+        public async Task<IActionResult> GetByName(string name, [FromQuery] GenericFilter filter)
         {
-            var query = new GetCategoriesByNameQuery(name);
+            var query = new GetCategoriesByNameQuery(name, filter);
             var result = await _mediator.Send(query);
-            return Ok(result);
+
+            return Ok(new CatalogDataResult<CatalogCategoryResult> { Items = result.Items.Select(CatalogCategoryResult.FromDTO), TotalItems = result.TotalItems });
         }
 
         [HttpGet("count/")]
         public async Task<IActionResult> GetCount()
         {
             var query = new GetCountCategoriesQuery();
-            var result = await _mediator.Send(query);   
+            var result = await _mediator.Send(query);
+
             return Ok(result);
         }
 

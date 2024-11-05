@@ -8,7 +8,7 @@ namespace Catalog.API._00_Application.Operations.Queries.ProductQueries.Handlers
         private readonly ICatalogItemService _catalogItemService = productService;
         public async Task<int> Handle(GetCountProductsQuery request, CancellationToken cancellationToken)
         {
-            var count = await _catalogItemService.GetCount(); 
+            var count = await _catalogItemService.GetCount();
             return count;
         }
     }

@@ -18,11 +18,7 @@ namespace Catalog.API._02_Infrastructure.Configurations
                 .HasMaxLength(50);
 
             builder.Property(e => e.Description)
-                .IsRequired()
-                .HasMaxLength(500);
-
-            builder.Property(e => e.ImageURL)
-                .IsRequired();
+                .HasMaxLength(150);
         }
     }
 }

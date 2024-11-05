@@ -1,11 +1,11 @@
 ﻿using Catalog.API._00_Application_Operations.Commands.ProductCommands;
 using Catalog.API._01_Services;
-using Catalog.API._01_Services.Models;
+using Catalog.API._01_Services.DTOs;
 using MediatR;
 
 namespace Catalog.API._00_Application.Operations.Commands.ProductCommands.Handlers
 {
-    public class CreateProductCommandHandler(ICatalogItemService repository, ICatalogBrandService brandService, 
+    public class CreateProductCommandHandler(ICatalogItemService repository, ICatalogBrandService brandService,
         ICatalogCategoryService categoryService) : IRequestHandler<CreateProductCommand, bool>
     {
         private readonly ICatalogItemService _productService = repository;
@@ -19,18 +19,19 @@ namespace Catalog.API._00_Application.Operations.Commands.ProductCommands.Handle
 
             if (brand == null || category == null) return false;
 
-            var product = new CatalogItem
+            var product = new CatalogItemDTO
             {
                 Id = Guid.NewGuid(),
                 Name = request.Product.Name,
                 Description = request.Product.Description,
                 Quantity = request.Product.Quantity,
                 Price = request.Product.Price,
+                Discount = request.Product.Discount,
                 ImageURL = request.Product.ImageURL,
                 IsActive = request.Product.IsActive,
                 IsHighlighted = request.Product.IsHighlighted,
-                Brand = brand,
-                Category = category,
+                Brand = brand.Name,
+                Category = category.Name,
                 CreatedAt = createdAt,
                 UpdatedAt = createdAt
             };

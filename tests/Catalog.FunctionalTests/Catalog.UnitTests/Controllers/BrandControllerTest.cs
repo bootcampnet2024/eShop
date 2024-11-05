@@ -1,17 +1,12 @@
 ﻿using Catalog.API._00_Application.Models.Requests;
 using Catalog.API._00_Application.Operations.Commands.BrandCommands;
 using Catalog.API._00_Application.Operations.Queries.BrandQueries;
-using Catalog.API.Controllers;
 using Catalog.API._01_Services.Models;
+using Catalog.API.Controllers;
+using Catalog.API.Controllers.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Catalog.API._01_Services;
-using Catalog.API.Controllers.Filters;
 
 namespace Catalog.UnitTests.Controllers
 {
@@ -36,7 +31,7 @@ namespace Catalog.UnitTests.Controllers
 
             var result = await _brandController.Add(brand);
 
-            Assert.IsInstanceOfType(result, typeof(OkObjectResult)); 
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
         }
 
         [TestMethod]
@@ -78,7 +73,7 @@ namespace Catalog.UnitTests.Controllers
         public async Task GetByName_ReturnsOkWithBrands_WhenBrandExists()
         {
             var brandName = "test";
-            var brands = new List<CatalogBrand> { new CatalogBrand{ Name = "test"}, new CatalogBrand{ Name = "test2"} };
+            var brands = new List<CatalogBrand> { new CatalogBrand { Name = "test" }, new CatalogBrand { Name = "test2" } };
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetBrandsByNameQuery>(), It.IsAny<CancellationToken>()))
                          .ReturnsAsync(brands);
 

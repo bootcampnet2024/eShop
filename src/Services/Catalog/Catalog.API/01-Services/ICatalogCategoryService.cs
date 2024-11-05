@@ -1,19 +1,28 @@
-﻿using Catalog.API._02_Infrastructure.Data;
+﻿using Catalog.API._01_Services.DTOs;
 using Catalog.API._01_Services.Models;
-using Microsoft.EntityFrameworkCore;
+using Catalog.API._02_Infrastructure.Data;
 using Catalog.API.Controllers.Filters;
+using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.API._01_Services;
-public interface ICatalogCategoryService : IService<CatalogCategory, int>
+public interface ICatalogCategoryService : IService<CatalogCategoryDTO, int>
 {
-    Task<CatalogCategoryDataResult> GetAll(GenericFilter filter);
 }
 public class CatalogCategoryService(ApplicationDataContext context) : ICatalogCategoryService
 {
     public readonly ApplicationDataContext _context = context;
-    public async Task<bool> Add(CatalogCategory category)
+    public async Task<bool> Add(CatalogCategoryDTO dto)
     {
-        await _context.CatalogCategories.AddAsync(category);
+        var model = new CatalogCategory()
+        {
+            Name = dto.Name,
+            Description = dto.Description,
+            ImageURL = dto.ImageURL,
+            CreatedAt = dto.CreatedAt,
+            UpdatedAt = dto.UpdatedAt
+        };
+
+        await _context.CatalogCategories.AddAsync(model);
         return await _context.SaveChangesAsync() > 0;
     }
 
@@ -27,7 +36,7 @@ public class CatalogCategoryService(ApplicationDataContext context) : ICatalogCa
         return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task<CatalogCategoryDataResult> GetAll(GenericFilter filter)
+    public async Task<CatalogDataDTO<CatalogCategoryDTO>> GetAll(GenericFilter filter)
     {
         filter ??= new GenericFilter()
         {
@@ -48,37 +57,50 @@ public class CatalogCategoryService(ApplicationDataContext context) : ICatalogCa
             .Take(filter.PageSize)
             .AsSplitQuery()
             .AsNoTracking()
+            .Select(x => CatalogCategoryDTO.FromModel(x))
             .ToListAsync();
 
         var totalItems = query.Count();
 
-        return new CatalogCategoryDataResult() { TotalItems = totalItems, Items = data };
+        return new CatalogDataDTO<CatalogCategoryDTO> { TotalItems = totalItems, Items = data };
     }
 
-    public Task<IEnumerable<CatalogCategory>> GetAll()
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<CatalogCategory> GetById(int id)
+    public async Task<CatalogCategoryDTO> GetById(int id)
     {
         var category = await _context.CatalogCategories.FindAsync(id);
 
         if (category == null) return null;
 
-        return category;
+        return CatalogCategoryDTO.FromModel(category);
     }
 
-    public async Task<IEnumerable<CatalogCategory>> GetByName(string name)
+    public async Task<CatalogDataDTO<CatalogCategoryDTO>> GetByName(string name, GenericFilter filter)
     {
-        var category = await _context.CatalogCategories
-            .OrderByDescending(c => c.Name)
-            .Where(c => c.Name.Contains(name.ToLower()))
+        filter ??= new GenericFilter()
+        {
+            PageIndex = 0,
+            PageSize = 20,
+        };
+
+        if (filter.PageSize <= 0)
+            filter.PageSize = 10;
+
+        if (filter.PageSize > 50)
+            filter.PageSize = 50;
+
+        var query = _context.CatalogCategories.AsQueryable().Where(c => c.Name.Contains(name.ToLower()));
+
+        var data = await query
+            .Skip(filter.PageIndex * filter.PageSize)
+            .Take(filter.PageSize)
+            .AsSplitQuery()
+            .AsNoTracking()
+            .Select(x => CatalogCategoryDTO.FromModel(x))
             .ToListAsync();
 
-        if (category == null) return null;
+        var totalItems = query.Count();
 
-        return category;
+        return new CatalogDataDTO<CatalogCategoryDTO> { TotalItems = totalItems, Items = data };
     }
 
     public async Task<int> GetCount()
@@ -86,14 +108,17 @@ public class CatalogCategoryService(ApplicationDataContext context) : ICatalogCa
         return await _context.CatalogCategories.CountAsync();
     }
 
-    public async Task<bool> Update(CatalogCategory CatalogCategory)
+    public async Task<bool> Update(CatalogCategoryDTO dto)
     {
-        _context.CatalogCategories.Update(CatalogCategory);
+        var model = _context.CatalogCategories.Find(dto.Id);
+        if (model == null) return false;
+
+        model.Name = dto.Name;
+        model.ImageURL = dto.ImageURL;
+        model.Description = dto.Description;
+        model.UpdatedAt = dto.UpdatedAt;
+
+        _context.CatalogCategories.Update(model);
         return await _context.SaveChangesAsync() > 0;
     }
-}
-public class CatalogCategoryDataResult
-{
-    public int TotalItems { get; set; }
-    public IEnumerable<CatalogCategory> Items { get; set; }
 }

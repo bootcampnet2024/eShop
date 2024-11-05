@@ -2,7 +2,7 @@
 
 namespace Catalog.API._00_Application.Result;
 
-public class CatalogItemsResult
+public class CatalogItemResult
 {
     public Guid Id { get; set; }
     public string Name { get; set; }
@@ -10,7 +10,7 @@ public class CatalogItemsResult
     public int Quantity { get; set; }
     public decimal Price { get; set; }
     public int Discount { get; set; }
-    public decimal FinalPrice => Price - (Price * (Discount / 100)); 
+    public decimal FinalPrice { get; set; }
     public string ImageURL { get; set; }
     public bool IsHighlighted { get; set; }
     public bool IsActive { get; set; }
@@ -19,7 +19,7 @@ public class CatalogItemsResult
     public string Category { get; set; }
     public string Brand { get; set; }
 
-    public static CatalogItemsResult FromDTO(CatalogItemDTO itemDTO)
+    public static CatalogItemResult FromDTO(CatalogItemDTO itemDTO)
     {
         return new()
         {
@@ -28,6 +28,8 @@ public class CatalogItemsResult
             Description = itemDTO.Description,
             Quantity = itemDTO.Quantity,
             Price = itemDTO.Price,
+            Discount = itemDTO.Discount,
+            FinalPrice = itemDTO.Price - (itemDTO.Price * (itemDTO.Discount / 100m)),
             ImageURL = itemDTO.ImageURL,
             IsHighlighted = itemDTO.IsHighlighted,
             IsActive = itemDTO.IsActive,
