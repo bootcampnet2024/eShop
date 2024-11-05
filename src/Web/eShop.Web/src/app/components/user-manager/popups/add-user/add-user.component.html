@@ -1,19 +1,23 @@
 <form (ngSubmit)="closeModal()" #productForm="ngForm">
     <div class="form-group">
-      <label for="username">Userame:</label>
-      <input type="text" class="form-control" id="username" required [(ngModel)]="user.username" name="username">
+      <label for="username">Username:</label>
+      <input type="text" class="form-control" id="username" required [(ngModel)]="username" name="username">
+    </div>
+    <div class="form-group">
+      <label for="fullname">Full Name:</label>
+      <input type="text" class="form-control" id="fullname" required [(ngModel)]="fullname" name="fullname">
     </div>
     <div class="form-group">
       <label for="email">Email:</label>
-      <input type="text" class="form-control" id="emil" required [(ngModel)]="user.email" name="email">
+      <input type="text" class="form-control" id="emil" required [(ngModel)]="email" name="email">
     </div>
     <div class="form-group">
       <label for="cpf">CPF:</label>
-      <input type="text" class="form-control" id="cpf" required [(ngModel)]="user.cpf" name="cpf">
+      <input type="text" class="form-control" id="cpf" required [(ngModel)]="cpf" name="cpf">
     </div>
     <div class="form-group">
       <label for="cep">Phone Number:</label>
-      <input type="text" class="form-control" id="cep" required [(ngModel)]="user.phoneNumber" name="phoneNumber">
+      <input type="text" class="form-control" id="cep" required [(ngModel)]="phoneNumber" name="phoneNumber">
     </div>
     <button type="submit" class="btn btn-primary" >Add User</button>
   </form>

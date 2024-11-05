@@ -101,7 +101,7 @@ export class ProductManagementComponent implements OnInit {
       width: '65%',
       height: '65%',
       maxWidth: '100%',
-      maxHeight: '100%',
+      maxHeight: '100%'
     });
 
     dialogRef.afterClosed().subscribe((result) => {

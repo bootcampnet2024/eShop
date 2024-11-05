@@ -12,18 +12,12 @@ import { UserManagementService } from "../../../../services/user-management/user
   styleUrl: "../popups.css",
 })
 export class AddUserComponent implements OnInit {
-  user: User = {
-    id: "",
-    username: "",
-    email: "",
-    cpf: "",
-    phoneNumber: "",
-    roles: [""],
-    fullname: "",
-    addresss: [""],
-    updateAt: new Date()
-  };
-
+  fullname: string = "";
+  username: string = "";
+  email: string = "";
+  cpf: string = "";
+  phoneNumber: string = "";
+  
   constructor(
     private userService: UserManagementService,
     public dialogRef: MatDialogRef<AddUserComponent>
@@ -32,7 +26,28 @@ export class AddUserComponent implements OnInit {
   ngOnInit(): void {}
 
   closeModal() {
-    this.userService.add(this.user).subscribe(
+    const date: Date = new Date();
+    const body = {
+      username : this.username,
+      enabled: true,
+      emailVerified: true,
+      email: this.email,
+      attributes: {
+        full_name: this.fullname,
+        cpf: this.cpf,
+        update_at: date,
+        phone_number: this.phoneNumber,
+      },
+      credentials: [
+        {
+          type: "password",
+          value: this.cpf,
+          temporary: true,
+        },
+      ],
+      groups: ["user"],
+    };
+    this.userService.add(body).subscribe(
       () => {
         console.log("User added successfully");
         this.dialogRef.close();

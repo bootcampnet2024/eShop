@@ -1,53 +1,79 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
 import { UserManagementService } from "../../services/user-management/user-management.service";
 import { User } from "../../models/user.model";
-import { MatDialogRef, MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { MatDialog } from "@angular/material/dialog";
 import { AddUserComponent } from "./popups/add-user/add-user.component";
 import { EditUserComponent } from "./popups/edit-user/edit-user.component";
 import { ChangeUserRolesComponent } from "./popups/change-user-roles/change-user-roles.component";
 import { FooterComponent } from "../../shared/footer/footer.component";
 import { HeaderComponent } from "../../shared/header/header.component";
 import { AuthService } from "../../core/auth/auth.service";
-import { CommonModule } from "@angular/common";
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from "@angular/material/button";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-user-management",
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, CommonModule],
+  imports: [HeaderComponent, FooterComponent, MatButtonModule, MatIconModule],
   templateUrl: "./user-management.component.html",
-  styleUrls: ["./user-management.component.css"],
+  styleUrl: "./user-management.component.css",
 })
 export class UserManagementComponent implements OnInit {
   users: User[] = [];
   isAdmin: boolean = false;
 
-  dialogAdd = new MatDialogConfig();
-  modalAdd: MatDialogRef<AddUserComponent, any> | undefined;
-
-  dialogEdit = new MatDialogConfig();
-  modalEdit: MatDialogRef<EditUserComponent, any> | undefined;
-
-  dialogAdmin = new MatDialogConfig();
-  modalAdmin: MatDialogRef<ChangeUserRolesComponent, any> | undefined;
-
   constructor(
     private userService: UserManagementService,
     private matDialog: MatDialog,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
   ) {
     this.loadUsers();
   }
+
+  @ViewChild('searchInput', { static: true }) searchInputElementRef!: ElementRef;
+  searchInputElement!: HTMLInputElement;
 
   ngOnInit(): void {
     this.isAdmin = this.authService.checkAdminRole();
   }
 
+  isEmpty = (text: string): boolean => {
+    return text === null || text.match(/^ *$/) !== null;
+  };
+
+  searchUser = (event: KeyboardEvent): void => {
+    const element = event.currentTarget as HTMLInputElement
+    const value = element.value
+
+    if (event.key !== 'Enter') return;
+
+    if (this.isEmpty(value)) {
+      this.userService.getAll()
+        .subscribe({
+          next: (response) => {
+            this.users = response
+          }
+        });
+      return;
+    }
+    this.userService.getByCriteria(value)
+      .subscribe((response) => {
+        this.users = response
+      })
+  };
+
   loadUsers(): void {
     this.userService.getAll().subscribe({
       next: (response) => {
-        this.users = response.filter((x: { username: string; }) => 
-          !x.username.includes("admin") && !x.username.includes("manager")
-        );
+        if (this.isAdmin) {
+          this.users = response;
+        } else {
+          this.users = response.filter((x: { groups: string }) => 
+            x.groups.includes("user")
+          );
+        }
       },
       error: (err) => {
         console.error("Error loading users", err);
@@ -56,13 +82,23 @@ export class UserManagementComponent implements OnInit {
   }
 
   openAddModal(): void {
-    this.dialogAdd.id = "projects-modal-component";
-    this.modalAdd = this.matDialog.open(AddUserComponent, this.dialogAdd);
+    const dialogRef = this.matDialog.open(AddUserComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.loadUsers();
+    });
   }
 
   openEditModal(user: User): void {
-    this.dialogEdit.id = "projects-modal-component";
-    this.modalEdit = this.matDialog.open(EditUserComponent, { data: user });
+    const dialogRef = this.matDialog.open(EditUserComponent, {
+      data: {
+        user: user,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.loadUsers();
+    });
   }
 
   deleteUser(user: User): void {
@@ -78,8 +114,19 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
-  changeRoles(user: User) {
-    this.dialogAdmin.id = "projects-modal-component";
-    this.modalAdmin = this.matDialog.open(ChangeUserRolesComponent, { data: user });
+  addressPage(user: User): void{
+    this.router.navigate(['/addresses']);
+  }
+
+  changeRoles(user: User):void {
+    const dialogRef = this.matDialog.open(ChangeUserRolesComponent, {
+      data: {
+        user: user,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.loadUsers();
+    });
   }
 }

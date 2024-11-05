@@ -29,7 +29,7 @@ export class EditUserComponent implements OnInit {
     roles: this.data.roles,
     fullname: this.data.fullname,
     updateAt: this.data.updateAt,
-    addresss: this.data.addresss,
+    address: this.data.address,
   };
 
   closeModal() {
