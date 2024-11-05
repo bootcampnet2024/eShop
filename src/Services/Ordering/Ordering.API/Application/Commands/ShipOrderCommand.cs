@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Ordering.Domain.AggregatesModel.OrderAggregate;
+using Ordering.Domain.Exceptions;
 
 namespace Ordering.API.Application.Commands;
 
@@ -13,10 +14,15 @@ internal class ShipOrderCommandHandler(IOrderRepository orderRepository) : IRequ
     {
         var order = await _orderRepository.GetAsync(request.OrderId);
 
-        if (order is null)
+        try
+        {
+            order.SetShippedStatus();
+        }
+        catch (OrderingDomainException)
+        {
             return false;
-
-        order.SetShippedStatus();
+        }
+        
         _orderRepository.Update(order);
 
         return await _orderRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
