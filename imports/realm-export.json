@@ -876,6 +876,17 @@
       "nodeReRegistrationTimeout": 0,
       "protocolMappers": [
         {
+          "id": "8364b7d4-c04c-4416-a0d7-7e1f875c0f88",
+          "name": "sub",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-sub-mapper",
+          "consentRequired": false,
+          "config": {
+            "introspection.token.claim": "true",
+            "access.token.claim": "true"
+          }
+        },
+        {
           "id": "c9d6a7d6-e47f-4f27-8b9e-034e50e0eae5",
           "name": "realm roles",
           "protocol": "openid-connect",
@@ -904,14 +915,16 @@
       "clientId": "admin-cli",
       "name": "${client_admin-cli}",
       "description": "",
-      "rootUrl": "",
-      "adminUrl": "",
-      "baseUrl": "",
+      "rootUrl": "http://localhost:4200",
+      "adminUrl": "http://localhost:4200",
+      "baseUrl": "http://localhost:4200",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "redirectUris": [],
+      "redirectUris": [
+        "http://localhost:4200"
+      ],
       "webOrigins": [
         "http://localhost:4200"
       ],
@@ -928,7 +941,7 @@
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
         "backchannel.logout.session.required": "true",
-        "post.logout.redirect.uris": "+",
+        "post.logout.redirect.uris": "http://localhost:4200",
         "oauth2.device.authorization.grant.enabled": "false",
         "display.on.consent.screen": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
@@ -1786,13 +1799,13 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "saml-user-attribute-mapper",
-            "oidc-usermodel-property-mapper",
-            "oidc-usermodel-attribute-mapper",
-            "saml-user-property-mapper",
-            "oidc-full-name-mapper",
             "saml-role-list-mapper",
+            "oidc-usermodel-property-mapper",
             "oidc-sha256-pairwise-sub-mapper",
+            "oidc-usermodel-attribute-mapper",
+            "oidc-full-name-mapper",
+            "saml-user-property-mapper",
+            "saml-user-attribute-mapper",
             "oidc-address-mapper"
           ]
         }
@@ -1837,14 +1850,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "oidc-usermodel-property-mapper",
-            "oidc-address-mapper",
-            "saml-user-attribute-mapper",
             "saml-role-list-mapper",
             "oidc-full-name-mapper",
+            "oidc-usermodel-attribute-mapper",
             "oidc-sha256-pairwise-sub-mapper",
-            "saml-user-property-mapper",
-            "oidc-usermodel-attribute-mapper"
+            "oidc-address-mapper",
+            "oidc-usermodel-property-mapper",
+            "saml-user-attribute-mapper",
+            "saml-user-property-mapper"
           ]
         }
       },
@@ -1891,7 +1904,7 @@
         "subComponents": {},
         "config": {
           "kc.user.profile.config": [
-            "{\"attributes\":[{\"name\":\"username\",\"displayName\":\"${username}\",\"validations\":{\"length\":{\"min\":3,\"max\":255},\"username-prohibited-characters\":{},\"up-username-not-idn-homograph\":{}},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\",\"user\"]},\"multivalued\":false},{\"name\":\"email\",\"displayName\":\"${email}\",\"validations\":{\"email\":{},\"length\":{\"max\":255}},\"required\":{\"roles\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\",\"user\"]},\"multivalued\":false},{\"name\":\"full_name\",\"displayName\":\"full_name\",\"validations\":{},\"annotations\":{},\"required\":{\"roles\":[\"user\"],\"scopes\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\"]},\"selector\":{\"scopes\":[\"user\"]},\"multivalued\":false},{\"name\":\"cpf\",\"displayName\":\"cpf\",\"validations\":{},\"annotations\":{},\"required\":{\"roles\":[\"user\"],\"scopes\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\"]},\"selector\":{\"scopes\":[\"user\"]},\"multivalued\":false},{\"name\":\"address\",\"displayName\":\"address\",\"validations\":{},\"annotations\":{},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\"]},\"selector\":{\"scopes\":[\"user\"]},\"multivalued\":true},{\"name\":\"phone_number\",\"displayName\":\"phone_number\",\"validations\":{},\"annotations\":{},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\"]},\"selector\":{\"scopes\":[\"user\"]},\"multivalued\":false},{\"name\":\"update_at\",\"displayName\":\"update_at\",\"validations\":{},\"annotations\":{},\"required\":{\"roles\":[\"user\"],\"scopes\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\"]},\"selector\":{\"scopes\":[\"user\"]},\"multivalued\":false}],\"groups\":[]}"
+            "{\"attributes\":[{\"name\":\"username\",\"displayName\":\"${username}\",\"validations\":{\"length\":{\"min\":3,\"max\":255},\"username-prohibited-characters\":{},\"up-username-not-idn-homograph\":{}},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\",\"user\"]},\"multivalued\":false},{\"name\":\"email\",\"displayName\":\"${email}\",\"validations\":{\"email\":{},\"length\":{\"max\":255}},\"required\":{\"roles\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\",\"user\"]},\"multivalued\":false},{\"name\":\"full_name\",\"displayName\":\"full_name\",\"validations\":{},\"annotations\":{},\"required\":{\"roles\":[\"user\"],\"scopes\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\"]},\"selector\":{\"scopes\":[\"user\"]},\"multivalued\":false},{\"name\":\"cpf\",\"displayName\":\"cpf\",\"validations\":{},\"annotations\":{},\"required\":{\"roles\":[\"user\"],\"scopes\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\"]},\"selector\":{\"scopes\":[\"user\"]},\"multivalued\":false},{\"name\":\"address\",\"displayName\":\"address\",\"validations\":{},\"annotations\":{},\"required\":{\"roles\":[\"user\"],\"scopes\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\"]},\"selector\":{\"scopes\":[\"user\"]},\"multivalued\":true},{\"name\":\"phone_number\",\"displayName\":\"phone_number\",\"validations\":{},\"annotations\":{},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\"]},\"selector\":{\"scopes\":[\"user\"]},\"multivalued\":false},{\"name\":\"update_at\",\"displayName\":\"update_at\",\"validations\":{},\"annotations\":{},\"required\":{\"roles\":[\"user\"],\"scopes\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\"]},\"selector\":{\"scopes\":[\"user\"]},\"multivalued\":false}],\"groups\":[]}"
           ]
         }
       }
