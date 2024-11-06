@@ -36,6 +36,7 @@ export class UserManagementService {
 
   getProfile(): Observable<User> {
     const token = this.authService.getAccessToken();
+    console.log(token)
     if (token){
       const decodedToken = this.jwtHelper.decodeToken(token);
       const body: User = {
@@ -49,7 +50,7 @@ export class UserManagementService {
         roles: decodedToken.realm_access?.roles || [],
         address: decodedToken.address || []
         };
-
+      console.log(body)
       return of(body);
 
     }

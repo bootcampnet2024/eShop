@@ -93,9 +93,7 @@ export class UserManagementComponent implements OnInit {
 
   openEditModal(user: User): void {
     const dialogRef = this.matDialog.open(EditUserComponent, {
-      data: {
-        user: user,
-      }
+      data: user,
     });
 
     dialogRef.afterClosed().subscribe((result) => {

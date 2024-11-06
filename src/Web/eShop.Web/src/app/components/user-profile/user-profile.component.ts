@@ -86,19 +86,19 @@ export class UserProfileComponent implements OnInit {
     const daysDiff = timeDiff / (1000 * 3600 * 24);
 
     if (this.perfilForm.valid && (daysDiff > 0)) {
-      const updatedProfile: User = {
-        id: this.userId,
-        username: this.perfilForm.get('username')?.value,
-        fullname: this.perfilForm.get('fullname')?.value,
+      const body = {
+        username : this.perfilForm.get('username')?.value,
+        enabled: true,
+        emailVerified: true,
         email: this.perfilForm.get('email')?.value,
-        cpf: this.perfilForm.get('cpf')?.value,
-        phoneNumber: this.perfilForm.get('phoneNumber')?.value,
-        updateAt: date,
-        address: [], 
-        roles: ["user"] 
+        attributes: {
+          full_name: this.perfilForm.get('fullname')?.value,
+          cpf: this.perfilForm.get('cpf')?.value,
+          phone_number: this.perfilForm.get('phoneNumber')?.value,
+          update_at: date,
+        },
       };
-
-      this.userService.edit(this.userId, updatedProfile).subscribe({
+      this.userService.edit(this.userId, body).subscribe({
         next: () => {
           console.log('Profile updated successfully');
           this.authService.getAccessToken();

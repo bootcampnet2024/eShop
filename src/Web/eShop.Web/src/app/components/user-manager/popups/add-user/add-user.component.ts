@@ -40,7 +40,7 @@ export class AddUserComponent implements OnInit {
         {
           type: "password",
           value: this.cpf,
-          temporary: true,
+          temporary: false,
         },
       ],
       groups: ["user"],
