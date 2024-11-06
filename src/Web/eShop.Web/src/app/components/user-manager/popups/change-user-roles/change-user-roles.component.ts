@@ -21,7 +21,7 @@ export class ChangeUserRolesComponent {
   ngOnInit(): void {
     this.userService.getProfile().subscribe({
       next: (data) => {
-        this.userId = data.sub;
+
         this.userRoles = data.roles;
       },
       error: (err) => {

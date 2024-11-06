@@ -11,16 +11,17 @@ import { AuthService } from "../../core/auth/auth.service";
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from "@angular/material/button";
 import { Router } from "@angular/router";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-user-management",
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, MatButtonModule, MatIconModule],
+  imports: [HeaderComponent, FooterComponent, MatButtonModule, MatIconModule, CommonModule],
   templateUrl: "./user-management.component.html",
   styleUrl: "./user-management.component.css",
 })
 export class UserManagementComponent implements OnInit {
-  users: User[] = [];
+  users?: User[];
   isAdmin: boolean = false;
 
   constructor(
@@ -69,10 +70,11 @@ export class UserManagementComponent implements OnInit {
       next: (response) => {
         if (this.isAdmin) {
           this.users = response;
+          console.log('Usuários carregados:', response);
         } else {
-          this.users = response.filter((x: { groups: string }) => 
-            x.groups.includes("user")
-          );
+          this.users = response.filter((x: { username:string}) => 
+            !x.username.includes("admin") && !x.username.includes("manager")       
+        );
         }
       },
       error: (err) => {

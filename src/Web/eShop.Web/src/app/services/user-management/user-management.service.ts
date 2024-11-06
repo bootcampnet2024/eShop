@@ -14,12 +14,12 @@ export class UserManagementService {
 
   constructor(private http: HttpClient, private authService: AuthService, private jwtHelper : JwtHelperService) {}
 
-  getByCriteria(criteria: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}`, { params: criteria });  }
+  getByCriteria(criteria: any): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}`, { params: criteria });  }
 
-  getAll(): Observable<any> {
+  getAll(): Observable<User[]> {
     console.log('Fetching all users from:', this.baseUrl);
-    return this.http.get(this.baseUrl).pipe(
+    return this.http.get<User[]>(this.baseUrl).pipe(
     tap(response => {
       console.log('Users fetched:', response);
     }),
@@ -34,7 +34,7 @@ export class UserManagementService {
     return this.http.get(`${this.baseUrl}/count`);
   }
 
-  getProfile(): Observable<any> {
+  getProfile(): Observable<User> {
     const token = this.authService.getAccessToken();
     if (token){
       const decodedToken = this.jwtHelper.decodeToken(token);
@@ -45,7 +45,7 @@ export class UserManagementService {
         email: decodedToken.email,
         cpf: decodedToken.cpf,
         phoneNumber: decodedToken.phone_number,
-        updateAt: decodedToken.updated_at,
+        updateAt: new Date(decodedToken.update_at),
         roles: decodedToken.realm_access?.roles || [],
         address: decodedToken.address || []
         };

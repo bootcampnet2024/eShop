@@ -16,7 +16,6 @@ export class AddUserComponent implements OnInit {
   username: string = "";
   email: string = "";
   cpf: string = "";
-  phoneNumber: string = "";
   
   constructor(
     private userService: UserManagementService,
@@ -36,7 +35,6 @@ export class AddUserComponent implements OnInit {
         full_name: this.fullname,
         cpf: this.cpf,
         update_at: date,
-        phone_number: this.phoneNumber,
       },
       credentials: [
         {

@@ -61,7 +61,7 @@
             Delete
           </button>
           <button 
-            ngIf="isAdmin" 
+            *ngIf="isAdmin" 
             mat-flat-button 
             color="accent" 
             (click)="changeRoles(user)"

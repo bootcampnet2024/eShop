@@ -38,6 +38,7 @@ export class UserProfileComponent implements OnInit {
   perfilForm: FormGroup;
   isLoading = true;
   userId: string = '';
+  updateAt: Date = new Date();
 
   constructor(
     private fb: FormBuilder,
@@ -46,11 +47,10 @@ export class UserProfileComponent implements OnInit {
   ) {
     this.perfilForm = this.fb.group({
       username: ['', Validators.required],
-      email: [{ value: '', disabled: true }],
-      phoneNumber: [{ value: '', disabled: true }],
-      cpf: [{ value: '', disabled: true }],
-      fullname: [{ value: '', disabled: true }],
-      updateAt: [{ value: '', disabled: true }],
+      email: [''],
+      phoneNumber: [''],
+      cpf: [''],
+      fullname: [''],
     });
   }
 
@@ -68,10 +68,10 @@ export class UserProfileComponent implements OnInit {
           email: data.email,
           cpf: data.cpf,
           phoneNumber: data.phoneNumber,
-          updateAt: data.updateAt,
         });
         this.userId = data.id;
         this.isLoading = false;
+        this.updateAt = data.updateAt;
       },
       error: (error) => {
         console.error('Error loading user data:', error);
@@ -82,13 +82,10 @@ export class UserProfileComponent implements OnInit {
 
   updateProfile(): void {
     const date: Date = new Date();
-    const formUpdateAt = new Date(this.perfilForm.get('updateAt')?.value); 
-    const timeDiff = date.getTime() - formUpdateAt.getTime();
+    const timeDiff = date.getTime() - this.updateAt.getTime();
     const daysDiff = timeDiff / (1000 * 3600 * 24);
 
-    if (this.perfilForm.valid && (daysDiff > 7)) {
-      this.perfilForm.get('email')?.enable();
-
+    if (this.perfilForm.valid && (daysDiff > 0)) {
       const updatedProfile: User = {
         id: this.userId,
         username: this.perfilForm.get('username')?.value,
@@ -96,7 +93,7 @@ export class UserProfileComponent implements OnInit {
         email: this.perfilForm.get('email')?.value,
         cpf: this.perfilForm.get('cpf')?.value,
         phoneNumber: this.perfilForm.get('phoneNumber')?.value,
-        updateAt: new Date(),
+        updateAt: date,
         address: [], 
         roles: ["user"] 
       };
@@ -111,8 +108,6 @@ export class UserProfileComponent implements OnInit {
         }
       });
 
-      this.perfilForm.get('email')?.disable();
-      this.perfilForm.get('cpf')?.disable();
     } else {
       console.warn('Form is invalid or update time is not valid');
     }
