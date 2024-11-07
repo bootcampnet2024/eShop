@@ -169,7 +169,7 @@ public class OrderRepositoryTests
         await orderRepository.UnitOfWork.SaveChangesAsync();
 
         // Act
-        order.AddOrderItem(1, "Product 1", 1, 0, "Picture Url");
+        order.AddOrderItem(Guid.NewGuid().ToString(), "Product 1", 1, 0, "Picture Url");
         orderRepository.Update(order);
 
         // Assert

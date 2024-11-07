@@ -27,6 +27,7 @@ public record OrderViewModel
             Address = AddressViewModel.FromModel(order.Address),
             OrderItems = order.OrderItems.Select(oi => new OrderItemViewModel()
             {
+                ProductId = oi.ProductId,
                 PictureUrl = oi.PictureUrl,
                 ProductName = oi.ProductName,
                 Units = oi.Units,
