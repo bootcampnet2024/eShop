@@ -22,49 +22,51 @@ export class CartPageComponent implements OnInit {
   constructor(
     private router: Router,
     private cartService: CartService,
-  ) {}
+  ) { }
 
-  
+
   async ngOnInit(): Promise<void> {
     const accessToken = localStorage.getItem('access_token');
-    console.log('Access Token:', accessToken); 
+    console.log('Access Token:', accessToken);
     if (!accessToken) {
       this.router.navigate(['/login']);
       return;
     }
 
     this.userId = this.extractUserIdFromToken(accessToken);
-    console.log('User ID:', this.userId); 
+    if (this.userId) {
+      localStorage.setItem('user_id', this.userId);
+    }
 
     if (!this.userId) {
       this.router.navigate(['/login']);
       return;
     }
     this.loadCartItems();
-    this.updateOrderTotal(); 
+    this.updateOrderTotal();
   }
 
   extractUserIdFromToken(token: string): string | null {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      console.log('Token decodificado:', payload);       
-      return payload.sub || payload.jti || null; 
+      console.log('Token decodificado:', payload);
+      return payload.sub || payload.jti || null;
     } catch (error) {
       console.error('Erro ao decodificar o token:', error);
       return null;
     }
   }
-  
+
   loadCartItems(): void {
     if (!this.userId) {
       console.error('User ID is null or undefined.');
       return;
     }
-  
+
     this.cartService.getItems(this.userId).subscribe(
       (items) => {
-        console.log('Itens do carrinho recebidos:', items); 
-        this.products = items; 
+        console.log('Itens do carrinho recebidos:', items);
+        this.products = items;
         this.updateOrderTotal();
       },
       (error) => {
@@ -72,10 +74,10 @@ export class CartPageComponent implements OnInit {
       }
     );
   }
-  
+
 
   trackByProductId(index: number, item: CartItemModel): string {
-    return item.productId; 
+    return item.productId;
   }
 
   removeFromCart(product: CartItemModel): void {
@@ -83,13 +85,13 @@ export class CartPageComponent implements OnInit {
       console.error('User ID is null or undefined.');
       return;
     }
-  
+
     this.cartService.remove(this.userId, Number(product.productId)).subscribe(() => {
       this.products = this.products.filter(p => p.productId !== product.productId);
       this.updateOrderTotal();
     });
   }
-  
+
 
   goToPaymentPage(): void {
     this.router.navigate(['payment']);
@@ -111,7 +113,7 @@ export class CartPageComponent implements OnInit {
         },
         (error) => {
           console.error('Erro ao atualizar o item do carrinho', error);
-          product.quantity -= change; 
+          product.quantity -= change;
         }
       );
     }

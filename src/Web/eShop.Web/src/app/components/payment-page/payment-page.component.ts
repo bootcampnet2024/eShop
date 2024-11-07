@@ -30,7 +30,7 @@ export class PaymentPageComponent implements OnInit {
   items: CartItemModel[] = [];
   paymentForm: FormGroup;
   totalAmount: number = 0;
-  userId: string = '3834ab69-3330-4e2b-b4e6-413e7c3ca703';
+  userId: string | null = null;
   message: string = '';
 
   constructor(
@@ -52,12 +52,19 @@ export class PaymentPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadUserProfile();
+    const storedUserId = localStorage.getItem('user_id');
+    if (storedUserId) {
+      this.userId = storedUserId;
+      this.loadUserProfile();
+    } else {
+      console.error('User ID not found.');
+    }
   }
 
   loadUserProfile(): void {
     this.UserManagementService.getProfile().subscribe({
       next: (user: User) => {
+        console.log(user);
         this.loadCartItems();
       },
       error: (err: any) => {
@@ -67,15 +74,27 @@ export class PaymentPageComponent implements OnInit {
   }
 
   loadCartItems(): void {
-    this.cartService.getItems(this.userId).subscribe(items => {
-      this.items = items;
-      this.totalAmount = this.calculateTotalAmount();
-    });
+    if (!this.userId) {
+      console.error('User ID is undefined or null in loadCartItems.');
+      return;
+    }
+
+    this.cartService.getItems(this.userId).subscribe(
+      items => {
+        console.log('Itens do carrinho carregados:', items);
+        this.items = items;
+        this.totalAmount = this.calculateTotalAmount();
+      },
+      error => {
+        console.error('Erro ao carregar itens do carrinho:', error);
+      }
+    );
   }
 
   calculateTotalAmount(): number {
     return this.items.reduce((total, item) => total + (item.price * item.quantity), 0);
   }
+
 
   completeOrder(): void {
     this.UserManagementService.getProfile().subscribe({
@@ -102,7 +121,7 @@ export class PaymentPageComponent implements OnInit {
     return {
       name: user.fullname,
       email: user.email,
-      phoneNumber: user.phoneNumber.toString(),
+      phoneNumber: user.phoneNumber,
       cpf: user.cpf,
       paymentMethod: this.paymentForm.value.paymentMethod,
       address: {
