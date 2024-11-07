@@ -8,7 +8,6 @@ import { ProductService } from '../../services/product-list/product.service';
 import { ViewportScroller } from '@angular/common';
 import { NavbarComponent } from "../../shared/navbar/navbar.component";
 import { CartService } from '../../services/cart/cart.service';
-import { ProductManagementService } from "../../services/product-management/product-management.service";
 import { ToastService } from "angular-toastify";
 
 @Component({
