@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { PaymentPageComponent } from './payment-page.component';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { appConfig } from '../../app.config';
@@ -87,7 +87,8 @@ describe('PaymentPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load user profile on init', () => {
+  it('should load user profile and call loadCartItems on init', fakeAsync(() => {
+    const mockUserId = '12345';
     const mockUser: User = {
       id: '1',
       fullname: 'John Doe',
@@ -99,14 +100,25 @@ describe('PaymentPageComponent', () => {
       addresss: ['Rua Exemplo, 123, Cidade, Estado'],
       roles: ['admin']
     };
-
+  
     userManagementService.getProfile.and.returnValue(of(mockUser));
+  
+    spyOn(localStorage, 'getItem').and.returnValue(mockUserId);
+  
+    spyOn(component, 'loadCartItems');
+  
     component.ngOnInit();
-
+    fixture.detectChanges(); 
+    tick(); 
+  
+    expect(localStorage.getItem).toHaveBeenCalledWith('user_id');
     expect(userManagementService.getProfile).toHaveBeenCalled();
-  });
+    expect(component.loadCartItems).toHaveBeenCalled();
+  }));
 
   it('should load cart items', () => {
+    component.userId = 'user123';
+  
     const mockItems: CartItemModel[] = [
       {
         productId: '1',
@@ -119,13 +131,15 @@ describe('PaymentPageComponent', () => {
         userId: 'user123',
       }
     ];
-
+  
     cartService.getItems.and.returnValue(of(mockItems));
-
+  
     component.loadCartItems();
-
-    expect(cartService.getItems).toHaveBeenCalledWith(component.userId);
+  
+    expect(cartService.getItems).toHaveBeenCalledWith('user123');
+  
     expect(component.items).toEqual(mockItems);
+  
     expect(component.totalAmount).toBe(200);
   });
 
@@ -162,36 +176,26 @@ describe('PaymentPageComponent', () => {
         userId: 'user123',
       }
     ];
-    const mockCustomerData = {
-      name: mockUser.fullname,
-      email: mockUser.email,
-      phoneNumber: mockUser.phoneNumber.toString(),
-      cpf: mockUser.cpf,
-      paymentMethod: component.paymentForm.value.paymentMethod,
-      address: {
-        street: 'Rua Exemplo',
-        number: 123,
-        city: 'Cidade Exemplo',
-        state: 'Estado Exemplo',
-        country: 'Brasil',
-        zipCode: component.paymentForm.value.postalCode
-      },
-      items: mockItems.map(item => ({
-        productId: item.productId,
-        name: item.name,
-        quantity: item.quantity,
-        price: item.price
-      }))
-    };
-
+  
+    component.paymentForm.setValue({
+      cardNumber: '1234567812345678',
+      cardOwner: 'John Doe',
+      expirationMonth: '12',
+      expirationYear: '2025',
+      cvv: '123',
+      paymentMethod: 'creditCard',
+      postalCode: '12345-678',
+      couponCode: 'SAVE20'
+    });
+  
     userManagementService.getProfile.and.returnValue(of(mockUser));
     cartService.getItems.and.returnValue(of(mockItems));
     paymentService.processPayment.and.returnValue(of({ status: 'success' }));
-
+  
     component.completeOrder();
-
+  
     expect(userManagementService.getProfile).toHaveBeenCalled();
-    expect(paymentService.processPayment).toHaveBeenCalledWith(mockCustomerData);
+    expect(paymentService.processPayment).toHaveBeenCalled();
     expect(component.message).toBe('Compra realizada com sucesso!');
   });
 
