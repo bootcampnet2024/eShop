@@ -8,7 +8,7 @@ import { OrderSummary } from '../../models/orderSummary.model';
   providedIn: 'root'
 })
 export class OrderService {
-private url: string = 'http://localhost:5151/orders'
+private url: string = 'http://localhost:5151/api/orders'
 
   constructor(private http: HttpClient) { }
 

@@ -633,7 +633,6 @@ body {
 .cart-container{
   display: flex;
   padding: 2em 5em 0 4em;
-  min-height: 75%;
 }
 
 .cart-container__product-list {
@@ -1101,16 +1100,17 @@ button[type="submit"]:hover {
 .orderlist-container{
   background-color: #ffffff;
   border-radius: 8px;
-  margin: 20px auto;
-  height: 100%;
-  width: 80%;
-  padding: 10px 20px 0px 20px;
+  margin-top: 1em;
+  margin-right: 6em;
+  height: fit-content;
+  width: 90%;
+  padding: 1em 1em;
 }
 
 .orderlist-item{
   display: flex;
   justify-content: space-between;
-  padding: 2em 2em 2em 2em;
+  padding: 1em 2em;
   border-top: 1px solid;
 }
 
@@ -1124,7 +1124,20 @@ button[type="submit"]:hover {
 }
 
 .orderlist-button_section{
-  width: 200px;
+  display: flex;
+  justify-content: center;
+}
+
+.order-page-product-text {
+  padding: 2em 0;
+  width: 100%;
+}
+
+.orderlist-details {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 1em;
 }
 
 .orderlist-button-style{
@@ -1135,9 +1148,8 @@ button[type="submit"]:hover {
   padding: 10px;
   border: none;
   border-radius: 5px;
-  width: 200px;
+  width: 30vh;
   align-self: center;
-  margin-top: 3vh;
   cursor: pointer;
 }
 
@@ -1146,7 +1158,6 @@ button[type="submit"]:hover {
   flex-direction: row;
   justify-content: space-around;
   min-height: fit-content;
-  height: 100%;
   padding: 2em 2em 2em 2em;
 }
 
@@ -1156,7 +1167,7 @@ button[type="submit"]:hover {
   flex-direction: column;
   background-color: #ffffff;
   border-radius: 8px;
-  width: 80%;
+  width: 60%;
 }
 
 .order-page_summary img{

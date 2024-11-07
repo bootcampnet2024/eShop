@@ -44,8 +44,8 @@ export const routes: Routes = [
     {path: 'addresses', component: AddressPageComponent},
     {path: 'history', component: HistoryPageComponent},
     {path: 'addresses', component: AddressPageComponent},
-    {path: 'orders', component: OrderListComponent},
-    {path: 'order', component: OrderPageComponent },
+    {path: 'orders', component: OrderListComponent, canActivate: [AuthGuard]},
+    {path: 'order', component: OrderPageComponent, canActivate: [AuthGuard] },
     {path: 'product-management', component: ProductManagementComponent, canActivate: [AuthGuard]},
     {path: 'category-management', component: CategoryManagementComponent, canActivate: [AuthGuard]},
     {path: 'brand-management', component: BrandManagementComponent, canActivate: [AuthGuard]}

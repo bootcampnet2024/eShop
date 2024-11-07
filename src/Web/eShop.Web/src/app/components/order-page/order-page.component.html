@@ -1,45 +1,55 @@
 <app-header></app-header>
-<app-navbar></app-navbar>
 
-<div class="order-page">
-  <div class="order-page_summary">
-    <h1>{{ prefix }} Order - {{ formatDate(order!.date) }}</h1>
+  <div class="order-page">
+    <div class="sidebar-container">
+      <mat-card class="sidebar-item">
+        <a [routerLink]="['/orders']" class="sidebar-link">
+          <mat-icon class="sidebar-icon">arrow_back</mat-icon>
+          <div class="sidebar-text">
+            <mat-card-title>Go Back</mat-card-title>
+          </div>
+        </a>
+      </mat-card>
+    </div>
+    
+    <div class="order-page_summary">
+      <h1>{{ prefix }} Order - {{ formatDate(order?.date) }}</h1>
 
-    <div class="order-page-showproduct">
-      @for (item of order?.items; track item.productId) {
-      <div class="orderlist-item">
-        <img src="{{ item.pictureUrl }}" alt="" />
+      <div class="order-page-showproduct">
+        @for (item of order?.orderItems; track item.productId) {
+        <div class="orderlist-item">
+          <img src="{{ item.pictureUrl }}" alt="" />
 
-        <div class="orderlist-text">
-          <h2>Name: {{ item.productName }}</h2>
-          <h2>Quantity: {{ item.units }}</h2>
-          <h2>Price: R$ {{ item.unitPrice }}</h2>
-          <br />
-          <h2>Total: R$ {{ (item.unitPrice * item.units).toFixed(2) }}</h2>
+          <div class="order-page-product-text">
+            <h2>Name: {{ item.productName }}</h2>
+            <h2>Quantity: {{ item.units }}</h2>
+            <h2>Unit Price: R$ {{ item.unitPrice }}</h2>
+            <br />
+            <h2>Total: R$ {{ (item.unitPrice * item.units).toFixed(2) }}</h2>
+          </div>
+
+          <div class="orderlist-button_section">
+            <button (click)="viewProduct(item)" class="orderlist-button-style">
+              View Product
+            </button>
+          </div>
         </div>
-
-        <div class="orderlist-button_section">
-          <button (click)="viewProduct(item)" class="orderlist-button-style">
-            View Product
-          </button>
-        </div>
+        }
       </div>
-      }
     </div>
-  </div>
 
-  <div class="order-page-sidewindow">
-    <div class="order-page-sidewindow-details">
-      <h2>Details:</h2>
-      <hr />
-      Products: {{ order?.items?.length }} <br />
-      Status: {{ formatEnum(order!.status) }}<br />
-      <br />
-      <hr />
-      Total: R$ {{ order?.total?.toFixed(2) }}
+    <div class="order-page-sidewindow">
+      <div class="order-page-sidewindow-details">
+        <h2>Details:</h2>
+        <hr />
+        Products: {{ order?.orderItems?.length }} <br />
+        Status: {{ formatEnum(order?.status) }}<br />
+        <br />
+        <hr />
+        Total: R$ {{ order?.total?.toFixed(2) }}
+      </div>
+      <a href="/contact" class="order-page-sidewindow-help">❓ Help</a>
     </div>
-    <a href="/contact" class="order-page-sidewindow-help">❓ Help</a>
   </div>
-</div>
 
 <app-footer></app-footer>

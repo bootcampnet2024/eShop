@@ -4,21 +4,42 @@ import { FooterComponent } from "../../shared/footer/footer.component";
 import { NavbarComponent } from "../../shared/navbar/navbar.component";
 import { OrderSummary } from "../../models/orderSummary.model";
 import { OrderService } from "../../services/order/order.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterModule } from "@angular/router";
 import { Router } from "@angular/router";
 import { UserManagementService } from "../../services/user-management/user-management.service";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatListModule } from "@angular/material/list";
 
 @Component({
   selector: "app-order-list",
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, NavbarComponent],
+  imports: [
+    NavbarComponent,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDividerModule,
+    MatButtonModule,
+    MatCardModule,
+    HeaderComponent,
+    FooterComponent,
+    MatListModule,
+    RouterModule,
+    MatIconModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: "./order-list.component.html",
   styleUrl: "./order-list.component.css",
 })
 export class OrderListComponent implements OnInit {
   public orders: OrderSummary[] = [];
 
-  userId: string = "";
+  userId?: string; 
 
   public prefix: string = "Your";
 
@@ -30,16 +51,17 @@ export class OrderListComponent implements OnInit {
   ) {}
 
   loadOrders(): void {
-    if (this.userId == "") return;
+    if (!this.userId) return;
     this.orderService.getAllByUserId(this.userId).subscribe({
       next: (response) => {
         this.orders = response;
-        this.loadUserData(this.orders[0].buyerId);
       },
     });
   }
 
-  loadUserData(sub: string): void {
+  loadUserData(sub?: string): void {
+    if (!sub) return;
+    if (this.orders[0].buyerId === sub) return;
     this.userService.getByCriteria({ id: sub }).subscribe({
       next: (response) => {
         this.prefix = response.fullname.split(" ")[0];
@@ -49,11 +71,11 @@ export class OrderListComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      this.userId = params.get("userId") ?? "";
-      if (this.userId == "") {
+      this.userId = params.get("userId") || undefined;
+      if (!this.userId) {
         this.userService.getProfile().subscribe({
           next: (response) => {
-            this.userId = response.sub;
+            this.userId = response.id;
             this.loadOrders();
           },
           error: () => {
@@ -79,17 +101,21 @@ export class OrderListComponent implements OnInit {
     this.router.navigate(["/order", { id: orderId }]);
   }
 
-  formatEnum(text: string): string {
-    return text[0] + text.slice(1).replace(/([A-Z])/g, ' $1');
+  formatEnum(text?: string): string {
+    if (!text) return "N/A";
+    return text[0] + text.slice(1).replace(/([A-Z])/g, " $1");
   }
 
-  formatDate(date: Date): string {
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+  formatDate(dateString?: string): string {
+    if (!dateString) return "N/A";
+    
+    let date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
 
     return `${day}/${month}/${year} - ${hours}:${minutes}`;
-}
+  }
 }

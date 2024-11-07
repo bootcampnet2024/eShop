@@ -1,24 +1,42 @@
 <app-header></app-header>
-<app-navbar></app-navbar>
 
-<div class="orderlist-container">
-  <h1>{{ prefix }} Orders:</h1>
-
-  @for (order of orders; track order.date) {
-  <div class="orderlist-item">
-    <div class="orderlist-text">
-      <img src="{{ order.pictureUrl }}" alt="" />
-      <h2>Ordered at: {{ formatDate(order!.date) }}</h2>
-      <h3>Status: {{ formatEnum(order.status) }}</h3>
-      <h3>Price: R$ {{ order.total.toFixed(2) }}</h3>
-    </div>
-
-    <div class="orderlist-button_section">
-      <button (click)="viewOrder(order.orderId)" class="orderlist-button-style">
-        Details
-      </button>
-    </div>
+<div class="container">
+  <div class="sidebar-container">
+    <mat-card class="sidebar-item">
+      <a [routerLink]="['/user-profile']" class="sidebar-link">
+        <mat-icon class="sidebar-icon">arrow_back</mat-icon>
+        <div class="sidebar-text">
+          <mat-card-title>Go Back</mat-card-title>
+        </div>
+      </a>
+    </mat-card>
   </div>
-  }
+
+  <div class="orderlist-container">
+    <h1>{{ prefix }} Orders:</h1>
+
+    @for (order of orders; track order.date) {
+    <div class="orderlist-item">
+      <div class="orderlist-details">
+        <img src="{{ order.pictureUrl }}" alt="" />
+        <div class="orderlist-text">
+          <h2>Ordered at: {{ formatDate(order.date) }}</h2>
+          <br />
+          <h3>Status: {{ formatEnum(order.status) }}</h3>
+          <h3>Price: R$ {{ order.total.toFixed(2) }}</h3>
+        </div>
+      </div>
+
+      <div class="orderlist-button_section">
+        <button
+          (click)="viewOrder(order.orderId)"
+          class="orderlist-button-style"
+        >
+          Details
+        </button>
+      </div>
+    </div>
+    }
+  </div>
 </div>
 <app-footer></app-footer>

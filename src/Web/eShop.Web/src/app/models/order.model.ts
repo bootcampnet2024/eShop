@@ -3,10 +3,10 @@ export interface Order {
   pictureUrl: string;
   buyerId: string;
   address: Address;
-  date: Date;
+  date: string;
   status: string;
   total: number;
-  items: OrderItem[];
+  orderItems: OrderItem[];
 }
 
 export interface Address {
@@ -18,7 +18,7 @@ export interface Address {
 }
 
 export interface OrderItem {
-  productId: number;
+  productId: string;
   productName: string;
   unitPrice: number;
   discount: number;

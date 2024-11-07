@@ -20,10 +20,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-app.UseCors();
 app.MapHealthChecks("/health", new HealthCheckOptions()
 {
     Predicate = _ => true,
