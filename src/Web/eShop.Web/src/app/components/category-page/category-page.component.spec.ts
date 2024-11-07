@@ -4,7 +4,7 @@ import { CategoryPageComponent } from './category-page.component';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product-list/product.service';
 import { of } from 'rxjs';
-import { ProductRequest } from '../../models/product-request.model';
+import { ProductRequest } from '../../models/paginated-result.model';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { provideHttpClientTesting } from '@angular/common/http/testing';

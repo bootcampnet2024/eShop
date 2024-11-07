@@ -32,9 +32,13 @@
           <th>Image</th>
           <th>Name</th>
           <th>Price</th>
+          <th>Discount</th>
+          <th>Final Price</th>
           <th>Quantity</th>
           <th>Category</th>
           <th>Brand</th>
+          <th>Created at</th>
+          <th>Updated at</th>
           <th>Is Active</th>
           <th>Is Highlighted</th>
           <th>Actions</th>
@@ -46,9 +50,13 @@
           <td><img class="table-container__table__image" src="{{ product.imageURL }}" /></td>
           <td>{{ product.name }}</td>
           <td>R$ {{ product.price.toFixed(2) }}</td>
+          <td>{{ product.discount}}</td>
+          <td>{{ product.finalPrice}}</td>
           <td>{{ product.quantity }}</td>
-          <td>{{ product.category.name }}</td>
-          <td>{{ product.brand.name }}</td>
+          <td>{{ product.category }}</td>
+          <td>{{ product.brand }}</td>
+          <td>{{ dateToLocal(product.createdAt.toString()) | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ dateToLocal(product.updatedAt.toString()) | date: 'dd/MM/yyyy HH:mm' }}</td>
           <td>
             @if ( product.isActive ) {<mat-icon
               fontIcon="check_box"
@@ -71,13 +79,22 @@
             >
               Edit
             </button>
-            <button
+            @if(!product.isActive){
+              <button
+              mat-flat-button
+              color="accent"
+            >
+              Enable
+            </button>
+            } @else {
+              <button
               mat-flat-button
               color="warn"
               (click)="disableProduct(product.id)"
             >
               Disable
             </button>
+            }
           </td>
         </tr>
         }

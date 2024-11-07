@@ -1,4 +1,8 @@
 export interface Category{
   id: number,
-  name: string
+  name: string,
+  description: string,
+  imageURL: string,
+  createdAt: Date,
+  updatedAt: Date
 }

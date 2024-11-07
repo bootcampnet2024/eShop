@@ -1,4 +1,3 @@
-import { CategoryDTO } from './../../../../models/categoryDTO.model';
 import { Component, Inject } from '@angular/core';
 import { Category } from '../../../../models/category.model';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -29,15 +28,10 @@ export class UpdateCategoryModalComponent {
   }
 
   categoryForm = new FormGroup({
-    name: new FormControl('', Validators.required)
+    name: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.maxLength(150)),
+    imageURL: new FormControl('')
   });
-
-  convertToCategory(): CategoryDTO {
-    let category: CategoryDTO = {
-      name: this.categoryForm.get('name')?.value ?? ""
-    };
-    return category;
-  }
 
   category?: Category;
 
@@ -61,6 +55,18 @@ export class UpdateCategoryModalComponent {
         this._toastService.error("This category does not exist in the API!");
       }
     });
+  }
+
+  convertToCategory(): Category {
+    let category: Category = {
+      id: 0,
+      name: this.categoryForm.get('name')?.value ?? "",
+      description: this.categoryForm.get('description')?.value ?? "",
+      imageURL: this.categoryForm.get('imageURL')?.value ?? "",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    return category;
   }
 
   updateCategory() {

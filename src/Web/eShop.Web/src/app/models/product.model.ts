@@ -1,6 +1,3 @@
-import { Brand } from "./brand.model";
-import { Category } from "./category.model";
-
 export interface Product {
   id: string;
   name: string,
@@ -9,8 +6,8 @@ export interface Product {
   discount: number,
   finalPrice: number,
   quantity: number,
-  brand: Brand,
-  category: Category,
+  brand: string,
+  category: string,
   imageURL: string,
   isActive: boolean,
   isHighlighted: boolean,

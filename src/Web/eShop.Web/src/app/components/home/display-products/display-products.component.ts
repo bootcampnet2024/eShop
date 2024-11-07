@@ -1,7 +1,7 @@
 import { Router } from "@angular/router";
 import { Product } from "../../../models/product.model";
-import { ProductService } from "../../../services/product-list/product.service";
 import { Component, Input, OnInit } from "@angular/core";
+import { ProductManagementService } from "../../../services/product-management/product-management.service";
 
 @Component({
   selector: 'app-display-products',
@@ -17,15 +17,17 @@ export class DisplayProductsComponent implements OnInit {
 
   products: Product[] = [];
 
-  constructor(private router: Router, private productService: ProductService) {}
+  constructor(private router: Router, private productService: ProductManagementService) {}
 
   ngOnInit(): void {
     this.productService
-      .getCatalogItems(
+      .getProducts(
         this.showOnlyHighlighted,
         0,
         this.productQuantity,
-        this.categoryId
+        [this.categoryId],
+        [],
+        0
       )
       .subscribe({
         next: (response) => {

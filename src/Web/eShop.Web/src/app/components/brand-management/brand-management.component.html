@@ -32,7 +32,10 @@
       <thead>
         <tr>
           <th>Id</th>
+          <th>Image</th>
           <th>Name</th>
+          <th>Created at</th>
+          <th>Updated at</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -40,7 +43,10 @@
         @for (brand of brands; track brand.id){
         <tr>
           <td>{{ brand.id }}</td>
+          <td><img src="{{ brand.imageURL }}" alt=""></td>
           <td>{{ brand.name }}</td>
+          <td>{{ dateToLocal(brand.createdAt.toString()) | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ dateToLocal(brand.updatedAt.toString()) | date: 'dd/MM/yyyy HH:mm' }}</td>
           <!-- <td>
             @if ( product.isActive ) {<mat-icon
               fontIcon="check_box"

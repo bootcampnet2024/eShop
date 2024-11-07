@@ -33,10 +33,14 @@
         <input color="primary" matInput formControlName="price" />
       </mat-form-field>
       <mat-form-field class="management-form__small-inputs">
+        <mat-label>Discount</mat-label>
+        <input color="primary" matInput formControlName="discount" />
+      </mat-form-field>
+      <mat-form-field class="management-form__small-inputs">
         <mat-label>Brand</mat-label>
         <mat-select formControlName="brandId">
           @for ( brand of brands; track brand.id ) {
-          <mat-option [value]="brand.id">{{ brand.name }}</mat-option>
+          <mat-option [value]="brand.name">{{ brand.name }}</mat-option>
           }
         </mat-select>
       </mat-form-field>
@@ -44,7 +48,7 @@
         <mat-label>Category</mat-label>
         <mat-select formControlName="categoryId">
           @for ( category of categories; track category.id ) {
-          <mat-option [value]="category.id">{{ category.name }}</mat-option>
+          <mat-option [value]="category.name">{{ category.name }}</mat-option>
           }
         </mat-select>
       </mat-form-field>

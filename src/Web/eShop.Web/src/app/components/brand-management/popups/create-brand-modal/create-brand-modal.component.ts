@@ -8,8 +8,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ProductManagementService } from '../../../../services/product-management/product-management.service';
-import { BrandDTO } from '../../../../models/brandDTO.model';
 import { ToastService } from 'angular-toastify';
+import { Brand } from '../../../../models/brand.model';
 
 @Component({
   selector: 'app-create-brand-modal',
@@ -21,15 +21,20 @@ import { ToastService } from 'angular-toastify';
 })
 export class CreateBrandModalComponent {
   brandForm = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.maxLength(30)]),
+    name: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+    imageURL: new FormControl('', [Validators.required]),
   });
 
   constructor(private ref: MatDialogRef<CreateBrandModalComponent>, private productService : ProductManagementService, private _toastService: ToastService){
   }
 
-  convertToBrand(): BrandDTO {
-    let brand: BrandDTO = {
+  convertToBrand(): Brand {
+    let brand: Brand = {
+      id: 0,
       name: this.brandForm.get('name')?.value ?? "",
+      imageURL: this.brandForm.get('imageURL')?.value ?? "",
+      createdAt: new Date(),
+      updatedAt: new Date()
     };
     return brand;
   }

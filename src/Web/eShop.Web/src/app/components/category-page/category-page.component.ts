@@ -3,10 +3,10 @@ import { HeaderComponent } from "../../shared/header/header.component";
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { FooterComponent } from "../../shared/footer/footer.component";
 import { Product } from '../../models/product.model';
-import { ProductService } from '../../services/product-list/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
+import { ProductManagementService } from '../../services/product-management/product-management.service';
 
 @Component({
   selector: 'app-category-page',
@@ -21,11 +21,11 @@ export class CategoryPageComponent implements OnInit{
     categoryId: number = 0
     Category: any;
 
-    constructor(private route: ActivatedRoute, private router: Router, private productService : ProductService, private viewportScroller: ViewportScroller){}
+    constructor(private route: ActivatedRoute, private router: Router, private productService : ProductManagementService, private viewportScroller: ViewportScroller){}
 
     loadItems(): void
     {
-      this.productService.getCatalogItems(false, 0, 10, this.categoryId)
+      this.productService.getProducts(false, 0, 10, [this.categoryId], [], 0)
       .subscribe({
         next : (response) => {
           this.products = response.items

@@ -52,15 +52,24 @@
         <thead>
           <tr>
             <th>Id</th>
+            <th>Image</th>
             <th>Name</th>
+            <th>Description</th>
+            <th>Created at</th>
+            <th>Updated at</th>
             <th>Actions</th>
+
           </tr>
         </thead>
         <tbody>
           @for (category of categories; track category.id){
           <tr>
             <td>{{ category.id }}</td>
+            <td><img src="{{ category.imageURL }}" alt=""></td>
             <td>{{ category.name }}</td>
+            <td>{{ category.description }}</td>
+            <td>{{ dateToLocal(category.createdAt.toString()) | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ dateToLocal(category.updatedAt.toString()) | date: 'dd/MM/yyyy HH:mm' }}</td>
             <td>
               <button
                 mat-flat-button

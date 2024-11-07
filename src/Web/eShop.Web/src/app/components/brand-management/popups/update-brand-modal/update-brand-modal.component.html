@@ -5,6 +5,10 @@
       <mat-label>Brand Name</mat-label>
       <input color="primary" matInput formControlName="name" />
     </mat-form-field>
+    <mat-form-field class="management-form__inputs__imageURL">
+      <mat-label>Brand Image</mat-label>
+      <input color="primary"#imageURL matInput formControlName="imageURL">
+    </mat-form-field>
     </div>
   <div class="management-form__actions">
     <button mat-flat-button color="primary" [disabled]="!brandForm.valid" (click)="updateBrand()">

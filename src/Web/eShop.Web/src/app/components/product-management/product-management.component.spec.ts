@@ -3,14 +3,9 @@ import { ProductManagementComponent } from "./product-management.component";
 import { appConfig } from "../../app.config";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { ProductManagementService } from "../../services/product-management/product-management.service";
-import { HttpClient } from "@angular/common/http";
 import { of, throwError } from "rxjs";
-import { By } from "@angular/platform-browser";
 import { CreateProductModalComponent } from "./popups/create-product-modal/create-product-modal.component";
 import { UpdateProductModalComponent } from "./popups/update-product-modal/update-product-modal.component";
-import { Product } from "../../models/product.model";
-import { ProductDTO } from "../../models/productDTO.model";
-import { Toast } from "angular-toastify/lib/toast";
 
 describe("ProductManagementComponent", () => {
   let component: ProductManagementComponent;

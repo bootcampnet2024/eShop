@@ -4,13 +4,11 @@ import { UpdateProductModalComponent } from '../../../product-management/popups/
 import { Brand } from '../../../../models/brand.model';
 import { ProductManagementService } from '../../../../services/product-management/product-management.service';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BrandDTO } from '../../../../models/brandDTO.model';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { Toast } from 'angular-toastify/lib/toast';
 import { ToastService } from 'angular-toastify';
 
 @Component({
@@ -34,15 +32,9 @@ export class UpdateBrandModalComponent {
   }
 
   brandForm = new FormGroup({
-    name: new FormControl('', Validators.required),
+    name: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+    imageURL: new FormControl('', Validators.required)
   });
-
-  convertToBrand(): BrandDTO {
-    let brand: BrandDTO = {
-      name: this.brandForm.get('name')?.value ?? "",
-    };
-    return brand;
-  }
 
   private brand?: Brand;
 
@@ -66,6 +58,17 @@ export class UpdateBrandModalComponent {
         this._toastService.error("This brand does not exist in the API!");
       }
     });
+  }
+
+  convertToBrand(): Brand {
+    let brand: Brand = {
+      id: 0,
+      name: this.brandForm.get('name')?.value ?? "",
+      imageURL: this.brandForm.get('imageURL')?.value ?? "",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    return brand;
   }
 
   updateBrand() {

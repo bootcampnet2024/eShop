@@ -8,8 +8,8 @@
     <div class="product-container__info">
       <div class="product-container__info__name">
         <h2>{{ product.name }}</h2>
-        <p class="product-container__info__category-name">{{ product.category.name }}</p>
-        <p class="product-container__info__brand-name">{{ product.brand.name }}</p>
+        <p class="product-container__info__category-name">{{ product.category }}</p>
+        <p class="product-container__info__brand-name">{{ product.brand }}</p>
       </div>
 
     </div>
@@ -28,7 +28,7 @@
   </div>
   <div class="similar-products">
     <app-display-products [showOnlyHighlighted]="false" [productQuantity]="10"
-      [categoryId]="product.category.id"></app-display-products>
+      [categoryId]="category!.id"></app-display-products>
   </div>
 </main>
 <app-footer></app-footer>

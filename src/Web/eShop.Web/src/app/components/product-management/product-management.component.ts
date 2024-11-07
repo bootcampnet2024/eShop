@@ -171,4 +171,9 @@ export class ProductManagementComponent implements OnInit {
       queryParamsHandling: "merge",
     });
   }
+
+  dateToLocal(dateTime: string){
+    let date = new Date(dateTime);
+    return new Date(date.getTime() - date.getTimezoneOffset() * 60000); 
+  }
 }
