@@ -41,6 +41,8 @@
         <p>Subtotal:</p>
         <p>Total: R$ {{ orderTotal.toFixed(2) }}</p>
       </div>
+      <button class="cart-container__order-summary__summary__continue-button" (click)="goToShopping()">Continue shopping?</button>
+
       <button class="cart-container__order-summary__summary__buy-button" (click)="goToPaymentPage()">Checkout</button>
     </div>
   </div>
