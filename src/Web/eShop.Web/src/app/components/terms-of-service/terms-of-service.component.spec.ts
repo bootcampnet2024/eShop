@@ -20,7 +20,7 @@ describe("TermsOfServiceComponent", () => {
       imports: [
         HttpClientTestingModule,
         JwtModule.forRoot({}),
-        TermsOfServiceComponent // Adicionado aqui como import
+        TermsOfServiceComponent 
       ],
       providers: [
         AuthService,

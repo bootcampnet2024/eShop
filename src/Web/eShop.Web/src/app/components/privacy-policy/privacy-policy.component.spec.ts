@@ -20,7 +20,7 @@ describe("PrivacyPolicyComponent", () => {
       imports: [
         HttpClientTestingModule,
         JwtModule.forRoot({}),
-        PrivacyPolicyComponent // Importando o componente aqui
+        PrivacyPolicyComponent 
       ],
       providers: [
         AuthService,
