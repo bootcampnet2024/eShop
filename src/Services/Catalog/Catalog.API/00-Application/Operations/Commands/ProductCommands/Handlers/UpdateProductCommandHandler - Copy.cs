@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Catalog.API._00_Application.Operations.Commands.ProductCommands.Handlers
 {
-    public class UpdateProductCommandHandler(ICatalogItemService repository, ICatalogBrandService brandService,
+    public class EnableOrDisableProductCommandHandler(ICatalogItemService repository, ICatalogBrandService brandService,
         ICatalogCategoryService categoryService) : IRequestHandler<UpdateProductCommand, bool>
     {
         private readonly ICatalogItemService _productService = repository;

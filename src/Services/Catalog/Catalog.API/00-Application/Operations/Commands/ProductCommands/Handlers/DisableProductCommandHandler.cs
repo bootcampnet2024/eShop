@@ -4,12 +4,12 @@ using MediatR;
 
 namespace Catalog.API._00_Application.Operations.Commands.ProductCommands.Handlers
 {
-    public class DeleteProductCommandHandler(ICatalogItemService repository) : IRequestHandler<DeleteProductCommand, bool>
+    public class DisableProductCommandHandler(ICatalogItemService repository) : IRequestHandler<DisableProductCommand, bool>
     {
         private readonly ICatalogItemService _productService = repository;
-        public async Task<bool> Handle(DeleteProductCommand request, CancellationToken cancellation)
+        public async Task<bool> Handle(DisableProductCommand request, CancellationToken cancellation)
         {
-            return await _productService.Delete(request.id);
+            return await _productService.Disable(request.id);
         }
     }
 }

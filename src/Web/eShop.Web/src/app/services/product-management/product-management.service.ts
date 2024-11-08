@@ -115,7 +115,7 @@ export class ProductManagementService {
     return this.http.put<number>(`${this.url}/${this.brands}?id=${id}`,brand, {responseType: 'text' as 'json'})
   }
 
-  disableProduct(id: string) : Observable<Product> {
+  changeProductState(id: string) : Observable<Product> {
     return this.http.delete<Product>(`${this.url}/${this.products}/${id}`)
   }
 }

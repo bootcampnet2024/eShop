@@ -36,14 +36,19 @@ public class CatalogItemService(ApplicationDataContext context) : ICatalogItemSe
         return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> Delete(Guid id)
+    public async Task<bool> Disable(Guid id)
     {
         var product = await _context.CatalogItems.FindAsync(id);
 
         if (product == null) return false;
 
-        product.IsActive = false;
-        product.IsHighlighted = false;
+        if (product.IsActive)
+        {
+            product.IsActive = false;
+            product.IsHighlighted = false;
+        }
+        else product.IsActive = true;
+
         return await _context.SaveChangesAsync() > 0;
     }
 

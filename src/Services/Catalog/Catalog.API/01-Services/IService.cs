@@ -11,6 +11,6 @@ namespace Catalog.API._01_Services
         Task<int> GetCount();
         Task<bool> Add(T entity);
         Task<bool> Update(T entity);
-        Task<bool> Delete(ID id);
+        Task<bool> Disable(ID id);
     }
 }

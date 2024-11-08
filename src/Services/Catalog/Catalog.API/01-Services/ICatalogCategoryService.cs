@@ -26,13 +26,19 @@ public class CatalogCategoryService(ApplicationDataContext context) : ICatalogCa
         return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> Delete(int id)
+    public async Task<bool> Disable(int id)
     {
-        var CatalogCategory = await _context.CatalogCategories.FindAsync(id);
+        var product = await _context.CatalogItems.FindAsync(id);
 
-        if (CatalogCategory == null) return false;
+        if (product == null) return false;
 
-        _context.CatalogCategories.Remove(CatalogCategory);
+        if (product.IsActive)
+        {
+            product.IsActive = false;
+            product.IsHighlighted = false;
+        }
+        else product.IsActive = true;
+
         return await _context.SaveChangesAsync() > 0;
     }
 

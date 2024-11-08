@@ -36,9 +36,9 @@ namespace Catalog.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Disable(Guid id)
         {
-            var command = new DeleteProductCommand(id);
+            var command = new DisableProductCommand(id);
             var result = await _mediator.Send(command);
             if (result) return Ok();
             return NotFound();

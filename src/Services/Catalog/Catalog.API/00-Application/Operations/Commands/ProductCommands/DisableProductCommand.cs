@@ -2,5 +2,5 @@
 
 namespace Catalog.API._00_Application_Operations.Commands.ProductCommands
 {
-    public record DeleteProductCommand(Guid id) : IRequest<bool>;
+    public record DisableProductCommand(Guid id) : IRequest<bool>;
 }

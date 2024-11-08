@@ -71,16 +71,22 @@ export class ProductManagementComponent implements OnInit {
 
   products?: Product[];
 
-  disableProduct(productId: string) {
-    this.productManagementService.disableProduct(productId).subscribe({
+  changeProductState(productId: string, isActive: boolean, name: string) {
+    this.productManagementService.changeProductState(productId).subscribe({
       next: () => {
-        this._toastService.success(
-          `Product with ID ${productId} has been successfully disabled.`
-        );
+        if(isActive){
+          this._toastService.success(
+            `Product ${name} has been successfully disabled.`
+          );
+        } else {
+          this._toastService.success(
+            `Product ${name} has been successfully enabled.`
+          );
+        }        
         this.getProducts();
       },
       error: () => {
-        this._toastService.error(`Failed to disable product with ID ${productId}.`);
+        this._toastService.error(`Failed to change ${name} state.`);
       },
     });
   }

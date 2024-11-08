@@ -83,6 +83,7 @@
               <button
               mat-flat-button
               color="accent"
+              (click)="changeProductState(product.id, product.isActive, product.name)"
             >
               Enable
             </button>
@@ -90,7 +91,7 @@
               <button
               mat-flat-button
               color="warn"
-              (click)="disableProduct(product.id)"
+              (click)="changeProductState(product.id, product.isActive, product.name)"
             >
               Disable
             </button>
