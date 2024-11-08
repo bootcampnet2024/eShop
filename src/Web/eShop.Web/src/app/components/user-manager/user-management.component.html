@@ -32,10 +32,11 @@
     <tbody>
       @for (user of users; track user.id){
       <tr>
-        <td>{{ user.fullname }}</td>
+        <td>{{ user.attributes?.full_name![0] || 'N/A' }}</td>
         <td>{{ user.email }}</td>
-        <td>{{ user.cpf }}</td>
-        <td>{{ user.phoneNumber }}</td>
+        <td>{{ user.attributes?.cpf![0] || 'N/A' }}</td> 
+        <td>{{ user.attributes?.phone_number![0] || 'N/A' }}</td> 
+      
         <td>
           <button
             mat-flat-button

@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserManagementService } from '../../services/user-management/user-management.service';
 import { AuthService } from '../../core/auth/auth.service';
-import { User } from '../../models/user.model'; // Importando a interface User
+import { User } from '../../models/user.model'; 
 
 @Component({
   selector: 'user-profile',
@@ -64,14 +64,15 @@ export class UserProfileComponent implements OnInit {
       next: (data: User) => {
         this.perfilForm.patchValue({
           username: data.username,
-          fullname: data.fullname,
+          fullname: data.attributes?.full_name ? data.attributes.full_name[0] : '',
           email: data.email,
-          cpf: data.cpf,
-          phoneNumber: data.phoneNumber,
+          cpf: data.attributes?.cpf ? data.attributes.cpf[0] : '',
+          phoneNumber: data.attributes?.phone_number ? data.attributes.phone_number[0] : '', 
         });
         this.userId = data.id;
         this.isLoading = false;
-        this.updateAt = data.updateAt;
+        this.updateAt = data.attributes?.update_at ? new Date(data.attributes.update_at[0]) : new Date();
+        console.log('User data loaded:', data);
       },
       error: (error) => {
         console.error('Error loading user data:', error);
@@ -79,23 +80,24 @@ export class UserProfileComponent implements OnInit {
       }
     });
   }
+  
 
   updateProfile(): void {
     const date: Date = new Date();
     const timeDiff = date.getTime() - this.updateAt.getTime();
     const daysDiff = timeDiff / (1000 * 3600 * 24);
-
-    if (this.perfilForm.valid && (daysDiff > 0)) {
+  
+    if (this.perfilForm.valid && daysDiff > 0) {
       const body = {
-        username : this.perfilForm.get('username')?.value,
+        username: this.perfilForm.get('username')?.value,
         enabled: true,
         emailVerified: true,
         email: this.perfilForm.get('email')?.value,
         attributes: {
-          full_name: this.perfilForm.get('fullname')?.value,
-          cpf: this.perfilForm.get('cpf')?.value,
-          phone_number: this.perfilForm.get('phoneNumber')?.value,
-          update_at: date,
+          full_name: [this.perfilForm.get('fullname')?.value], 
+          cpf: [this.perfilForm.get('cpf')?.value], 
+          phone_number: [this.perfilForm.get('phoneNumber')?.value], 
+          update_at: [date.toISOString()], 
         },
       };
       this.userService.edit(this.userId, body).subscribe({
@@ -107,9 +109,8 @@ export class UserProfileComponent implements OnInit {
           console.error('Error updating profile:', error);
         }
       });
-
     } else {
       console.warn('Form is invalid or update time is not valid');
     }
-  }
+  }  
 }

@@ -16,7 +16,7 @@ export class AddUserComponent implements OnInit {
   username: string = "";
   email: string = "";
   cpf: string = "";
-  
+
   constructor(
     private userService: UserManagementService,
     public dialogRef: MatDialogRef<AddUserComponent>
@@ -25,16 +25,18 @@ export class AddUserComponent implements OnInit {
   ngOnInit(): void {}
 
   closeModal() {
-    const date: Date = new Date();
+    const date = new Date().toISOString();
     const body = {
-      username : this.username,
+      username: this.username,
       enabled: true,
       emailVerified: true,
       email: this.email,
       attributes: {
-        full_name: this.fullname,
-        cpf: this.cpf,
-        update_at: date,
+        full_name: [this.fullname],
+        cpf: [this.cpf],
+        update_at: [date],
+        phone_number: [],
+        address: []
       },
       credentials: [
         {
@@ -45,14 +47,15 @@ export class AddUserComponent implements OnInit {
       ],
       groups: ["user"],
     };
-    this.userService.add(body).subscribe(
-      () => {
+
+    this.userService.add(body).subscribe({
+      next: () => {
         console.log("User added successfully");
         this.dialogRef.close();
       },
-      (error) => {
+      error: (error) => {
         console.error("Error adding user:", error);
       }
-    );
+    });
   }
 }

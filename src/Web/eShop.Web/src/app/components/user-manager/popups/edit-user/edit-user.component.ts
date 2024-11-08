@@ -4,7 +4,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { User } from "../../../../models/user.model";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-
 @Component({
   selector: "app-edit-user",
   standalone: true,
@@ -37,12 +36,13 @@ export class EditUserComponent implements OnInit {
   }
 
   loadUserData(): void {
+    console.log(this.data);
     this.perfilForm.patchValue({
       username: this.data.username,
-      fullname: this.data.fullname,
+      fullname: this.data.attributes?.full_name[0] || '', 
       email: this.data.email,
-      cpf: this.data.cpf,
-      phoneNumber: this.data.phoneNumber,
+      cpf: this.data.attributes?.cpf![0] || '', 
+      phoneNumber: this.data.attributes?.phone_number![0] || '',
     });
     this.userId = this.data.id;
     console.log(this.userId);
@@ -54,12 +54,13 @@ export class EditUserComponent implements OnInit {
         username : this.perfilForm.get('username')?.value,
         email: this.perfilForm.get('email')?.value,
         attributes: {
-          full_name: this.perfilForm.get('fullname')?.value,
-          cpf: this.perfilForm.get('cpf')?.value,
-          phone_number: this.perfilForm.get('phoneNumber')?.value,
-          update_at: new Date(),
+          full_name: [this.perfilForm.get('fullname')?.value || ''],
+          cpf: [this.perfilForm.get('cpf')?.value || ''],
+          phone_number: [this.perfilForm.get('phoneNumber')?.value || ''],
+          update_at: [new Date().toISOString()],
         },
       };
+
       this.userService.edit(this.userId, body).subscribe({
         next: () => {
           console.log('Profile updated successfully');
@@ -68,7 +69,6 @@ export class EditUserComponent implements OnInit {
           console.error('Error updating profile:', error);
         }
       });
-
     } else {
       console.warn('Form is invalid or update time is not valid');
     }

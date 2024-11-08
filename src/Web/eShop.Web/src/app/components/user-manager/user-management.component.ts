@@ -18,10 +18,10 @@ import { CommonModule } from "@angular/common";
   standalone: true,
   imports: [HeaderComponent, FooterComponent, MatButtonModule, MatIconModule, CommonModule],
   templateUrl: "./user-management.component.html",
-  styleUrl: "./user-management.component.css",
+  styleUrls: ["./user-management.component.css"],
 })
 export class UserManagementComponent implements OnInit {
-  users?: User[];
+  users: User[] = [];
   isAdmin: boolean = false;
 
   constructor(
@@ -29,53 +29,21 @@ export class UserManagementComponent implements OnInit {
     private matDialog: MatDialog,
     private authService: AuthService,
     private router: Router,
-  ) {
-    this.loadUsers();
-  }
+  ) {}
 
-  @ViewChild('searchInput', { static: true }) searchInputElementRef!: ElementRef;
-  searchInputElement!: HTMLInputElement;
-
+  @ViewChild("searchInput", { static: true }) searchInputElementRef!: ElementRef;
+  
   ngOnInit(): void {
     this.isAdmin = this.authService.checkAdminRole();
+    this.loadUsers();
   }
-
-  isEmpty = (text: string): boolean => {
-    return text === null || text.match(/^ *$/) !== null;
-  };
-
-  searchUser = (event: KeyboardEvent): void => {
-    const element = event.currentTarget as HTMLInputElement
-    const value = element.value
-
-    if (event.key !== 'Enter') return;
-
-    if (this.isEmpty(value)) {
-      this.userService.getAll()
-        .subscribe({
-          next: (response) => {
-            this.users = response
-          }
-        });
-      return;
-    }
-    this.userService.getByCriteria(value)
-      .subscribe((response) => {
-        this.users = response
-      })
-  };
 
   loadUsers(): void {
     this.userService.getAll().subscribe({
       next: (response) => {
-        if (this.isAdmin) {
-          this.users = response;
-          console.log('Usuários carregados:', response);
-        } else {
-          this.users = response.filter((x: { username:string}) => 
-            !x.username.includes("admin") && !x.username.includes("manager")       
-        );
-        }
+        this.users = this.isAdmin
+          ? response
+          : response.filter(user => !user.username.includes("admin") && !user.username.includes("manager"));
       },
       error: (err) => {
         console.error("Error loading users", err);
@@ -83,49 +51,60 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
+  searchUser(event: KeyboardEvent): void {
+    const element = event.currentTarget as HTMLInputElement;
+    const value = element.value.trim();
+
+    if (event.key !== "Enter") return;
+
+    if (!value) {
+      this.loadUsers();
+      return;
+    }
+
+    this.userService.getByCriteria(value).subscribe({
+      next: (response) => {
+        this.users = response;
+      },
+      error: (err) => {
+        console.error("Error searching users", err);
+      },
+    });
+  }
+
   openAddModal(): void {
     const dialogRef = this.matDialog.open(AddUserComponent);
-
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(() => {
       this.loadUsers();
     });
   }
 
   openEditModal(user: User): void {
-    const dialogRef = this.matDialog.open(EditUserComponent, {
-      data: user,
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
+    const dialogRef = this.matDialog.open(EditUserComponent, { data: user });
+    dialogRef.afterClosed().subscribe(() => {
       this.loadUsers();
     });
   }
 
   deleteUser(user: User): void {
-    console.log("called");
     this.userService.delete(user.id).subscribe({
       next: () => {
-        console.log("deleted");
-        this.users = this.users?.filter((p) => p.id !== user.id);
+        this.users = this.users.filter(p => p.id !== user.id);
+        console.log("User deleted:", user.id);
       },
       error: (err) => {
         console.error("Error deleting user", err);
-      }
+      },
     });
   }
 
-  addressPage(user: User): void{
-    this.router.navigate(['/addresses']);
+  addressPage(user: User): void {
+    this.router.navigate(["/addresses"]);
   }
 
-  changeRoles(user: User):void {
-    const dialogRef = this.matDialog.open(ChangeUserRolesComponent, {
-      data: {
-        user: user,
-      }
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
+  changeRoles(user: User): void {
+    const dialogRef = this.matDialog.open(ChangeUserRolesComponent, { data: { user } });
+    dialogRef.afterClosed().subscribe(() => {
       this.loadUsers();
     });
   }
