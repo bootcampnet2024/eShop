@@ -58,20 +58,20 @@ describe('UserCardsComponent', () => {
       {
         number: '1234 5678 9012 3456',
         name: 'RODRIGO MENDES',
-        validity: '10/26',
         type: 'Credit',
+        flag: ''
       },
       {
         number: '9876 5432 1098 7654',
         name: 'MARIA APARECIDA',
-        validity: '05/26',
         type: 'Debit',
+        flag: ''
       },
       {
         number: '1111 2222 3333 4444',
         name: 'JOHN DOE',
-        validity: '01/28',
         type: 'Debit',
+        flag: ''
       }
     ];
 
@@ -90,17 +90,14 @@ describe('UserCardsComponent', () => {
     
     expect(component.cards[0].number).toContain('1234 5678 9012 3456');
     expect(component.cards[0].name).toContain('RODRIGO MENDES');
-    expect(component.cards[0].validity).toContain('10/26');
     expect(component.cards[0].type).toContain('Credit');
 
     expect(component.cards[1].number).toContain('9876 5432 1098 7654');
     expect(component.cards[1].name).toContain('MARIA APARECIDA');
-    expect(component.cards[1].validity).toContain('05/26');
     expect(component.cards[1].type).toContain('Debit');
 
     expect(component.cards[2].number).toContain('1111 2222 3333 4444');
     expect(component.cards[2].name).toContain('JOHN DOE');
-    expect(component.cards[2].validity).toContain('01/28');
     expect(component.cards[2].type).toContain('Debit');
   });
 });
