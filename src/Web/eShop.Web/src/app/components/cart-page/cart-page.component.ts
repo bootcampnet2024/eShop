@@ -43,20 +43,20 @@ export class CartPageComponent implements OnInit {
       return;
     }
     this.loadCartItems();
-    this.updateOrderTotal(); 
+    this.updateOrderTotal();
   }
 
   extractUserIdFromToken(token: string): string | null {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      console.log('Token decodificado:', payload);       
-      return payload.sub || payload.jti || null; 
+      console.log('Token decodificado:', payload);
+      return payload.sub || payload.jti || null;
     } catch (error) {
       console.error('Erro ao decodificar o token:', error);
       return null;
     }
   }
-  
+
   loadCartItems(): void {
     if (!this.userId) {
       console.error('User ID is null or undefined.');
