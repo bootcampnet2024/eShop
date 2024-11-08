@@ -19,23 +19,49 @@ export class UserCardsComponent {
 
       cards = [
     {
-      number: '1234 5678 9012 3456',
+      number: '5502 5678 9012 3456',
       name: 'RODRIGO MENDES',
-      validity: '10/26',
       type: 'Credit',
+      flag: ''
     },
     {
-      number: '9876 5432 1098 7654',
+      number: '6884 5432 1098 7654',
       name: 'MARIA APARECIDA',
-      validity: '05/26',
       type: 'Debit',
+      flag: ''
     },
     {
-      number: '1111 2222 3333 4444',
+      number: '4002 2222 3333 4444',
       name: 'JOHN DOE',
-      validity: '01/28',
       type: 'Debit',
+      flag: ''
     },
 
-  ]
+  ];
+
+  constructor() {
+    this.setFlags();
+  }
+
+  formatNumber(cardNumber: string): string {
+    return cardNumber.slice(0,4) + ' **** **** ****';
+  }
+
+  baseCardUrl = "assets/user-cards/"
+  
+  setFlags(): void {
+    this.cards = this.cards.map(card => {
+      if (card.number.startsWith('4')) {
+        card.flag = `${this.baseCardUrl}visa.svg`; 
+      } else if (card.number.startsWith('2') || card.number.startsWith('5')) {
+        card.flag = `${this.baseCardUrl}mastercard.svg`;
+      } else if (card.number.startsWith('6')) {
+        card.flag = `${this.baseCardUrl}elo.png`;
+      }
+      return card;
+    })
+  }
+
+  
+
 }
