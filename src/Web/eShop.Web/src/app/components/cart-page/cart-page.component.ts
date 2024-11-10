@@ -5,7 +5,6 @@ import { CartService } from '../../services/cart/cart.service';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
-import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'app-cart-page',
@@ -93,6 +92,10 @@ export class CartPageComponent implements OnInit {
 
   goToPaymentPage(): void {
     this.router.navigate(['payment']);
+  }
+
+  goToShopping(): void {
+    this.router.navigate(['']);
   }
 
   updateOrderTotal(): void {

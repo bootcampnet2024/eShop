@@ -8,28 +8,33 @@ import { ProductService } from '../../services/product-list/product.service';
 import { ViewportScroller } from '@angular/common';
 import { NavbarComponent } from "../../shared/navbar/navbar.component";
 import { CartService } from '../../services/cart/cart.service';
+import { ToastService } from "angular-toastify";
 
 @Component({
-  selector: 'app-product-page',
+  selector: "app-product-page",
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, DisplayProductsComponent, NavbarComponent],
-  templateUrl: './product-page.component.html',
-  styleUrls: ['./product-page.component.css']
+  imports: [
+    HeaderComponent,
+    FooterComponent,
+    DisplayProductsComponent,
+    NavbarComponent,
+  ],
+  templateUrl: "./product-page.component.html",
+  styleUrls: ["./product-page.component.css"],
 })
 export class ProductPageComponent implements OnInit {
-
-  private productId: string = '';
+  private productId: string = "";
   public product: Product = {
-    id: '',
-    name: '',
-    description: '',
+    id: "",
+    name: "",
+    description: "",
     price: 0,
     quantity: 0,
-    brand: { id: 0, name: '' },
-    category: { id: 0, name: '' },
-    imageURL: '',
+    brand: { id: 0, name: "" },
+    category: { id: 0, name: "" },
+    imageURL: "",
     isActive: false,
-    isHighlighted: false
+    isHighlighted: false,
   };
 
   private userId: string | null = null;
@@ -39,84 +44,95 @@ export class ProductPageComponent implements OnInit {
     private productService: ProductService,
     private route: ActivatedRoute,
     private viewportScroller: ViewportScroller,
-    private cartService: CartService
+    private cartService: CartService,
+    private toastService: ToastService
   ) {}
 
   getProduct(id: string): void {
     this.productService.getCatalogItem(id).subscribe({
       next: (response) => {
         this.product = response;
+        this.product.quantity = 1;
       },
       error: () => {
-        this.router.navigate(['']);
-      }
+        this.router.navigate([""]);
+      },
     });
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.productId = params.get('id') || '';
+    this.route.paramMap.subscribe((params) => {
+      this.productId = params.get("id") || "";
       this.getProduct(this.productId);
       this.viewportScroller.scrollToPosition([0, 0]);
     });
   }
 
   goToCart() {
-    this.router.navigate(['cart']);
+    this.router.navigate(["cart"]);
+  }
+
+  goToPayment() {
+    this.router.navigate(["payment"]);
   }
 
   addToCart() {
-    const accessToken = localStorage.getItem('access_token');
+    const accessToken = localStorage.getItem("access_token");
 
     if (!accessToken) {
-      console.log('Você precisa estar logado para adicionar itens ao carrinho.');
+      console.log(
+        "Você precisa estar logado para adicionar itens ao carrinho."
+      );
       return;
     }
 
     this.userId = this.extractUserIdFromToken(accessToken);
 
     if (!this.userId) {
-      console.log('Erro ao identificar o usuário.');
+      console.log("Erro ao identificar o usuário.");
       return;
     }
 
     this.cartService.add(this.userId, this.product).subscribe({
       next: () => {
-        console.log(`${this.product.name} foi adicionado ao carrinho!`);
-        this.goToCart();  
+        this.toastService.success(
+          `${this.product.name} foi adicionado ao carrinho!`
+        );
       },
       error: (error) => {
-        console.error('Erro ao adicionar produto ao carrinho:', error);
-        console.log('Houve um erro ao adicionar o produto ao carrinho.', error.message || error);
+        console.error("Erro ao adicionar produto ao carrinho:", error);
+        console.log(
+          "Houve um erro ao adicionar o produto ao carrinho.",
+          error.message || error
+        );
         if (error.error) {
-          console.error('Resposta da API:', error.error);
+          console.error("Resposta da API:", error.error);
         }
-      }
+      },
     });
   }
 
   options: any = [
-    { name: 'Black' },
-    { name: 'White' },
-    { name: 'Pink' },
-    { name: 'Purple' },
-    { name: 'Green' },
-    { name: 'Yellow' },
-    { name: 'Blue' },
-    { name: 'Camo' },
-    { name: 'Brown' },
-    { name: 'Orange' },
-    { name: 'Grey' },
-    { name: 'Red' },
+    { name: "Black" },
+    { name: "White" },
+    { name: "Pink" },
+    { name: "Purple" },
+    { name: "Green" },
+    { name: "Yellow" },
+    { name: "Blue" },
+    { name: "Camo" },
+    { name: "Brown" },
+    { name: "Orange" },
+    { name: "Grey" },
+    { name: "Red" },
   ];
 
   extractUserIdFromToken(token: string): string | null {
     try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      console.log('Token decodificado:', payload);
+      const payload = JSON.parse(atob(token.split(".")[1]));
       return payload.sub || payload.jti || null;
     } catch (error) {
-      console.error('Erro ao decodificar o token:', error);
+      console.error("Erro ao decodificar o token:", error);
       return null;
     }
   }
