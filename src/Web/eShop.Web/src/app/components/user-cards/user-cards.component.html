@@ -14,14 +14,15 @@
           </div>
 
           <div class="card-type">
-            <img src="https://www.logo.wine/a/logo/Mastercard/Mastercard-Logo.wine.svg" alt="mastercard" class="mastercard-logo">
+            @if (card.flag != 'unknown') {
+              <img src={{card.flag}} class="logo">
+            }
           </div>
         </div>
 
         <div class="chip"></div>
         <div class="card-info">    
-          <p class="card-number">{{card.number}}</p>
-          <p class="valid-date">{{card.validity}} VALIDITY</p>
+          <p class="card-number">{{ formatNumber(card.number)}}</p>
           <p class="cardholder-name">{{card.name}}</p>
         </div>
       </div>
