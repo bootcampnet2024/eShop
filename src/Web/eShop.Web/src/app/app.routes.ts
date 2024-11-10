@@ -20,6 +20,8 @@ import { ChangeUserRolesComponent } from './components/user-manager/popups/chang
 import { AddressPageComponent } from './components/address-page/address-page.component';
 import { UserCardsComponent } from './components/user-cards/user-cards.component';
 import { HistoryPageComponent } from './components/history-page/history-page.component';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { TermsOfServiceComponent } from './components/terms-of-service/terms-of-service.component';
 
 export const routes: Routes = [
     {path: '', component: LandingPageComponent},
@@ -36,6 +38,8 @@ export const routes: Routes = [
     {path: 'change-user-role', component: ChangeUserRolesComponent, canActivate: [AuthGuard]},
     {path: 'user-management', component: UserManagementComponent, canActivate: [AuthGuard]},
     {path: 'contact', component: ContactComponent},
+    {path: 'policy', component: PrivacyPolicyComponent},
+    {path: 'terms', component: TermsOfServiceComponent},
     {path: 'addresses', component: AddressPageComponent},
     {path: 'history', component: HistoryPageComponent},
     {path: 'product-management', component: ProductManagementComponent, canActivate: [AuthGuard]},
