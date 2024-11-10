@@ -138,3 +138,21 @@ span{
 .debitCard{
   color: rgb(192, 10, 10);
 }
+
+.alert {
+  padding: 0.625rem;
+  margin-top: 0.625rem;
+  font-weight: bold;
+  border-radius: 0.25rem;
+  text-align: center;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
