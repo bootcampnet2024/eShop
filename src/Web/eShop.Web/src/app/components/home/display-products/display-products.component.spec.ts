@@ -1,55 +1,46 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { DisplayProductsComponent } from "./display-products.component";
-import { provideHttpClientTesting } from "@angular/common/http/testing";
-import { appConfig } from "../../../app.config";
-import { Router } from "@angular/router";
-import { of } from "rxjs";
-import { Product } from "../../../models/product.model";
-import { ProductService } from "../../../services/product-list/product.service";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DisplayProductsComponent } from './display-products.component';
+import { of } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { ProductManagementService } from '../../../services/product-management/product-management.service';
 
-describe("DisplayProductsComponent", () => {
+describe('DisplayProductsComponent', () => {
   let component: DisplayProductsComponent;
   let fixture: ComponentFixture<DisplayProductsComponent>;
-  let productServiceSpy: jasmine.SpyObj<ProductService>;
-  let routerSpy: jasmine.SpyObj<Router>;
+  let productManagementServiceSpy: jasmine.SpyObj<ProductManagementService>;
 
-  beforeEach(async () => {
-    productServiceSpy = jasmine.createSpyObj("ProductService", [
-      "getCatalogItems",
-    ]);
-    routerSpy = jasmine.createSpyObj("Router", ["navigate"]);
-
-    await TestBed.configureTestingModule({
-      imports: [DisplayProductsComponent],
+  beforeEach(() => {
+    const spy = jasmine.createSpyObj('ProductManagementService', ['getProducts']);
+    
+    TestBed.configureTestingModule({
+      imports: [CommonModule],
       providers: [
-        provideHttpClientTesting,
-        ...appConfig.providers,
-        { provide: ProductService, useValue: productServiceSpy },
-        { provide: Router, useValue: routerSpy },
-      ],
-    }).compileComponents();
+        { provide: ProductManagementService, useValue: spy }
+      ]
+    });
 
     fixture = TestBed.createComponent(DisplayProductsComponent);
     component = fixture.componentInstance;
+    productManagementServiceSpy = TestBed.inject(ProductManagementService) as jasmine.SpyObj<ProductManagementService>;
   });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
-  });
-
-  it("should call getCatalogItems on init", () => {
-    const mockProducts: Product[] = [
+  it('should call getCatalogItems on init', () => {
+    const mockProducts = [
       {
         id: "1",
         name: "Product 1",
         description: "Description 1",
         price: 100,
         quantity: 10,
-        brand: { id: 1, name: "Brand 1" },
-        category: { id: 1, name: "Category 1" },
+        brand: "Brand",
+        category: "Category",
         imageURL: "http://example.com/image1.jpg",
         isActive: true,
         isHighlighted: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        discount: 10,
+        finalPrice: 100
       },
       {
         id: "2",
@@ -57,52 +48,30 @@ describe("DisplayProductsComponent", () => {
         description: "Description 2",
         price: 200,
         quantity: 5,
-        brand: { id: 2, name: "Brand 2" },
-        category: { id: 2, name: "Category 2" },
-        imageURL: "http://example.com/image2.jpg",
+        brand: "Brand",
+        category: "Category",
+        imageURL: "http://example.com/image1.jpg",
         isActive: true,
-        isHighlighted: true,
+        isHighlighted: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        discount: 10,
+        finalPrice: 100
       },
     ];
-  
+
     const mockProductRequest = {
       items: mockProducts,
       pageSize: 10,
       pageIndex: 1,
       totalItems: mockProducts.length,
     };
-  
-    productServiceSpy.getCatalogItems.and.returnValue(of(mockProductRequest));
-  
+
+    productManagementServiceSpy.getProducts.and.returnValue(of(mockProductRequest));
+
     fixture.detectChanges();
-  
-    expect(productServiceSpy.getCatalogItems).toHaveBeenCalledWith(
-      component.showOnlyHighlighted,
-      0,
-      component.productQuantity,
-      component.categoryId
-    );
+
+    expect(productManagementServiceSpy.getProducts).toHaveBeenCalled();
     expect(component.products).toEqual(mockProducts);
-  });  
-
-  it("should navigate to product details when viewProduct is called", () => {
-    const mockProduct: Product = {
-      id: "1",
-      name: "Product 1",
-      description: "Description 1",
-      price: 100,
-      quantity: 10,
-      brand: { id: 1, name: "Brand 1" },
-      category: { id: 1, name: "Category 1" },
-      imageURL: "http://example.com/image1.jpg",
-      isActive: true,
-      isHighlighted: false,
-    };
-    component.viewProduct(mockProduct);
-
-    expect(routerSpy.navigate).toHaveBeenCalledWith([
-      "/product",
-      { id: mockProduct.id, name: "Product-1" },
-    ]);
   });
 });

@@ -37,53 +37,56 @@ describe("ProductManagementComponent", () => {
     expect(component.getProducts).toHaveBeenCalled();
   });
   it("should get products", () => {
-    const response = [
-      {
-        id: "123e4567-e89b-12d3-a456-426614174000",
-        name: "Laptop Pro",
-        description: "A high-end laptop with powerful features",
-        price: 1500.0,
-        quantity: 5,
-        brand: {
-          id: 1,
-          name: "TechBrand",
+    const response = {
+      pageSize: 10,
+      pageIndex: 1,
+      totalItems: 2,
+      items: [
+        {
+          id: "123e4567-e89b-12d3-a456-426614174000",
+          name: "Laptop Pro",
+          description: "A high-end laptop with powerful features",
+          price: 1500.0,
+          quantity: 5,
+          brand: "smartphone brand",
+          category: "smartphone",
+          imageURL: "http://example.com/laptop-pro.png",
+          isActive: true,
+          isHighlighted: false,
+          discount: 0,
+          finalPrice: 1500.0,
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
-        category: {
-          id: 1,
-          name: "Electronics",
+        {
+          id: "123e4567-e89b-12d3-a456-426614174001",
+          name: "Smartphone X",
+          description: "Latest generation smartphone with advanced camera",
+          price: 999.99,
+          quantity: 20,
+          brand: "smartphone brand",
+          category: "smartphone",
+          imageURL: "http://example.com/smartphone-x.png",
+          isActive: true,
+          isHighlighted: false,
+          discount: 10,
+          finalPrice: 899.99,
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
-        imageURL: "http://example.com/laptop-pro.png",
-        isActive: true,
-        isHighlighted: false,
-      },
-      {
-        id: "123e4567-e89b-12d3-a456-426614174001",
-        name: "Smartphone X",
-        description: "Latest generation smartphone with advanced camera",
-        price: 999.99,
-        quantity: 20,
-        brand: {
-          id: 2,
-          name: "MobileTech",
-        },
-        category: {
-          id: 2,
-          name: "Mobile Devices",
-        },
-        imageURL: "http://example.com/smartphone-x.png",
-        isActive: true,
-        isHighlighted: false,
-      },
-    ];
-    const getProductsSpy = spyOn(
-      mockProductManagementService,
-      "getProducts"
-    ).and.returnValue(of(response));
+      ],
+    };
+  
+    const getProductsSpy = spyOn(mockProductManagementService, "getProducts")
+      .and.returnValue(of(response));
+  
     component.getProducts();
     fixture.detectChanges();
+  
     expect(mockProductManagementService.getProducts).toHaveBeenCalled();
-    expect(component.products).toEqual(response);
-  });
+  
+    expect(component.products).toEqual(response.items);
+  });  
   it("should return a searched product", () => {
     const response = [
       {
@@ -92,17 +95,15 @@ describe("ProductManagementComponent", () => {
         description: "A high-end laptop with powerful features",
         price: 1500.0,
         quantity: 5,
-        brand: {
-          id: 1,
-          name: "TechBrand",
-        },
-        category: {
-          id: 1,
-          name: "Electronics",
-        },
-        imageURL: "http://example.com/laptop-pro.png",
+        brand: "smartphone brand",
+        category: "smartphone",
+        imageURL: "http://example.com/smartphone-x.png",
         isActive: true,
         isHighlighted: false,
+        discount: 10,
+        finalPrice: 899.99,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     ];
     const getProductsSpy = spyOn(
@@ -120,56 +121,68 @@ describe("ProductManagementComponent", () => {
     expect(component.products).toEqual(response);
   });
   it("should return all products when search input is empty", () => {
-    const response = [
-      {
-        id: "123e4567-e89b-12d3-a456-426614174000",
-        name: "Laptop Pro",
-        description: "A high-end laptop with powerful features",
-        price: 1500.0,
-        quantity: 5,
-        brand: {
-          id: 1,
-          name: "TechBrand",
+    const response = {
+      pageSize: 10,
+      pageIndex: 1,
+      totalItems: 2,
+      items: [
+        {
+          id: "123e4567-e89b-12d3-a456-426614174000",
+          name: "Laptop Pro",
+          description: "A high-end laptop with powerful features",
+          price: 1500.0,
+          quantity: 5,
+          brand: "smartphone brand",
+          category: "smartphone",
+          imageURL: "http://example.com/smartphone-x.png",
+          isActive: true,
+          isHighlighted: false,
+          discount: 10,
+          finalPrice: 899.99,
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
-        category: {
-          id: 1,
-          name: "Electronics",
+        {
+          id: "123e4567-e89b-12d3-a456-426614174001",
+          name: "Smartphone X",
+          description: "Latest generation smartphone with advanced camera",
+          price: 999.99,
+          quantity: 20,
+          brand: "smartphone brand",
+          category: "smartphone",
+          imageURL: "http://example.com/smartphone-x.png",
+          isActive: true,
+          isHighlighted: false,
+          discount: 10,
+          finalPrice: 899.99,
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
-        imageURL: "http://example.com/laptop-pro.png",
-        isActive: true,
-        isHighlighted: false,
-      },
-      {
-        id: "123e4567-e89b-12d3-a456-426614174001",
-        name: "Smartphone X",
-        description: "Latest generation smartphone with advanced camera",
-        price: 999.99,
-        quantity: 20,
-        brand: {
-          id: 2,
-          name: "MobileTech",
-        },
-        category: {
-          id: 2,
-          name: "Mobile Devices",
-        },
-        imageURL: "http://example.com/smartphone-x.png",
-        isActive: true,
-        isHighlighted: false,
-      },
-    ];
-    const getProductsSpy = spyOn(
-      mockProductManagementService,
-      "getProducts"
-    ).and.returnValue(of(response));
+      ],
+    };
+  
+    const getProductsSpy = spyOn(mockProductManagementService, "getProducts")
+      .and.returnValue(of(response));
+  
     const searchInput = document.createElement("input");
     searchInput.value = "";
     const event = new KeyboardEvent("keyup", { key: "Enter" });
+  
     component.searchProduct(searchInput.value, event);
+  
     fixture.detectChanges();
-    expect(mockProductManagementService.getProducts).toHaveBeenCalledWith(false, component.pageIndex, component.pageSize, [], [], 0);
-    expect(component.products).toEqual(response);
-  });
+  
+    expect(mockProductManagementService.getProducts).toHaveBeenCalledWith(
+      false,
+      component.pageIndex,
+      component.pageSize,
+      [],
+      [],
+      0
+    );
+  
+    expect(component.products).toEqual(response.items);
+  });  
   it("should disable a product", () => {
     const request = [
       {
@@ -178,17 +191,15 @@ describe("ProductManagementComponent", () => {
         description: "A high-end laptop with powerful features",
         price: 1500.0,
         quantity: 5,
-        brand: {
-          id: 1,
-          name: "TechBrand",
-        },
-        category: {
-          id: 1,
-          name: "Electronics",
-        },
-        imageURL: "http://example.com/laptop-pro.png",
+        brand: "smartphone brand",
+        category: "smartphone",
+        imageURL: "http://example.com/smartphone-x.png",
         isActive: true,
         isHighlighted: false,
+        discount: 10,
+        finalPrice: 899.99,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
       {
         id: "123e4567-e89b-12d3-a456-426614174001",
@@ -196,38 +207,44 @@ describe("ProductManagementComponent", () => {
         description: "Latest generation smartphone with advanced camera",
         price: 999.99,
         quantity: 20,
-        brand: {
-          id: 2,
-          name: "MobileTech",
-        },
-        category: {
-          id: 2,
-          name: "Mobile Devices",
-        },
+        brand: "smartphone brand",
+        category: "smartphone",
         imageURL: "http://example.com/smartphone-x.png",
         isActive: true,
         isHighlighted: false,
+        discount: 10,
+        finalPrice: 899.99,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     ];
-    const disableProductSpy = spyOn(
-      mockProductManagementService,
-      "disableProduct"
-    ).and.returnValue(of({ ...request[0], isActive: false }));
-    component.disableProduct(request[0].id);
-    const response = [{ ...request[0], isActive: false }, ...request.slice(1)];
-    const getProductsSpy = spyOn(
-      mockProductManagementService,
-      "getProducts"
-    ).and.returnValue(of(response));
+  
+    const disableProductSpy = spyOn(mockProductManagementService, "changeProductState")
+      .and.returnValue(of({ ...request[0], isActive: false }));
+  
+    component.changeProductState(request[0].id, true, "product");
+  
+    const response = {
+      pageSize: 10,
+      pageIndex: 1,
+      totalItems: 2,
+      items: [{ ...request[0], isActive: false }, ...request.slice(1)],
+    };
+  
+    const getProductsSpy = spyOn(mockProductManagementService, "getProducts")
+      .and.returnValue(of(response));
+  
     component.getProducts();
     fixture.detectChanges();
-    expect(mockProductManagementService.disableProduct).toHaveBeenCalledWith(
-      request[0].id
-    );
-    expect(response[0].isActive).toBeFalse();
-    expect(component.products).toEqual(response);
-    expect(component.products).toContain(response[0]);
-  });
+  
+    expect(mockProductManagementService.changeProductState).toHaveBeenCalledWith(request[0].id);
+  
+    expect(response.items[0].isActive).toBeFalse();
+  
+    expect(component.products).toEqual(response.items);
+  
+    expect(component.products).toContain(response.items[0]);
+  });  
   it("should show alert when disabling a product fails", () => {
     const product = [
       {
@@ -236,28 +253,26 @@ describe("ProductManagementComponent", () => {
         description: "A high-end laptop with powerful features",
         price: 1500.0,
         quantity: 5,
-        brand: {
-          id: 1,
-          name: "TechBrand",
-        },
-        category: {
-          id: 1,
-          name: "Electronics",
-        },
-        imageURL: "http://example.com/laptop-pro.png",
+        brand: "smartphone brand",
+        category: "smartphone",
+        imageURL: "http://example.com/smartphone-x.png",
         isActive: true,
         isHighlighted: false,
+        discount: 10,
+        finalPrice: 899.99,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     ];
-    const errorResponse = new Error(`Failed to disable product with ID ${product[0].id}.`);
+    const errorResponse = new Error(`Failed to change product state.`);
     const disableProductSpy = spyOn(
       mockProductManagementService,
-      "disableProduct"
+      "changeProductState"
     ).and.returnValue(throwError(() => errorResponse));
     const toastErrorSpy = spyOn(component._toastService, "error");
-    component.disableProduct(product[0].id);
+    component.changeProductState(product[0].id, true, "product");
     expect(toastErrorSpy).toHaveBeenCalledWith(
-      `Failed to disable product with ID ${product[0].id}.`
+      `Failed to change product state.`
     );
   });
   it("should return true when text is null", () => {

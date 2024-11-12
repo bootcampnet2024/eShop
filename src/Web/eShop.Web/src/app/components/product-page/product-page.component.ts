@@ -59,7 +59,8 @@ export class ProductPageComponent implements OnInit {
     this.productService.getProductById(id).subscribe({
       next: (response) => {
         this.product = response;
-        this.product.quantity = 1;
+        const categoryName = this.product.category;
+        this.getCategoryByName(categoryName);
       },
       error: () => {
         this.router.navigate([""]);
@@ -83,13 +84,19 @@ export class ProductPageComponent implements OnInit {
     this.router.navigate(["payment"]);
   }
 
-  getCategoryByName(categoryName: string){
+  getCategoryByName(categoryName: string): any {
     this.productService.getCategoriesByName(categoryName).subscribe({
       next: (response) => {
-        this.category = response[0];
+        if (response && response.length > 0) {
+          this.category = response[0];
+        }
       },
+      error: () => {
+        console.log('Erro ao obter a categoria');
+      }
     });
   }
+
 
   addToCart() {
     const accessToken = localStorage.getItem("access_token");

@@ -28,7 +28,7 @@
   </div>
   <div class="similar-products">
     <app-display-products [showOnlyHighlighted]="false" [productQuantity]="10"
-      [categoryId]="category!.id"></app-display-products>
+      [categoryId]="getCategoryByName(product.category)"></app-display-products>
   </div>
 </main>
 <app-footer></app-footer>

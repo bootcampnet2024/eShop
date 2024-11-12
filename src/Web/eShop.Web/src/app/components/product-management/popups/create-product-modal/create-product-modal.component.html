@@ -38,7 +38,7 @@
       </mat-form-field>
       <mat-form-field class="management-form__small-inputs">
         <mat-label>Brand</mat-label>
-        <mat-select formControlName="brandId">
+        <mat-select formControlName="brand">
           @for ( brand of brands; track brand.id ) {
           <mat-option [value]="brand.name">{{ brand.name }}</mat-option>
           }
@@ -46,7 +46,7 @@
       </mat-form-field>
       <mat-form-field class="management-form__small-inputs">
         <mat-label>Category</mat-label>
-        <mat-select formControlName="categoryId">
+        <mat-select formControlName="category">
           @for ( category of categories; track category.id ) {
           <mat-option [value]="category.name">{{ category.name }}</mat-option>
           }
