@@ -1,48 +1,52 @@
-<div class="user-registration-page">
-  <mat-card class="sign-in-form">
-    <h1 class="sign-in-form__title">Register User</h1>
-    <form [formGroup]="registrationForm" (ngSubmit)="signin()" class="sign-in-form__form">
-
-      <mat-form-field appearance="outline" class="sign-in-form__field">
-        <mat-label>Username</mat-label>
-        <input matInput formControlName="username" required>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="sign-in-form__field">
-        <mat-label>Name</mat-label>
-        <input matInput formControlName="fullname" required>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="sign-in-form__field">
-        <mat-label>CPF</mat-label>
-        <input matInput type="cpf" formControlName="cpf" required>
-        <mat-error *ngIf="registrationForm.get('cpf')?.hasError('invalidCpf')">
-          CPF inválido
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="sign-in-form__field">
-        <mat-label>E-mail</mat-label>
-        <input matInput type="email" formControlName="email" required>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="sign-in-form__field">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" formControlName="password" required>
-        <mat-error *ngIf="registrationForm.get('password')?.hasError('minlength')">
-          The password must be at least 8 characters long.
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="sign-in-form__field">
-        <mat-label>Confirm Password</mat-label>
-        <input matInput type="password" formControlName="confirmPassword" required>
-        <div *ngIf="registrationForm.errors?.['mismatch']" class="sign-in-form__password-warning">
-          <p>Passwords do not match.</p>
-        </div>
-      </mat-form-field>
-
-      <button id="reg-btn" mat-raised-button color="primary" type="submit" class="sign-in-form__submit-btn">Register</button>
-    </form>
-  </mat-card>
+<div class="signin-page">
+  <div class="signin-page__section">
+    <div class="signin-page__box">
+      <div class="signin-page__header">Sign In</div>
+      <form [formGroup]="registrationForm" (ngSubmit)="signin()" class="signin-page__form">
+        <mat-form-field class="signin-page__form-group">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" required>
+        </mat-form-field>
+  
+        <mat-form-field class="signin-page__form-group">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="fullname" required>
+        </mat-form-field>
+  
+        <mat-form-field class="signin-page__form-group">
+          <mat-label>CPF</mat-label>
+          <input matInput type="cpf" formControlName="cpf" required>
+          <mat-error *ngIf="registrationForm.get('cpf')?.hasError('invalidCpf')">
+            CPF inválido
+          </mat-error>
+        </mat-form-field>
+  
+        <mat-form-field class="signin-page__form-group">
+          <mat-label>E-mail</mat-label>
+          <input matInput type="email" formControlName="email" required>
+        </mat-form-field>
+  
+        <mat-form-field class="signin-page__form-group">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" required>
+          <mat-error *ngIf="registrationForm.get('password')?.hasError('minlength')">
+            The password must be at least 8 characters long.
+          </mat-error>
+        </mat-form-field>
+  
+        <mat-form-field class="signin-page__form-group">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput type="password" formControlName="confirmPassword" required>
+          <div *ngIf="registrationForm.errors?.['mismatch']" class="signin-page__password-warning">
+            <p>Passwords do not match.</p>
+          </div>
+        </mat-form-field>
+  
+        <button id="reg-btn" mat-raised-button color="primary" type="submit" class="sign-page__btn signin-page__btn--submit">Sign in</button>
+      </form>
+    </div>
+  </div>
+  <div class="signin-page__logo"></div>
 </div>
+
+  

@@ -70,6 +70,7 @@ export class SigninPageComponent implements OnInit {
           },
         });
     } else {
+      window.alert(`Error to signin, invalid form`)
       console.log('Form is invalid');
     }
   }

@@ -41,9 +41,13 @@ export class UserManagementComponent implements OnInit {
   loadUsers(): void {
     this.userService.getAll().subscribe({
       next: (response) => {
-        this.users = this.isAdmin
-          ? response
-          : response.filter(user => !user.username.includes("admin") && !user.username.includes("manager"));
+        if (this.isAdmin){
+          this.users = response;
+          console.log('loaded');
+        } else {
+          this.users = response.filter((user:{username:string}) => !user.username.includes("admin") && !user.username.includes("manager"));
+          console.log('loaded');
+        }
       },
       error: (err) => {
         console.error("Error loading users", err);
