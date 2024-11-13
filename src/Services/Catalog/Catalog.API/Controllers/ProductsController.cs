@@ -68,14 +68,6 @@ namespace Catalog.API.Controllers
             var query = new GetCountProductsQuery();
             var result = await _mediator.Send(query);
 
-            return Ok(new CatalogDataResult<CatalogItemResult> { Items = result.Items.Select(CatalogItemResult.FromDTO), TotalItems = result.TotalItems });
-        }
-
-        [HttpGet("count/")]
-        public async Task<IActionResult> GetCount()
-        {
-            var query = new GetCountProductsQuery();
-            var result = await _mediator.Send(query);
             return Ok(result);
         }
 

@@ -62,24 +62,6 @@ namespace Catalog.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("name/{name}")]
-        public async Task<IActionResult> GetByName(string name, [FromQuery] GenericFilter filter)
-        {
-            var query = new GetCategoriesByNameQuery(name, filter);
-            var result = await _mediator.Send(query);
-
-            return Ok(new CatalogDataResult<CatalogCategoryResult> { Items = result.Items.Select(CatalogCategoryResult.FromDTO), TotalItems = result.TotalItems });
-        }
-
-        [HttpGet("count/")]
-        public async Task<IActionResult> GetCount()
-        {
-            var query = new GetCountCategoriesQuery();
-            var result = await _mediator.Send(query);
-
-            return Ok(result);
-        }
-
         [HttpPut]
         public async Task<IActionResult> Update(int id, UpdateCategoryRequest request)
         {
