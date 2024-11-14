@@ -60,27 +60,32 @@ export class UserProfileComponent implements OnInit {
 
   loadUserData(): void {
     this.isLoading = true;
-    this.userService.getProfile().subscribe({
-      next: (data: User) => {
-        this.perfilForm.patchValue({
-          username: data.username,
-          fullname: data.attributes?.full_name[0] ?? '',
-          email: data.email,
-          cpf: data.attributes?.cpf?.[0] ?? '',
-          phoneNumber: data.attributes?.phone_number?.[0] ?? '', 
-        });
-        this.userId = data.id;
-        this.isLoading = false;
-        this.updateAt = data.attributes?.update_at ? new Date(data.attributes.update_at[0]) : new Date();
-        console.log('User data loaded:', data);
-      },
-      error: (error) => {
-        console.error('Error loading user data:', error);
-        this.isLoading = false;
-      }
-    });
-  }
+    const profileObservable = this.userService.getProfile();
   
+    if (profileObservable) {
+      profileObservable.subscribe({
+        next: (data: User) => {
+          this.perfilForm.patchValue({
+            username: data.username,
+            fullname: data.attributes?.full_name[0] ?? '',
+            email: data.email,
+            cpf: data.attributes?.cpf?.[0] ?? '',
+            phoneNumber: data.attributes?.phone_number?.[0] ?? '', 
+          });
+          this.userId = data.id;
+          this.isLoading = false;
+          this.updateAt = data.attributes?.update_at ? new Date(data.attributes.update_at[0]) : new Date();
+          console.log('User data loaded:', data);
+        },
+        error: (error) => {
+          console.error('Error loading user data:', error);
+          this.isLoading = false;
+        }
+      });
+    } else {
+      this.isLoading = false;
+    }
+  }   
 
   updateProfile(): void {
     const date: Date = new Date();
