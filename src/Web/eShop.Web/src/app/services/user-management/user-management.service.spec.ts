@@ -19,14 +19,17 @@ describe("UserManagementService", () => {
   const mockUser: User = {
     id: "mockId",
     username: "mockUser",
-    fullname: "Mock User",
     email: "mock@user.com",
-    cpf: "12345678900",
-    phoneNumber: "1234567890",
-    updateAt: new Date(),
-    addresss: ["mock address"],
     roles: ["user"],
+    attributes: {
+      full_name: ["Mock User"],  
+      update_at: [new Date().toISOString()], 
+      cpf: ["12345678900"], 
+      phone_number: ["1234567890"],
+      address: ["mock address"],
+    },
   };
+  
 
   beforeEach(() => {
     const jwtSpy = jasmine.createSpyObj("JwtHelperService", ["decodeToken"]);
@@ -98,7 +101,7 @@ describe("UserManagementService", () => {
   });
 
   it("should edit a user", () => {
-    const updatedUser: Partial<User> = { fullname: "Updated User" };
+    const updatedUser: Partial<User> = { attributes: {full_name: ["Updated User"]} };
 
     userService.edit(mockUser.id, updatedUser).subscribe((response) => {
       expect(response).toEqual(updatedUser);
