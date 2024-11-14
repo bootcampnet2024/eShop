@@ -70,10 +70,7 @@ describe("UserProfileComponent", () => {
         cpf: ['12345678901'],
         phone_number: ['9876543210'],
       },
-    };
-  
-    spyOn(userService, 'getProfile').and.returnValue(of(mockUser)); 
-    
+    };    
     component.loadUserData();
     
     expect(component.perfilForm.get('username')?.value).toBe("Test User");
@@ -96,12 +93,14 @@ describe("UserProfileComponent", () => {
       fullname: 'New Fullname',
       cpf: '12345678901',
       phoneNumber: '9876543210',
-      updateAt: new Date(new Date().getTime() - 8 * 24 * 60 * 60 * 1000),
+      updateAt: new Date(new Date().getTime() - 8 * 24 * 60 * 60 * 1000), 
     });
-    component.updateProfile();
-    expect(userService.edit).toHaveBeenCalledWith('12345', jasmine.any(Object));
+  
+    spyOn(userService, 'edit');   
+    component.updateProfile(); 
+    expect(userService.edit).toHaveBeenCalledWith('12345', jasmine.any(Object)); 
   });
-
+  
   it("should not update profile if the form is invalid", () => {
     component.perfilForm.patchValue({ username: '' });
     component.updateProfile();
@@ -121,7 +120,6 @@ describe("UserProfileComponent", () => {
       updateAt: sevenDaysAgo,  
     });
   
-    spyOn(userService, 'edit'); 
     component.updateProfile();    
     expect(userService.edit).not.toHaveBeenCalled();  
   });
