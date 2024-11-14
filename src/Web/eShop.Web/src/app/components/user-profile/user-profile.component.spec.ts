@@ -20,18 +20,9 @@ describe("UserProfileComponent", () => {
   let userService: jasmine.SpyObj<UserManagementService>;
 
   beforeEach(async () => {
-    const userServiceSpy = jasmine.createSpyObj("UserManagementService", ['getProfile', 'edit']);
-
-    spyOn(userServiceSpy, 'getProfile').and.returnValue(of({
-      id: "12345",
-      username: "Test User",
-      email: "test@example.com",
-      cpf: "12345678901",
-      phoneNumber: "9876543210",
-      fullname: "Test Fullname",
-      updateAt: new Date()
-    }));
-    spyOn(userServiceSpy, 'edit').and.returnValue(of({ success: true }));
+    const userServiceSpy = jasmine.createSpyObj("UserManagementService", [
+      "getProfile", "edit"
+    ]);
 
     await TestBed.configureTestingModule({
       imports: [
@@ -69,23 +60,26 @@ describe("UserProfileComponent", () => {
 
   it("should patch the form with user data", () => {
     const mockUser: User = {
-      id: '12345',
+      id: '12345', 
       username: 'Test User',
       email: 'test@example.com',
-      roles: ['user'],
+      roles: ['user'], 
       attributes: {
         full_name: ['Test Fullname'],
         cpf: ['12345678901'],
         phone_number: ['9876543210'],
       },
     };
-
+  
+    spyOn(userService, 'getProfile').and.returnValue(of(mockUser)); 
+    
     component.loadUserData();
-
+    
     expect(component.perfilForm.get('username')?.value).toBe("Test User");
     expect(component.perfilForm.get('email')?.value).toBe("test@example.com");
     expect(component.perfilForm.get('fullname')?.value).toBe("Test Fullname");
   });
+  
 
   it("should log an error if loading user data fails", () => {
     userService.getProfile.and.returnValue(throwError(new Error("Error loading user data")));
@@ -95,6 +89,7 @@ describe("UserProfileComponent", () => {
   });
 
   it("should enable email field and update profile", () => {
+    spyOn(userService, 'edit').and.returnValue(of({ success: true }));
     component.perfilForm.patchValue({
       username: 'New Username',
       email: 'new@example.com',
@@ -103,32 +98,32 @@ describe("UserProfileComponent", () => {
       phoneNumber: '9876543210',
       updateAt: new Date(new Date().getTime() - 8 * 24 * 60 * 60 * 1000),
     });
-
     component.updateProfile();
     expect(userService.edit).toHaveBeenCalledWith('12345', jasmine.any(Object));
   });
 
   it("should not update profile if the form is invalid", () => {
-    component.perfilForm.patchValue({ username: '' });  
+    component.perfilForm.patchValue({ username: '' });
     component.updateProfile();
-    expect(userService.edit).not.toHaveBeenCalled();  
+    expect(userService.edit).not.toHaveBeenCalled();
   });
 
   it("should not enable email field or update profile if the time difference is less than 7 days", () => {
     const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);  
-
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6); 
+  
     component.perfilForm.patchValue({
       username: 'Valid Username',
       email: 'valid@example.com',
       fullname: 'Valid Fullname',
       cpf: '12345678901',
       phoneNumber: '9876543210',
-      updateAt: sevenDaysAgo,
+      updateAt: sevenDaysAgo,  
     });
-
-    component.updateProfile();
+  
+    spyOn(userService, 'edit'); 
+    component.updateProfile();    
     expect(userService.edit).not.toHaveBeenCalled();  
   });
-
+  
 });
