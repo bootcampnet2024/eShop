@@ -64,10 +64,10 @@ export class UserProfileComponent implements OnInit {
       next: (data: User) => {
         this.perfilForm.patchValue({
           username: data.username,
-          fullname: data.attributes?.full_name ? data.attributes.full_name[0] : '',
+          fullname: data.attributes?.full_name[0] ?? '',
           email: data.email,
-          cpf: data.attributes?.cpf ? data.attributes.cpf[0] : '',
-          phoneNumber: data.attributes?.phone_number ? data.attributes.phone_number[0] : '', 
+          cpf: data.attributes?.cpf?.[0] ?? '',
+          phoneNumber: data.attributes?.phone_number?.[0] ?? '', 
         });
         this.userId = data.id;
         this.isLoading = false;
