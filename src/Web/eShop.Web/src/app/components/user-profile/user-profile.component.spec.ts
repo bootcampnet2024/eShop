@@ -12,6 +12,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { UserManagementService } from "../../services/user-management/user-management.service";
 import { provideHttpClient } from "@angular/common/http";
 import { appConfig } from "../../app.config";
+import { User } from "../../models/user.model";
 
 describe("UserProfileComponent", () => {
   let component: UserProfileComponent;
@@ -59,9 +60,11 @@ describe("UserProfileComponent", () => {
   });
 
   it("should patch the form with user data", () => {
-    const mockUser = {
+    const mockUser: User = {
+      id: '12345', 
       username: 'Test User',
       email: 'test@example.com',
+      roles: ['user'], 
       attributes: {
         full_name: ['Test Fullname'],
         cpf: ['12345678901'],
