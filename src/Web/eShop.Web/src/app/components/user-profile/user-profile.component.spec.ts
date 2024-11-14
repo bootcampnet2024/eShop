@@ -59,13 +59,24 @@ describe("UserProfileComponent", () => {
   });
 
   it("should patch the form with user data", () => {
-    component.ngOnInit(); 
+    const mockUser = {
+      username: 'Test User',
+      email: 'test@example.com',
+      attributes: {
+        full_name: ['Test Fullname'],
+        cpf: ['12345678901'],
+        phone_number: ['9876543210'],
+      },
+    };
+  
+    spyOn(userService, 'getProfile').and.returnValue(of(mockUser)); 
+    
     component.loadUserData();
+    
     expect(component.perfilForm.get('username')?.value).toBe("Test User");
     expect(component.perfilForm.get('email')?.value).toBe("test@example.com");
     expect(component.perfilForm.get('fullname')?.value).toBe("Test Fullname");
   });
-  
   
 
   it("should log an error if loading user data fails", () => {
@@ -104,10 +115,12 @@ describe("UserProfileComponent", () => {
       fullname: 'Valid Fullname',
       cpf: '12345678901',
       phoneNumber: '9876543210',
-      updateAt: sevenDaysAgo, 
+      updateAt: sevenDaysAgo,  
     });
-    component.updateProfile();
-    expect(userService.edit).not.toHaveBeenCalled();
+  
+    spyOn(userService, 'edit'); 
+    component.updateProfile();    
+    expect(userService.edit).not.toHaveBeenCalled();  
   });
   
 });

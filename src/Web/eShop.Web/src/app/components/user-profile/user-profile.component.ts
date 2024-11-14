@@ -87,7 +87,7 @@ export class UserProfileComponent implements OnInit {
     const timeDiff = date.getTime() - this.updateAt.getTime();
     const daysDiff = timeDiff / (1000 * 3600 * 24);
   
-    if (this.perfilForm.valid && daysDiff > 0) {
+    if (this.perfilForm.valid && daysDiff >= 7) {
       const body = {
         username: this.perfilForm.get('username')?.value,
         enabled: true,
