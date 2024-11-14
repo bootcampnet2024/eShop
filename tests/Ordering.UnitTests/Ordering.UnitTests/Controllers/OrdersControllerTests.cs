@@ -352,7 +352,7 @@ public class OrdersControllerTests
         typeof(Order).GetProperty("Id")?.SetValue(order, 1);
         typeof(Order).GetProperty("Buyer")?.SetValue(order, buyer);
 
-        order.AddOrderItem(1, "Produto Exemplo", 100m, 90m, "http://example.com/produto.png", 2);
+        order.AddOrderItem(Guid.NewGuid().ToString(), "Produto Exemplo", 100m, 90m, "http://example.com/produto.png", 2);
 
         return order;
     }
@@ -374,8 +374,7 @@ public class OrdersControllerTests
             [
                     new BasketItem
                     {
-                        Id = Guid.NewGuid().ToString(),
-                        ProductId = 1,
+                        ProductId = Guid.NewGuid().ToString(),
                         ProductName = "Produto Exemplo",
                         UnitPrice = 100m,
                         OldUnitPrice = 90m,

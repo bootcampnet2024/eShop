@@ -2,7 +2,7 @@
 <div class="cart-container">
   <div class="cart-container__product-list">
     <div *ngFor="let product of products; trackBy: trackByProductId" class="cart-container__product-list__product-item">
-      <img [src]="product.image" alt="Product Image" class="cart-container__product-list__product-item__product-image" />
+      <img [src]="product.imageURL" alt="Product Image" class="cart-container__product-list__product-item__product-image" />
       <div class="cart-container__product-list__product-item__product-details">
         <p class="cart-container__product-list__product-item__product-details__name">{{ product.name }}</p>
         <p class="cart-container__product-list__product-item__product-details__description">{{ product.description }}</p>
@@ -41,6 +41,8 @@
         <p>Subtotal:</p>
         <p>Total: R$ {{ orderTotal.toFixed(2) }}</p>
       </div>
+      <button class="cart-container__order-summary__summary__continue-button" (click)="goToShopping()">Continue shopping?</button>
+
       <button class="cart-container__order-summary__summary__buy-button" (click)="goToPaymentPage()">Checkout</button>
     </div>
   </div>

@@ -24,7 +24,7 @@ namespace Basket.API._01_Services
                 Description = item.Description,
                 Price = item.Price,
                 Quantity = item.Quantity,
-                Image = item.Image
+                ImageURL = item.ImageURL
             });
 
             _context.SaveChanges();
@@ -42,7 +42,7 @@ namespace Basket.API._01_Services
                 cartItem.Name = item.Name;
                 cartItem.Description = item.Description;
                 cartItem.Price = item.Price;
-                cartItem.Image = item.Image;
+                cartItem.ImageURL = item.ImageURL;
                 _context.CartItems.Update(cartItem);
                 _context.SaveChanges();
             }
@@ -72,7 +72,7 @@ namespace Basket.API._01_Services
                     Description = ci.Description,
                     Price = ci.Price,
                     Quantity = ci.Quantity,
-                    Image = ci.Image
+                    ImageURL = ci.ImageURL
                 }).ToList();
         }
     }

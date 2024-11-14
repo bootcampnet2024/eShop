@@ -18,11 +18,11 @@ public class OrderItem
 
     public int Units { get; private set; }
 
-    public int ProductId { get; private set; }
+    public string ProductId { get; private set; }
 
     protected OrderItem() { }
 
-    public OrderItem(int productId, string productName, decimal unitPrice, decimal discount, string pictureUrl, int units = 1)
+    public OrderItem(string productId, string productName, decimal unitPrice, decimal discount, string pictureUrl, int units = 1)
     {
         if (units <= 0)
         {
