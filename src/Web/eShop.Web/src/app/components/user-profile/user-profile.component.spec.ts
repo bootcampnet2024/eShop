@@ -59,11 +59,14 @@ describe("UserProfileComponent", () => {
   });
 
   it("should patch the form with user data", () => {
+    component.ngOnInit(); 
     component.loadUserData();
     expect(component.perfilForm.get('username')?.value).toBe("Test User");
     expect(component.perfilForm.get('email')?.value).toBe("test@example.com");
     expect(component.perfilForm.get('fullname')?.value).toBe("Test Fullname");
   });
+  
+  
 
   it("should log an error if loading user data fails", () => {
     userService.getProfile.and.returnValue(throwError(new Error("Error loading user data")));
@@ -92,15 +95,19 @@ describe("UserProfileComponent", () => {
   });
 
   it("should not enable email field or update profile if the time difference is less than 7 days", () => {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6); 
+  
     component.perfilForm.patchValue({
       username: 'Valid Username',
       email: 'valid@example.com',
       fullname: 'Valid Fullname',
       cpf: '12345678901',
       phoneNumber: '9876543210',
-      updateAt: new Date(), 
+      updateAt: sevenDaysAgo, 
     });
     component.updateProfile();
     expect(userService.edit).not.toHaveBeenCalled();
   });
+  
 });
