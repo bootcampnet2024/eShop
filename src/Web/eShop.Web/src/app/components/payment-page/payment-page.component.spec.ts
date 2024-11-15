@@ -13,15 +13,17 @@ import { CartItemModel } from '../../models/cartItem.model';
 import { User } from '../../models/user.model';
 
 const mockUser: User = {
-  id: '1',
-  fullname: 'John Doe',
-  username: 'johndoe',
-  email: 'john.doe@example.com',
-  cpf: '123.456.789-00',
-  phoneNumber: '123456789',
-  updateAt: new Date(),
-  addresss: ['Rua Exemplo, 123, Cidade, Estado'],
-  roles: ['admin']
+  id: "mockId",
+  username: "mockUser",
+  email: "mock@user.com",
+  roles: ["admin"],
+  attributes: {
+    full_name: ["Mock User"],  
+    update_at: [new Date().toISOString()], 
+    cpf: ["12345678900"], 
+    phone_number: ["1234567890"],
+    address: ["mock address"],
+  },
 };
 
 const mockItems: CartItemModel[] = [
@@ -90,15 +92,17 @@ describe('PaymentPageComponent', () => {
   it('should load user profile and call loadCartItems on init', fakeAsync(() => {
     const mockUserId = '12345';
     const mockUser: User = {
-      id: '1',
-      fullname: 'John Doe',
-      username: 'johndoe',
-      email: 'john.doe@example.com',
-      cpf: '123.456.789-00',
-      phoneNumber: '123456789',
-      updateAt: new Date(),
-      addresss: ['Rua Exemplo, 123, Cidade, Estado'],
-      roles: ['admin']
+      id: "mockId",
+      username: "mockUser",
+      email: "mock@user.com",
+      roles: ["admin"],
+      attributes: {
+        full_name: ["Mock User"],  
+        update_at: [new Date().toISOString()], 
+        cpf: ["12345678900"], 
+        phone_number: ["1234567890"],
+        address: ["mock address"],
+      },
     };
   
     userManagementService.getProfile.and.returnValue(of(mockUser));
@@ -154,15 +158,17 @@ describe('PaymentPageComponent', () => {
 
   it('should complete order successfully', () => {
     const mockUser: User = {
-      id: '1',
-      fullname: 'John Doe',
-      username: 'johndoe',
-      email: 'john.doe@example.com',
-      cpf: '123.456.789-00',
-      phoneNumber: '123456789',
-      updateAt: new Date(),
-      addresss: ['Rua Exemplo, 123, Cidade, Estado'],
-      roles: ['admin']
+      id: "mockId",
+      username: "mockUser",
+      email: "mock@user.com",
+      roles: ["admin"],
+      attributes: {
+        full_name: ["Mock User"],  
+        update_at: [new Date().toISOString()], 
+        cpf: ["12345678900"], 
+        phone_number: ["1234567890"],
+        address: ["mock address"],
+      },
     };
     const mockItems: CartItemModel[] = [
       {
@@ -208,15 +214,17 @@ describe('PaymentPageComponent', () => {
 
   it('should handle payment service error', () => {
     const mockUser: User = {
-      id: '1',
-      fullname: 'John Doe',
-      username: 'johndoe',
-      email: 'john.doe@example.com',
-      cpf: '123.456.789-00',
-      phoneNumber: '123456789',
-      updateAt: new Date(),
-      addresss: ['Rua Exemplo, 123, Cidade, Estado'],
-      roles: ['admin']
+      id: "mockId",
+      username: "mockUser",
+      email: "mock@user.com",
+      roles: ["admin"],
+      attributes: {
+        full_name: ["Mock User"],  
+        update_at: [new Date().toISOString()], 
+        cpf: ["12345678900"], 
+        phone_number: ["1234567890"],
+        address: ["mock address"],
+      },
     };
     const mockItems: CartItemModel[] = [
       {

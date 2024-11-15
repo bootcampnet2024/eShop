@@ -1,39 +1,80 @@
 <app-header></app-header>
 
-<div class="container">
-  <h1>User List</h1>
-  <a routerLink="/user-management-add" class="btn-prim" (click)="openAddModal()">Add</a>
-  @if (users) {
+<div class="table-container">
+  <h1 class="table-container__title">Users List</h1>
+  <div class="table-container__tool-bar">
+      <div class="table-container__search-bar">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="table-container__search-bar__icon">
+          <g>
+            <path
+              d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
+            ></path>
+          </g>
+        </svg>
+        <input #searchInput (keypress)="searchUser($event)" type="search" placeholder="Search"/>
+      </div>
+    <button mat-flat-button color="primary" (click)="openAddModal()">
+      Add User
+    </button>
+  </div>
+  @if (users){
   <table>
     <thead>
       <tr>
-        <th>Id</th>
-        <th>Username</th>
+        <th>Full Name</th>
         <th>Email</th>
         <th>CPF</th>
-        <th>Addresses</th>
+        <th>PhoneNumber</th>
+        <th>Address</th>
         <th>Actions</th>
       </tr>
     </thead>
-
     <tbody>
       @for (user of users; track user.id){
-      <td>{{user.id}}</td>
-      <td>{{user.username}}</td>
-      <td>{{user.email}}</td>
-      <td>{{user.cpf}}</td>
-      <td><a routerlink="/user-address-edit" class="btn-sec" (click)="openEditModal(user)">Edit</a></td>
-      <td>
-        <a routerlink="/user-management-edit" class="btn-sec" (click)="openEditModal(user)">Edit</a>
-        <a routerlink="/user-management-delete" class="btn-trh" (click)="deleteUser(user)">Delete</a>
-        @if(isAdmin) {
-        <a routerlink="/admin-function" class="btn-qrt" (click)="changeRoles(user)">Roles</a>
-        }
-      </td>
+      <tr>
+        <td>{{ user.attributes?.full_name![0] || 'N/A' }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.attributes?.cpf![0] || 'N/A' }}</td> 
+        <td>{{ user.attributes?.phone_number![0] || 'N/A' }}</td> 
+      
+        <td>
+          <button
+            mat-flat-button
+            color="accent"
+            (click)="addressPage(user)"
+          >
+            Address
+          </button>
+        </td>
+        <td>
+          <button
+            mat-flat-button
+            color="accent"
+            (click)="openEditModal(user)"
+          >
+            Edit
+          </button>
+          <button
+            mat-flat-button
+            color="warn"
+            (click)="deleteUser(user)"
+          >
+            Delete
+          </button>
+          <button 
+            *ngIf="isAdmin" 
+            mat-flat-button 
+            color="accent" 
+            (click)="changeRoles(user)"
+          >
+            Roles
+          </button>
+        </td>
+      </tr>
       }
     </tbody>
-
   </table>
   }
 </div>
+
 <app-footer></app-footer>

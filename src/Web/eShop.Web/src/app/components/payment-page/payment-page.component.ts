@@ -119,10 +119,10 @@ export class PaymentPageComponent implements OnInit {
     items: Item[];
   } {
     return {
-      name: user.fullname,
+      name: user.attributes?.full_name[0] || '',
       email: user.email,
-      phoneNumber: user.phoneNumber,
-      cpf: user.cpf,
+      phoneNumber: user.attributes?.phone_number?.[0] ?? '',
+      cpf: user.attributes?.cpf?.[0] ?? '',
       paymentMethod: this.paymentForm.value.paymentMethod,
       address: {
         street: 'Rua Exemplo',

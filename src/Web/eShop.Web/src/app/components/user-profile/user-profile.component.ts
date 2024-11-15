@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserManagementService } from '../../services/user-management/user-management.service';
 import { AuthService } from '../../core/auth/auth.service';
-import { User } from '../../models/user.model'; // Importando a interface User
+import { User } from '../../models/user.model'; 
 
 @Component({
   selector: 'user-profile',
@@ -38,6 +38,7 @@ export class UserProfileComponent implements OnInit {
   perfilForm: FormGroup;
   isLoading = true;
   userId: string = '';
+  updateAt: Date = new Date();
 
   constructor(
     private fb: FormBuilder,
@@ -46,11 +47,10 @@ export class UserProfileComponent implements OnInit {
   ) {
     this.perfilForm = this.fb.group({
       username: ['', Validators.required],
-      email: [{ value: '', disabled: true }],
-      phoneNumber: [{ value: '', disabled: true }],
-      cpf: [{ value: '', disabled: true }],
-      fullname: [{ value: '', disabled: true }],
-      updateAt: [{ value: '', disabled: true }],
+      email: [''],
+      phoneNumber: [''],
+      cpf: [''],
+      fullname: [''],
     });
   }
 
@@ -60,48 +60,52 @@ export class UserProfileComponent implements OnInit {
 
   loadUserData(): void {
     this.isLoading = true;
-    this.userService.getProfile().subscribe({
-      next: (data: User) => {
-        this.perfilForm.patchValue({
-          username: data.username,
-          fullname: data.fullname,
-          email: data.email,
-          cpf: data.cpf,
-          phoneNumber: data.phoneNumber,
-          updateAt: data.updateAt,
-        });
-        this.userId = data.id;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Error loading user data:', error);
-        this.isLoading = false;
-      }
-    });
-  }
+    const profileObservable = this.userService.getProfile();
+  
+    if (profileObservable) {
+      profileObservable.subscribe({
+        next: (data: User) => {
+          this.perfilForm.patchValue({
+            username: data.username,
+            fullname: data.attributes?.full_name[0] ?? '',
+            email: data.email,
+            cpf: data.attributes?.cpf?.[0] ?? '',
+            phoneNumber: data.attributes?.phone_number?.[0] ?? '', 
+          });
+          this.userId = data.id;
+          this.isLoading = false;
+          this.updateAt = data.attributes?.update_at ? new Date(data.attributes.update_at[0]) : new Date();
+          console.log('User data loaded:', data);
+        },
+        error: (error) => {
+          console.error('Error loading user data:', error);
+          this.isLoading = false;
+        }
+      });
+    } else {
+      this.isLoading = false;
+    }
+  }   
 
   updateProfile(): void {
     const date: Date = new Date();
-    const formUpdateAt = new Date(this.perfilForm.get('updateAt')?.value); 
-    const timeDiff = date.getTime() - formUpdateAt.getTime();
+    const timeDiff = date.getTime() - this.updateAt.getTime();
     const daysDiff = timeDiff / (1000 * 3600 * 24);
-
-    if (this.perfilForm.valid && (daysDiff > 7)) {
-      this.perfilForm.get('email')?.enable();
-
-      const updatedProfile: User = {
-        id: this.userId,
+  
+    if (this.perfilForm.valid && daysDiff >= 7) {
+      const body = {
         username: this.perfilForm.get('username')?.value,
-        fullname: this.perfilForm.get('fullname')?.value,
+        enabled: true,
+        emailVerified: true,
         email: this.perfilForm.get('email')?.value,
-        cpf: this.perfilForm.get('cpf')?.value,
-        phoneNumber: this.perfilForm.get('phoneNumber')?.value,
-        updateAt: new Date(),
-        addresss: [], 
-        roles: [] 
+        attributes: {
+          full_name: [this.perfilForm.get('fullname')?.value], 
+          cpf: [this.perfilForm.get('cpf')?.value], 
+          phone_number: [this.perfilForm.get('phoneNumber')?.value], 
+          update_at: [date.toISOString()], 
+        },
       };
-
-      this.userService.edit(this.userId, updatedProfile).subscribe({
+      this.userService.edit(this.userId, body).subscribe({
         next: () => {
           console.log('Profile updated successfully');
           this.authService.getAccessToken();
@@ -110,11 +114,8 @@ export class UserProfileComponent implements OnInit {
           console.error('Error updating profile:', error);
         }
       });
-
-      this.perfilForm.get('email')?.disable();
-      this.perfilForm.get('cpf')?.disable();
     } else {
       console.warn('Form is invalid or update time is not valid');
     }
-  }
+  }  
 }

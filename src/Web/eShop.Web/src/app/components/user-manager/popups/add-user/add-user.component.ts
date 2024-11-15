@@ -12,17 +12,10 @@ import { UserManagementService } from "../../../../services/user-management/user
   styleUrl: "../popups.css",
 })
 export class AddUserComponent implements OnInit {
-  user: User = {
-    id: "",
-    username: "",
-    email: "",
-    cpf: "",
-    phoneNumber: "",
-    roles: [""],
-    fullname: "",
-    addresss: [""],
-    updateAt: new Date()
-  };
+  fullname: string = "";
+  username: string = "";
+  email: string = "";
+  cpf: string = "";
 
   constructor(
     private userService: UserManagementService,
@@ -32,14 +25,37 @@ export class AddUserComponent implements OnInit {
   ngOnInit(): void {}
 
   closeModal() {
-    this.userService.add(this.user).subscribe(
-      () => {
+    const date = new Date().toISOString();
+    const body = {
+      username: this.username,
+      enabled: true,
+      emailVerified: true,
+      email: this.email,
+      attributes: {
+        full_name: [this.fullname],
+        cpf: [this.cpf],
+        update_at: [date],
+        phone_number: [],
+        address: []
+      },
+      credentials: [
+        {
+          type: "password",
+          value: this.cpf,
+          temporary: false,
+        },
+      ],
+      groups: ["user"],
+    };
+
+    this.userService.add(body).subscribe({
+      next: () => {
         console.log("User added successfully");
         this.dialogRef.close();
       },
-      (error) => {
+      error: (error) => {
         console.error("Error adding user:", error);
       }
-    );
+    });
   }
 }

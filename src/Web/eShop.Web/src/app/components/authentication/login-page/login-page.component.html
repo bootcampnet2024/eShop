@@ -1,39 +1,24 @@
 <div class="login-page">
+  <div class="login-page__logo"></div>
   <div class="login-page__section">
     <div class="login-page__box">
-      <div class="login-page__header">Log in</div>
-      <form (ngSubmit)="login()" class="login-page__form">
-        <div class="login-page__form-group">
-          <input
-            id="username"
-            [(ngModel)]="username"
-            name="username"
-            placeholder="Email address or Username"
-            required
-          />
-        </div>
-        <div class="login-page__form-group">
-          <input
-            type="password"
-            id="password"
-            [(ngModel)]="password"
-            name="password"
-            placeholder="Password"
-            required
-          />
-        </div>
+      <div class="login-page__header">Log In</div>
+      <form [formGroup]="loginForm" (ngSubmit)="login()" class="signin-page__form">
+        <mat-form-field class="login-page__form-group">
+          <mat-label>Username or Email</mat-label>
+          <input matInput formControlName="username" required>
+        </mat-form-field>
+
+        <mat-form-field class="login-page__form-group">
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password" required>
+        </mat-form-field>
+        
         <div (click)="openResetPasswordDialog()" class="login-page__reset-password">
           Forgot Your Password?
         </div>
         <button type="submit" class="login-page__btn login-page__btn--submit">
           Log in
-        </button>
-        <button type="button" class="login-page__btn login-page__btn--google">
-          <img
-            src="https://developers.google.com/identity/images/g-logo.png"
-            alt="Google Logo"
-          />
-          Continue with Google
         </button>
         <a href="signin" class="login-page__terms"
           >Don't have an account? Sign Up.</a

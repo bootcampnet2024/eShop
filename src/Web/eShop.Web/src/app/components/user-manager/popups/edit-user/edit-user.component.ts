@@ -2,45 +2,75 @@ import { Component, OnInit, Inject } from "@angular/core";
 import { UserManagementService } from "../../../../services/user-management/user-management.service";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { User } from "../../../../models/user.model";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @Component({
   selector: "app-edit-user",
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule],
+  imports: [
+    ReactiveFormsModule],
   templateUrl: "./edit-user.component.html",
   styleUrl: "../popups.css",
 })
 export class EditUserComponent implements OnInit {
+  perfilForm: FormGroup;
+  userId: string = '';
+
   constructor(
+    private fb: FormBuilder,
     private userService: UserManagementService,
     public dialogRef: MatDialogRef<EditUserComponent>,
     @Inject(MAT_DIALOG_DATA) public data: User
-  ) {}
-
-  ngOnInit(): void {}
-
-  user: User = {
-    id: this.data.id,
-    username: this.data.username,
-    email: this.data.email,
-    cpf: this.data.cpf,
-    phoneNumber: this.data.phoneNumber,
-    roles: this.data.roles,
-    fullname: this.data.fullname,
-    updateAt: this.data.updateAt,
-    addresss: this.data.addresss,
-  };
-
-  closeModal() {
-    this.userService.edit(this.data.id, this.user).subscribe({
-      next: () => {
-        console.log("User edited successfully");
-        this.dialogRef.close();
-      },
-      error: (error) => {
-        console.error("Error editing user:", error);
-      },
+  ) {
+    this.perfilForm = this.fb.group({
+      username: [''],
+      email: [''],
+      phoneNumber: [''],
+      cpf: [''],
+      fullname: [''],
     });
+  }
+
+  ngOnInit(): void {
+    this.loadUserData();
+  }
+
+  loadUserData(): void {
+    console.log(this.data);
+    this.perfilForm.patchValue({
+      username: this.data.username,
+      fullname: this.data.attributes?.full_name[0] || '', 
+      email: this.data.email,
+      cpf: this.data.attributes?.cpf![0] || '', 
+      phoneNumber: this.data.attributes?.phone_number![0] || '',
+    });
+    this.userId = this.data.id;
+    console.log(this.userId);
+  }
+
+  closeModal(): void {
+    if (this.perfilForm.valid) {
+      const body = {
+        username : this.perfilForm.get('username')?.value,
+        email: this.perfilForm.get('email')?.value,
+        attributes: {
+          full_name: [this.perfilForm.get('fullname')?.value || ''],
+          cpf: [this.perfilForm.get('cpf')?.value || ''],
+          phone_number: [this.perfilForm.get('phoneNumber')?.value || ''],
+          update_at: [new Date().toISOString()],
+        },
+      };
+
+      this.userService.edit(this.userId, body).subscribe({
+        next: () => {
+          console.log('Profile updated successfully');
+        },
+        error: (error) => {
+          console.error('Error updating profile:', error);
+        }
+      });
+    } else {
+      console.warn('Form is invalid or update time is not valid');
+    }
   }
 }

@@ -90,27 +90,66 @@ body {
   align-items: center;
 }
 
+.signin-page,
 .login-page {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  background-color: #f0f0f0;
+  justify-content: space-between;
   font-family: "Roboto", sans-serif;
-  background: linear-gradient(85deg, white 55%, #005b96 40%);
 }
+
+.login-page{
+  background-image: url('./assets/background-login.png');
+}
+
+.signin-page{
+  background-image: url('./assets/background-signin.png');
+}
+
+.signin-page__logo,
+.login-page__logo{
+  width: 400px;
+  height: 400px;
+}
+
+
+.login-page__logo{
+  margin-left: 10%;
+}
+
+.signin-page__logo{
+  margin-right: 10%;
+}
+
+.signin-page__logo::before,
+.login-page__logo::before{
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-image: url('./assets/logo-semfundo.png');
+  background-size: cover;
+  background-position: center;
+}
+
+
 
 .login-page__section {
   background-color: #ffffff;
-  padding: 40px;
+  padding: 30px;
   border-radius: 30px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 320px;
-  height: 500px;
-  margin-left: 55%;
+  height: 370px;
+  margin-right: 13%;
 }
 
+.signin-page__box,
 .login-page__box {
   display: flex;
   flex-direction: column;
@@ -118,28 +157,20 @@ body {
   text-align: center;
 }
 
+.signin-page__header,
 .login-page__header {
-  text-align: justify;
+  text-align: center;
+  margin-bottom: 10px;
   font-size: 25px;
   color: #333;
 }
 
-.login-page__form-group {
-  margin-top: 55px;
-  margin-bottom: 20px;
-}
 
-.login-page__form-group input {
-  width: 100%;
-  padding: 10px;
-  font-size: 15px;
-  border: none;
-  border-radius: 5px;
-}
-
+.signin-page__btn,
 .login-page__btn {
-  margin: 25px;
-  width: 70%;
+  width: 50%;
+  margin-top: 20px;
+  margin-bottom: 20px;
   padding: 10px;
   border: none;
   border-radius: 17px;
@@ -148,126 +179,57 @@ body {
   transition: transform 0.2s ease-in-out;
 }
 
+.signin-page__btn--submit,
 .login-page__btn--submit {
-  background-color: #0aba46;
+  background-color: #0cc64a;
   color: #fff;
 }
 
-.login-page__btn--google {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin: auto;
-  padding: 15px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 25px;
-  cursor: pointer;
-  font-size: 10px;
-  transition: transform 0.2s ease-in-out;
-}
-
-.login-page__btn--google:hover,
+.signin-page__btn--submir:hover,
 .login-page__btn--submit:hover {
   transform: scale(1.05);
 }
 
-.login-page__btn--google img {
-  width: 20px;
-  margin-right: 10px;
-}
-
+.login-page__reset-password,
 .login-page__terms {
   display: block;
   text-align: center;
-  margin-top: 40px;
   color: #005a99;
   text-decoration: none;
   font-size: 14px;
 }
 
+.login-page__reset-password:hover,
 .login-page__terms:hover {
   text-decoration: underline;
 }
 
-.user-registration-page {
-  background: linear-gradient(265deg, white 55%, #005b96 40%);
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: left;
-  align-items: center;
-}
-
-.sign-in-form__form {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: auto;
-}
-
-.sign-in-form__title {
-  width: 90%;
-  font-size: 23px;
-  margin-left: 20px;
-  margin-bottom: 8px;
-}
-
-.sign-in-form {
-  max-width: 400px;
-  height: auto;
-  margin-left: 50px;
+.signin-page__section {
   background-color: #ffffff;
-  color: black;
-  padding: 20px;
-  border-radius: 20px;
+  padding: 30px;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  height: auto;
+  margin-right: 5%;
+  margin-left: 8%;
 }
 
-.sign-in-form__field {
-  width: 90%;
-}
-
-.sign-in-form__submit-btn {
-  width: 40%;
-  padding: 10px;
-  background-color: #0aba46;
-  color: #fff;
+.login-page__form-group,
+.signin-page__form-group {
+  width: 100%;
+  height: 70px;
+  border-radius: 5px;
   border: none;
-  border-radius: 10px;
-  font-size: 20px;
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-  display: block;
-  align-items: center;
-  justify-content: center;
+  margin-top: 10px;
 }
 
-.sign-in-form__submit-btn:hover {
-  transform: scale(1.05);
-}
-
-.sign-in-form__password-warning {
+.signin-page__password-warning {
   color: red;
   font-size: 14px;
   margin-top: -7px;
 }
 
-.sign-in-form__container {
-  width: 90%;
-  display: flex;
-  gap: 20px;
-}
-
-.sign-in-form__field--grow {
-  flex: 1;
-}
-
-.sign-in-form__field--shrink {
-  flex: 0.5;
-}
 
 .product-management{
   display: flex;
