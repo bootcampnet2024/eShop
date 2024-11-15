@@ -49,10 +49,18 @@ describe('NavbarComponent', () => {
         {
           id: 1,
           name: 'Category 1',
+          imageURL: "image",
+          description: "description",
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
           id: 1,
           name: 'Category 1',
+          imageURL: "image",
+          description: "description",
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
       ];
       spyOn(categoryService, 'getAll').and.returnValue(

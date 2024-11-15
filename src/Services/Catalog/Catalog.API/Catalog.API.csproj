@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="00-Application\Request\**" />
+    <Content Remove="00-Application\Request\**" />
+    <EmbeddedResource Remove="00-Application\Request\**" />
+    <None Remove="00-Application\Request\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="8.0.2" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
     <PackageReference Include="MediatR" Version="12.4.1" />
@@ -21,11 +28,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
     <PackageReference Include="Polly" Version="8.4.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="00-Application\Request\" />
-    <Folder Include="02-Infrastructure\Migrations\" />
   </ItemGroup>
 
 </Project>

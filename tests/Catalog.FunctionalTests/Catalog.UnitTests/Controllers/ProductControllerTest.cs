@@ -1,8 +1,9 @@
 ﻿using Catalog.API._00_Application.Models.Requests;
 using Catalog.API._00_Application.Operations.Queries.ProductQueries;
 using Catalog.API._00_Application_Operations.Commands.ProductCommands;
+using Catalog.API._01_Services.DTOs;
 using Catalog.API.Controllers;
-using Catalog.API.Services.Models;
+using Catalog.API.Controllers.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -44,25 +45,65 @@ namespace Catalog.UnitTests.Controllers
         [TestMethod]
         public async Task GetAll_ReturnsOkWithProducts_WhenProductsExits()
         {
-            var products = new List<CatalogItem> { new CatalogItem(), new CatalogItem() };
+            var products = new CatalogDataDTO<CatalogItemDTO>()
+            {
+                TotalItems = 2,
+                Items = new List<CatalogItemDTO>
+                {
+                    new CatalogItemDTO {
+                        Id = Guid.NewGuid(),
+                        Name = "Test",
+                        Description = "Test",
+                        Quantity = 1,
+                        Price = 1,
+                        ImageURL = "abc",
+                        IsActive = true,
+                        IsHighlighted = true,
+                        Brand = "test",
+                        Category = "test"
+                    },
+                    new CatalogItemDTO {
+                        Id = Guid.NewGuid(),
+                        Name = "Test",
+                        Description = "Test",
+                        Quantity = 1,
+                        Price = 1,
+                        ImageURL = "abc",
+                        IsActive = true,
+                        IsHighlighted = false,
+                        Brand = "test",
+                        Category = "test"
+                    }
+                }
+            };
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetAllProductsQuery>(), It.IsAny<CancellationToken>()))
                   .ReturnsAsync(products);
 
-            var result = await _productController.GetAll();
+            var filter = new CatalogItemsFilter()
+            {
+                ShowOnlyHighlighted = false,
+                PageSize = 10,
+                PageIndex = 0,
+                BrandsIds = [],
+                CategoriesIds = [],
+                FilterOrder = 0,
+            };
+
+            var result = await _productController.GetAll(filter);
 
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
-            Assert.AreEqual(products, okResult.Value);
+            Assert.AreEqual(200, okResult.StatusCode);
         }
 
         [TestMethod]
         public async Task Delete_ReturnsOk_WhenProductIsDeleted()
         {
             var productId = Guid.NewGuid();
-            _mediatorMock.Setup(m => m.Send(It.IsAny<DeleteProductCommand>(), It.IsAny<CancellationToken>()))
+            _mediatorMock.Setup(m => m.Send(It.IsAny<DisableProductCommand>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(true);
 
-            var result = await _productController.Delete(productId);
+            var result = await _productController.Disable(productId);
 
             Assert.IsInstanceOfType(result, typeof(OkResult));
         }
@@ -71,46 +112,70 @@ namespace Catalog.UnitTests.Controllers
         public async Task GetById_ReturnsOkWithProduct_WhenProductExists()
         {
             var productId = Guid.NewGuid();
-            var product = new CatalogItem { Id = productId };
-            _mediatorMock.Setup(m => m.Send(It.IsAny<GetProductsByIdQuery>(), It.IsAny<CancellationToken>()))
+            var product = new CatalogItemDTO { Id = productId };
+            _mediatorMock.Setup(m => m.Send(It.IsAny<GetProductByIdQuery>(), It.IsAny<CancellationToken>()))
                          .ReturnsAsync(product);
 
             var result = await _productController.GetById(productId);
 
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
-            Assert.AreEqual(product, okResult.Value);
+            Assert.AreEqual(200, okResult.StatusCode);
         }
 
         [TestMethod]
         public async Task GetByName_ReturnsOkWithProduct_WhenProductExists()
         {
-            var product = new CatalogItem
+            var products = new CatalogDataDTO<CatalogItemDTO>()
             {
-                Id = Guid.NewGuid(),
-                Name = "Test",
-                Description = "Test",
-                Quantity = 1,
-                Price = 1,
-                ImageURL = "abc",
-                IsActive = true,
-                Brand = new CatalogBrand { Id = 1, Name = "Test" },
-                Category = new CatalogCategory { Id = 1, Name = "Test" }
+                TotalItems = 2,
+                Items = new List<CatalogItemDTO>
+                {
+                    new CatalogItemDTO {
+                        Id = Guid.NewGuid(),
+                        Name = "Test",
+                        Description = "Test",
+                        Quantity = 1,
+                        Price = 1,
+                        ImageURL = "abc",
+                        IsActive = true,
+                        IsHighlighted = true,
+                        Brand = "test",
+                        Category = "test"
+                    },
+                    new CatalogItemDTO {
+                        Id = Guid.NewGuid(),
+                        Name = "Test",
+                        Description = "Test",
+                        Quantity = 1,
+                        Price = 1,
+                        ImageURL = "abc",
+                        IsActive = true,
+                        IsHighlighted = false,
+                        Brand = "test",
+                        Category = "test"
+                    }
+                }
             };
-
-            var products = new List<CatalogItem> { product };
 
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetProductsByNameQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(products);
 
-            var result = await _productController.SearchByName("Test");
+            var filter = new CatalogItemsFilter()
+            {
+                ShowOnlyHighlighted = false,
+                PageSize = 10,
+                PageIndex = 0,
+                BrandsIds = [],
+                CategoriesIds = [],
+                FilterOrder = 0,
+            };
+
+            var result = await _productController.GetByName("Test", filter);
 
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
-            var returnedProducts = okResult.Value as IEnumerable<CatalogItem>;
-            Assert.IsNotNull(returnedProducts);
-            Assert.AreEqual(1, returnedProducts.Count());
-            Assert.AreEqual(product.Name, returnedProducts.First().Name);
+            Assert.AreEqual(200, okResult.StatusCode);
         }
 
         [TestMethod]

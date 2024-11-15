@@ -1,12 +1,16 @@
-﻿namespace Catalog.API.Services
+﻿using Catalog.API._01_Services.DTOs;
+using Catalog.API.Controllers.Filters;
+
+namespace Catalog.API._01_Services
 {
     public interface IService<T, ID> where T : class
     {
-        Task<IEnumerable<T>> GetAll();
+        Task<CatalogDataDTO<T>> GetAll(GenericFilter filter);
         Task<T> GetById(ID id);
-        Task<IEnumerable<T>> GetByName(string name);
+        Task<CatalogDataDTO<T>> GetByName(string name, GenericFilter filter);
+        Task<int> GetCount();
         Task<bool> Add(T entity);
-        Task<bool> Update(ID id, T entity);
-        Task<bool> Delete(ID id);
+        Task<bool> Update(T entity);
+        Task<bool> Disable(ID id);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Catalog.API._00_Application.Models.Requests;
 using Catalog.API._00_Application.Operations.Queries.ProductQueries;
+using Catalog.API._00_Application.Result;
 using Catalog.API._00_Application_Operations.Commands.ProductCommands;
+using Catalog.API.Controllers.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,17 +27,18 @@ namespace Catalog.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] CatalogItemsFilter filter)
         {
-            var query = new GetAllProductsQuery();
+            var query = new GetAllProductsQuery(filter);
             var result = await _mediator.Send(query);
-            return Ok(result);
+
+            return Ok(new CatalogDataResult<CatalogItemResult> { Items = result.Items.Select(CatalogItemResult.FromDTO), TotalItems = result.TotalItems });
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Disable(Guid id)
         {
-            var command = new DeleteProductCommand(id);
+            var command = new DisableProductCommand(id);
             var result = await _mediator.Send(command);
             if (result) return Ok();
             return NotFound();
@@ -44,16 +47,27 @@ namespace Catalog.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var query = new GetProductsByIdQuery(id);
+            var query = new GetProductByIdQuery(id);
             var result = await _mediator.Send(query);
-            return Ok(result);
+
+            return Ok(CatalogItemResult.FromDTO(result));
         }
 
         [HttpGet("name/{name}")]
-        public async Task<IActionResult> SearchByName(string name)
+        public async Task<IActionResult> GetByName(string name, [FromQuery] CatalogItemsFilter filter)
         {
-            var query = new GetProductsByNameQuery(name);
+            var query = new GetProductsByNameQuery(name, filter);
             var result = await _mediator.Send(query);
+
+            return Ok(new CatalogDataResult<CatalogItemResult> { Items = result.Items.Select(CatalogItemResult.FromDTO), TotalItems = result.TotalItems });
+        }
+
+        [HttpGet("count/")]
+        public async Task<IActionResult> GetCount()
+        {
+            var query = new GetCountProductsQuery();
+            var result = await _mediator.Send(query);
+
             return Ok(result);
         }
 

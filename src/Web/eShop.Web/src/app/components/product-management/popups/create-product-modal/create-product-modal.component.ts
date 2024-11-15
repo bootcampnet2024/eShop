@@ -10,7 +10,8 @@ import { Brand } from '../../../../models/brand.model';
 import { Category } from '../../../../models/category.model';
 import { ProductManagementService } from '../../../../services/product-management/product-management.service';
 import {MatGridListModule} from '@angular/material/grid-list';
-import { ProductDTO } from '../../../../models/productDTO.model';
+import { ToastService } from 'angular-toastify';
+import { Product } from '../../../../models/product.model';
 
 
 @Component({
@@ -23,14 +24,15 @@ import { ProductDTO } from '../../../../models/productDTO.model';
 })
 export class CreateProductModalComponent implements OnInit{
   productForm = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.maxLength(300)]),
-    description: new FormControl(''),
+    name: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+    description: new FormControl('', [Validators.required, Validators.maxLength(500)]),
     price: new FormControl(0, [Validators.required, Validators.min(0)]),
+    discount: new FormControl(0, [Validators.min(0), Validators.max(100)]),
     quantity: new FormControl(0, [Validators.required, Validators.min(0)]),
-    categoryId: new FormControl(0, [Validators.required, Validators.min(1)]),
-    brandId: new FormControl(0, [Validators.required, Validators.min(1)]),
+    category: new FormControl('', Validators.required),
+    brand: new FormControl('', Validators.required),
     imageURL: new FormControl(''),
-    isActive: new FormControl(true),
+    isActive: new FormControl(false),
     isHighlighted: new FormControl(false)
   });
 
@@ -42,22 +44,27 @@ export class CreateProductModalComponent implements OnInit{
     this.getCategories();
   }
 
-  constructor(private ref: MatDialogRef<CreateProductModalComponent>, private productService : ProductManagementService){
+  constructor(private ref: MatDialogRef<CreateProductModalComponent>, private productService : ProductManagementService, private _toastService: ToastService){
     this.getBrands();
     this.getCategories();
   }
 
-  convertToProduct(): ProductDTO {
-    let product: ProductDTO = {
+  convertToProduct(): Product {
+    let product: Product = {
+      id: "",
       imageURL: this.productForm.get('imageURL')?.value ?? "",
       name: this.productForm.get('name')?.value ?? "",
       description: this.productForm.get('description')?.value ?? "",
       price: this.productForm.get('price')?.value ?? 0,
+      discount: this.productForm.get('discount')?.value ?? 0,
+      finalPrice: 0,
       quantity: this.productForm.get('quantity')?.value ?? 0,
-      brandId: this.productForm.get('brandId')?.value ?? 0,
-      categoryId: this.productForm.get('categoryId')?.value ?? 0,
+      brand: this.productForm.get('brand')?.value ?? "",
+      category: this.productForm.get('category')?.value ?? "",
       isActive: this.productForm.get('isActive')?.value ?? false,
-      isHighlighted: this.productForm.get('isHighlighted')?.value ?? false
+      isHighlighted: this.productForm.get('isHighlighted')?.value ?? false,
+      createdAt: new Date(),
+      updatedAt: new Date(), 
     };
     return product;
   }
@@ -66,25 +73,23 @@ export class CreateProductModalComponent implements OnInit{
     let product = this.convertToProduct();
 
     this.productService.addProduct(product).subscribe({
-      next: (response) => {
-        console.log("Product added sucessfully!");
+      next: () => {
+        this._toastService.success("Product added sucessfully!");
         this.close();
       },
-      error: (error) => {
-        alert(JSON.stringify(error, null, 2));
-        console.log(`You provided values that will not be accepted by the API!`);
-        console.log(product);
+      error: () => {
+        this._toastService.error(`You provided values that will not be accepted by the API!`);
       }
     })
   }
 
-  getBrands() {this.productService.getBrands().subscribe((brands) => {
-    this.brands = brands;
+  getBrands() {this.productService.getBrands(0, 50).subscribe((brands) => {
+    this.brands = brands.items;
     });
   }
 
-  getCategories() {this.productService.getCategories().subscribe((categories) => {
-    this.categories = categories;
+  getCategories() {this.productService.getCategories(0, 50).subscribe((categories) => {
+    this.categories = categories.items;
   });
 }
 

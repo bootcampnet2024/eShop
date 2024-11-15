@@ -2,18 +2,18 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpTestingController } from '@angular/common/http/testing';
 import { CategoryPageComponent } from './category-page.component';
 import { Product } from '../../models/product.model';
-import { ProductService } from '../../services/product-list/product.service';
 import { of } from 'rxjs';
-import { ProductRequest } from '../../models/product-request.model';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { appConfig } from '../../app.config';
+import { PaginatedResult } from '../../models/paginated-result.model';
+import { ProductManagementService } from '../../services/product-management/product-management.service';
 
 describe('CategoryPageComponent', () => {
   let component: CategoryPageComponent;
   let fixture: ComponentFixture<CategoryPageComponent>;
-  let productService: ProductService;
+  let productService: ProductManagementService;
   let httpMock: HttpTestingController;
 
   beforeEach(async () => {
@@ -21,7 +21,7 @@ describe('CategoryPageComponent', () => {
       imports: [HeaderComponent, FooterComponent, CategoryPageComponent],
       declarations: [],
       providers: [
-        ProductService,
+        ProductManagementService,
         provideHttpClientTesting(),
         ...appConfig.providers,
       ],
@@ -31,7 +31,7 @@ describe('CategoryPageComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    productService = TestBed.inject(ProductService);
+    productService = TestBed.inject(ProductManagementService);
     httpMock = TestBed.inject(HttpTestingController);
   });
 
@@ -56,8 +56,12 @@ describe('CategoryPageComponent', () => {
           isHighlighted: false,
           price: 10,
           quantity: 1,
-          brand: { id: 1, name: "Brand 1" },
-          category: { id: 1, name: "Category 1" },
+          brand: "brand",
+          category: "category",
+          discount: 10, 
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          finalPrice: 10
         },
         {
           id: 'guid2',
@@ -68,17 +72,21 @@ describe('CategoryPageComponent', () => {
           isHighlighted: false,
           price: 10,
           quantity: 1,
-          brand: { id: 1, name: "Brand 1" },
-          category: { id: 1, name: "Category 1" },
+          brand: "brand",
+          category: "category",
+          discount: 10, 
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          finalPrice: 10
         },
       ];
-      const productRequest: ProductRequest = {
+      const productRequest: PaginatedResult<Product>= {
         pageSize: 10,
         pageIndex: 0,
-        count: products.length,
+        totalItems: products.length,
         items: products,
       };
-      spyOn(productService, 'getCatalogItems').and.returnValue(
+      spyOn(productService, 'getProducts').and.returnValue(
         of(productRequest)
       );
 

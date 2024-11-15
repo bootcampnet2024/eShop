@@ -1,15 +1,12 @@
 ﻿using Catalog.API._00_Application.Models.Requests;
 using Catalog.API._00_Application.Operations.Commands.CategoryCommands;
 using Catalog.API._00_Application.Operations.Queries.CategoryQueries;
+using Catalog.API._01_Services.DTOs;
 using Catalog.API.Controllers;
-using Catalog.API.Services.Models;
+using Catalog.API.Controllers.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Catalog.UnitTests.Controllers
 {
@@ -40,30 +37,73 @@ namespace Catalog.UnitTests.Controllers
         [TestMethod]
         public async Task GetAll_ReturnsOkWithCateg_WhenCategoriesExists()
         {
-            var categories = new List<CatalogCategory> { new CatalogCategory(), new CatalogCategory() };
+            var categoriesDTO = new CatalogDataDTO<CatalogCategoryDTO>()
+            {
+                TotalItems = 2,
+                Items = new List<CatalogCategoryDTO>
+                {
+                    new CatalogCategoryDTO { Name = "Teste1" },
+                    new CatalogCategoryDTO { Name = "Teste2" }
+                }
+            };
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetAllCategoriesQuery>(), It.IsAny<CancellationToken>()))
-                  .ReturnsAsync(categories);
+                  .ReturnsAsync(categoriesDTO);
 
-            var result = await _categoryController.GetAll();
+            var filter = new GenericFilter()
+            {
+                PageIndex = 0,
+                PageSize = 1,
+            };
+
+            var result = await _categoryController.GetAll(filter);
 
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
-            Assert.AreEqual(categories, okResult.Value);
+            Assert.AreEqual(200, okResult.StatusCode);
         }
 
         [TestMethod]
         public async Task GetById_ReturnsOkWithCategory_WhenCategoryExists()
         {
             var categoryId = 1;
-            var category = new CatalogCategory { Id = categoryId };
-            _mediatorMock.Setup(m => m.Send(It.IsAny<GetCategoriesByIdQuery>(), It.IsAny<CancellationToken>()))
+            var category = new CatalogCategoryDTO { Id = categoryId };
+            _mediatorMock.Setup(m => m.Send(It.IsAny<GetCategoryByIdQuery>(), It.IsAny<CancellationToken>()))
                          .ReturnsAsync(category);
 
             var result = await _categoryController.GetById(categoryId);
 
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
-            Assert.AreEqual(category, okResult.Value);
+            Assert.AreEqual(200, okResult.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task GetByName_ReturnsOkWithCategories_WhenCategoriesExists()
+        {
+            var categoryName = "test";
+            var categoriesDTO = new CatalogDataDTO<CatalogCategoryDTO>()
+            {
+                TotalItems = 2,
+                Items = new List<CatalogCategoryDTO>
+                {
+                    new CatalogCategoryDTO { Name = "Teste1" },
+                    new CatalogCategoryDTO { Name = "Teste2" }
+                }
+            };
+            _mediatorMock.Setup(m => m.Send(It.IsAny<GetCategoriesByNameQuery>(), It.IsAny<CancellationToken>()))
+                         .ReturnsAsync(categoriesDTO);
+
+            var filter = new GenericFilter()
+            {
+                PageIndex = 0,
+                PageSize = 1,
+            };
+
+            var result = await _categoryController.GetByName(categoryName, filter);
+
+            var okResult = result as OkObjectResult;
+            Assert.IsNotNull(okResult);
+            Assert.AreEqual(200, okResult.StatusCode);
         }
 
         [TestMethod]

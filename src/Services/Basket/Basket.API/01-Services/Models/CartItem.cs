@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Basket.API._01_Services.Models
 {
@@ -9,10 +8,10 @@ namespace Basket.API._01_Services.Models
         public int ProductId { get; set; }
 
         [Required]
-        public string UserId { get; set; } 
+        public string UserId { get; set; }
 
         [Required]
-        public string Name { get; set; }  
+        public string Name { get; set; }
 
         public string ImageURL { get; set; }
 
@@ -20,7 +19,7 @@ namespace Basket.API._01_Services.Models
 
         [Required]
         [Range(0.01, double.MaxValue, ErrorMessage = "O preço deve ser maior que zero.")]
-        public decimal Price { get; set; }  
+        public decimal Price { get; set; }
 
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "A quantidade deve ser pelo menos 1.")]
