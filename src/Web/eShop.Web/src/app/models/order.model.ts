@@ -25,3 +25,32 @@ export interface OrderItem {
   units: number;
   pictureUrl: string;
 }
+
+/* Exemplo
+{
+  "pictureUrl": "string",
+  "orderId": 0,
+  "buyerId": "string",
+  "date": "2024-11-17T02:25:24.059Z",
+  "status": "string",
+  "description": "string",
+  "address": {
+    "street": "string",
+    "city": "string",
+    "state": "string",
+    "country": "string",
+    "zipCode": "string"
+  },
+  "orderItems": [
+    {
+      "pictureUrl": "string",
+      "productId": "string",
+      "productName": "string",
+      "units": 0,
+      "discount": 0,
+      "unitPrice": 0
+    }
+  ],
+  "total": 0
+}
+*/

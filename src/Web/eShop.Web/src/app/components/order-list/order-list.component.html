@@ -20,7 +20,7 @@
       <div class="orderlist-details">
         <img src="{{ order.pictureUrl }}" alt="" />
         <div class="orderlist-text">
-          <h2>Ordered at: {{ formatDate(order.date) }}</h2>
+          <h2>Ordered at: {{ dateToLocal(order.date) | date: 'dd/MM/yyyy HH:mm' }}</h2>
           <br />
           <h3>Status: {{ formatEnum(order.status) }}</h3>
           <h3>Price: R$ {{ order.total.toFixed(2) }}</h3>

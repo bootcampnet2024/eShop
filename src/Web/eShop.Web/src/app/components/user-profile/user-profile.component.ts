@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserManagementService } from '../../services/user-management/user-management.service';
@@ -41,6 +41,7 @@ export class UserProfileComponent implements OnInit {
   updateAt: Date = new Date();
 
   constructor(
+    private router: Router,
     private fb: FormBuilder,
     private userService: UserManagementService,
     private authService: AuthService
@@ -76,6 +77,9 @@ export class UserProfileComponent implements OnInit {
           this.isLoading = false;
           this.updateAt = data.attributes?.update_at ? new Date(data.attributes.update_at[0]) : new Date();
           console.log('User data loaded:', data);
+          if (this.perfilForm.get('username')?.value === 'admin') {
+            this.router.navigate(['/admin']);
+          }
         },
         error: (error) => {
           console.error('Error loading user data:', error);

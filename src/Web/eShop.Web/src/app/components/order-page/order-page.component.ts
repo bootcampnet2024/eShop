@@ -14,6 +14,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatListModule } from "@angular/material/list";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-order-page",
@@ -31,6 +32,7 @@ import { MatListModule } from "@angular/material/list";
     RouterModule,
     MatIconModule,
     ReactiveFormsModule,
+    CommonModule
   ],
   templateUrl: "./order-page.component.html",
   styleUrl: "./order-page.component.css",
@@ -74,11 +76,11 @@ export class OrderPageComponent implements OnInit {
 
   loadUserData(sub: string): void {
     if (this.order?.buyerId === sub) return;
-    this.userService.getByCriteria({ id: sub }).subscribe({
-      next: (response) => {
-        this.prefix = response.fullname.split(" ")[0];
-      },
-    });
+    // this.userService.getByCriteria({ id: sub }).subscribe({
+    //   next: (response) => {
+    //     this.prefix = response[0].username.split(" ")[0];
+    //   },
+    // });
   }
 
   viewProduct(item: OrderItem): void {
@@ -96,16 +98,9 @@ export class OrderPageComponent implements OnInit {
     return text[0] + text.slice(1).replace(/([A-Z])/g, " $1");
   }
 
-  formatDate(dateString?: string): string {
-    if (!dateString) return "N/A";
-    
-    let date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-
-    return `${day}/${month}/${year} - ${hours}:${minutes}`;
+  dateToLocal(dateTime?: string){
+    if (!dateTime) return;
+    let date = new Date(dateTime);
+    return new Date(date.getTime() - date.getTimezoneOffset() * 60000); 
   }
 }

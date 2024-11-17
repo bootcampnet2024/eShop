@@ -10,7 +10,7 @@ public record CreateOrderCommand(
     Address Address,
     string CardNumber,
     string CardHolderName,
-    DateTime CardExpiration,
+    DateOnly CardExpiration,
     int CardTypeId,
     string CardSecurityNumber,
     string UserName,
@@ -34,7 +34,7 @@ internal class CreateOrderCommandHandler(IOrderRepository orderRepository, IBuye
             request.CardNumber,
             request.CardSecurityNumber,
             request.CardHolderName,
-            request.CardExpiration,
+            request.CardExpiration.ToDateTime(TimeOnly.MinValue),
             buyer.Id
         );
 
@@ -47,7 +47,7 @@ internal class CreateOrderCommandHandler(IOrderRepository orderRepository, IBuye
         order.SetAwaitingValidationStatus();
         order.SetStockConfirmedStatus();
         order.SetPaidStatus();
-        buyer.VerifyOrAddPaymentMethod(request.CardTypeId, $"Alias {request.CardNumber}", request.CardNumber, request.CardSecurityNumber, request.CardHolderName, request.CardExpiration, order.Id);
+        buyer.VerifyOrAddPaymentMethod(request.CardTypeId, $"Alias {request.CardNumber}", request.CardNumber, request.CardSecurityNumber, request.CardHolderName, request.CardExpiration.ToDateTime(TimeOnly.MinValue), order.Id);
 
         await _orderRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 

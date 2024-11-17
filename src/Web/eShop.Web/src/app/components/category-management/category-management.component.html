@@ -51,7 +51,6 @@
       <table>
         <thead>
           <tr>
-            <th>Id</th>
             <th>Image</th>
             <th>Name</th>
             <th>Description</th>
@@ -64,8 +63,7 @@
         <tbody>
           @for (category of categories; track category.id){
           <tr>
-            <td>{{ category.id }}</td>
-            <td><img src="{{ category.imageURL }}" alt=""></td>
+            <td><img class="table-container__table__image" src="{{ category.imageURL }}" alt=""></td>
             <td>{{ category.name }}</td>
             <td>{{ category.description }}</td>
             <td>{{ dateToLocal(category.createdAt.toString()) | date: 'dd/MM/yyyy HH:mm' }}</td>

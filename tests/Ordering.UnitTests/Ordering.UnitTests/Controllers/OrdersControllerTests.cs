@@ -365,7 +365,7 @@ public class OrdersControllerTests
             ZipCode: "12345-678",
             CardNumber: "1234123412341234",
             CardHolderName: "John Doe",
-            CardExpiration: DateTime.UtcNow.AddYears(1),
+            CardExpiration: DateOnly.FromDateTime(DateTime.UtcNow.AddYears(1)),
             CardSecurityNumber: "123",
             CardTypeId: 1,
             Items:

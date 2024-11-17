@@ -9,16 +9,11 @@ namespace Basket.API._02_Infrastructure.Data
         {
         }
 
-        public DbSet<UserBasket> UserBaskets { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("basket");
-
-            modelBuilder.Entity<UserBasket>()
-                .Property(ub => ub.UserId)
-                .ValueGeneratedNever();
 
             modelBuilder.Entity<CartItem>()
                 .Property(c => c.Price)

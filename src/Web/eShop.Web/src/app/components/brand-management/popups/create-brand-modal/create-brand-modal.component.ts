@@ -45,7 +45,6 @@ export class CreateBrandModalComponent {
     this.productService.addBrand(brand).subscribe({
       next: (response) => {
         this._toastService.success("Brand added sucessfully!");
-        this.close();
       },
       error: (error) => {
         alert(JSON.stringify(error, null, 2));
@@ -53,6 +52,7 @@ export class CreateBrandModalComponent {
         console.log(brand);
       }
     })
+    this.close();
   }
 
   close() {

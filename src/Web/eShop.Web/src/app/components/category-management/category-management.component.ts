@@ -103,9 +103,9 @@ export class CategoryManagementComponent implements OnInit {
         });
       return;
     }
-    this.productService.getCategoriesByName(value)
+    this.productService.getCategoriesByName(value, 0, 50)
       .subscribe((response) => {
-        this.categories = response
+        this.categories = response.items
       })
   };
 

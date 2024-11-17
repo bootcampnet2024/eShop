@@ -15,6 +15,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatListModule } from "@angular/material/list";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-order-list",
@@ -32,6 +33,7 @@ import { MatListModule } from "@angular/material/list";
     RouterModule,
     MatIconModule,
     ReactiveFormsModule,
+    CommonModule
   ],
   templateUrl: "./order-list.component.html",
   styleUrl: "./order-list.component.css",
@@ -62,11 +64,11 @@ export class OrderListComponent implements OnInit {
   loadUserData(sub?: string): void {
     if (!sub) return;
     if (this.orders[0].buyerId === sub) return;
-    this.userService.getByCriteria({ id: sub }).subscribe({
-      next: (response) => {
-        this.prefix = response.fullname.split(" ")[0];
-      },
-    });
+    // this.userService.getByCriteria({ id: sub }).subscribe({
+    //   next: (response) => {
+    //     this.prefix = response.fullname.split(" ")[0];
+    //   },
+    // });
   }
 
   ngOnInit(): void {
@@ -106,16 +108,8 @@ export class OrderListComponent implements OnInit {
     return text[0] + text.slice(1).replace(/([A-Z])/g, " $1");
   }
 
-  formatDate(dateString?: string): string {
-    if (!dateString) return "N/A";
-    
-    let date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-
-    return `${day}/${month}/${year} - ${hours}:${minutes}`;
+  dateToLocal(dateTime: string){
+    let date = new Date(dateTime);
+    return new Date(date.getTime() - date.getTimezoneOffset() * 60000); 
   }
 }

@@ -119,7 +119,6 @@ export class UpdateProductModalComponent {
       .subscribe({
         next: () => {
           this._toastService.success("Product updated sucessfully!")
-          this.close();
         },
         error: () => {
           this._toastService.error(`Values provided wasn't accepted by the API!`)
@@ -127,6 +126,7 @@ export class UpdateProductModalComponent {
           console.log(product)
         }
       })
+    this.close();
   }
 
   close() {

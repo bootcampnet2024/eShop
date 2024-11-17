@@ -76,7 +76,6 @@ export class UpdateCategoryModalComponent {
       .subscribe({
         next: () => {
           this._toastService.success("Category updated sucessfully!")
-          this.close();
         },
         error: () => {
           this._toastService.error(`Values provided wasn't accepted by the API!`)
@@ -84,6 +83,7 @@ export class UpdateCategoryModalComponent {
           console.log(category)
         }
       })
+    this.close();
   }
 
   close() {

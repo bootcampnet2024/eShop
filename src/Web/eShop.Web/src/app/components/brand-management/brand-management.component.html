@@ -31,7 +31,6 @@
     <table>
       <thead>
         <tr>
-          <th>Id</th>
           <th>Image</th>
           <th>Name</th>
           <th>Created at</th>
@@ -42,8 +41,7 @@
       <tbody>
         @for (brand of brands; track brand.id){
         <tr>
-          <td>{{ brand.id }}</td>
-          <td><img src="{{ brand.imageURL }}" alt=""></td>
+          <td><img class="table-container__table__image" src="{{ brand.imageURL }}" alt=""></td>
           <td>{{ brand.name }}</td>
           <td>{{ dateToLocal(brand.createdAt.toString()) | date: 'dd/MM/yyyy HH:mm' }}</td>
           <td>{{ dateToLocal(brand.updatedAt.toString()) | date: 'dd/MM/yyyy HH:mm' }}</td>

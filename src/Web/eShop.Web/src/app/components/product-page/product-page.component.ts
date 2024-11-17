@@ -10,6 +10,7 @@ import { CartService } from '../../services/cart/cart.service';
 import { ToastService } from "angular-toastify";
 import { ProductManagementService } from '../../services/product-management/product-management.service';
 import { Category } from '../../models/category.model';
+import { CartItemModel } from '../../models/cartItem.model';
 
 @Component({
   selector: "app-product-page",
@@ -84,17 +85,20 @@ export class ProductPageComponent implements OnInit {
     this.router.navigate(["payment"]);
   }
 
-  getCategoryByName(categoryName: string): any {
-    this.productService.getCategoriesByName(categoryName).subscribe({
+  getCategoryByName(categoryName: string): number {
+    this.productService.getCategoriesByName(categoryName, 0, 50).subscribe({
       next: (response) => {
-        if (response && response.length > 0) {
-          this.category = response[0];
+        if (response && response.items.length > 0) {
+          this.category = response.items[0];
+          return this.category.id;
         }
+        return 0;
       },
       error: () => {
         console.log('Erro ao obter a categoria');
       }
-    });
+    })
+    return 0;
   }
 
 
@@ -115,7 +119,18 @@ export class ProductPageComponent implements OnInit {
       return;
     }
 
-    this.cartService.add(this.userId, this.product).subscribe({
+    const cartItem: CartItemModel = {
+      productId: this.product.id,
+      quantity: this.product.quantity,
+      price: this.product.price,
+      name: this.product.name,
+      description: this.product.description,
+      imageURL: this.product.imageURL,
+      availableQuantity: this.product.quantity,
+      userId: this.userId,
+    };
+
+    this.cartService.add(this.userId, cartItem).subscribe({
       next: () => {
         this.toastService.success(
           `${this.product.name} foi adicionado ao carrinho!`
