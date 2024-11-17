@@ -23,6 +23,7 @@ import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-poli
 import { TermsOfServiceComponent } from './components/terms-of-service/terms-of-service.component';
 import { OrderListComponent } from './components/order-list/order-list.component';
 import { OrderPageComponent } from './components/order-page/order-page.component';
+import { AcessibilityComponent } from './components/Acessibility/Acessibility.component';
 
 export const routes: Routes = [
     {path: '', component: LandingPageComponent},
@@ -43,7 +44,7 @@ export const routes: Routes = [
     {path: 'terms', component: TermsOfServiceComponent},
     {path: 'addresses', component: AddressPageComponent},
     {path: 'history', component: HistoryPageComponent},
-    {path: 'addresses', component: AddressPageComponent},
+    {path: 'acessibility', component: AcessibilityComponent},
     {path: 'orders', component: OrderListComponent, canActivate: [AuthGuard]},
     {path: 'order', component: OrderPageComponent, canActivate: [AuthGuard] },
     {path: 'product-management', component: ProductManagementComponent, canActivate: [AuthGuard]},
