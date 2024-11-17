@@ -20,6 +20,7 @@ import { Item } from "../../models/item ";
 import { OrderService } from "../../services/order/order.service";
 import { OrderRequest } from "../../models/order.request";
 import { Router } from "@angular/router";
+import { ProductManagementService } from "../../services/product-management/product-management.service";
 
 @Component({
   selector: "app-payment-page",
@@ -46,6 +47,7 @@ export class PaymentPageComponent implements OnInit {
     private router: Router,
     private paymentService: PaymentService,
     private UserManagementService: UserManagementService,
+    private productService: ProductManagementService,
     private orderService: OrderService,
     private cartService: CartService
   ) {
@@ -108,6 +110,19 @@ export class PaymentPageComponent implements OnInit {
     );
   }
 
+  updateProductQuantity(productId: string, quantity: number): void {
+    this.productService
+      .decrementProductQuantity(productId, quantity)
+      .subscribe({
+        next: (response) => {
+          console.log("Quantidade atualizada:", response);
+        },
+        error: (error) => {
+          console.error("Erro ao atualizar quantidade do produto:", error);
+        },
+      });
+  }
+
   createOrderRequest(): void {
     const convertedOrderItems: OrderItemRequest[] = this.items.map((item) => ({
       productId: item.productId,
@@ -149,7 +164,9 @@ export class PaymentPageComponent implements OnInit {
               console.error("Erro ao remover item do carrinho:", error);
             },
           });
+          this.updateProductQuantity(item.productId, item.quantity);
         }
+
         this.router.navigate(["/order", { id: response.orderId }]);
       },
       error: (error) => {

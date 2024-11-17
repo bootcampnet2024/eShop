@@ -70,8 +70,6 @@ export class CartPageComponent implements OnInit {
         console.log('Itens do carrinho recebidos:', items);
         this.products = items;
         for (const product of this.products) {
-          product.availableQuantity = product.quantity;
-          product.quantity = product.quantity;
           this.updateProductInfo(product);
         }
         this.updateOrderTotal();
@@ -97,6 +95,9 @@ export class CartPageComponent implements OnInit {
         product.finalPrice = productInfo.finalPrice;
         product.imageURL = productInfo.imageURL;
         product.availableQuantity = productInfo.quantity;
+        if (product.quantity > productInfo.quantity) {
+          product.quantity = productInfo.quantity;
+        }
         this.updateOrderTotal();
       },
       error: (error) => {

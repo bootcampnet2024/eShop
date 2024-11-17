@@ -121,7 +121,7 @@ export class ProductPageComponent implements OnInit {
 
     const cartItem: CartItemModel = {
       productId: this.product.id,
-      quantity: this.product.quantity,
+      quantity: 1,
       price: this.product.price,
       name: this.product.name,
       discount: this.product.discount,

@@ -111,6 +111,10 @@ export class ProductManagementService {
     return this.http.put<string>(`${this.url}/${this.products}/${id}`,product, {responseType: 'text' as 'json'})
   }
 
+  decrementProductQuantity(id: string, quantity: number) : Observable<string> {
+    return this.http.put<string>(`${this.url}/${this.products}/quantity/${id}?quantity=${quantity}`, {responseType: 'text' as 'json'})
+  }
+
   updateBrand(id: number, brand: Brand) : Observable<number> {
     return this.http.put<number>(`${this.url}/${this.brands}?id=${id}`,brand, {responseType: 'text' as 'json'})
   }
