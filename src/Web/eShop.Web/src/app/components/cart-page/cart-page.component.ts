@@ -5,6 +5,8 @@ import { CartService } from '../../services/cart/cart.service';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
+import { Product } from '../../models/product.model';
+import { ProductManagementService } from '../../services/product-management/product-management.service';
 
 @Component({
   selector: 'app-cart-page',
@@ -20,6 +22,7 @@ export class CartPageComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private productService: ProductManagementService,
     private cartService: CartService,
   ) { }
 
@@ -68,7 +71,8 @@ export class CartPageComponent implements OnInit {
         this.products = items;
         for (const product of this.products) {
           product.availableQuantity = product.quantity;
-          product.quantity = 1;
+          product.quantity = product.quantity;
+          this.updateProductInfo(product);
         }
         this.updateOrderTotal();
       },
@@ -78,6 +82,28 @@ export class CartPageComponent implements OnInit {
   });
   }
 
+  updateProductInfo(product: CartItemModel): void {
+    if (!product.productId) {
+      console.error('Product ID is null or undefined.');
+      return;
+    }
+
+    this.productService.getProductById(product.productId).subscribe({
+      next: (productInfo) => {
+        console.log('Informações do produto recebidas:', productInfo);
+        product.name = productInfo.name;
+        product.price = productInfo.price;
+        product.discount = productInfo.discount;
+        product.finalPrice = productInfo.finalPrice;
+        product.imageURL = productInfo.imageURL;
+        product.availableQuantity = productInfo.quantity;
+        this.updateOrderTotal();
+      },
+      error: (error) => {
+        console.error('Erro ao carregar informações do produto:', error);
+      }
+    });
+  }
 
   trackByProductId(index: number, item: CartItemModel): string {
     return item.productId;
@@ -103,17 +129,18 @@ export class CartPageComponent implements OnInit {
   }
 
   updateOrderTotal(): void {
-    this.orderTotal = this.products.reduce((total, product) => total + (product.price * product.quantity), 0);
+    this.orderTotal = this.products.reduce((total, product) => total + (product.finalPrice! * product.quantity), 0);
   }
 
   changeProductQuantity(product: CartItemModel, change: number): void {
     const newQuantity = product.quantity + change;
 
-    if (newQuantity >= 1 && (product.availableQuantity == null || newQuantity <= product.availableQuantity)) {
+    if (newQuantity >= 1 && newQuantity <= product.availableQuantity) {
       product.quantity = newQuantity;
 
       this.cartService.update(this.userId!, product).subscribe({
         next: () => {
+
           this.updateOrderTotal();
         },
         error: (error) => {

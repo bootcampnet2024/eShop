@@ -28,6 +28,7 @@ namespace Basket.API._01_Services
                 Name = item.Name,
                 Description = item.Description,
                 Price = item.Price,
+                Discount = item.Discount,
                 Quantity = item.Quantity,
                 ImageURL = item.ImageURL
             });

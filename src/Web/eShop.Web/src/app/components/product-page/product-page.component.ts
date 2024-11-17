@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { HeaderComponent } from '../../shared/header/header.component';
-import { FooterComponent } from '../../shared/footer/footer.component';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DisplayProductsComponent } from '../home/display-products/display-products.component';
-import { Product } from '../../models/product.model';
-import { ViewportScroller } from '@angular/common';
+import { Component, OnInit } from "@angular/core";
+import { HeaderComponent } from "../../shared/header/header.component";
+import { FooterComponent } from "../../shared/footer/footer.component";
+import { ActivatedRoute, Router } from "@angular/router";
+import { DisplayProductsComponent } from "../home/display-products/display-products.component";
+import { Product } from "../../models/product.model";
+import { ViewportScroller } from "@angular/common";
 import { NavbarComponent } from "../../shared/navbar/navbar.component";
-import { CartService } from '../../services/cart/cart.service';
+import { CartService } from "../../services/cart/cart.service";
 import { ToastService } from "angular-toastify";
-import { ProductManagementService } from '../../services/product-management/product-management.service';
-import { Category } from '../../models/category.model';
-import { CartItemModel } from '../../models/cartItem.model';
+import { ProductManagementService } from "../../services/product-management/product-management.service";
+import { Category } from "../../models/category.model";
+import { CartItemModel } from "../../models/cartItem.model";
 
 @Component({
   selector: "app-product-page",
@@ -34,13 +34,13 @@ export class ProductPageComponent implements OnInit {
     discount: 0,
     finalPrice: 0,
     quantity: 0,
-    brand: '',
-    category: '',
-    imageURL: '',
+    brand: "",
+    category: "",
+    imageURL: "",
     isActive: false,
     isHighlighted: false,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   };
 
   public category?: Category;
@@ -85,7 +85,11 @@ export class ProductPageComponent implements OnInit {
     this.router.navigate(["payment"]);
   }
 
-  getCategoryByName(categoryName: string): number {
+  getCategoryByName(categoryName?: string): number {
+    if (!categoryName) {
+      return 0;
+    }
+
     this.productService.getCategoriesByName(categoryName, 0, 50).subscribe({
       next: (response) => {
         if (response && response.items.length > 0) {
@@ -94,13 +98,9 @@ export class ProductPageComponent implements OnInit {
         }
         return 0;
       },
-      error: () => {
-        console.log('Erro ao obter a categoria');
-      }
-    })
+    });
     return 0;
   }
-
 
   addToCart() {
     const accessToken = localStorage.getItem("access_token");
@@ -124,6 +124,7 @@ export class ProductPageComponent implements OnInit {
       quantity: this.product.quantity,
       price: this.product.price,
       name: this.product.name,
+      discount: this.product.discount,
       description: this.product.description,
       imageURL: this.product.imageURL,
       availableQuantity: this.product.quantity,

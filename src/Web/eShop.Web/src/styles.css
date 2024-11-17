@@ -437,7 +437,6 @@ body {
   display: flex;
   padding: 5vh 5vw 5vh 5vw;
   gap: 2vw;
-  margin-bottom: 30vh;
 }
 
 .product-container__image{
@@ -458,6 +457,7 @@ body {
   padding: 3vh 2vw 3vh 2vw;
   border-radius: 15px;
   box-shadow: 0 0 5px 0 rgb(219, 219, 219);
+  justify-content: space-evenly;
 }
 
 .product-container__info__category-name, .product-container__info__brand-name{

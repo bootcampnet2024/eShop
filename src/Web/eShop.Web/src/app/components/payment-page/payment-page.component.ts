@@ -199,7 +199,7 @@ export class PaymentPageComponent implements OnInit {
         productId: item.productId,
         name: item.name,
         quantity: item.quantity,
-        price: item.price,
+        price: item.finalPrice || item.price,
       })),
     };
   }

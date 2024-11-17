@@ -6,12 +6,8 @@
       <a><img src="{{ product.imageURL }}" alt="" (click)="viewProduct(product)" class="product-image" /></a>
     </div>
     <div class="product-info">
-      <div class="product-about">
-        <a (click)="viewProduct(product)" class="product-name">{{ product.name }}</a>
-        <p class="product-category">{{ product.category }}</p>
-        <p class="product-brand">{{ product.brand }}</p>
-      </div>
-      <p class="product-price">R${{ product.price }}</p>
+      <a (click)="viewProduct(product)" class="product-name">{{ product.name }}</a>
+      <p class="product-price">R${{ product.finalPrice.toFixed(2) }}</p>
     </div>
   </div>
   }
