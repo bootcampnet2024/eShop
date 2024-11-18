@@ -1,4 +1,4 @@
-ARG NODE_VERSION=22
+ARG NODE_VERSION=20
 FROM node:${NODE_VERSION} AS build
 
 RUN apt-get update && apt-get install -y curl

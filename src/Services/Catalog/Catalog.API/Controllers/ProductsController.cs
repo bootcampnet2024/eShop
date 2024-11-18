@@ -1,4 +1,5 @@
 ﻿using Catalog.API._00_Application.Models.Requests;
+using Catalog.API._00_Application.Operations.Commands.ProductCommands;
 using Catalog.API._00_Application.Operations.Queries.ProductQueries;
 using Catalog.API._00_Application.Result;
 using Catalog.API._00_Application_Operations.Commands.ProductCommands;
@@ -81,6 +82,17 @@ namespace Catalog.API.Controllers
             if (result) return Ok("Product updated successfully");
 
             return BadRequest("Failed to update product");
+        }
+
+        [HttpPut("quantity/{id:guid}")]
+        public async Task<IActionResult> RemoveQuantityFromStock(Guid id, [FromQuery] int quantity)
+        {
+            var command = new DecrementProductQuantityCommand(id, quantity);
+            var result = await _mediator.Send(command);
+
+            if (result) return Ok("Product quantity updated successfully");
+
+            return BadRequest("Failed to update product quantity");
         }
     }
 }

@@ -12,6 +12,7 @@ import { ProductManagementService } from '../../../../services/product-managemen
 import {MatGridListModule} from '@angular/material/grid-list';
 import { ToastService } from 'angular-toastify';
 import { Product } from '../../../../models/product.model';
+import { ProductRequest } from '../../../../models/product-request.model';
 
 
 @Component({
@@ -49,22 +50,27 @@ export class CreateProductModalComponent implements OnInit{
     this.getCategories();
   }
 
-  convertToProduct(): Product {
-    let product: Product = {
-      id: "",
+  convertToProduct(): ProductRequest {
+    const categoryName = this.productForm.get('category')?.value ?? ""; 
+    const brandName = this.productForm.get('brand')?.value ?? ""; 
+
+    const category = this.categories?.find(c => c.name === categoryName);
+    if(!category) throw new Error('Category not found');
+
+    const brand = this.brands?.find(b => b.name === brandName);
+    if(!brand) throw new Error('Brand not found');
+
+    let product: ProductRequest = {
       imageURL: this.productForm.get('imageURL')?.value ?? "",
       name: this.productForm.get('name')?.value ?? "",
       description: this.productForm.get('description')?.value ?? "",
       price: this.productForm.get('price')?.value ?? 0,
       discount: this.productForm.get('discount')?.value ?? 0,
-      finalPrice: 0,
       quantity: this.productForm.get('quantity')?.value ?? 0,
-      brand: this.productForm.get('brand')?.value ?? "",
-      category: this.productForm.get('category')?.value ?? "",
+      categoryId: category.id,
+      brandId: brand.id,
       isActive: this.productForm.get('isActive')?.value ?? false,
       isHighlighted: this.productForm.get('isHighlighted')?.value ?? false,
-      createdAt: new Date(),
-      updatedAt: new Date(), 
     };
     return product;
   }
@@ -75,12 +81,12 @@ export class CreateProductModalComponent implements OnInit{
     this.productService.addProduct(product).subscribe({
       next: () => {
         this._toastService.success("Product added sucessfully!");
-        this.close();
       },
       error: () => {
         this._toastService.error(`You provided values that will not be accepted by the API!`);
       }
     })
+    this.close();
   }
 
   getBrands() {this.productService.getBrands(0, 50).subscribe((brands) => {

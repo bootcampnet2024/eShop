@@ -91,15 +91,15 @@ export class ProductManagementService {
     return this.http.get<Product[]>(`${this.url}/${this.products}/name/${name}`)
   }
 
-  getCategoriesByName(name: string) : Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.url}/${this.categories}/name/${name}`)
+  getCategoriesByName(name: string, pageSize: number, pageIndex: number) : Observable<PaginatedResult<Category>> {
+    return this.http.get<PaginatedResult<Category>>(`${this.url}/${this.categories}/name/${name}?PageSize=${pageSize}&PageIndex=${pageIndex}`)
   }
 
   getBrandsByName(name: string) : Observable<Brand[]> {
     return this.http.get<Brand[]>(`${this.url}/${this.brands}/name/${name}`)
   }
 
-  addProduct(product: Product) : Observable<string> {
+  addProduct(product: ProductRequest) : Observable<string> {
     return this.http.post<string>(`${this.url}/${this.products}`, product, {responseType: 'text' as 'json'});
   }
 
@@ -109,6 +109,10 @@ export class ProductManagementService {
 
   updateProduct(id: string, product: ProductRequest) : Observable<string> {
     return this.http.put<string>(`${this.url}/${this.products}/${id}`,product, {responseType: 'text' as 'json'})
+  }
+
+  decrementProductQuantity(id: string, quantity: number) : Observable<string> {
+    return this.http.put<string>(`${this.url}/${this.products}/quantity/${id}?quantity=${quantity}`, {responseType: 'text' as 'json'})
   }
 
   updateBrand(id: number, brand: Brand) : Observable<number> {

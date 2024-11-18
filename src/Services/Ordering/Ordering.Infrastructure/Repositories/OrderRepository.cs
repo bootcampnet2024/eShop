@@ -2,6 +2,7 @@
 using Ordering.Domain.AggregatesModel.OrderAggregate;
 using Ordering.Domain.Kernel;
 using Ordering.Infrastructure.Data;
+using System.Linq;
 
 namespace Ordering.Infrastructure.Repositories;
 
@@ -35,6 +36,7 @@ public class OrderRepository(ApplicationDbContext dbContext) : IOrderRepository
     public async Task<IEnumerable<Order>> GetByUserIdAsync(string userId)
     {
         var query = _orders
+            .OrderByDescending(o => o.OrderDate)
             .Include(o => o.OrderItems)
             .Include(o => o.Buyer)
             .Where(o => o.Buyer.IdentityGuid == userId)

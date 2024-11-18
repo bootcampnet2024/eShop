@@ -31,6 +31,7 @@ const mockItems: CartItemModel[] = [
     productId: '1',
     name: 'Item 1',
     price: 100,
+    discount: 0,
     quantity: 2,
     description: 'Description of Item 1',
     imageURL: 'url-to-image-1',
@@ -129,6 +130,7 @@ describe('PaymentPageComponent', () => {
         name: 'Item 1',
         price: 100,
         quantity: 2,
+        discount: 0,
         description: 'Description of Item 1',
         imageURL: 'url-to-image-1',
         availableQuantity: 5,
@@ -149,8 +151,8 @@ describe('PaymentPageComponent', () => {
 
   it('should calculate total amount correctly', () => {
     component.items = [
-      { productId: '1', name: 'Product 1', price: 100, quantity: 2, description: '', imageURL: '', availableQuantity: 0, userId: '' },
-      { productId: '2', name: 'Product 2', price: 50, quantity: 1, description: '', imageURL: '', availableQuantity: 0, userId: '' }
+      { productId: '1', name: 'Product 1', price: 100, quantity: 2, discount: 0, description: '', imageURL: '', availableQuantity: 0, userId: '' },
+      { productId: '2', name: 'Product 2', price: 50, quantity: 1, discount: 0, description: '', imageURL: '', availableQuantity: 0, userId: '' }
     ];
     const total = component.calculateTotalAmount();
     expect(total).toBe(250);
@@ -176,6 +178,7 @@ describe('PaymentPageComponent', () => {
         name: 'Item 1',
         price: 100,
         quantity: 2,
+        discount: 0,
         description: 'Description of Item 1',
         imageURL: 'url-to-image-1',
         availableQuantity: 5,
@@ -232,6 +235,7 @@ describe('PaymentPageComponent', () => {
         name: 'Item 1',
         price: 100,
         quantity: 2,
+        discount: 0,
         description: 'Description of Item 1',
         imageURL: 'url-to-image-1',
         availableQuantity: 5,

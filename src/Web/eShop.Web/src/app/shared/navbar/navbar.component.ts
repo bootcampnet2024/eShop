@@ -1,7 +1,7 @@
 import { Category } from './../../models/category.model';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { CategoryService } from '../../services/category-filter/category.service';
+import { ProductManagementService } from '../../services/product-management/product-management.service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,13 +14,13 @@ export class NavbarComponent implements OnInit {
 
     public categories: Category[] = [];
 
-    constructor(private router: Router, private categoryService : CategoryService ) {}
+    constructor(private router: Router, private productService : ProductManagementService) {}
 
     ngOnInit(): void {
-      this.categoryService.getAll()
+      this.productService.getCategories(0, 50)
         .subscribe({
           next : (response) => {
-            this.categories = response
+            this.categories = response.items;
           }
         })
     }

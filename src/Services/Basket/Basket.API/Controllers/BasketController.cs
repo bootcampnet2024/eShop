@@ -63,7 +63,7 @@ namespace Basket.API.Controllers
         }
 
         [HttpDelete("{userId}/{productId}")]
-        public IActionResult Remove(string userId, int productId)
+        public IActionResult Remove(string userId, string productId)
         {
             try
             {

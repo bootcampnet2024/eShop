@@ -1,26 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { NavbarComponent } from './navbar.component';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { NavbarComponent } from "./navbar.component";
 import {
   HttpTestingController,
   provideHttpClientTesting,
-} from '@angular/common/http/testing';
-import { CategoryService } from '../../services/category-filter/category.service';
-import { appConfig } from '../../app.config';
-import { Category } from '../../models/category.model';
-import { of } from 'rxjs';
+} from "@angular/common/http/testing";
+import { appConfig } from "../../app.config";
+import { Category } from "../../models/category.model";
+import { of } from "rxjs";
+import { ProductManagementService } from "../../services/product-management/product-management.service";
 
-describe('NavbarComponent', () => {
+describe("NavbarComponent", () => {
   let component: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
-  let categoryService: CategoryService;
+  let productService: ProductManagementService;
   let httpMock: HttpTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NavbarComponent],
       providers: [
-        CategoryService,
+        ProductManagementService,
         provideHttpClientTesting(),
         ...appConfig.providers,
       ],
@@ -30,7 +29,7 @@ describe('NavbarComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    categoryService = TestBed.inject(CategoryService);
+    productService = TestBed.inject(ProductManagementService);
     httpMock = TestBed.inject(HttpTestingController);
   });
 
@@ -38,33 +37,33 @@ describe('NavbarComponent', () => {
     httpMock.verify();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', async () => {
-    it('should load categories', async () => {
+  describe("ngOnInit", async () => {
+    it("should load categories", async () => {
       //Arrange
       const categories: Category[] = [
         {
           id: 1,
-          name: 'Category 1',
+          name: "Category 1",
           imageURL: "image",
           description: "description",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           id: 1,
-          name: 'Category 1',
+          name: "Category 1",
           imageURL: "image",
           description: "description",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
       ];
-      spyOn(categoryService, 'getAll').and.returnValue(
-        of(categories)
+      spyOn(productService, "getCategories").and.returnValue(
+        of({ pageSize: 50, pageIndex: 0, items: categories, totalItems: 2 })
       );
 
       //Act

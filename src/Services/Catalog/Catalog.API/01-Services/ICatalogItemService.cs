@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Catalog.API._01_Services;
 public interface ICatalogItemService : IService<CatalogItemDTO, Guid>
 {
+    Task<bool> UpdateQuantity(Guid id, int quantity);
 }
 public class CatalogItemService(ApplicationDataContext context) : ICatalogItemService
 {
@@ -202,6 +203,17 @@ public class CatalogItemService(ApplicationDataContext context) : ICatalogItemSe
         model.Category = category;
 
         _context.CatalogItems.Update(model);
+        return await _context.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> UpdateQuantity(Guid id, int quantity)
+    {
+        var product = await _context.CatalogItems.FindAsync(id);
+
+        if (product == null) return false;
+
+        product.Quantity = quantity;
+
         return await _context.SaveChangesAsync() > 0;
     }
 }

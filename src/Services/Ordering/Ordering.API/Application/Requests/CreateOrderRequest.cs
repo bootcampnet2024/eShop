@@ -10,7 +10,7 @@ public record CreateOrderRequest(
     string ZipCode,
     string CardNumber,
     string CardHolderName,
-    DateTime CardExpiration,
+    DateOnly CardExpiration,
     string CardSecurityNumber,
     int CardTypeId,
     List<BasketItem> Items

@@ -16,13 +16,19 @@ namespace Basket.API._01_Services
 
         public void Add(CartItemDTO item, string userId)
         {
+            var cartItem = _context.CartItems
+                .FirstOrDefault(ci => ci.CatalogProductId == item.ProductId && ci.UserId == userId);
+
+            if (cartItem != null) return;
+
             _context.CartItems.Add(new CartItem
             {
-                ProductId = item.ProductId,
+                CatalogProductId = item.ProductId,
                 UserId = userId,
                 Name = item.Name,
                 Description = item.Description,
                 Price = item.Price,
+                Discount = item.Discount,
                 Quantity = item.Quantity,
                 ImageURL = item.ImageURL
             });
@@ -34,7 +40,7 @@ namespace Basket.API._01_Services
         public void Update(CartItemDTO item, string userId)
         {
             var cartItem = _context.CartItems
-                .FirstOrDefault(ci => ci.ProductId == item.ProductId && ci.UserId == userId);
+                .FirstOrDefault(ci => ci.CatalogProductId == item.ProductId && ci.UserId == userId);
 
             if (cartItem != null)
             {
@@ -48,10 +54,10 @@ namespace Basket.API._01_Services
             }
         }
 
-        public void Remove(int productId, string userId)
+        public void Remove(string productId, string userId)
         {
             var cartItem = _context.CartItems
-                .FirstOrDefault(ci => ci.ProductId == productId && ci.UserId == userId);
+                .FirstOrDefault(ci => ci.CatalogProductId == productId && ci.UserId == userId);
 
             if (cartItem != null)
             {
@@ -67,7 +73,7 @@ namespace Basket.API._01_Services
                 .Where(ci => ci.UserId == userId)
                 .Select(ci => new CartItemDTO
                 {
-                    ProductId = ci.ProductId,
+                    ProductId = ci.CatalogProductId,
                     Name = ci.Name,
                     Description = ci.Description,
                     Price = ci.Price,

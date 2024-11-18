@@ -45,7 +45,6 @@ export class CreateCategoryModalComponent{
     this.productService.addCategory(category).subscribe({
       next: (response) => {
         this._toastService.success("Category added sucessfully!");
-        this.close();
       },
       error: (error) => {
         alert(JSON.stringify(error, null, 2));
@@ -53,6 +52,7 @@ export class CreateCategoryModalComponent{
         console.log(category);
       }
     })
+    this.close();
   }
 
   close() {

@@ -30,6 +30,10 @@ header{
   gap: 10px;
 }
 
+.profile-button {
+  color: #000;
+}
+
 button, a{
   background: none;
   border: none;

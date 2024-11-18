@@ -437,7 +437,6 @@ body {
   display: flex;
   padding: 5vh 5vw 5vh 5vw;
   gap: 2vw;
-  margin-bottom: 30vh;
 }
 
 .product-container__image{
@@ -458,6 +457,7 @@ body {
   padding: 3vh 2vw 3vh 2vw;
   border-radius: 15px;
   box-shadow: 0 0 5px 0 rgb(219, 219, 219);
+  justify-content: space-evenly;
 }
 
 .product-container__info__category-name, .product-container__info__brand-name{
@@ -633,7 +633,6 @@ body {
 .cart-container{
   display: flex;
   padding: 2em 5em 0 4em;
-  min-height: 75%;
 }
 
 .cart-container__product-list {
@@ -1095,6 +1094,236 @@ button[type="submit"]:hover {
 
   .history-info p {
     font-size: 18px;
+  }
+}
+
+.orderlist-container{
+  background-color: #ffffff;
+  border-radius: 8px;
+  margin-top: 1em;
+  margin-right: 6em;
+  height: fit-content;
+  width: 90%;
+  padding: 1em 1em;
+}
+
+.orderlist-item{
+  display: flex;
+  justify-content: space-between;
+  padding: 1em 2em;
+  border-top: 1px solid;
+}
+
+.orderlist-item img{
+  mix-blend-mode: multiply;
+  max-width: 15%;
+}
+
+.orderlist-container h1{
+  margin-top: 1em;
+}
+
+.orderlist-button_section{
+  display: flex;
+  justify-content: center;
+}
+
+.order-page-product-text {
+  padding: 2em 0;
+  width: 100%;
+}
+
+.orderlist-details {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 1em;
+}
+
+.orderlist-button-style{
+  background-color: #0aba46;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 30vh;
+  align-self: center;
+  cursor: pointer;
+}
+
+.order-page{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  min-height: fit-content;
+  padding: 2em 2em 2em 2em;
+}
+
+.order-page_summary{
+  padding: 2em 2em 2em 2em;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 8px;
+  width: 60%;
+}
+
+.order-page_summary img{
+  max-width: 200px;
+  mix-blend-mode: multiply;
+}
+
+.order-page-sidewindow{
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 1em 1em 1em 1em;
+  margin-right: 2em;
+}
+
+.order-page-sidewindow-help {
+  background-color: #005b96;
+  border: 2px #000 solid;
+  margin-top: 2em;
+  border-radius: 4px;
+  padding: .1em .2em .1em .2em;
+  color: white;
+  text-decoration: none;
+}
+
+.order-page-showproduct{
+  padding: 4px;
+}
+
+.container-terms{
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.header-terms {
+  background: #005B96;
+  color: #fff;
+  padding: 1.5em;
+  text-align: center;
+  width: 100%;
+  max-width: 800px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.header-terms h1 {
+  font-size: 2.5em;
+}
+
+.content-terms {
+  max-width: 800px;
+  margin-top: 20px;
+  padding: 2em;
+  background: #eaf4fc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: justify;
+  line-height: 1.8;
+}
+
+.content-terms h2 {
+  margin-top: 1.5em;
+  color: #333;
+  font-size: 1.8em;
+}
+
+.content-terms p {
+  margin-top: 1em;
+  color: #555;
+  font-size: 1.1em;
+}
+
+@media (max-width: 768px) {
+  .header-terms h1 {
+      font-size: 2em;
+  }
+  .content-terms {
+      padding: 1.5em;
+  }
+  .content-terms h2 {
+      font-size: 1.5em;
+  }
+  .content-terms p {
+      font-size: 1em;
+  }
+}
+
+.container-policy{
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.header-policy {
+  background: #005B96;
+  color: #fff;
+  padding: 1.5em;
+  text-align: center;
+  width: 100%;
+  max-width: 800px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.header-policy h1 {
+  font-size: 2.5em;
+}
+
+.content-policy {
+  max-width: 800px;
+  margin-top: 20px;
+  padding: 2em;
+  background: #f9f1ff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: justify;
+  line-height: 1.8;
+}
+
+.content-policy h2 {
+  margin-top: 1.5em;
+  color: #4a4a4a;
+  font-size: 1.8em;
+}
+
+.content-policy p {
+  margin-top: 1em;
+  color: #555;
+  font-size: 1.1em;
+}
+
+@media (max-width: 768px) {
+  .header-policy h1 {
+      font-size: 2em;
+  }
+  .content-policy {
+      padding: 1.5em;
+  }
+  .content-policy h2 {
+      font-size: 1.5em;
+  }
+  .content-policy p {
+      font-size: 1em;
   }
 }
 
