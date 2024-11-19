@@ -10,6 +10,7 @@ import { UpdateBrandModalComponent } from './popups/update-brand-modal/update-br
 import { Brand } from '../../models/brand.model';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { FooterComponent } from '../../shared/footer/footer.component';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-brand-management',
@@ -61,7 +62,9 @@ export class BrandManagementComponent {
   // }
 
   getBrands() {
-    this.productService.getBrands(this.pageIndex, this.pageSize).subscribe((brands) => {
+    this.productService.getBrands(this.pageIndex, this.pageSize)
+    .pipe(delay(100))
+    .subscribe((brands) => {
       this.brands = brands.items;
       this.maxPage = Math.ceil(brands.totalItems / this.pageSize)
       this.numbers = Array.from({ length: this.maxPage }, (_, i) => i + 1);

@@ -4,22 +4,30 @@ import { Component, Input, OnInit } from "@angular/core";
 import { ProductManagementService } from "../../../services/product-management/product-management.service";
 
 @Component({
-  selector: 'app-display-products',
+  selector: "app-display-products",
   standalone: true,
   imports: [],
-  templateUrl: './display-products.component.html',
-  styleUrl: './display-products.component.css',
+  templateUrl: "./display-products.component.html",
+  styleUrl: "./display-products.component.css",
 })
 export class DisplayProductsComponent implements OnInit {
+  @Input({ required: true }) displayName!: string;
   @Input() showOnlyHighlighted: boolean = false;
   @Input() productQuantity: number = 10;
   @Input() categoryId: number = 0;
 
-  products: Product[] = [];
+  @Input() products: Product[] = [];
 
   constructor(private router: Router, private productService: ProductManagementService) {}
 
   ngOnInit(): void {
+    setTimeout(() => {
+      if (this.products.length != 0) return;
+      this.getProducts();
+    }, 500);
+  }
+
+  getProducts(): void {
     this.productService
       .getProducts(
         this.showOnlyHighlighted,

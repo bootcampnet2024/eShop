@@ -2,8 +2,8 @@
 <app-navbar></app-navbar>
 <app-static-carousel></app-static-carousel>
 <main>
-  <app-display-products [showOnlyHighlighted]="true"></app-display-products>
-  <app-category-page></app-category-page>
-  <app-display-products [showOnlyHighlighted]="true" [categoryId]="1"></app-display-products>
+  <app-display-products [displayName]="'Highlights'" [showOnlyHighlighted]="true"></app-display-products>
+  <app-category-display></app-category-display>
+  <app-display-products [displayName]="'Highlights'" [showOnlyHighlighted]="true" [categoryId]="1"></app-display-products>
 </main>
 <app-footer></app-footer>

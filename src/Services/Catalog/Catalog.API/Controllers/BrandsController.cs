@@ -59,6 +59,18 @@ namespace Catalog.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("category/{id:int}")]
+        public async Task<IActionResult> GetByCategoryId(int id)
+        {
+            var query = new GetBrandsByCategoryIdQuery(id);
+            var result = await _mediator.Send(query);
+
+            if (!result.Any())
+                return NoContent();
+
+            return Ok(result.Select(CatalogBrandResult.FromDTO));
+        }
+
         [HttpPut]
         public async Task<IActionResult> Update(int id, UpdateBrandRequest request)
         {

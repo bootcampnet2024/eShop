@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../../shared/footer/footer.component';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-category-management',
@@ -38,7 +39,9 @@ export class CategoryManagementComponent implements OnInit {
   }
 
   getCategories() {
-    this.productService.getCategories(this.pageIndex, this.pageSize).subscribe((categories) => {
+    this.productService.getCategories(this.pageIndex, this.pageSize)
+    .pipe(delay(100))
+    .subscribe((categories) => {
       this.categories = categories.items;
       this.maxPage = Math.ceil(categories.totalItems / this.pageSize)
       this.numbers = Array.from({ length: this.maxPage }, (_, i) => i + 1);

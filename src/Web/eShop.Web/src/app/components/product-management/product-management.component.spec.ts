@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from "@angular/core/testing";
 import { ProductManagementComponent } from "./product-management.component";
 import { appConfig } from "../../app.config";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
@@ -31,12 +36,14 @@ describe("ProductManagementComponent", () => {
   it("should create", () => {
     expect(component).toBeTruthy();
   });
+
   it("should call getProducts on init", () => {
     const getProductsSpy = spyOn(component, "getProducts");
     component.ngOnInit();
     expect(component.getProducts).toHaveBeenCalled();
   });
-  it("should get products", () => {
+
+  it("should get products", fakeAsync(() => {
     const response = {
       pageSize: 10,
       pageIndex: 1,
@@ -76,17 +83,21 @@ describe("ProductManagementComponent", () => {
         },
       ],
     };
-  
-    const getProductsSpy = spyOn(mockProductManagementService, "getProducts")
-      .and.returnValue(of(response));
-  
+
+    const getProductsSpy = spyOn(
+      mockProductManagementService,
+      "getProducts"
+    ).and.returnValue(of(response));
+
     component.getProducts();
+    tick(500);
     fixture.detectChanges();
-  
+
     expect(mockProductManagementService.getProducts).toHaveBeenCalled();
-  
+
     expect(component.products).toEqual(response.items);
-  });  
+  }));
+
   it("should return a searched product", () => {
     const response = [
       {
@@ -120,6 +131,7 @@ describe("ProductManagementComponent", () => {
     );
     expect(component.products).toEqual(response);
   });
+
   it("should return all products when search input is empty", () => {
     const response = {
       pageSize: 10,
@@ -160,18 +172,20 @@ describe("ProductManagementComponent", () => {
         },
       ],
     };
-  
-    const getProductsSpy = spyOn(mockProductManagementService, "getProducts")
-      .and.returnValue(of(response));
-  
+
+    const getProductsSpy = spyOn(
+      mockProductManagementService,
+      "getProducts"
+    ).and.returnValue(of(response));
+
     const searchInput = document.createElement("input");
     searchInput.value = "";
     const event = new KeyboardEvent("keyup", { key: "Enter" });
-  
+
     component.searchProduct(searchInput.value, event);
-  
+
     fixture.detectChanges();
-  
+
     expect(mockProductManagementService.getProducts).toHaveBeenCalledWith(
       false,
       component.pageIndex,
@@ -180,10 +194,11 @@ describe("ProductManagementComponent", () => {
       [],
       0
     );
-  
+
     expect(component.products).toEqual(response.items);
-  });  
-  it("should disable a product", () => {
+  });
+
+  it("should disable a product", fakeAsync(() => {
     const request = [
       {
         id: "123e4567-e89b-12d3-a456-426614174000",
@@ -218,33 +233,41 @@ describe("ProductManagementComponent", () => {
         updatedAt: new Date(),
       },
     ];
-  
-    const disableProductSpy = spyOn(mockProductManagementService, "changeProductState")
-      .and.returnValue(of({ ...request[0], isActive: false }));
-  
+
+    const disableProductSpy = spyOn(
+      mockProductManagementService,
+      "changeProductState"
+    ).and.returnValue(of({ ...request[0], isActive: false }));
+
     component.changeProductState(request[0].id, true, "product");
-  
+
     const response = {
       pageSize: 10,
       pageIndex: 1,
       totalItems: 2,
       items: [{ ...request[0], isActive: false }, ...request.slice(1)],
     };
-  
-    const getProductsSpy = spyOn(mockProductManagementService, "getProducts")
-      .and.returnValue(of(response));
-  
+
+    const getProductsSpy = spyOn(
+      mockProductManagementService,
+      "getProducts"
+    ).and.returnValue(of(response));
+
     component.getProducts();
+    tick(500);
     fixture.detectChanges();
-  
-    expect(mockProductManagementService.changeProductState).toHaveBeenCalledWith(request[0].id);
-  
+
+    expect(
+      mockProductManagementService.changeProductState
+    ).toHaveBeenCalledWith(request[0].id);
+
     expect(response.items[0].isActive).toBeFalse();
-  
+
     expect(component.products).toEqual(response.items);
-  
+
     expect(component.products).toContain(response.items[0]);
-  });  
+  }));
+
   it("should show alert when disabling a product fails", () => {
     const product = [
       {
@@ -275,18 +298,22 @@ describe("ProductManagementComponent", () => {
       `Failed to change product state.`
     );
   });
+  
   it("should return true when text is null", () => {
     const result = component.isEmpty(null as unknown as string);
     expect(result).toBeTrue();
   });
+
   it("should return true when text is an empty string", () => {
     const result = component.isEmpty("");
     expect(result).toBeTrue();
   });
+
   it("should return false when text is a non-empty string", () => {
     const result = component.isEmpty("Laptop Pro");
     expect(result).toBeFalse();
   });
+
   it("should open create product modal", () => {
     const afterClosedSpy = jasmine.createSpy("afterClosed").and.returnValue({
       subscribe: jasmine.createSpy("subscribe"),
@@ -303,6 +330,7 @@ describe("ProductManagementComponent", () => {
     });
     expect(afterClosedSpy).toHaveBeenCalled();
   });
+
   it("should open update product modal", () => {
     const afterClosedSpy = jasmine.createSpy("afterClosed").and.returnValue({
       subscribe: jasmine.createSpy("subscribe"),
