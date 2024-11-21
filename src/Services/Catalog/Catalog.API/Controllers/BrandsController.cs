@@ -57,15 +57,7 @@ namespace Catalog.API.Controllers
             var query = new GetCountBrandsQuery();
             var result = await _mediator.Send(query);
             return Ok(result);
-        }
-
-        [HttpGet("name/{name}")]
-        public async Task<IActionResult> GetByName(string name)
-        {
-            var query = new GetBrandsByNameQuery(name);
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
+        }   
 
         [HttpPut]
         public async Task<IActionResult> Update(int id, UpdateBrandRequest request)

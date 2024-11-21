@@ -36,7 +36,7 @@ export class UpdateProductModalComponent {
   }
 
   productForm = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+    name: new FormControl('', [Validators.required, Validators.maxLength(200)]),
     description: new FormControl('', [Validators.required, Validators.maxLength(500)]),
     price: new FormControl(0, [Validators.required, Validators.min(0)]),
     discount: new FormControl(0, [Validators.min(0), Validators.max(100)]),

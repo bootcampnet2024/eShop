@@ -8,12 +8,11 @@ import { UpdateCategoryModalComponent } from './popups/update-category-modal/upd
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FooterComponent } from '../../shared/footer/footer.component';
 
 @Component({
   selector: 'app-category-management',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, MatButtonModule, RouterLink, RouterOutlet, RouterLinkActive, CommonModule],
+  imports: [HeaderComponent, MatButtonModule, RouterLink, RouterOutlet, RouterLinkActive, CommonModule],
   templateUrl: './category-management.component.html',
   styleUrl: './category-management.component.css'
 })

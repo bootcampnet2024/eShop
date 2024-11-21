@@ -9,12 +9,11 @@ import { CreateBrandModalComponent } from './popups/create-brand-modal/create-br
 import { UpdateBrandModalComponent } from './popups/update-brand-modal/update-brand-modal.component';
 import { Brand } from '../../models/brand.model';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { FooterComponent } from '../../shared/footer/footer.component';
 
 @Component({
   selector: 'app-brand-management',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, MatButtonModule, MatIconModule, RouterLink, RouterOutlet, RouterLinkActive, CommonModule],
+  imports: [HeaderComponent, MatButtonModule, MatIconModule, RouterLink, RouterOutlet, RouterLinkActive, CommonModule],
   templateUrl: './brand-management.component.html',
   styleUrl: './brand-management.component.css'
 })

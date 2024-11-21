@@ -1,10 +1,10 @@
 <section class="product-categories">
-  <h2 class="product-categories__title">Explore Nossas Categorias</h2>
+  <h2 class="product-categories__title">Explore our Categories</h2>
   <div class="product-categories__grid">
     @for (category of categories; track $index) {
     <a
       class="product-categories__card"
-      [style.backgroundImage]="'url(' + category.image + ')'"
+      [style.backgroundImage]="'url(' + category.imageURL + ')'"
     >
       <div class="product-categories__details">
         <span class="product-categories__name">{{ category.name }}</span>

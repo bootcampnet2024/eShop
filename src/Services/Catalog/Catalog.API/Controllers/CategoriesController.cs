@@ -62,14 +62,6 @@ namespace Catalog.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("name/{name}")]
-        public async Task<IActionResult> GetByName(string name)
-        {
-            var query = new GetCategoriesByNameQuery(name);
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
         [HttpPut]
         public async Task<IActionResult> Update(int id, UpdateCategoryRequest request)
         {
