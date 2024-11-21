@@ -40,35 +40,35 @@
       </div>
       <section class="all_procucts-page__product-container">
         @for (product of products; track product.id) {
-        <div class="all_procucts-page__product-card">
-          <div class="all_procucts-page__image-placeholder">
-            <a
-              ><img
-                src="{{ product.imageURL }}"
-                alt=""
-                (click)="viewProduct(product)"
-                class="all_procucts-page__product-image"
-            /></a>
-          </div>
-          <div class="all_procucts-page__product-info">
-            <div class="all_procucts-page__product-about">
-              <a
-                (click)="viewProduct(product)"
-                class="all_procucts-page__product-name"
-                >{{ product.name }}</a
-              >
-              <p class="all_procucts-page__product-category">
-                {{ product.category }}
-              </p>
-              <p class="all_procucts-page__product-brand">
-                {{ product.brand }}
-              </p>
+          <div class="product-display">
+            <div class="product-card">
+              <div class="image-placeholder">
+                <img
+                  src="{{ product.imageURL }}"
+                  [alt]="product.name"
+                  class="product-image"
+                />
+              </div>
+              <div class="product-info">
+                <a (click)="viewProduct(product)" class="product-name">{{
+                  product.name
+                }}</a>
+                <div class="product-price-tag">
+                  @if(product.discount){
+                    <div class="product-discount-price">
+                      <p class="product-original-price">RS${{ product.price }}</p>
+                      <div class="product-finalprice-discount">
+                        <p class="product-price">R${{ product.finalPrice }}</p>
+                        <p class="product-discount">{{ product.discount }}% OFF</p>
+                      </div>
+                    </div>
+                    } @else {
+                    <p class="product-price">R${{ product.finalPrice }}</p>
+                    }
+                </div>
+              </div>
             </div>
-            <p class="all_procucts-page__product-price">
-              R${{ product.finalPrice }}
-            </p>
           </div>
-        </div>
         }
       </section>
       <div class="change-page-buttons">
@@ -96,5 +96,5 @@
       </div>
     </div>
   </div>
-  <app-footer></app-footer>
 </div>
+<app-footer></app-footer>

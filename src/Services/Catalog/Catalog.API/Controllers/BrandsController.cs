@@ -59,14 +59,6 @@ namespace Catalog.API.Controllers
             return Ok(result);
         }   
 
-        [HttpGet("name/{name}")]
-        public async Task<IActionResult> GetByName(string name)
-        {
-            var query = new GetBrandsByNameQuery(name);
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
         [HttpGet("category/{id:int}")]
         public async Task<IActionResult> GetByCategoryId(int id)
         {

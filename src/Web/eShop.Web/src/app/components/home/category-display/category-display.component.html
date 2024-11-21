@@ -5,6 +5,7 @@
     <a
       class="product-categories__card"
       [style.backgroundImage]="'url(' + category.imageURL + ')'"
+      href="/products?categoryId={{ category.id }}"
     >
       <div class="product-categories__details">
         <span class="product-categories__name">{{ category.name }}</span>
