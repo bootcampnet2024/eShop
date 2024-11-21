@@ -9,14 +9,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { ToastService } from 'angular-toastify';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from '../../shared/header/header.component';
-import { FooterComponent } from '../../shared/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-product-management',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, MatButtonModule, MatIconModule, RouterLink, RouterOutlet, RouterLinkActive, CommonModule],
+  imports: [HeaderComponent, MatButtonModule, MatIconModule, RouterLink, RouterOutlet, RouterLinkActive, CommonModule],
   templateUrl: './product-management.component.html',
   styleUrl: './product-management.component.css',
 })

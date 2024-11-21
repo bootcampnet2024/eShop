@@ -512,6 +512,13 @@ body {
   border-radius: 5px;
 }
 
+.product-container-name{
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+  overflow: hidden;
+  width: 120px;
+}
+
 .table-container__table__check{
   color: #007bff;
 }

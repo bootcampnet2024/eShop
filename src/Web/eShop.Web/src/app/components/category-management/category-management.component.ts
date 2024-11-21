@@ -14,7 +14,7 @@ import { delay } from 'rxjs';
 @Component({
   selector: 'app-category-management',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, MatButtonModule, RouterLink, RouterOutlet, RouterLinkActive, CommonModule],
+  imports: [HeaderComponent, MatButtonModule, RouterLink, RouterOutlet, RouterLinkActive, CommonModule],
   templateUrl: './category-management.component.html',
   styleUrl: './category-management.component.css'
 })

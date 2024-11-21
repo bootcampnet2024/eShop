@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem 0;
+  padding: 0rem 0;
 }
 
 .product-categories__title {
@@ -43,7 +43,7 @@
   position: relative;
   overflow: hidden;
   border-radius: 8px;
-  text-align: center;
+  text-align: start;
   text-decoration: none;
   color: white;
   background-size: cover;
@@ -51,8 +51,8 @@
   height: 200px; /* Ajustar altura conforme necessário */
   display: flex;
   align-items: center;
-  justify-content: center;
   transition: transform 0.3s ease;
+  padding: 0 1em;
 }
 
 .product-categories__card:hover {
@@ -81,6 +81,10 @@
 }
 
 /* Text styling */
+.product-categories__details{
+  width: 50%;
+}
+
 .product-categories__name {
   font-size: 1.5rem;
   font-weight: 600;
