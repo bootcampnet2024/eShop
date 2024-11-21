@@ -18,6 +18,7 @@ export class DisplayProductsComponent implements OnInit {
   @Input() showOnlyHighlighted: boolean = false;
   @Input() productQuantity: number = 10;
   @Input() categoryId: number = 0;
+  @Input({required: true}) displayName!: string;
 
   @Input() products: Product[] = [];
 
