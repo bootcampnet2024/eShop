@@ -1,4 +1,5 @@
 <app-header></app-header>
+<app-navbar></app-navbar>
 <section class="product-search">
   <div class="product-search__container">
     <div class="product-search__container__header">
@@ -6,23 +7,36 @@
       <div *ngIf="products.length === 0">No products found.</div>
     </div>
     <div class="product-search__container__products-grid">
-      <div class="product-search__container__products-grid__product-card" *ngFor="let product of products">
+      @for (product of products; track product.id) {
+      <div class="product-search__container__products-grid__product-card">
         <div class="product-search__container__products-grid__product-card__image">
-          <img src="#" alt="" />
+          <img loading="eager" (click)="viewProduct(product)" src="{{product.imageURL}}" alt="" />
         </div>
         <div class="product-search__container__products-grid__product-card__product-details">
           <h4>
-            <a href="">{{ product.name }}</a>
+            <a (click)="viewProduct(product)">{{ product.name }}</a>
           </h4>
           <p>{{ product.description }}</p>
           <div class="product-search__container__products-grid__product-card__product-details__bottom">
-            <div class="product-search__container__products-grid__product-card__product-details__bottom__product-price">$ {{ product.price }}</div>
+            
+            <div class="product-search__container__products-grid__product-card__product-details__bottom__product-price">
+              @if (product.discount > 0 && product.quantity > 0) {
+                <p class="product-search__container__products-grid__product-card__product-details__bottom__product-price"><s>R$ {{ product.price.toFixed(2) }}</s> ({{ product.discount}}% OFF)</p>
+                R$ {{ product.finalPrice.toFixed(2) }}
+              } @else if (product.quantity > 0) {
+              R$ {{ product.finalPrice.toFixed(2) }}
+              } @else {
+              Out of Stock!
+              }
+            </div>
             <div class="product-search__container__products-grid__product-card__product-details__bottom__product-links">
               <a [routerLink]="['/cart']"><i class="fa fa-shopping-cart"></i></a>
             </div>
           </div>
         </div>
       </div>
+    }
     </div>
   </div>
 </section>
+<app-footer></app-footer>

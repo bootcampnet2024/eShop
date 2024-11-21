@@ -7,6 +7,9 @@ import { Product } from "../../models/product.model";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { appConfig } from "../../app.config";
 import { ProductManagementService } from "../../services/product-management/product-management.service";
+import { PaginatedResult } from "../../models/paginated-result.model";
+import { NavbarComponent } from "../../shared/navbar/navbar.component";
+import { Category } from "../../models/category.model";
 
 describe("SearchResultComponent", () => {
   let component: SearchResultComponent;
@@ -16,7 +19,7 @@ describe("SearchResultComponent", () => {
 
   beforeEach(async () => {
     mockProductService = jasmine.createSpyObj("ProductManagementService", [
-      "getProductsByName",
+      "getProductsByName", "getCategories"
     ]);
     mockActivatedRoute = {
       queryParams: of({ keyword: "test" }),
@@ -34,6 +37,31 @@ describe("SearchResultComponent", () => {
 
     fixture = TestBed.createComponent(SearchResultComponent);
     component = fixture.componentInstance;
+    const categories = [
+      {
+        id: 1,
+        name: "Category 1",
+        imageURL: "image",
+        description: "description",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 2,
+        name: "Category 2",
+        imageURL: "image",
+        description: "description",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ];
+    const paginetedResult: PaginatedResult<Category> = {
+      pageIndex: 0,
+      pageSize: 10,
+      totalItems: categories.length,
+      items: categories,
+    };
+    mockProductService.getCategories.and.returnValue(of(paginetedResult));
   });
 
   it("deve criar o componente", () => {
@@ -76,7 +104,14 @@ describe("SearchResultComponent", () => {
       },
     ];
 
-    mockProductService.getProductsByName.and.returnValue(of(mockProducts));
+    const mockResponse: PaginatedResult<Product> = {
+      pageSize: 10,
+      pageIndex: 0,
+      totalItems: mockProducts.length,
+      items: mockProducts
+    }
+
+    mockProductService.getProductsByName.and.returnValue(of(mockResponse));
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -115,8 +150,15 @@ describe("SearchResultComponent", () => {
       },
     ];
 
+    const mockResponse: PaginatedResult<Product> = {
+      pageSize: 10,
+      pageIndex: 0,
+      totalItems: mockProducts.length,
+      items: mockProducts
+    }
+
     mockActivatedRoute.queryParams = of({ keyword: "new-test" });
-    mockProductService.getProductsByName.and.returnValue(of(mockProducts));
+    mockProductService.getProductsByName.and.returnValue(of(mockResponse));
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -126,11 +168,18 @@ describe("SearchResultComponent", () => {
   });
 
   it("deve lidar com uma resposta vazia do serviço", () => {
-    mockProductService.getProductsByName.and.returnValue(of([]));
+    const emptyResponse: PaginatedResult<Product> = {
+      pageSize: 10,
+      pageIndex: 0,
+      totalItems: 0,
+      items: []
+    }
+
+    mockProductService.getProductsByName.and.returnValue(of(emptyResponse));
 
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(component.products).toEqual([]);
+    expect(component.products).toEqual(emptyResponse.items);
   });
 });

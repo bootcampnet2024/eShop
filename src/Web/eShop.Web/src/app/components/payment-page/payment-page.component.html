@@ -1,11 +1,11 @@
 <app-header></app-header>
+<app-navbar></app-navbar>
 <div *ngIf="message" class="alert"
   [ngClass]="{'alert-success': message.includes('sucesso'), 'alert-danger': message.includes('Falha')}">
   {{ message }}
 </div>
 <div class="payment-page">
-  <p>1. Choose your address</p>
-  <p>2. Choose your payment method</p>
+  <p>Choose your payment method</p>
   <div class="payment-body">
     <div class="payment-box">
       <div class="payment-method">
@@ -80,22 +80,29 @@
       </div>
     </div>
     <div class="order-summary">
-      <div class="coupon">
+      <!-- <div class="coupon">
         <p>Coupon</p>
         <input type="text" />
       </div>
       <div class="cep">
         <p>Postal Code</p>
         <input type="text" />
-      </div>
+      </div> -->
       <div class="summary">
         <p><strong>Order Summary</strong></p>
         <div class="summary-details">
-          <p>Subtotal:</p>
-          <p>Total: R$ {{ totalAmount }}</p>
+          @if(totalAmountWithDiscount != totalAmount) {
+          <p>Subtotal: <s>R$ {{ totalAmount.toFixed(2) }} </s></p>
+          }
+          <p>Total: R$ {{ totalAmountWithDiscount.toFixed(2) }} 
+            @if(totalAmountWithDiscount != totalAmount) {
+            (-{{(100 - (totalAmountWithDiscount*100.0/totalAmount)).toFixed(0) }}%)
+            }
+          </p>
         </div>
-        <button class="buy-button" (click)="completeOrder()">Complete Order</button>
+        <button class="buy-button" (click)="completeOrder()" [disabled]="paymentForm.invalid">Complete Order</button>
       </div>
     </div>
   </div>
 </div>
+<app-footer></app-footer>

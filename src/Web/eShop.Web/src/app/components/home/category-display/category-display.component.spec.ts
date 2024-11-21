@@ -1,6 +1,7 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { CategoryDisplayComponent } from './category-display.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing'; // Importação necessária
+import { appConfig } from '../../../app.config';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('CategoryDisplayComponent', () => {
   let component: CategoryDisplayComponent;
@@ -8,8 +9,10 @@ describe('CategoryDisplayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CategoryDisplayComponent, HttpClientTestingModule], // Importe o componente standalone
-    }).compileComponents();
+      imports: [CategoryDisplayComponent],
+      providers: [...appConfig.providers, provideHttpClientTesting()]
+    })
+    .compileComponents();
 
     fixture = TestBed.createComponent(CategoryDisplayComponent);
     component = fixture.componentInstance;

@@ -1,11 +1,15 @@
 <app-header></app-header>
+<app-navbar></app-navbar>
 <div class="cart-container">
   <div class="cart-container__product-list">
+    @if (products.length == 0) {
+      <p class="all-products-page-category-name">Your cart is empty.</p>
+    }
     <div *ngFor="let product of products; trackBy: trackByProductId" class="cart-container__product-list__product-item">
-      <img [src]="product.imageURL" alt="Product Image" class="cart-container__product-list__product-item__product-image" />
+      <img loading="eager" (click)="viewProduct(product)" [src]="product.imageURL" alt="Product Image" class="cart-container__product-list__product-item__product-image" />
       <div class="cart-container__product-list__product-item__product-details">
-        <p class="cart-container__product-list__product-item__product-details__name">{{ product.name }}</p>
-        <p class="cart-container__product-list__product-item__product-details__description">{{ product.description }}</p>
+        <p (click)="viewProduct(product)" class="cart-container__product-list__product-item__product-details__name">{{ product.name }}</p>
+        <!-- <p class="cart-container__product-list__product-item__product-details__description">{{ product.description }}</p> -->
         <div class="cart-container__product-list__product-item__product-details__quantity-controls">
           <button class="cart-container__product-list__product-item__product-details__quantity-controls__button"
                   (click)="changeProductQuantity(product, -1)"
@@ -21,28 +25,37 @@
         </div>
       </div>
       <div class="cart-container__product-list__product-item__price">
+        @if (product.discount != 0) {
+        <p class="cart-container__product-list__product-item__price__discount"><s>R$ {{ (product.price * product.quantity).toFixed(2) }}</s> ({{ product.discount}}% OFF)</p>
+        }
         <p>R$ {{ ((product.finalPrice || product.price) * product.quantity).toFixed(2) }}</p>
         <button class="cart-container__product-list__product-item__delete-button" (click)="removeFromCart(product)">🗑️</button>
       </div>
     </div>
   </div>
   <div class="cart-container__order-summary">
-    <div class="cart-container__order-summary__coupon">
+    <!-- <div class="cart-container__order-summary__coupon">
       <p>Coupon</p>
       <input type="text" />
     </div>
     <div class="cart-container__order-summary__cep">
       <p>Postal Code</p>
       <input type="text" />
-    </div>
+    </div> -->
     <div class="cart-container__order-summary__summary">
       <p><strong>Order Summary</strong></p>
       <div class="cart-container__order-summary__summary__details">
-        <p>Total: R$ {{ orderTotal.toFixed(2) }}</p>
+        @if(totalAmountWithDiscount != totalAmount) {
+          <p>Subtotal: <s>R$ {{ totalAmount.toFixed(2) }} </s></p>
+          }
+          <p>Total: R$ {{ totalAmountWithDiscount.toFixed(2) }} 
+            @if(totalAmountWithDiscount != totalAmount) {
+            (-{{(100 - (totalAmountWithDiscount*100.0/totalAmount)).toFixed(0) }}%)
+            }
+          </p>
       </div>
       <button class="cart-container__order-summary__summary__continue-button" (click)="goToShopping()">Continue shopping?</button>
-
-      <button class="cart-container__order-summary__summary__buy-button" (click)="goToPaymentPage()">Checkout</button>
+      <button class="cart-container__order-summary__summary__buy-button" (click)="goToPaymentPage()" [disabled]="totalAmountWithDiscount == 0">Checkout</button>
     </div>
   </div>
 </div>

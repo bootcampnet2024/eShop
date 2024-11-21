@@ -3,31 +3,50 @@
 <main>
   <div class="product-container">
     <div class="product-container__image">
-      <img class="image" src="{{ product.imageURL }}" alt="">
+      <img loading="eager" class="image" src="{{ product.imageURL }}"  alt="">
     </div>
     <div class="product-container__info">
       <div class="product-container__info__name">
         <h2>{{ product.name }}</h2>
         <p class="product-container__info__category-name">{{ product.category }}</p>
         <p class="product-container__info__brand-name">{{ product.brand }}</p>
+        <p>{{ product.description }}</p>
+        <br>
+        @if(product.discount){
+          <div class="product-discount-price">
+            <p class="product-original-price">R$ {{ product.price.toFixed(2) }}</p>
+            <div class="product-finalprice-discount">
+              <p class="product-price">R$ {{ product.finalPrice.toFixed(2) }}</p>
+              <p class="product-discount">{{ product.discount }}% OFF</p>
+            </div>
+          </div>
+          } @else {
+          <p class="product-price">R${{ product.finalPrice.toFixed(2) }}</p>
+          }
       </div>
-      <p>{{ product.description }}</p>
-      <h2>R$ {{ product.finalPrice.toFixed(2) }}</h2>
-      <div class="product-container__info__product-options">
+      <!-- <div class="product-container__info__product-options">
         @for (option of options; track option.name){
         <div class="option">
           <p>{{option.name}}</p>
         </div>
         }
-      </div>
-      <button class="product-container__info__buy-button" (click)="goToCart()">Buy Product</button>
+      </div> -->
+      <div class="product-container__info__product-options">
+      @if(product.quantity > 0 && product.isActive) {
+      <button class="product-container__info__buy-button" (click)="addToCart(true)">Buy Product</button>
       <button class="product-container__info__add-cart-button" (click)="addToCart()">Add to Cart</button>
+      } @else {
+        <button class="product-container__info__add-cart-button" disabled>Out of Stock!</button>
+      }
     </div>
+  </div>
+
     
   </div>
   <div class="similar-products">
     <app-display-products [displayName]="'Related Products'" [showOnlyHighlighted]="false" [productQuantity]="10"
-      [categoryId]="getCategoryByName(product.category)"></app-display-products>
+      [categoryId]="categoryId" [currentProductId]="product.id"></app-display-products>
   </div>
+  <br>
 </main>
 <app-footer></app-footer>

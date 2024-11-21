@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Product } from '../../models/product.model';
@@ -61,23 +61,27 @@ export class ProductManagementService {
   }
 
   getProducts(highlighted: boolean, pageIndex: number, pageSize: number, categoriesIds: number[], brandsIds: number[], filterOrder: FilterOrder): Observable<PaginatedResult<Product>> {
-    const params : any = {
-      ShowOnlyHighlighted: highlighted.toString(),
-      PageSize: pageSize.toString(),
-      PageIndex: pageIndex.toString(),
-      FilterOrder: filterOrder
-    };
-    
+    let params = new HttpParams()
+        .set('ShowOnlyHighlighted', highlighted.toString())
+        .set('PageSize', pageSize.toString())
+        .set('PageIndex', pageIndex.toString())
+        .set('FilterOrder', filterOrder.toString());
+
     if (categoriesIds.length > 0) {
-      params['CategoriesIds'] = categoriesIds.toString();
+        categoriesIds.forEach(id => {
+            params = params.append('CategoriesIds', id.toString());
+        });
     }
-    
+
     if (brandsIds.length > 0) {
-      params['BrandsIds'] = brandsIds.toString();
+        brandsIds.forEach(id => {
+            params = params.append('BrandsIds', id.toString());
+        });
     }
-    
+
     return this.http.get<PaginatedResult<Product>>(`${this.url}/products`, { params });
-  }
+}
+
 
   getProductCount() : Observable<number>{
     return this.http.get<number>(`${this.url}/${this.products}/count/`);
@@ -91,8 +95,8 @@ export class ProductManagementService {
     return this.http.get<Brand>(`${this.url}/${this.brands}/${id}`)
   }
 
-  getProductsByName(name: string) : Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.url}/${this.products}/name/${name}`)
+  getProductsByName(name: string) : Observable<PaginatedResult<Product>> {
+    return this.http.get<PaginatedResult<Product>>(`${this.url}/${this.products}/name/${name}`)
   }
 
   getCategoriesByName(name: string, pageSize: number, pageIndex: number) : Observable<PaginatedResult<Category>> {

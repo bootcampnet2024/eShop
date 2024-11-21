@@ -5,19 +5,21 @@ import { CartService } from '../../services/cart/cart.service';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
-import { Product } from '../../models/product.model';
 import { ProductManagementService } from '../../services/product-management/product-management.service';
+import { delay } from 'rxjs';
+import { NavbarComponent } from '../../shared/navbar/navbar.component';
 
 @Component({
   selector: 'app-cart-page',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, FooterComponent],
+  imports: [CommonModule, HeaderComponent, NavbarComponent, FooterComponent],
   templateUrl: './cart-page.component.html',
   styleUrls: ['./cart-page.component.css'],
 })
 export class CartPageComponent implements OnInit {
   products: CartItemModel[] = [];
-  orderTotal: number = 0;
+  totalAmountWithDiscount: number = 0;
+  totalAmount: number = 0;
   userId: string | null = null;
 
   constructor(
@@ -65,7 +67,7 @@ export class CartPageComponent implements OnInit {
       return;
     }
 
-    this.cartService.getItems(this.userId).subscribe({
+    this.cartService.getItems(this.userId).pipe(delay(200)).subscribe({
       next: (items) => {
         console.log('Itens do carrinho recebidos:', items);
         this.products = items;
@@ -98,6 +100,8 @@ export class CartPageComponent implements OnInit {
         if (product.quantity > productInfo.quantity) {
           product.quantity = productInfo.quantity;
         }
+        if (!productInfo.isActive || productInfo.quantity === 0)
+          this.removeFromCart(product);
         this.updateOrderTotal();
       },
       error: (error) => {
@@ -130,7 +134,8 @@ export class CartPageComponent implements OnInit {
   }
 
   updateOrderTotal(): void {
-    this.orderTotal = this.products.reduce((total, product) => total + (product.finalPrice! * product.quantity), 0);
+    this.totalAmount = this.products.reduce((total, product) => total + (product.price! * product.quantity), 0);
+    this.totalAmountWithDiscount = this.products.reduce((total, product) => total + (product.finalPrice! * product.quantity), 0);
   }
 
   changeProductQuantity(product: CartItemModel, change: number): void {
@@ -152,7 +157,10 @@ export class CartPageComponent implements OnInit {
     }
   }
 
-  getCartCount(){
-    return this.products.values.length;
+  viewProduct(product: CartItemModel): void {
+    this.router.navigate([
+      "/product",
+      { id: product.productId, name: product.name.trim().replaceAll(" ", "-") },
+    ]);
   }
 }

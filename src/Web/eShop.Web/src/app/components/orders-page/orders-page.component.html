@@ -18,12 +18,12 @@
     @for (order of orders; track order.date) {
     <div class="orderlist-item">
       <div class="orderlist-details">
-        <img src="{{ order.pictureUrl }}" alt="" />
+        <img loading="eager" src="{{ order.pictureUrl }}" alt="" />
         <div class="orderlist-text">
           <h2>Ordered at: {{ dateToLocal(order.date) | date: 'dd/MM/yyyy HH:mm' }}</h2>
           <br />
           <h3>Status: {{ formatEnum(order.status) }}</h3>
-          <h3>Price: R$ {{ order.total.toFixed(2) }}</h3>
+          <h3>Total: R$ {{ order.total.toFixed(2) }}</h3>
         </div>
       </div>
 

@@ -17,10 +17,10 @@
         <div (click)="openResetPasswordDialog()" class="login-page__reset-password">
           Forgot Your Password?
         </div>
-        <button type="submit" class="login-page__btn login-page__btn--submit">
+        <button type="submit" class="login-page__btn login-page__btn--submit" [disabled]="loginForm.invalid">
           Log in
         </button>
-        <a href="signin" class="login-page__terms"
+        <a (click)="goToRegister()" class="login-page__terms"
           >Don't have an account? Sign Up.</a
         >
       </form>

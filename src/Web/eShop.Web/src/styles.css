@@ -13,10 +13,113 @@ body {
   height: 100vh;
 }
 
+button:disabled {
+  opacity: 0.5;
+  transform: scale(1.0) !important;
+  cursor: not-allowed !important;
+}
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: #e9e9e9;
+}
+
+.product-display{
+  padding: 0 1em;
+}
+
+.product-card {
+  height: 25em;
+  width: 17em;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.category-name {
+  display: flex;
+  font-weight: 600;
+  font-size: 1.7em;
+  margin-bottom: .5em;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 70%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5em;
+}
+
+/* .image-placeholder:hover {
+  transition: 0.5s;
+  filter: blur(2px);
+} */
+
+.product-image {
+  width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.product-info {
+  max-height: 100%;
+  padding: 1em 1em;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0 0 6px 6px;
+  gap: .5em;
+}
+
+.product-about {
+  height: 4em;
+}
+
+.product-name {
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  color: rgb(78, 78, 78);
+}
+
+.product-price-tag{
+  height: 30px;
+}
+
+.product-price {
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.product-discount-price{
+  display: flex;
+  flex-direction: column;
+}
+
+.product-finalprice-discount{
+  display: flex;
+  text-align: center;
+  align-items: center;
+  gap: 2px;
+}
+
+.product-original-price{
+  font-size: 13px;
+  color: rgb(102, 102, 102);
+  text-decoration: line-through;
+}
+
+.product-discount{
+  font-size: 12px;
+  color: rgb(0, 155, 0);
 }
 
 .product-display{
@@ -197,6 +300,13 @@ body {
   margin-left: 2em;
 }
 
+.all-products-page-category-name
+{
+  padding: 1em 0em 0em 2em;
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
 .all_procucts-page__product-container {
   display: flex;
   flex-wrap: wrap;
@@ -212,7 +322,6 @@ body {
   flex-direction: column;
   border-radius: 8px;
   background-color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .all_procucts-page__category-name {
@@ -223,8 +332,8 @@ body {
 }
 
 .all_procucts-page__image-placeholder {
-  width: 100%;
-  height: 70%;
+  width: fit-content;
+  height: fit-content;
   margin: auto;
   display: flex;
   align-items: center;
@@ -284,6 +393,17 @@ body {
   margin-bottom: 1em;
 }
 
+.product-container__info__name {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
+
+.product-container__info__name .product-discount-price .product-finalprice-discount .product-price,
+.product-container__info__name .product-discount-price .product-original-price {
+  font-size: 30px;
+} 
+
 .product-container__card {
   width: 20em;
   height: 30em;
@@ -317,7 +437,6 @@ body {
   width: 100%;
   max-height: 100%;
   object-fit: cover;
-  cursor: pointer;
 }
 
 .product-container__info {
@@ -352,7 +471,7 @@ body {
 
 .signin-page,
 .login-page {
-  background-attachment: fixed;
+  background-size: 110%;
   background-position: center;
   background-repeat: no-repeat;
   width: 100%;
@@ -360,7 +479,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: "Roboto", sans-serif;
 }
 
 .login-page{
@@ -396,7 +514,6 @@ body {
   background-size: cover;
   background-position: center;
 }
-
 
 
 .login-page__section {
@@ -470,7 +587,7 @@ body {
   border-radius: 30px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 400px;
-  height: auto;
+  height: fit-content;
   margin-right: 5%;
   margin-left: 8%;
 }
@@ -478,7 +595,7 @@ body {
 .login-page__form-group,
 .signin-page__form-group {
   width: 100%;
-  height: 70px;
+  height: fit-content;
   border-radius: 5px;
   border: none;
   margin-top: 10px;
@@ -496,11 +613,12 @@ body {
   flex-direction: column;
   align-items: center;
   margin-bottom: 12vh;
-  height: 100%;
+  height: fit-content;
 }
 
 .table-container {
-  width: 80%;
+  min-width: 80%;
+  width: fit-content;
   margin: 2em auto auto auto;
   padding: 20px;
   background-color: #f9f9f9;
@@ -603,6 +721,13 @@ body {
   height: 50px;
   object-fit: cover;
   border-radius: 5px;
+}
+
+.product-container-name{
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+  overflow: hidden;
+  width: 120px;
 }
 
 .product-container-name{
@@ -720,11 +845,12 @@ body {
   gap: 2vh;
   background-color: white;
   height: 70vh;
-  width: 45vw;
+  width: 40vw;
   padding: 3vh 2vw 3vh 2vw;
   border-radius: 15px;
   box-shadow: 0 0 5px 0 rgb(219, 219, 219);
-  justify-content: space-evenly;
+  justify-content: space-between;
+  justify-content: space-between;
 }
 
 .product-container__info__category-name, .product-container__info__brand-name{
@@ -763,10 +889,11 @@ body {
   border-radius: 5px;
   width: 35vw;
   align-self: center;
+  cursor: pointer;
   margin-top: 3vh;
 }
 
-.product-container__info__buy-button:hover{
+.product-container__info__buy-button:hover, .product-container__info__add-cart-button:hover{
   transform: scale(1.01);
 }
 
@@ -784,6 +911,7 @@ body {
   border: none;
   border-radius: 5px;
   width: 35vw;
+  cursor: pointer;
   align-self: center;
 }
 
@@ -847,6 +975,7 @@ body {
 .product-search__container__products-grid__product-card__image img {
   max-width: 100%;
   max-height: 100%;
+  cursor: pointer;
 }
 
 .product-search__container__products-grid__product-card__product-details {
@@ -859,6 +988,7 @@ body {
   margin-bottom: 18px;
   text-transform: uppercase;
   color: #363636;
+  cursor: pointer;
   text-decoration: none;
   transition: 0.3s;
 }
@@ -925,7 +1055,9 @@ body {
   width: 220px;
   height: 150px;
   object-fit: contain;
+  cursor: pointer;
   margin-right: 20px;
+  mix-blend-mode: multiply;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -940,6 +1072,7 @@ body {
 .cart-container__product-list__product-item__product-details__name {
   font-size: 1.2em;
   font-weight: bold;
+  cursor: pointer;
   margin: 0;
 }
 
@@ -995,7 +1128,7 @@ body {
   background-color: #fff;
   padding: 20px;
   border-radius: 5px;
-  max-height: 20em;
+  height: fit-content;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-top: 1px solid #ddd;
   box-sizing: border-box;

@@ -14,7 +14,7 @@
           <input #searchInput (keypress)="searchProduct(searchInput.value, $event)" type="search" placeholder="Search"/>
         </div>
         <div class="table-container__tool-bar__buttons">
-          <button mat-flat-button color="primary" (click)="OpenCreateProductModal()">
+          <button mat-stroked-button color="primary" (click)="OpenCreateProductModal()">
             Add Product
           </button>
           <button mat-flat-button color="primary" (click)="goToBrandManagement()">
@@ -47,7 +47,7 @@
       <tbody>
         @for (product of products; track product.id){
         <tr>
-          <td><img class="table-container__table__image" src="{{ product.imageURL }}" /></td>
+          <td><img loading="eager" class="table-container__table__image" src="{{ product.imageURL }}" /></td>
           <td><p class="product-container-name">{{ product.name }}</p></td>
           <td>R$ {{ product.price.toFixed(2) }}</td>
           <td>{{ product.discount}}%</td>
@@ -81,8 +81,8 @@
             </button>
             @if(!product.isActive){
               <button
-              mat-flat-button
-              color="accent"
+              mat-raised-button
+              color="basic"
               (click)="changeProductState(product.id, product.isActive, product.name)"
             >
               Enable
@@ -127,3 +127,4 @@
     </button>
   </div>
 </div>
+<app-footer></app-footer>

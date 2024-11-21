@@ -22,10 +22,14 @@
     </button>
   </div>
   <div class="header-buttons">
-    <a [routerLink]="['/cart']" class="cart-page">
+    @if (!isAdmin) {
+    <a (click)="goToPageIfLoggedIn('cart')" class="cart-page">
       <mat-icon class="mat-icon" fontIcon="shopping_cart"></mat-icon>
     </a>
-    @if (isLoggedIn) {
+  } @else {
+    <a href="/admin" class="admin-text-header">Admin</a>
+  }
+    @if (isLoggedIn && !isAdmin) {
     <div class="profile-dropdown">
       <button mat-icon-button [matMenuTriggerFor]="menu">
         <mat-icon class="mat-icon">account_circle</mat-icon>
@@ -39,10 +43,24 @@
         </button>
       </mat-menu>
     </div>
-    } @else {
+    } @else if (!isLoggedIn){
     <a [routerLink]="['/login']" class="profile-page">
       <mat-icon>account_circle</mat-icon>
     </a>
+    } @else {
+      <div class="profile-dropdown">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon class="mat-icon">shield_person</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button class="profile-button" mat-menu-item (click)="profile()">
+            Profile
+          </button>
+          <button class="profile-button" mat-menu-item (click)="logout()">
+            Logout
+          </button>
+        </mat-menu>
+      </div>
     }
   </div>
 </header>

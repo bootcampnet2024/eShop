@@ -21,20 +21,22 @@
 .subnav-content {
   display: none;
   position: absolute;
+  width: 8.4%;
   left: 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   background-color: white;
   z-index: 1;
-  padding: 0px 10px;
 }
 
 .subnav-content a {
-  margin-left: 15px;
+  width: 100%;
   text-decoration: none;
+  padding: 1em 1em;
   cursor: pointer;
 }
 
 .subnav-content a:hover {
-  color: black;
+ background-color: rgb(241, 241, 241);
 }
 
 .subnav-content.show {

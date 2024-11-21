@@ -22,7 +22,7 @@ export class CategoryDisplayComponent implements OnInit{
   }
 
   getCategories(){
-    this.productManagement.getCategories(0, 0).subscribe((categories) => {
+    this.productManagement.getCategories(0, 10).subscribe((categories) => {
       this.categories = categories.items;
     })
   }

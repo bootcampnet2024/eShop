@@ -4,6 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { AddressPageComponent } from './address-page.component';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
+import { appConfig } from '../../app.config';
 
 describe('AddressPageComponent', () => {
   let component: AddressPageComponent;
@@ -24,6 +25,7 @@ describe('AddressPageComponent', () => {
         AddressPageComponent
       ],
       providers: [
+        ...appConfig.providers,
         { provide: ActivatedRoute, useValue: activatedRouteSpy }
       ]
     }).compileComponents();

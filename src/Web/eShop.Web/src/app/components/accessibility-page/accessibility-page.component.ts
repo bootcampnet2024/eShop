@@ -3,12 +3,12 @@ import { HeaderComponent } from "../../shared/header/header.component";
 import { FooterComponent } from "../../shared/footer/footer.component";
 
 @Component({
-  selector: 'app-terms-of-service',
+  selector: 'app-accessibility-page',
   standalone: true,
   imports: [HeaderComponent, FooterComponent],
-  templateUrl: './Acessibility.component.html',
-  styleUrl: './Acessibility.component.css'
+  templateUrl: './accessibility-page.component.html',
+  styleUrl: './accessibility-page.component.css'
 })
-export class AcessibilityComponent {
+export class AccessibilityPageComponent {
 
 }

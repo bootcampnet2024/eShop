@@ -89,3 +89,9 @@ input {
   width: 100% !important;
   position: relative;
 }
+
+.admin-text-header {
+  text-decoration: none;
+  color: white;
+  font-size: 1.5em;
+}

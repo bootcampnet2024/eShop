@@ -17,7 +17,9 @@
       Add User
     </button>
   </div>
-  @if (users){
+  @if (users.length === 0) {
+    <p>No users found</p>
+  } @else {
   <table>
     <thead>
       <tr>
@@ -30,49 +32,30 @@
       </tr>
     </thead>
     <tbody>
-      @for (user of users; track user.id){
-      <tr>
-        <td>{{ user.attributes?.full_name![0] || 'N/A' }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.attributes?.cpf![0] || 'N/A' }}</td> 
-        <td>{{ user.attributes?.phone_number![0] || 'N/A' }}</td> 
-      
-        <td>
-          <button
-            mat-flat-button
-            color="accent"
-            (click)="addressPage(user)"
-          >
-            Address
-          </button>
-        </td>
-        <td>
-          <button
-            mat-flat-button
-            color="accent"
-            (click)="openEditModal(user)"
-          >
-            Edit
-          </button>
-          <button
-            mat-flat-button
-            color="warn"
-            (click)="deleteUser(user)"
-          >
-            Delete
-          </button>
-          <button 
-            *ngIf="isAdmin" 
-            mat-flat-button 
-            color="accent" 
-            (click)="changeRoles(user)"
-          >
-            Roles
-          </button>
-        </td>
-      </tr>
-      }
-    </tbody>
+      <tbody>
+        <tr *ngFor="let user of users; trackBy: trackById">
+          <td>{{ user.attributes?.full_name?.[0] || 'N/A' }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.attributes?.cpf?.[0] || 'N/A' }}</td>
+          <td>{{ user.attributes?.phone_number?.[0] || 'N/A' }}</td>
+          <td>
+            <button mat-flat-button color="accent" (click)="addressPage(user)">
+              Address
+            </button>
+          </td>
+          <td>
+            <button mat-flat-button color="accent" (click)="openEditModal(user)">
+              Edit
+            </button>
+            <button mat-flat-button color="warn" (click)="deleteUser(user)">
+              Delete
+            </button>
+            <!-- <button *ngIf="isAdmin" mat-flat-button color="accent" (click)="changeRoles(user)">
+              Roles
+            </button> -->
+          </td>
+        </tr>
+      </tbody>      
   </table>
   }
 </div>

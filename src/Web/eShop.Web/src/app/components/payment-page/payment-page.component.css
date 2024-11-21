@@ -3,7 +3,7 @@
   background-color: #fff;
   padding: 20px;
   border-radius: 5px;
-  max-height: 20em;
+  height: fit-content;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -62,7 +62,7 @@
   display: flex;
   gap: 5vh;
   flex-direction: column;
-  padding: 4em 4em 2em 4em;
+  padding: 2em 4em 2em 4em;
 }
 
 .card{

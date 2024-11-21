@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
@@ -14,11 +14,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UserManagementService } from '../../services/user-management/user-management.service';
 import { AuthService } from '../../core/auth/auth.service';
 import { User } from '../../models/user.model'; 
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'user-profile',
   standalone: true,
   imports: [
+    CommonModule,
     MatFormFieldModule,
     MatInputModule,
     MatDividerModule,

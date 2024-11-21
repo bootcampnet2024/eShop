@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { JwtModule, JwtHelperService, JWT_OPTIONS } from "@auth0/angular-jwt";
 import { ActivatedRoute } from "@angular/router";
-import { AcessibilityComponent } from "./Acessibility.component";
+import { AccessibilityPageComponent } from "./accessibility-page.component";
 import { AuthService } from "../../core/auth/auth.service";
 
 const mockActivatedRoute = {
@@ -11,16 +11,16 @@ const mockActivatedRoute = {
   },
 };
 
-describe("AcessibilityComponent", () => {
-  let component: AcessibilityComponent;
-  let fixture: ComponentFixture<AcessibilityComponent>;
+describe("AccessibilityPageComponent", () => {
+  let component: AccessibilityPageComponent;
+  let fixture: ComponentFixture<AccessibilityPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
         JwtModule.forRoot({}),
-        AcessibilityComponent
+        AccessibilityPageComponent
       ],
       providers: [
         AuthService,
@@ -36,7 +36,7 @@ describe("AcessibilityComponent", () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AcessibilityComponent);
+    fixture = TestBed.createComponent(AccessibilityPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -47,6 +47,6 @@ describe("AcessibilityComponent", () => {
 
   it("should display the header title", () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector(".header-terms h1")?.textContent).toContain("Acessibility");
+    expect(compiled.querySelector(".header-terms h1")?.textContent).toContain("Accessibility");
   });
 });

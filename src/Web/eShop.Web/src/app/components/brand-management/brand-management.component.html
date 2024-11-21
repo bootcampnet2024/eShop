@@ -15,7 +15,7 @@
           <input #searchInput (keypress)="searchBrand($event)" type="search" placeholder="Search"/>
         </div>
         <div class="table-container__tool-bar__buttons">
-          <button mat-flat-button color="primary" (click)="OpenCreateBrandModal()">
+          <button mat-stroked-button color="primary" (click)="OpenCreateBrandModal()">
             Add Brand
           </button>
           <button mat-flat-button color="primary" (click)="goToProductManagement()">
@@ -41,7 +41,7 @@
       <tbody>
         @for (brand of brands; track brand.id){
         <tr>
-          <td><img class="table-container__table__image" src="{{ brand.imageURL }}" alt=""></td>
+          <td><img loading="eager" class="table-container__table__image" src="{{ brand.imageURL }}" alt=""></td>
           <td>{{ brand.name }}</td>
           <td>{{ dateToLocal(brand.createdAt.toString()) | date: 'dd/MM/yyyy HH:mm' }}</td>
           <td>{{ dateToLocal(brand.updatedAt.toString()) | date: 'dd/MM/yyyy HH:mm' }}</td>
@@ -105,3 +105,4 @@
     </button>
   </div>
 </div>
+<app-footer></app-footer>

@@ -11,6 +11,8 @@ import { ProductManagementService } from "../../services/product-management/prod
 import { of, throwError } from "rxjs";
 import { CreateProductModalComponent } from "./popups/create-product-modal/create-product-modal.component";
 import { UpdateProductModalComponent } from "./popups/update-product-modal/update-product-modal.component";
+import { PaginatedResult } from "../../models/paginated-result.model";
+import { Product } from "../../models/product.model";
 
 describe("ProductManagementComponent", () => {
   let component: ProductManagementComponent;
@@ -117,10 +119,20 @@ describe("ProductManagementComponent", () => {
         updatedAt: new Date(),
       },
     ];
+
+    const mockResponse: PaginatedResult<Product> = {
+      pageSize: 10,
+      pageIndex: 0,
+      totalItems: response.length,
+      items: response,
+    }
+
     const getProductsSpy = spyOn(
       mockProductManagementService,
       "getProductsByName"
-    ).and.returnValue(of(response));
+    ).and.returnValue(of(mockResponse));
+
+
     const searchInput = document.createElement("input");
     searchInput.value = "Laptop";
     const event = new KeyboardEvent("keyup", { key: "Enter" });

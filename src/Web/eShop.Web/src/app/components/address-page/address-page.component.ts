@@ -9,6 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
+import { HeaderComponent } from "../../shared/header/header.component";
+import { FooterComponent } from "../../shared/footer/footer.component";
 
 @Component({
   selector: 'app-address-page',
@@ -19,7 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatFormFieldModule,
     MatCardModule,
     HttpClientModule,
-    RouterModule, CommonModule],
+    RouterModule, CommonModule, HeaderComponent, FooterComponent],
   templateUrl: './address-page.component.html',
   styleUrl: './address-page.component.css'
 })

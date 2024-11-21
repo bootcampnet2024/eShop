@@ -151,11 +151,12 @@ describe('PaymentPageComponent', () => {
 
   it('should calculate total amount correctly', () => {
     component.items = [
-      { productId: '1', name: 'Product 1', price: 100, quantity: 2, discount: 0, description: '', imageURL: '', availableQuantity: 0, userId: '' },
-      { productId: '2', name: 'Product 2', price: 50, quantity: 1, discount: 0, description: '', imageURL: '', availableQuantity: 0, userId: '' }
+      { productId: '1', name: 'Product 1', price: 100, quantity: 2, discount: 10, description: '', imageURL: '', finalPrice: 90, availableQuantity: 0, userId: '' },
+      { productId: '2', name: 'Product 2', price: 50, quantity: 1, discount: 0, description: '', imageURL: '', finalPrice: 50, availableQuantity: 0, userId: '' }
     ];
-    const total = component.calculateTotalAmount();
-    expect(total).toBe(250);
+    component.calculateTotalAmount();
+    expect(component.totalAmount).toBe(250);
+    expect(component.totalAmountWithDiscount).toBe(230);
   });
 
   it('should complete order successfully', () => {

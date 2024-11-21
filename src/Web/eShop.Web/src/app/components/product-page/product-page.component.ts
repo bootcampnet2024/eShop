@@ -4,13 +4,13 @@ import { FooterComponent } from "../../shared/footer/footer.component";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DisplayProductsComponent } from "../home/display-products/display-products.component";
 import { Product } from "../../models/product.model";
-import { ViewportScroller } from "@angular/common";
 import { NavbarComponent } from "../../shared/navbar/navbar.component";
 import { CartService } from "../../services/cart/cart.service";
 import { ToastService } from "angular-toastify";
 import { ProductManagementService } from "../../services/product-management/product-management.service";
-import { Category } from "../../models/category.model";
 import { CartItemModel } from "../../models/cartItem.model";
+import { firstValueFrom } from "rxjs";
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: "app-product-page",
@@ -43,25 +43,27 @@ export class ProductPageComponent implements OnInit {
     updatedAt: new Date(),
   };
 
-  public category?: Category;
-
+  public categoryId: number = 0;
   private userId: string | null = null;
 
   constructor(
     private router: Router,
     private productService: ProductManagementService,
     private route: ActivatedRoute,
-    private viewportScroller: ViewportScroller,
+    private authService: AuthService,
     private cartService: CartService,
     private toastService: ToastService
   ) {}
 
   getProduct(id: string): void {
     this.productService.getProductById(id).subscribe({
-      next: (response) => {
+      next: async (response) => {
         this.product = response;
-        const categoryName = this.product.category;
-        this.getCategoryByName(categoryName);
+        if (!this.product.isActive && !this.authService.getRoles().includes('admin')) {
+          this.router.navigate([""]);
+        }
+        this.categoryId = await this.getCategoryByName(this.product.category);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       },
       error: () => {
         this.router.navigate([""]);
@@ -73,49 +75,60 @@ export class ProductPageComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       this.productId = params.get("id") || "";
       this.getProduct(this.productId);
-      this.viewportScroller.scrollToPosition([0, 0]);
     });
   }
 
   goToCart() {
-    this.router.navigate(["cart"]);
+    this.addToCart();
   }
 
   goToPayment() {
     this.router.navigate(["payment"]);
   }
 
-  getCategoryByName(categoryName?: string): number {
+  async getCategoryByName(categoryName?: string): Promise<number> {
     if (!categoryName) {
       return 0;
     }
-
-    this.productService.getCategoriesByName(categoryName, 0, 50).subscribe({
-      next: (response) => {
-        if (response && response.items.length > 0) {
-          this.category = response.items[0];
-          return this.category.id;
-        }
-        return 0;
-      },
-    });
-    return 0;
+  
+    try {
+      const response = await firstValueFrom(this.productService.getCategoriesByName(categoryName, 50, 0));
+  
+      console.log(response);
+      if (response && response.items.length > 0) {
+        return response.items[0].id;
+      }
+      return 0;
+    } catch (error) {
+      console.error("Erro ao buscar a categoria:", error);
+      return 0;
+    }
   }
 
-  addToCart() {
-    const accessToken = localStorage.getItem("access_token");
+  addToCart(redirect: boolean = false): void {
+    const accessToken = localStorage.getItem("access_token") ?? undefined;
+    this.userId = this.extractUserIdFromToken(accessToken);
 
     if (!accessToken) {
       console.log(
         "Você precisa estar logado para adicionar itens ao carrinho."
       );
-      return;
     }
-
-    this.userId = this.extractUserIdFromToken(accessToken);
 
     if (!this.userId) {
       console.log("Erro ao identificar o usuário.");
+      const redirectUrl = this.route.snapshot.url
+        .map((segment) => {
+          const path = segment.path;
+          const params = Object.entries(segment.parameters || {})
+            .map(([key, value]) => `${key}=${value}`)
+            .join(";");
+          return params ? `${path};${params}` : path;
+        })
+        .join("/");
+      localStorage.setItem('redirectUrl', redirectUrl);
+      console.log(redirectUrl);
+      this.router.navigate(["login"]);
       return;
     }
 
@@ -136,6 +149,9 @@ export class ProductPageComponent implements OnInit {
         this.toastService.success(
           `${this.product.name} foi adicionado ao carrinho!`
         );
+        if (redirect) {
+          this.router.navigate(["cart"]);
+        }
       },
       error: (error) => {
         console.error("Erro ao adicionar produto ao carrinho:", error);
@@ -165,8 +181,10 @@ export class ProductPageComponent implements OnInit {
     { name: "Red" },
   ];
 
-  extractUserIdFromToken(token: string): string | null {
+  extractUserIdFromToken(token?: string): string | null {
     try {
+      if (!token) 
+        return null;
       const payload = JSON.parse(atob(token.split(".")[1]));
       return payload.sub || payload.jti || null;
     } catch (error) {

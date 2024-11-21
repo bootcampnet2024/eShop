@@ -12,7 +12,7 @@
         </a>
       </mat-card>
 
-      <mat-card class="sidebar-item">
+      <!-- <mat-card class="sidebar-item">
         <a [routerLink]="['/security']" class="sidebar-link">
           <mat-icon class="sidebar-icon">security</mat-icon>
           <div class="sidebar-text">
@@ -28,7 +28,7 @@
             <mat-card-title>Address</mat-card-title>
           </div>
         </a>
-      </mat-card>
+      </mat-card> -->
 
       <mat-card class="sidebar-item">
         <a [routerLink]="['/user-cards']" class="sidebar-link">
@@ -61,17 +61,17 @@
 
       <mat-form-field appearance="fill" class="form-field">
         <mat-label>Mobile Phone</mat-label>
-        <input matInput formControlName="phoneNumber" required />
+        <input matInput formControlName="phoneNumber" />
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="form-field">
         <mat-label>Email</mat-label>
-        <input matInput formControlName="email" />
+        <input matInput formControlName="email" required />
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="form-field">
         <mat-label>CPF</mat-label>
-        <input matInput formControlName="cpf" />
+        <input matInput formControlName="cpf" readonly/>
       </mat-form-field>
 
       <button

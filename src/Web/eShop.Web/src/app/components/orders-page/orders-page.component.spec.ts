@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrderListComponent } from './order-list.component';
+import { OrdersPageComponent } from './orders-page.component';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { appConfig } from '../../app.config';
 
-describe('OrderListComponent', () => {
-  let component: OrderListComponent;
-  let fixture: ComponentFixture<OrderListComponent>;
+describe('OrdersPageComponent', () => {
+  let component: OrdersPageComponent;
+  let fixture: ComponentFixture<OrdersPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OrderListComponent],
+      imports: [OrdersPageComponent],
       providers: [
         provideHttpClientTesting(),
         ...appConfig.providers
@@ -18,7 +18,7 @@ describe('OrderListComponent', () => {
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(OrderListComponent);
+    fixture = TestBed.createComponent(OrdersPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

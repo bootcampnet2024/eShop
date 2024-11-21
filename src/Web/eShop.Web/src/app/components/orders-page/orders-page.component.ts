@@ -18,7 +18,7 @@ import { MatListModule } from "@angular/material/list";
 import { CommonModule } from "@angular/common";
 
 @Component({
-  selector: "app-order-list",
+  selector: 'app-orders-page',
   standalone: true,
   imports: [
     NavbarComponent,
@@ -35,10 +35,10 @@ import { CommonModule } from "@angular/common";
     ReactiveFormsModule,
     CommonModule
   ],
-  templateUrl: "./order-list.component.html",
-  styleUrl: "./order-list.component.css",
+  templateUrl: './orders-page.component.html',
+  styleUrl: './orders-page.component.css',
 })
-export class OrderListComponent implements OnInit {
+export class OrdersPageComponent implements OnInit {
   public orders: OrderSummary[] = [];
 
   userId?: string; 

@@ -8,29 +8,30 @@
 >
   <ng-template let-product pTemplate="item">
     <div class="product-display">
-      <div class="product-card">
+      <div class="product-card" (click)="viewProduct(product)">
         <div class="image-placeholder">
           <img
+            loading="eager"
             src="{{ product.imageURL }}"
             [alt]="product.name"
             class="product-image"
           />
         </div>
         <div class="product-info">
-          <a (click)="viewProduct(product)" class="product-name">{{
+          <a class="product-name">{{
             product.name
           }}</a>
           <div class="product-price-tag">
             @if(product.discount){
               <div class="product-discount-price">
-                <p class="product-original-price">R${{ product.price }}</p>
+                <p class="product-original-price">R$ {{ product.price.toFixed(2) }}</p>
                 <div class="product-finalprice-discount">
-                  <p class="product-price">R${{ product.finalPrice }}</p>
+                  <p class="product-price">R$ {{ product.finalPrice.toFixed(2) }}</p>
                   <p class="product-discount">{{ product.discount }}% OFF</p>
                 </div>
               </div>
               } @else {
-              <p class="product-price">R${{ product.finalPrice }}</p>
+              <p class="product-price">R$ {{ product.finalPrice.toFixed(2) }}</p>
               }
           </div>
         </div>
@@ -46,7 +47,10 @@
     </div>
     <div class="product-info">
       <a (click)="viewProduct(product)" class="product-name">{{ product.name }}</a>
-      <p class="product-price">R${{ product.finalPrice.toFixed(2) }}</p>
+      @if(product.discount != 0) {
+        <p><s>R$ {{ product.price.toFixed(2) }}</s> ({{ product.discount}}% OFF)</p>
+      }
+      <p class="product-price">R$ {{ product.finalPrice.toFixed(2) }}</p>
     </div>
   </div>
   }

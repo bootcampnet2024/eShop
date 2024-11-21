@@ -21,12 +21,15 @@ import { OrderService } from "../../services/order/order.service";
 import { OrderRequest } from "../../models/order.request";
 import { Router } from "@angular/router";
 import { ProductManagementService } from "../../services/product-management/product-management.service";
+import { NavbarComponent } from '../../shared/navbar/navbar.component';
+import { AuthService } from "../../core/auth/auth.service";
 
 @Component({
   selector: "app-payment-page",
   standalone: true,
   imports: [
     HeaderComponent,
+    NavbarComponent,
     FooterComponent,
     FontAwesomeModule,
     ReactiveFormsModule,
@@ -38,6 +41,7 @@ import { ProductManagementService } from "../../services/product-management/prod
 export class PaymentPageComponent implements OnInit {
   items: CartItemModel[] = [];
   paymentForm: FormGroup;
+  totalAmountWithDiscount: number = 0;
   totalAmount: number = 0;
   userId: string | null = null;
   message: string = "";
@@ -49,6 +53,7 @@ export class PaymentPageComponent implements OnInit {
     private UserManagementService: UserManagementService,
     private productService: ProductManagementService,
     private orderService: OrderService,
+    private authService: AuthService,
     private cartService: CartService
   ) {
     this.paymentForm = this.fb.group({
@@ -59,7 +64,7 @@ export class PaymentPageComponent implements OnInit {
       expirationYear: ["", Validators.required],
       cvv: ["", [Validators.required, Validators.pattern("^[0-9]{3,4}$")]],
       couponCode: [""],
-      postalCode: ["", Validators.required],
+      postalCode: [""],
     });
   }
 
@@ -71,6 +76,7 @@ export class PaymentPageComponent implements OnInit {
     } else {
       console.error("User ID not found.");
     }
+    if (this.authService.checkAdminRole()) this.router.navigate(["/admin"]);
   }
 
   loadUserProfile(): void {
@@ -95,16 +101,24 @@ export class PaymentPageComponent implements OnInit {
       next: (items) => {
         console.log("Itens do carrinho carregados:", items);
         this.items = items;
-        this.totalAmount = this.calculateTotalAmount();
+        this.calculateTotalAmount();
+        if (this.totalAmountWithDiscount === 0) {
+          this.router.navigate(["/cart"]);
+        }
       },
       error: (error) => {
         console.error("Erro ao carregar itens do carrinho:", error);
+        this.router.navigate(["/cart"]);
       },
     });
   }
 
-  calculateTotalAmount(): number {
-    return this.items.reduce(
+  calculateTotalAmount(): void {
+    this.totalAmountWithDiscount = this.items.reduce(
+      (total, item) => total + (item.finalPrice || item.price) * item.quantity,
+      0
+    );
+    this.totalAmount = this.items.reduce(
       (total, item) => total + item.price * item.quantity,
       0
     );
@@ -127,7 +141,7 @@ export class PaymentPageComponent implements OnInit {
     const convertedOrderItems: OrderItemRequest[] = this.items.map((item) => ({
       productId: item.productId,
       productName: item.name,
-      unitPrice: item.price,
+      unitPrice: item.finalPrice || item.price,
       oldUnitPrice: item.price,
       quantity: item.quantity,
       pictureUrl: item.imageURL,

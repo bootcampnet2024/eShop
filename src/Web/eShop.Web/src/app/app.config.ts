@@ -12,6 +12,7 @@ import {
 } from "@angular/common/http";
 import { JWT_OPTIONS, JwtHelperService } from "@auth0/angular-jwt";
 import { AuthInterceptor } from "./core/auth/auth.interceptor";
+import { IMAGE_CONFIG } from '@angular/common';
 
 export const appConfig: ApplicationConfig = {
   providers: [

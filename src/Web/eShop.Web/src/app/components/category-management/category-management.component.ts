@@ -14,7 +14,7 @@ import { delay } from 'rxjs';
 @Component({
   selector: 'app-category-management',
   standalone: true,
-  imports: [HeaderComponent, MatButtonModule, RouterLink, RouterOutlet, RouterLinkActive, CommonModule],
+  imports: [HeaderComponent, FooterComponent, MatButtonModule, RouterLink, RouterOutlet, RouterLinkActive, CommonModule],
   templateUrl: './category-management.component.html',
   styleUrl: './category-management.component.css'
 })
@@ -40,7 +40,7 @@ export class CategoryManagementComponent implements OnInit {
 
   getCategories() {
     this.productService.getCategories(this.pageIndex, this.pageSize)
-    .pipe(delay(100))
+    .pipe(delay(250))
     .subscribe((categories) => {
       this.categories = categories.items;
       this.maxPage = Math.ceil(categories.totalItems / this.pageSize)

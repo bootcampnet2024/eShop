@@ -25,7 +25,7 @@
         </div>
         <div class="table-container__tool-bar__buttons">
           <button
-            mat-flat-button
+            mat-stroked-button
             color="primary"
             (click)="OpenCreateCategoryModal()"
           >
@@ -63,7 +63,7 @@
         <tbody>
           @for (category of categories; track category.id){
           <tr>
-            <td><img class="table-container__table__image" src="{{ category.imageURL }}" alt=""></td>
+            <td><img loading="eager" class="table-container__table__image" src="{{ category.imageURL }}" alt=""></td>
             <td>{{ category.name }}</td>
             <td>{{ category.description }}</td>
             <td>{{ dateToLocal(category.createdAt.toString()) | date: 'dd/MM/yyyy HH:mm' }}</td>
@@ -134,3 +134,4 @@
     </button>
   </div>
 </div>
+<app-footer></app-footer>

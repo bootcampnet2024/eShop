@@ -31,7 +31,7 @@ export class ProductsPageComponent implements OnInit {
   maxPage: number = 0;
   brands: Brand[] = [];
   categoryId: number = 0;
-  categoryName: string = "Products";
+  categoryName: string = "All Products";
   pageIndex: number = 0;
   brandsIds: number[] = [];
   sortBy: string = "Relevancy";
@@ -123,7 +123,7 @@ export class ProductsPageComponent implements OnInit {
       .getProducts(false, this.pageIndex, this.pageSize, [this.categoryId], this.brandsIds, this.sortByTypes.indexOf(this.sortBy))
       .subscribe({
         next: (response) => {
-          this.products = response.items;
+          this.products = response.items.filter((p) => p.isActive);
           this.maxPage = Math.ceil(response.totalItems / this.pageSize);
           this.numbers = Array.from({ length: this.maxPage }, (_, i) => i + 1);
         },

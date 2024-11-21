@@ -18,12 +18,12 @@
       <div class="order-page-showproduct">
         @for (item of order?.orderItems; track item.productId) {
         <div class="orderlist-item">
-          <img src="{{ item.pictureUrl }}" alt="" />
+          <img loading="eager" src="{{ item.pictureUrl }}" alt="" />
 
           <div class="order-page-product-text">
             <h2>Name: {{ item.productName }}</h2>
             <h2>Quantity: {{ item.units }}</h2>
-            <h2>Unit Price: R$ {{ item.unitPrice }}</h2>
+            <h2>Unit Price: R$ {{ item.unitPrice.toFixed(2) }}</h2>
             <br />
             <h2>Total: R$ {{ (item.unitPrice * item.units).toFixed(2) }}</h2>
           </div>

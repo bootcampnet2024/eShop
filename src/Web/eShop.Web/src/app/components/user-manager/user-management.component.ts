@@ -31,6 +31,10 @@ export class UserManagementComponent implements OnInit {
     private router: Router,
   ) {}
 
+  trackById(index: number, user: User): string {
+    return user.id;
+  }
+
   @ViewChild("searchInput", { static: true }) searchInputElementRef!: ElementRef;
   
   ngOnInit(): void {

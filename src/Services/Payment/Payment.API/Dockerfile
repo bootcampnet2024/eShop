@@ -13,7 +13,7 @@ COPY . .
 
 RUN npm run build
 
-FROM node:${NODE_VERSION} AS runtime
+FROM node:${NODE_VERSION}-alpine AS runtime
 
 WORKDIR /app
 

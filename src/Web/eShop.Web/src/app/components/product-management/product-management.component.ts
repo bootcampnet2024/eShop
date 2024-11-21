@@ -11,11 +11,12 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } fr
 import { HeaderComponent } from '../../shared/header/header.component';
 import { CommonModule } from '@angular/common';
 import { delay } from 'rxjs';
+import { FooterComponent } from '../../shared/footer/footer.component';
 
 @Component({
   selector: 'app-product-management',
   standalone: true,
-  imports: [HeaderComponent, MatButtonModule, MatIconModule, RouterLink, RouterOutlet, RouterLinkActive, CommonModule],
+  imports: [HeaderComponent, MatButtonModule, MatIconModule, FooterComponent, RouterLink, RouterOutlet, RouterLinkActive, CommonModule],
   templateUrl: './product-management.component.html',
   styleUrl: './product-management.component.css',
 })
@@ -65,7 +66,7 @@ export class ProductManagementComponent implements OnInit {
     }
     this.productManagementService.getProductsByName(value)
       .subscribe((response) => {
-        this.products = response
+        this.products = response.items;
       })
   };
 
@@ -93,7 +94,7 @@ export class ProductManagementComponent implements OnInit {
 
   getProducts() {
     this.productManagementService.getProducts(false, this.pageIndex, this.pageSize, [], [], 0)
-    .pipe(delay(100))
+    .pipe(delay(500))
     .subscribe((products) => {
       this.products = products.items;
       this.maxPage = Math.ceil(products.totalItems / this.pageSize)

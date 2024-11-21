@@ -15,7 +15,7 @@ import { delay } from 'rxjs';
 @Component({
   selector: 'app-brand-management',
   standalone: true,
-  imports: [HeaderComponent, MatButtonModule, MatIconModule, RouterLink, RouterOutlet, RouterLinkActive, CommonModule],
+  imports: [HeaderComponent, FooterComponent, MatButtonModule, MatIconModule, RouterLink, RouterOutlet, RouterLinkActive, CommonModule],
   templateUrl: './brand-management.component.html',
   styleUrl: './brand-management.component.css'
 })
@@ -63,7 +63,7 @@ export class BrandManagementComponent {
 
   getBrands() {
     this.productService.getBrands(this.pageIndex, this.pageSize)
-    .pipe(delay(100))
+    .pipe(delay(250))
     .subscribe((brands) => {
       this.brands = brands.items;
       this.maxPage = Math.ceil(brands.totalItems / this.pageSize)

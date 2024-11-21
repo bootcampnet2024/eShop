@@ -7,8 +7,9 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { FormGroup, Validators } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { cpfValidator } from '../signin-page/validators'
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
+import { ToastService } from 'angular-toastify';
 
 
 @Component({
@@ -26,12 +27,14 @@ import { AuthService } from '../../../core/auth/auth.service';
   styleUrl: './signin-page.component.css',
 })
 export class SigninPageComponent implements OnInit {
+  redirectUrl?: string = localStorage.getItem('redirectUrl') || undefined;
   registrationForm!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -66,12 +69,9 @@ export class SigninPageComponent implements OnInit {
             this.router.navigate(['/login']);
           },
           error: (error) => {
-            console.error('Error to register', error);
+            this.toastService.error(error.message);
           },
         });
-    } else {
-      window.alert(`Error to signin, invalid form`)
-      console.log('Form is invalid');
     }
   }
 }

@@ -21,9 +21,9 @@ import { UserCardsComponent } from './components/user-cards/user-cards.component
 import { HistoryPageComponent } from './components/history-page/history-page.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { TermsOfServiceComponent } from './components/terms-of-service/terms-of-service.component';
-import { OrderListComponent } from './components/order-list/order-list.component';
+import { OrdersPageComponent } from './components/orders-page/orders-page.component';
 import { OrderPageComponent } from './components/order-page/order-page.component';
-import { AcessibilityComponent } from './components/Acessibility/Acessibility.component';
+import { AccessibilityPageComponent } from './components/accessibility-page/accessibility-page.component';
 
 export const routes: Routes = [
     {path: '', component: LandingPageComponent},
@@ -31,9 +31,9 @@ export const routes: Routes = [
     {path: 'user-cards', component: UserCardsComponent, canActivate: [AuthGuard]},
     {path: 'login', component: LoginPageComponent},
     {path: 'signin', component: SigninPageComponent},
-    {path: 'cart', component: CartPageComponent},
+    {path: 'cart', component: CartPageComponent, canActivate: [AuthGuard] },
     {path: 'product', component: ProductPageComponent},
-    {path: 'payment', component: PaymentPageComponent},
+    {path: 'payment', component: PaymentPageComponent, canActivate: [AuthGuard]},
     {path: 'search', component: SearchResultComponent},
     {path: 'products', component: ProductsPageComponent},
     {path: 'admin', component: AdminPageComponent, canActivate: [AuthGuard]},
@@ -42,10 +42,10 @@ export const routes: Routes = [
     {path: 'contact', component: ContactComponent},
     {path: 'policy', component: PrivacyPolicyComponent},
     {path: 'terms', component: TermsOfServiceComponent},
-    {path: 'addresses', component: AddressPageComponent},
+    {path: 'addresses', component: AddressPageComponent, canActivate: [AuthGuard]},
     {path: 'history', component: HistoryPageComponent},
-    {path: 'acessibility', component: AcessibilityComponent},
-    {path: 'orders', component: OrderListComponent, canActivate: [AuthGuard]},
+    {path: 'accessibility', component: AccessibilityPageComponent},
+    {path: 'orders', component: OrdersPageComponent, canActivate: [AuthGuard]},
     {path: 'order', component: OrderPageComponent, canActivate: [AuthGuard] },
     {path: 'product-management', component: ProductManagementComponent, canActivate: [AuthGuard]},
     {path: 'category-management', component: CategoryManagementComponent, canActivate: [AuthGuard]},
