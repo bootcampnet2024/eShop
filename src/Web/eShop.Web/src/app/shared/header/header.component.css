@@ -1,4 +1,4 @@
-header{
+header {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -9,32 +9,35 @@ header{
   height: 4em;
 }
 
-.logo{
-  font-size: 3em;
-  font-weight: 700;
-  cursor: pointer;
-  text-decoration: none;
-  color: white;
+.logo {
+  width: 90px;
+  height: 60px;
+  object-fit: contain;
 }
 
-.slogan{
-  font-size: 1.2em;
-  font-weight: 600;
+.logo-image {
+  width: 100%;
+  height: 100%;
 }
 
-.header-buttons{
+.header-buttons {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   width: auto;
-  gap: 10px;
+  gap: 20px;
 }
 
 .profile-button {
   color: #000;
 }
 
-button, a{
+.mat-icon{
+  transform: scale(1.4)
+}
+
+button,
+a {
   background: none;
   border: none;
   color: white;
@@ -46,34 +49,43 @@ button, a{
 }
 
 input {
-background-color: #ffffff;
-width: 30em;
-border: none;
-border-radius: .3em;
-height: 2em;
-font-size:1em;
-padding-left: .5em;
+  background-color: #ffffff;
+  width: 30em;
+  border: none;
+  border-radius: .3em;
+  height: 2em;
+  font-size: 1em;
+  padding-left: .5em;
 }
 
-.search-input-button
-{
-display: flex;
-align-items: center;
-justify-content: center;
-position:static;
-left: 15%;
+.search-input-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: static;
+  left: 15%;
+}
+
+.search-input {
+  display: flex;
+}
+
+.search-input button{
+  color: black;
+  position: relative;
+  left: -35px;
 }
 
 .input-style {
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.hide-show{
-display: flex;
-align-items: center;
-width: 100% !important;
-position: relative;
+.hide-show {
+  display: flex;
+  align-items: center;
+  width: 100% !important;
+  position: relative;
 }

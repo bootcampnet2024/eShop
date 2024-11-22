@@ -15,7 +15,7 @@ import { delay } from 'rxjs';
 @Component({
   selector: 'app-brand-management',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, MatButtonModule, MatIconModule, RouterLink, RouterOutlet, RouterLinkActive, CommonModule],
+  imports: [HeaderComponent, MatButtonModule, MatIconModule, RouterLink, RouterOutlet, RouterLinkActive, CommonModule],
   templateUrl: './brand-management.component.html',
   styleUrl: './brand-management.component.css'
 })

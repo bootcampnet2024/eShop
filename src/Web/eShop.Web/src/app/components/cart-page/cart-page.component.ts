@@ -151,4 +151,8 @@ export class CartPageComponent implements OnInit {
     });
     }
   }
+
+  getCartCount(){
+    return this.products.values.length;
+  }
 }

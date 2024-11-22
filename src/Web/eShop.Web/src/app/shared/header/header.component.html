@@ -1,32 +1,48 @@
 <header>
-  <a class="logo" href="">eShop</a>
-  <p class="slogan">Quality wherever you go, whenever you go.</p>
-  <div class="header-buttons">
+  <a class="logo" href=""
+    ><img class="logo-image" src="assets/logoheader.png" alt=""
+  /></a>
+  <div class="search-input">
     <div class="input-style">
       <div class="search-input-button">
-        <input [(ngModel)]="searchKeyword" (keydown.enter)="search()" class="search-input" [type]="'text'" name="password" id="password" placeholder="Search for products" required/>
+        <input
+          [(ngModel)]="searchKeyword"
+          (keydown.enter)="search()"
+          class="search-input"
+          [type]="'text'"
+          name="password"
+          id="password"
+          placeholder="Search for products"
+          required
+        />
       </div>
     </div>
-    <button class="search-btn"(click)="search()">
-      <mat-icon fontIcon="search" ></mat-icon>
+    <button class="search-btn" (click)="search()">
+      <mat-icon fontIcon="search"></mat-icon>
     </button>
+  </div>
+  <div class="header-buttons">
     <a [routerLink]="['/cart']" class="cart-page">
-      <mat-icon fontIcon="shopping_cart"></mat-icon>
+      <mat-icon class="mat-icon" fontIcon="shopping_cart"></mat-icon>
     </a>
     @if (isLoggedIn) {
-      <div class="profile-dropdown">
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-          <mat-icon>account_circle</mat-icon>
+    <div class="profile-dropdown">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon class="mat-icon">account_circle</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button class="profile-button" mat-menu-item (click)="profile()">
+          Profile
         </button>
-        <mat-menu #menu="matMenu">
-          <button class="profile-button" mat-menu-item (click)="profile()">Profile</button>
-          <button class="profile-button" mat-menu-item (click)="logout()">Logout</button>
-        </mat-menu>
-      </div>
+        <button class="profile-button" mat-menu-item (click)="logout()">
+          Logout
+        </button>
+      </mat-menu>
+    </div>
     } @else {
-      <a [routerLink]="['/login']" class="profile-page">
-        <mat-icon>account_circle</mat-icon>
-      </a>
+    <a [routerLink]="['/login']" class="profile-page">
+      <mat-icon>account_circle</mat-icon>
+    </a>
     }
   </div>
 </header>

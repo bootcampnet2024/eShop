@@ -18,7 +18,7 @@ namespace Catalog.API._02_Infrastructure.Configurations
 
             builder.Property(e => e.Name)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(200);
 
             builder.Property(e => e.Description)
                 .IsRequired()

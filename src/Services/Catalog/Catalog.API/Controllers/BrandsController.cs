@@ -57,7 +57,7 @@ namespace Catalog.API.Controllers
             var query = new GetCountBrandsQuery();
             var result = await _mediator.Send(query);
             return Ok(result);
-        }
+        }   
 
         [HttpGet("category/{id:int}")]
         public async Task<IActionResult> GetByCategoryId(int id)
