@@ -1,17 +1,27 @@
-<section class="product-categories">
-  <h2 class="product-categories__title">Explore our Categories</h2>
-  <div class="product-categories__grid">
-    @for (category of categories; track $index) {
-    <a
-      class="product-categories__card"
-      [style.backgroundImage]="'url(' + category.imageURL + ')'"
-      href="/products?categoryId={{ category.id }}"
-    >
-      <div class="product-categories__details">
-        <span class="product-categories__name">{{ category.name }}</span>
-        <p class="product-categories__description">{{ category.description }}</p>
+<h2 class="product-categories__title">Explore our Categories</h2>
+<p-carousel
+  [value]="categories"
+  [numVisible]="3"
+  [numScroll]="1"
+  [circular]="true"
+  [showIndicators]="false"
+>
+  <ng-template let-category pTemplate="item">
+    <section class="product-categories">
+      <div class="product-categories__grid">
+        <a
+          class="product-categories__card"
+          [style.backgroundImage]="'url(' + category.imageURL + ')'"
+          href="/products?categoryId={{ category.id }}"
+        >
+          <div class="product-categories__details">
+            <span class="product-categories__name">{{ category.name }}</span>
+            <p class="product-categories__description">
+              {{ category.description }}
+            </p>
+          </div>
+        </a>
       </div>
-    </a>
-    }
-  </div>
-</section>
+    </section>
+  </ng-template>
+</p-carousel>

@@ -12,14 +12,7 @@
   font-weight: bold;
   margin-bottom: 2rem;
   color: #333;
-}
-
-/* Grid layout */
-.product-categories__grid {
-  width: 80%;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
+  text-align: center;
 }
 
 @media (min-width: 640px) {
