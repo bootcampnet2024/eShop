@@ -57,7 +57,7 @@ namespace Catalog.API.Controllers
         public async Task<IActionResult> GetCount()
         {
             var query = new GetCountCategoriesQuery();
-            var result = await _mediator.Send(query);
+            var result = await _mediator.Send(query);   
 
             return Ok(result);
         }

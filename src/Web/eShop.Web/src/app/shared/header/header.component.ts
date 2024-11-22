@@ -1,5 +1,4 @@
-import { CartService } from './../../services/cart/cart.service';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
@@ -13,22 +12,12 @@ import { MatMenuModule } from '@angular/material/menu';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   searchKeyword: string = '';
   isLoggedIn: boolean = false;
-  cartCount: number = 0;
 
-  constructor(private router: Router, private authService: AuthService, private cartService: CartService) {
+  constructor(private router: Router, private authService: AuthService) {
     this.checkLoginStatus();
-  }
-
-  ngOnInit(): void {
-    this.getCartCount();
-    console.log(this.cartCount);
-  }
-
-  getCartCount(): void{
-    this.cartCount = this.cartService.getItems.length;
   }
 
   search() {
