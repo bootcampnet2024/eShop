@@ -20,21 +20,20 @@ header {
   height: 100%;
 }
 
-.slogan {
-  font-size: 1.2em;
-  font-weight: 600;
-}
-
 .header-buttons {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   width: auto;
-  gap: 10px;
+  gap: 20px;
 }
 
 .profile-button {
   color: #000;
+}
+
+.mat-icon{
+  transform: scale(1.4)
 }
 
 button,
@@ -74,7 +73,7 @@ input {
 .search-input button{
   color: black;
   position: relative;
-  left: -30px;
+  left: -35px;
 }
 
 .input-style {
